@@ -1,0 +1,17 @@
+* In .htaccess & .htaccess-TEMPLATE, set LOCALHOST and LIVEHOST variables:
+
+SetEnvIf Request_URI "^.*" LOCALHOST=https://localhost/shell
+SetEnvIf Request_URI "^.*" LIVEHOST=https://shell.com
+
+=================
+* In .htaccess & .htaccess-TEMPLATE, set ABSOLUTE_ROOT rewrites:
+
+# For localhost:
+	RewriteCond %{HTTP_HOST} =localhost
+	RewriteRule ^ - [E=ABSOLUTE_ROOT:%{DOCUMENT_ROOT}/shell/]
+
+# For livehost:
+	RewriteCond %{HTTP_HOST} !=localhost
+	RewriteRule ^ - [E=ABSOLUTE_ROOT:%{DOCUMENT_ROOT}/]
+
+=================

@@ -1,0 +1,212 @@
+/* 
+// reCAPTCHA and HONEYPOT code in this file; rem/unrem each appropriately
+*/
+.contact label {
+	display: inline-block;
+	padding: .625em 0 .375em;
+	white-space: nowrap;
+	width: 100%;
+}
+
+.contact .bot {
+	position: absolute;
+	left: -10000px;
+	top: auto;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	display: none;
+}
+
+
+.contact .input {
+	display: inline-block;
+	width: 100%;
+}
+
+.contact .input input,
+.contact .input textarea {
+
+	border-color: var(--medium-gray);
+	border-style: solid;
+	border-width: 1px;
+
+	box-sizing: border-box;
+	display: inline-block;
+	padding: .25em .5em .25em .5em;
+	width: 100%;
+}
+
+.contact .input input:active,
+.contact .input input:focus,
+.contact .input textarea:active,
+.contact .input textarea:focus {
+	border-color: #2040be;
+}
+
+.contact textarea {
+	height: 10em;
+}
+
+
+/*
+
+Replace background transition with transition on opacity of ::after pseudo-element
+
+NB: This can only be performed on elements that have content, so I had to replace the INPUT element with a BUTTON element:
+
+See: https://openclassrooms.com/en/courses/5625816-create-modern-css-animations/5995831-create-more-peformant-color-animations-using-the-css-opacity-property#:~:text=To%20avoid%20repaints%2C%20use%20the,and%201%20is%20completely%20solid
+
+To solve this for color transitions on text, use a filter on brightness and saturation if transitioning to a different resolution of the same color. See Privacy Policy anchor CSS in footer.css 
+
+*/
+
+.contact button[type=submit] {
+	background-color: var(--image-background-matte-color);
+	border: 1.5px solid var(--anchor-underline-color);
+	border-radius: 5px;
+	box-shadow: 1px 1px 1px #bdbdbd;
+	display: inline-block;
+	font: 400 1em/1.5em 'Noto Sans', sans-serif;
+	padding: .5em .75em;
+	text-align: center;
+	text-decoration: none;
+	position: relative;
+	z-index: 1;
+}
+
+.contact button[type=submit]::before {
+	background-color: #dadada;
+	bottom: 0;
+	content: "";
+	left: 0;
+	opacity: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
+	transition: opacity 250ms;
+	z-index: -1;
+}
+
+.contact button[type=submit]:hover::before {
+	opacity: 1;
+}
+
+/* Unrelated the to the transition styling: */
+.contact input[type=submit]:hover {
+	cursor: pointer;
+}
+
+.contact button[type=submit]:active {
+	background-color: #c6c6c6;
+	border: 1.5px solid #8c8c8c;
+}
+
+
+/* START: For reCAPTCHA: */
+/*
+.contact .recaptcha input[type=submit] {
+	background-color: var(--image-background-matte-color);
+	display: inline-block;
+	font: 400 1em/1.5em 'Noto Sans', sans-serif;
+	padding: .5em;
+	text-align: center;
+	text-decoration: none;
+}
+
+.contact .recaptcha input[type=submit]:hover {
+	background-color: #dadada;
+}
+
+.contact .recaptcha input[type=submit]:active {
+	background-color: #c6c6c6;
+}
+
+.contact .recaptcha-label {
+	margin: 0;
+	padding: 10px 0 6px 0;
+	font-weight: 700;
+}
+
+.contact #gRecaptcha-id-r92o6 {
+	width: 304px;
+	height: 78px;
+}
+
+.contact #g-recaptcha-response {
+	width: 250px;
+	height: 40px;
+	border: 1px solid rgb(193, 193, 193);
+	margin: 10px 25px;
+	padding: 0px;
+	resize: none;
+	display: none;
+}
+
+.contact #recaptcha iframe {
+	border: 0;
+	overflow: hidden;
+}
+*/
+/* END: For reCAPTCHA*/
+
+
+.contact button[type="submit i"]:disabled {
+	color: black;
+}
+
+
+
+.contact .info-text .sent {
+	display: inline-block;
+}
+
+.contact .info-text .sending {
+	display: inline-block;
+	padding: 0 0 0 1em;
+}
+
+.contact .info-text .display-none em {
+	display: none;
+}
+
+/******************************
+*** Desktop Display Styling ***
+******************************/
+
+/**************************************************
+*** When the screen is between 760px and 849px, ***
+*** the content width is 700px.                 ***
+*** When the screen is 850px and greater,       ***
+*** the content width is 760px.                 ***
+**************************************************/
+
+/* To 759px (next query overtakes 760px): */
+@media all and (max-width: 760px) {
+	.contact.main {
+		margin: calc(1em + var(--header-height)) auto 3em auto;
+		width: calc(100vw - 3em);
+	}
+}
+
+/* From 760px to 849px (next query overtakes 850px): */
+@media all and (min-width: 760px) and (max-width: 850px) {
+	.contact.main {
+		margin: calc(1em + var(--header-height)) auto 3em auto;
+		width: 700px;
+	}
+}
+
+/* From 850px: */
+@media all and (min-width: 850px) {
+	.contact.main {
+		margin: calc(1em + var(--header-height)) auto 3em auto;
+		width: 760px;
+	}
+}
+
+/* This allows 62 characters in the H2 header */
+/* Limit paragraph width to @62 characters (ch unit wouldn't work here): */
+.contact.main {
+	max-width: 39em;
+}

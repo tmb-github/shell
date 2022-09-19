@@ -1,0 +1,137 @@
+/*
+
+2021-10-17:
+NB: This CSS sheet is prepended to the other indicated sheets
+in render_initial_page_style_element() function in common_functions/function.php
+
+*/
+
+/**********************************************
+*** @media:MOBILE+DESKTOP *********************
+*** List items only viewable when logged in ***
+***********************************************/
+
+.header .nav li.authenticated {
+	background-color: pink;
+}
+
+.header .nav li.authenticated a:link {
+	background-color: pink;
+/* 2021-10-16: Not clearly necessary:	border-bottom: 3px solid pink; */
+	color: #3d3d3d;
+}
+
+/**********************
+**** @media:DESKTOP ***
+***********************/
+
+/* Desktop menu display begins at 760px: */
+@media all and (min-width: 760px) {
+	.header .secondary-ul li.authenticated:hover {
+		background: pink;
+	}
+}
+
+.body .header .nav li.authenticated {
+	background-color: pink;
+}
+
+.body .header .nav li.authenticated a:link {
+	background-color: pink;
+/* 2021-10-16: Not clearly necessary:	border-bottom: 3px solid pink; */
+	color: #3d3d3d;
+}
+
+.body .help-tip {
+	background-color: var(--anchor-underline-color);
+	border-radius: 50%;
+	cursor: default;
+	font-size: 14px;
+	height: 24px;
+	line-height: 1.5;
+	position: absolute;
+	right: 18px;
+	text-align: center;
+	top: 18px;
+	width: 24px;
+}
+
+/*
+.body .help-tip::before {
+	content: '?';
+	font-weight: bold;
+	color: #fff;
+}
+*/
+
+/* Now we put the '?' as text inside the .help-tip <i> element */
+.body .help-tip {
+	font-weight: bold;
+	color: #fff;
+	padding: .125em 0 0 .2em;
+}
+
+/* The tooltip */
+.body .help-tip span {
+	background-color: #1E2021;
+	border-radius: 3px;
+	box-shadow: initial;
+	color: #FFF;
+	display: none;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.5;
+	padding: 20px;
+	position: absolute;
+	right: -4px;
+	text-align: left;
+	text-shadow: initial;
+	width: 300px;
+}
+
+.body .help-tip:hover span {
+	animation: helpTipFadeIn 0.3s ease-in-out;
+	display: block;
+	transform-origin: 100% 0%;
+	z-index: 100;
+}
+
+/* The pointer of the tooltip */
+.body .help-tip span::before {
+	border-width: 6px;
+	border-style: solid;
+	border-color: transparent transparent #1E2021 transparent;
+	content: '';
+	height: 0;
+	position: absolute;
+	right: 10px;
+	top: -12px;
+	width: 0;
+}
+
+/* Prevents the tooltip from being hidden */
+.body .help-tip span::after {
+	content: '';
+	height: 40px;
+	left: 0;
+	position: absolute;
+	top: -40px;
+	width: 100%;
+}
+
+/* For titles of works acting as links to artwork-editor -- when signed in as administrator/authenticated */
+.main a:not(.no-border-bottom).color-red {
+	color: var(--red);
+}
+
+@keyframes helpTipFadeIn {
+
+	0% { 
+		opacity: 0; 
+	}
+
+	100% { 
+		opacity: 1;
+	}
+
+}

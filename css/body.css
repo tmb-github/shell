@@ -1,0 +1,410 @@
+/*
+IE11 warning: :visited and :link styles can only differ by color. Some styles were not applied to :visited.
+Research:
+
+Only style color of :visited elements; see: https://developer.mozilla.org/en-US/docs/Web/CSS/Privacy_and_the_:visited_selector
+
+The CSS properties that can be used to style visited links are:
+color,
+background-color,
+border-*-color,
+column-rule-color,
+outline-color,
+and the color parts of the fill and stroke properties.
+In addition, for the list of properties you can change above, you won’t be able to set rgba() or hsla() colors or transparent on them.
+
+Canonical ordering of link pseudo-elements:
+:link
+:visited
+:hover
+:focus
+:focus-within
+:active
+*/
+
+
+/* This is to prevent layout shift */
+/*
+WHY NOT JUST IN .body ? Moved 2021-10-14:
+body.body {
+	width: 100vw;
+}
+*/
+
+
+.body {
+	background-color: var(--body-background-color);
+	color: var(--body-text-color);
+	display: flex;
+
+/* OLD:	font: 400 1rem/1.5 'Cabin', sans-serif; */
+
+	flex-direction: column;
+	height: 100%;
+	width: 100vw;
+}
+
+.body p ~ p {
+	margin-top: 1em;
+}
+
+
+/*
+For accessibility: 
+line-height should be 1.5 x font-size;
+letter-spacing should be 0.12 x font-size;
+word-spacing should be 0.16 x font-size;
+space beween paragraphs should be 2 x font-size;
+*/
+
+/*
+.body {
+	line-height: 1.5;
+	letter-spacing: .12em;
+	word-spacing: .16em;
+}
+
+.body p ~ p {
+	margin-top: 2em;
+}
+*/
+
+/*
+:link
+:visited
+:hover
+:focus
+:focus-within
+:active
+*/
+
+/* NB: 2020-09-12
+This isn't used in HEADER. Where else isn't it used?
+*/
+.body a:link,
+.body a:visited,
+.body a:hover,
+.body a:focus,
+.body a:active {
+	background-color: transparent;
+}
+
+
+.body .external-anchor:link,
+.body .external-anchor:visited,
+.body .external-anchor:hover,
+.body .external-anchor:focus,
+.body .external-anchor:active {
+	background-color: transparent;
+}
+
+.body .image-anchor:link,
+.body .image-anchor:visited,
+.body .image-anchor:hover,
+.body .image-anchor:focus,
+.body .image-anchor:active {
+	background-color: transparent;
+}
+
+/*
+.body .social-icon-anchor:link,
+.body .social-icon-anchor:visited,
+.body .social-icon-anchor:hover,
+.body .social-icon-anchor:focus,
+.body .social-icon-anchor:active {
+	background-color: transparent;
+}
+*/
+
+
+/*
+Material Icons "open_in_new" glyph at end of linked text
+OLD: content: "\E89E";
+E89E -> open_in_new
+We no longer pull in the Material Icons font, so we're using SVGs for each needed glyph.
+When used as content: url(), they cannot be resized.
+However, when used a background images, they can be resized!
+SVG from: https://material.io/resources/icons/?search=open%20in%20new&icon=open_in_new&style=baseline
+SVG -> url(base64) conversion courtesty of: https://base64.guru/converter/encode/image/svg
+*/
+.body a[href*="//"][target*="link-viewer"]:not(.no-open-in-new):not(.ripple-button):not(.news-link)::after,
+.body a[href*="//"]:not(.work-image-anchor):not(.no-open-in-new):not(.ripple-button):not(.news-link):not(.skip-to-main-content):not(.ecwid-anchor):not(.ec-link):not(.internal-anchor)::after {
+	background-color: var(--anchor-background-color);
+	background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgd2lkdGg9IjI0Ij48cGF0aCBkPSJNMCAwaDI0djI0SDB6IiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTE5IDE5SDVWNWg3VjNINWMtMS4xMSAwLTIgLjktMiAydjE0YzAgMS4xLjg5IDIgMiAyaDE0YzEuMSAwIDItLjkgMi0ydi03aC0ydjd6TTE0IDN2MmgzLjU5bC05LjgzIDkuODMgMS40MSAxLjQxTDE5IDYuNDFWMTBoMlYzaC03eiIvPjwvc3ZnPg==");
+	background-size: 100% 100%;
+	border-bottom-color: var(--anchor-underline-color);
+	border-bottom-style: solid;
+	border-bottom-width: 2px;
+	color: var(--open-in-new-anchor-color);
+	content: "";
+	display: inline-block;
+	height: 1rem;
+/* OLD:
+	margin-bottom: -2px;
+*/
+	margin-bottom: -6px;
+	margin-left: 4px;
+	padding-bottom: 2px;
+/* To cancel text-indent in ul/li stylings: */
+	text-indent: 0;
+	transition: var(--background-color-500ms-ease--border-bottom-color-500ms-ease--color-500ms-ease);
+/* OLD:
+CSS auditor complains:
+	vertical-align: text-bottom;
+*/
+	white-space: nowrap;
+	width: 1rem;
+}
+
+.body a[href*="//"][target*="link-viewer"]:not(.no-open-in-new):not(.ripple-button):not(.news-link):hover::after,
+.body a[href*="//"]:not(.work-image-anchor):not(.no-open-in-new):not(.ripple-button):not(.news-link):not(.skip-to-main-content):not(.ecwid-anchor):not(.ec-link):not(.internal-anchor):hover::after {
+	background-color: var(--anchor-background-color-hover);
+	border-bottom-color: var(--anchor-underline-color-hover);
+	color: var(--open-in-new-anchor-color-hover);
+}
+
+/* images lazy-loaded using waypoints.js */
+.body img[data-lazyload="true"]:not([src*="data:image"]) {
+	opacity: 1;
+	transition-property: opacity;
+	transition-duration: 2s;
+}
+
+.body img[data-lazyload="true"][src*="data:image"] {
+	opacity: 0.1;
+}
+
+
+
+/*
+===============
+flex: 1 0 auto;
+===============
+flex-grow: 1;
+flex-shrink: 0;
+flex-basis: auto;
+*/
+
+/* Social Media Icons, as used in the footer and elsewhere... */
+
+.body .facebook {
+	background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGlkPSJmYWNlYm9vay1pY29uIiB2aWV3Qm94PSIwIDAgNjQgNjQiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPgoJPGcgY2xhc3M9InN2Zy1pY29uIj4KCQk8cGF0aCBkPSJNMzQuMSw0N1YzMy4zaDQuNmwwLjctNS4zaC01LjN2LTMuNGMwLTEuNSwwLjQtMi42LDIuNi0yLjZsMi44LDB2LTQuOGMtMC41LTAuMS0yLjItMC4yLTQuMS0wLjIgYy00LjEsMC02LjksMi41LTYuOSw3VjI4SDI0djUuM2g0LjZWNDdIMzQuMXoiLz4KCTwvZz4KPC9zdmc+");
+}
+
+.body .instagram {
+	background-image: url("data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSItMjQgLTI0IDEwOCAxMDgiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CgkgICAgICAgICAgICAgICAgICAgICAgICA8cGF0aCBkPSJNNTUuMDk5MzE3NSw0NC41NTU2NDk0IEM1NS4wOTkzMTc1LDUxLjAwMjExODUgNDkuODkzNzMsNTYuMjI4NDg4OSA0My40NzE5NTUsNTYuMjI4NDg4OSBMMTcuMjE2NzkyNSw1Ni4yMjg0ODg5IEMxMC43OTUwMTc1LDU2LjIyODQ4ODkgNS41ODg2Njc1LDUxLjAwMjExODUgNS41ODg2Njc1LDQ0LjU1NTY0OTQgTDUuNTg4NjY3NSwxOC4xOTk1MjU5IEM1LjU4ODY2NzUsMTEuNzUzMDU2OCAxMC43OTUwMTc1LDYuNTI3NDUxODUgMTcuMjE2NzkyNSw2LjUyNzQ1MTg1IEw0My40NzE5NTUsNi41Mjc0NTE4NSBDNDkuODkzNzMsNi41Mjc0NTE4NSA1NS4wOTkzMTc1LDExLjc1MzA1NjggNTUuMDk5MzE3NSwxOC4xOTk1MjU5IEw1NS4wOTkzMTc1LDQ0LjU1NTY0OTQgWiBNNDMuMTcxNTMsMC43NjUyNzkwMTIgTDE3LjUxNjQ1NSwwLjc2NTI3OTAxMiBDNy44NDI2MTc1LDAuNzY1Mjc5MDEyIDAuMDAwMzA1LDguNjM4NTEzNTggMC4wMDAzMDUsMTguMzQ5NTUwNiBMMC4wMDAzMDUsNDQuMTAyNTEzNiBDMC4wMDAzMDUsNTMuODE0MzE2IDcuODQyNjE3NSw2MS42ODY3ODUyIDE3LjUxNjQ1NSw2MS42ODY3ODUyIEwzNy42Mjc0NjQ1LDYxLjY4Njc4NTIgTDQzLjE3MTUzLDYxLjY4Njc4NTIgQzUyLjg0NTM2NzUsNjEuNjg2Nzg1MiA2MC42ODg0NDI1LDUzLjgxNDMxNiA2MC42ODg0NDI1LDQ0LjEwMjUxMzYgTDYwLjY4ODQ0MjUsMTguMzQ5NTUwNiBDNjAuNjg4NDQyNSw4LjYzODUxMzU4IDUyLjg0NTM2NzUsMC43NjUyNzkwMTIgNDMuMTcxNTMsMC43NjUyNzkwMTIgTDQzLjE3MTUzLDAuNzY1Mjc5MDEyIFoiIGlkPSJGaWxsLTEiIHN0cm9rZT0ibm9uZSIgZmlsbD0iIzAwMDAwMCIgZmlsbC1ydWxlPSJldmVub2RkIi8+CgkgICAgICAgICAgICAgICAgICAgICAgICA8cGF0aCBkPSJNMzAuMzQ0MTQ1LDQxLjYyNDM1MDYgQzI0LjcwNjk4MjUsNDEuNjI0MzUwNiAyMC4xMzY1NTc1LDM3LjAzNzExNiAyMC4xMzY1NTc1LDMxLjM3NzUxMTEgQzIwLjEzNjU1NzUsMjUuNzE4NjcxNiAyNC43MDY5ODI1LDIxLjEzMDY3MTYgMzAuMzQ0MTQ1LDIxLjEzMDY3MTYgQzM1Ljk4MTMwNzUsMjEuMTMwNjcxNiA0MC41NTE3MzI1LDI1LjcxODY3MTYgNDAuNTUxNzMyNSwzMS4zNzc1MTExIEM0MC41NTE3MzI1LDM3LjAzNzExNiAzNS45ODEzMDc1LDQxLjYyNDM1MDYgMzAuMzQ0MTQ1LDQxLjYyNDM1MDYgTTMwLjM0NDE0NSwxNS41NzA1NzI4IEMyMS42NDc4MzI1LDE1LjU3MDU3MjggMTQuNTk3NzU3NSwyMi42NDc3NTggMTQuNTk3NzU3NSwzMS4zNzc1MTExIEMxNC41OTc3NTc1LDQwLjEwNzI2NDIgMjEuNjQ3ODMyNSw0Ny4xODQ0NDk0IDMwLjM0NDE0NSw0Ny4xODQ0NDk0IEMzOS4wNDA0NTc1LDQ3LjE4NDQ0OTQgNDYuMDkwNTMyNSw0MC4xMDcyNjQyIDQ2LjA5MDUzMjUsMzEuMzc3NTExMSBDNDYuMDkwNTMyNSwyMi42NDc3NTggMzkuMDQwNDU3NSwxNS41NzA1NzI4IDMwLjM0NDE0NSwxNS41NzA1NzI4IiBpZD0iRmlsbC00IiBzdHJva2U9Im5vbmUiIGZpbGw9IiMwMDAwMDAiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPgoJICAgICAgICAgICAgICAgICAgICAgICAgPHBhdGggZD0iTTQ2LjYxNTc0MjUsMTEuMjg2ODMyMSBDNDQuNTg5NzgsMTEuMjg2ODMyMSA0Mi45NDczNTUsMTIuOTM1NTcyOCA0Mi45NDczNTUsMTQuOTY5MzI1OSBDNDIuOTQ3MzU1LDE3LjAwMzA3OSA0NC41ODk3OCwxOC42NTE4MTk4IDQ2LjYxNTc0MjUsMTguNjUxODE5OCBDNDguNjQxNzA1LDE4LjY1MTgxOTggNTAuMjg0MTMsMTcuMDAzMDc5IDUwLjI4NDEzLDE0Ljk2OTMyNTkgQzUwLjI4NDEzLDEyLjkzNTU3MjggNDguNjQxNzA1LDExLjI4NjgzMjEgNDYuNjE1NzQyNSwxMS4yODY4MzIxIiBpZD0iRmlsbC02IiBzdHJva2U9Im5vbmUiIGZpbGw9IiMwMDAwMDAiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPgoJICAgICAgICAgICAgICAgICAgICA8L3N2Zz4=");
+}
+
+/*
+.body .linkedin {
+	background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGlkPSJsaW5rZWRpbi1pY29uIiB2aWV3Qm94PSIwIDAgNjQgNjQiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPgoJPGcgY2xhc3M9InN2Zy1pY29uIj4KCQk8cGF0aCBkPSJNMjAuNCw0NGg1LjRWMjYuNmgtNS40VjQ0eiBNMjMuMSwxOGMtMS43LDAtMy4xLDEuNC0zLjEsMy4xYzAsMS43LDEuNCwzLjEsMy4xLDMuMSBjMS43LDAsMy4xLTEuNCwzLjEtMy4xQzI2LjIsMTkuNCwyNC44LDE4LDIzLjEsMTh6IE0zOS41LDI2LjJjLTIuNiwwLTQuNCwxLjQtNS4xLDIuOGgtMC4xdi0yLjRoLTUuMlY0NGg1LjR2LTguNiBjMC0yLjMsMC40LTQuNSwzLjItNC41YzIuOCwwLDIuOCwyLjYsMi44LDQuNlY0NEg0NnYtOS41QzQ2LDI5LjgsNDUsMjYuMiwzOS41LDI2LjJ6Ii8+Cgk8L2c+Cjwvc3ZnPg==");
+}
+*/
+
+.body .pinterest {
+	background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGlkPSJwaW50ZXJlc3QtaWNvbiIgdmlld0JveD0iMCAwIDY0IDY0IiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIj4KCTxnIGNsYXNzPSJzdmctaWNvbiI+CgkJPHBhdGggZD0iTTMyLDE2Yy04LjgsMC0xNiw3LjItMTYsMTZjMCw2LjYsMy45LDEyLjIsOS42LDE0LjdjMC0xLjEsMC0yLjUsMC4zLTMuNyBjMC4zLTEuMywyLjEtOC43LDIuMS04LjdzLTAuNS0xLTAuNS0yLjVjMC0yLjQsMS40LTQuMSwzLjEtNC4xYzEuNSwwLDIuMiwxLjEsMi4yLDIuNGMwLDEuNS0wLjksMy43LTEuNCw1LjcgYy0wLjQsMS43LDAuOSwzLjEsMi41LDMuMWMzLDAsNS4xLTMuOSw1LjEtOC41YzAtMy41LTIuNC02LjEtNi43LTYuMWMtNC45LDAtNy45LDMuNi03LjksNy43YzAsMS40LDAuNCwyLjQsMS4xLDMuMSBjMC4zLDAuMywwLjMsMC41LDAuMiwwLjljLTAuMSwwLjMtMC4zLDEtMC4zLDEuM2MtMC4xLDAuNC0wLjQsMC42LTAuOCwwLjRjLTIuMi0wLjktMy4zLTMuNC0zLjMtNi4xYzAtNC41LDMuOC0xMCwxMS40LTEwIGM2LjEsMCwxMC4xLDQuNCwxMC4xLDkuMmMwLDYuMy0zLjUsMTEtOC42LDExYy0xLjcsMC0zLjQtMC45LTMuOS0yYzAsMC0wLjksMy43LTEuMSw0LjRjLTAuMywxLjItMSwyLjUtMS42LDMuNCBjMS40LDAuNCwzLDAuNyw0LjUsMC43YzguOCwwLDE2LTcuMiwxNi0xNkM0OCwyMy4yLDQwLjgsMTYsMzIsMTZ6Ii8+Cgk8L2c+Cjwvc3ZnPg==");
+}
+
+/*
+.body .reddit {
+	background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGlkPSJyZWRkaXQtaWNvbiIgdmlld0JveD0iMCAwIDY0IDY0IiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIj4KCTxnIGNsYXNzPSJzdmctaWNvbiI+CgkJPHBhdGggZD0iTTQ3LjgsMzAuN2MwLTIuMS0xLjctMy44LTMuOC0zLjhjLTAuOSwwLTEuNywwLjMtMi40LDAuOWMtMi4zLTEuNC01LjItMi40LTguNS0yLjVsMS43LTUuMyBsNC42LDEuMWMwLjEsMS42LDEuNSwzLDMuMiwzYzEuOCwwLDMuMi0xLjQsMy4yLTMuMnMtMS40LTMuMi0zLjItMy4yYy0xLjIsMC0yLjMsMC43LTIuOCwxLjdsLTUuMy0xLjJjLTAuNC0wLjEtMC45LDAuMS0xLDAuNiBsLTIuMSw2LjVjLTMuNSwwLjEtNi43LDEtOS4xLDIuNmMtMC43LTAuNS0xLjUtMC45LTIuNC0wLjljLTIuMSwwLTMuOCwxLjctMy44LDMuOGMwLDEuMywwLjcsMi41LDEuNywzLjFjMCwwLjMtMC4xLDAuNi0wLjEsMC45IGMwLDUuMyw2LjQsOS42LDE0LjIsOS42czE0LjItNC4zLDE0LjItOS42YzAtMC4zLDAtMC42LTAuMS0wLjlDNDcuMiwzMy4yLDQ3LjgsMzIsNDcuOCwzMC43eiBNNDIuNiwxOS40YzAuOCwwLDEuNSwwLjcsMS41LDEuNSBjMCwwLjgtMC43LDEuNS0xLjUsMS41cy0xLjUtMC43LTEuNS0xLjVDNDEuMSwyMCw0MS44LDE5LjQsNDIuNiwxOS40eiBNMTcuOCwzMC43YzAtMS4yLDAuOS0yLjEsMi4xLTIuMWMwLjMsMCwwLjYsMC4xLDAuOSwwLjIgYy0xLjEsMC45LTIsMi0yLjUsMy4yQzE4LjEsMzEuNywxNy44LDMxLjIsMTcuOCwzMC43eiBNMzIsNDIuNmMtNi45LDAtMTIuNS0zLjUtMTIuNS03LjlzNS42LTcuOSwxMi41LTcuOXMxMi41LDMuNSwxMi41LDcuOSBTMzguOSw0Mi42LDMyLDQyLjZ6IE00NS42LDMyLjFjLTAuNS0xLjItMS40LTIuMy0yLjUtMy4yYzAuMy0wLjEsMC42LTAuMiwwLjktMC4yYzEuMiwwLDIuMSwwLjksMi4xLDIuMSBDNDYuMiwzMS4yLDQ1LjksMzEuNyw0NS42LDMyLjF6IE0yOS40LDMzLjFjMC0xLjItMS0yLjEtMi4xLTIuMXMtMi4xLDEtMi4xLDIuMXMxLDIuMiwyLjEsMi4yUzI5LjQsMzQuMiwyOS40LDMzLjF6IE0zNi43LDMwLjkgYy0xLjIsMC0yLjEsMS0yLjEsMi4xczEsMi4yLDIuMSwyLjJjMS4yLDAsMi4xLTEsMi4xLTIuMlMzNy45LDMwLjksMzYuNywzMC45eiBNMzYsMzguMmMtMC44LDAuOC0yLjEsMS4xLTQsMS4xIGMtMS45LDAtMy4yLTAuNC00LTEuMWMtMC4zLTAuMy0wLjktMC4zLTEuMiwwYy0wLjMsMC4zLTAuMywwLjksMCwxLjJjMS4xLDEuMSwyLjgsMS42LDUuMiwxLjZjMi40LDAsNC4xLTAuNSw1LjItMS42IGMwLjMtMC4zLDAuMy0wLjksMC0xLjJDMzYuOSwzNy44LDM2LjMsMzcuOCwzNiwzOC4yeiIvPgoJPC9nPgo8L3N2Zz4=");
+}
+
+.body .stumbleupon {
+	background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGlkPSJzdHVtYmxldXBvbi1pY29uIiB2aWV3Qm94PSIwIDAgNjQgNjQiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPgoJPGcgY2xhc3M9InN2Zy1pY29uIj4KCQk8cGF0aCBkPSJNNDIuNSwzMC4zdjQuOWMwLDAuOS0wLjgsMS43LTEuNywxLjdzLTEuNy0wLjgtMS43LTEuN3YtNC45bC0yLjcsMS4xbC0yLjctMS4xdjQuOSBjMCw0LDMuMiw3LjIsNy4yLDcuMnM3LjItMy4yLDcuMi03LjJ2LTQuOUg0Mi41eiBNMzMuNywyNi45bDIuNywxLjFsMi43LTEuMXYtMi4xYzAtNC0zLjItNy4yLTcuMi03LjJzLTcuMiwzLjItNy4yLDcuMnYxMC40IGMwLDAuOS0wLjgsMS43LTEuNywxLjdzLTEuNy0wLjgtMS43LTEuN3YtNC45SDE2djQuOWMwLDQsMy4yLDcuMiw3LjIsNy4yczcuMi0zLjIsNy4yLTcuMlYyNC44YzAtMC45LDAuOC0xLjcsMS43LTEuNyBzMS43LDAuOCwxLjcsMS43VjI2Ljl6Ii8+Cgk8L2c+Cjwvc3ZnPg==");
+}
+*/
+
+.body .tumblr {
+	background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGlkPSJ0dW1ibHItaWNvbiIgdmlld0JveD0iMCAwIDY0IDY0IiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIj4KCTxnIGNsYXNzPSJzdmctaWNvbiI+CgkJPHBhdGggZD0iTTM5LjIsNDFjLTAuNiwwLjMtMS42LDAuNS0yLjQsMC41Yy0yLjQsMC4xLTIuOS0xLjctMi45LTN2LTkuM2g2di00LjVoLTZWMTdjMCwwLTQuMywwLTQuNCwwIGMtMC4xLDAtMC4yLDAuMS0wLjIsMC4yYy0wLjMsMi4zLTEuNCw2LjQtNS45LDguMXYzLjloM1YzOWMwLDMuNCwyLjUsOC4xLDksOGMyLjIsMCw0LjctMSw1LjItMS44TDM5LjIsNDF6Ii8+Cgk8L2c+Cjwvc3ZnPg==");
+}
+
+.body .twitter {
+	background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGlkPSJ0d2l0dGVyLWljb24iIHZpZXdCb3g9IjAgMCA2NCA2NCIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSI+Cgk8ZyBjbGFzcz0ic3ZnLWljb24iPgoJCTxwYXRoIGQ9Ik00OCwyMi4xYy0xLjIsMC41LTIuNCwwLjktMy44LDFjMS40LTAuOCwyLjQtMi4xLDIuOS0zLjZjLTEuMywwLjgtMi43LDEuMy00LjIsMS42IEM0MS43LDE5LjgsNDAsMTksMzguMiwxOWMtMy42LDAtNi42LDIuOS02LjYsNi42YzAsMC41LDAuMSwxLDAuMiwxLjVjLTUuNS0wLjMtMTAuMy0yLjktMTMuNS02LjljLTAuNiwxLTAuOSwyLjEtMC45LDMuMyBjMCwyLjMsMS4yLDQuMywyLjksNS41Yy0xLjEsMC0yLjEtMC4zLTMtMC44YzAsMCwwLDAuMSwwLDAuMWMwLDMuMiwyLjMsNS44LDUuMyw2LjRjLTAuNiwwLjEtMS4xLDAuMi0xLjcsMC4yYy0wLjQsMC0wLjgsMC0xLjItMC4xIGMwLjgsMi42LDMuMyw0LjUsNi4xLDQuNmMtMi4yLDEuOC01LjEsMi44LTguMiwyLjhjLTAuNSwwLTEuMSwwLTEuNi0wLjFjMi45LDEuOSw2LjQsMi45LDEwLjEsMi45YzEyLjEsMCwxOC43LTEwLDE4LjctMTguNyBjMC0wLjMsMC0wLjYsMC0wLjhDNDYsMjQuNSw0Ny4xLDIzLjQsNDgsMjIuMXoiLz4KCTwvZz4KPC9zdmc+");
+}
+
+/*
+.body .youtube {
+	background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMCUiIGhlaWdodD0iMTAlIiB2aWV3Qm94PSItMzIgLTY0IDU1MC4wNzI5IDY2NS4xMTUxIj48cGF0aCBkPSJNNDU5Ljk1MyAyNjQuMzc2Yy0yLjQ3MS0xMS4yMzMtNy45NDgtMjAuNjUzLTE2LjQxNi0yOC4yNjQtOC40NzQtNy42MTEtMTguMjI3LTEyLjA4NS0yOS4yNy0xMy40MTgtMzUuMDItMy44MDYtODcuODM3LTUuNzA4LTE1OC40NTctNS43MDgtNzAuNjE4IDAtMTIzLjM0MSAxLjkwMy0xNTguMTc0IDUuNzA4LTExLjIyNyAxLjMzMy0yMS4wMjkgNS44MDctMjkuNDA3IDEzLjQxOC04LjM3NiA3LjYxNC0xMy44OTYgMTcuMDM1LTE2LjU2MiAyOC4yNjQtNC45NDggMjIuMDgzLTcuNDIzIDU1LjM5MS03LjQyMyA5OS45MzIgMCA0NS4yOTkgMi40NzUgNzguNjA5IDcuNDIzIDk5LjkzIDIuNDc4IDExLjIyNSA3Ljk1MSAyMC42NTIgMTYuNDIxIDI4LjI2MSA4LjQ3IDcuNjE0IDE4LjIyNSAxMS45OTEgMjkuMjYzIDEzLjEzNCAzNS4wMjYgMy45OTcgODcuODQ4IDUuOTk2IDE1OC40NjEgNS45OTYgNzAuNjA5IDAgMTIzLjQ0LTEuOTk5IDE1OC40NTMtNS45OTYgMTEuMDQzLTEuMTQzIDIwLjc0OC01LjUyIDI5LjEyNi0xMy4xMzQgOC4zNzctNy42MDcgMTMuODk3LTE3LjAzNiAxNi41Ni0yOC4yNjEgNC45NDgtMjIuMDgzIDcuNDI3LTU1LjM5MiA3LjQyNy05OS45My0uMDAxLTQ1LjMwMS0yLjQ3OS03OC42MTQtNy40MjUtOTkuOTMyem0tMjk0LjkyOCAyOC44NDJoLTMwLjU0OXYxNjIuNDVoLTI4LjU0OXYtMTYyLjQ1aC0yOS45OHYtMjYuODM3aDg5LjA3OWwtLjAwMSAyNi44Mzd6bTc3LjA4NSAxNjIuNDVIMjE2Ljd2LTE1LjQyMWMtMTAuMjc4IDExLjYxNS0xOS45ODkgMTcuNDE5LTI5LjEyNSAxNy40MTktOC43NTUgMC0xNC4yNzUtMy41MjQtMTYuNTU3LTEwLjU2NC0xLjUyMS00LjU2Ny0yLjI4Ni0xMS41MTktMi4yODYtMjAuODQ0VjMxNC42MjdoMjUuNDF2MTAzLjkyNGMwIDYuMDg4LjA5NiA5LjQyMS4yODggOS45OTMuNTcxIDMuOTk3IDIuNTY4IDUuOTk1IDUuOTk2IDUuOTk1IDUuMTM4IDAgMTAuNTY2LTMuOTk3IDE2LjI3NC0xMS45OTFWMzE0LjYyN2gyNS40MDlsLjAwMSAxNDEuMDQxem05Ny4wNzMtNDIuMjU3YzAgMTMuODk0LS44NTUgMjMuNDE3LTIuNTYxIDI4LjU1OC0zLjI0MyAxMC40NjItOS45OTUgMTUuNjk3LTIwLjI3MiAxNS42OTctOS4xMzcgMC0xNy45ODYtNS4yMzUtMjYuNTU2LTE1LjY5N3YxMy43MDJoLTI1LjQwNnYtMTg5LjI5aDI1LjQwNnY2MS45NTVjOC4xODgtMTAuMjcyIDE3LjAzNS0xNS40MTMgMjYuNTU2LTE1LjQxMyAxMC4yNzcgMCAxNy4wMjkgNS4zMzEgMjAuMjcyIDE1Ljk4OCAxLjcwNCA0Ljk0NyAyLjU2MSAxNC4zNjkgMi41NjEgMjguMjY0djU2LjIzNnptOTYuNTAyLTIzLjQwOEgzODQuNTh2MjQuODM5YzAgMTMuMTM0IDQuMzc0IDE5LjY5NyAxMy4xMzIgMTkuNjk3IDYuMjc4IDAgMTAuMDg5LTMuNDIyIDExLjQyLTEwLjI4LjM3Ni0xLjkwMS41Ny03LjcwNi41Ny0xNy40MTJoMjUuOTgxdjMuNzFjMCA5LjMyOS0uMTk1IDE0Ljg0Ny0uNTcyIDE2LjU2My0uNTY2IDUuMTMzLTIuNTYgMTAuMjcyLTUuOTk1IDE1LjQxMy02Ljg1MiAxMC4wODktMTcuMTM5IDE1LjEzMy0zMC44NDEgMTUuMTMzLTEzLjEyNyAwLTIzLjQwNy00Ljg1NS0zMC44MzMtMTQuNTU4LTUuNTE3LTcuMDQ0LTguMjc0LTE4LjA4My04LjI3NC0zMy4xMnYtNDkuMzk2YzAtMTUuMDM2IDIuNjYxLTI2LjA3NSA3Ljk4Ni0zMy4xMTggNy40MjgtOS43MDUgMTcuNjEtMTQuNTU5IDMwLjU1OC0xNC41NTkgMTIuNzU1IDAgMjIuODUgNC44NTQgMzAuMjYzIDE0LjU1OSA1LjE0NiA3LjA0MyA3LjcxIDE4LjA4MiA3LjcxIDMzLjExOHYyOS40MTF6Ii8+PHBhdGggZD0iTTMwMi42MzQgMzM2LjA0M2MtNC4zOCAwLTguNjU4IDIuMTAxLTEyLjg0NyA2LjI4M3Y4NS45MzRjNC4xODggNC4xODcgOC40NjcgNi4yNzkgMTIuODQ3IDYuMjc5IDcuNDE5IDAgMTEuMTQtNi4zNzIgMTEuMTQtMTkuMTN2LTYwLjIzNmMtLjAwMS0xMi43NTUtMy43MTMtMTkuMTMtMTEuMTQtMTkuMTN6bTk0Ljc5NCAwYy04LjU2NSAwLTEyLjg0OCA2LjQ3Ni0xMi44NDggMTkuNDF2MTMuMTM0aDI1LjY5M3YtMTMuMTM0Yy4wMDEtMTIuOTQyLTQuMjgzLTE5LjQxLTEyLjg0NS0xOS40MXpNMTQ4LjQ3MyAxMTMuOTE3djc3LjM3NWgyOC41NDl2LTc3LjM3NUwyMTEuNTYzIDBoLTI5LjEyMWwtMTkuNDA5IDc1LjA4OUwxNDIuNzU5IDBoLTMwLjI2MmM1LjMzIDE1Ljk5IDExLjUxNiAzMy43ODUgMTguNTU5IDUzLjM5MSA4Ljk0NyAyNi4yNjUgMTQuNzQ5IDQ2LjQ0NCAxNy40MTcgNjAuNTI2em0xMDEuMzQ3IDc5LjM3NGMxMy4xMzUgMCAyMy4yMi00Ljg1NCAzMC4yNjMtMTQuNTYxIDUuMzMyLTcuMDQzIDcuOTk0LTE4LjI3NCA3Ljk5NC0zMy42ODlWOTUuMDc1YzAtMTUuMjI1LTIuNjctMjYuMzYzLTcuOTk0LTMzLjQwNi03LjA0My05LjcwNy0xNy4xMjgtMTQuNTYxLTMwLjI2My0xNC41NjEtMTIuNzU2IDAtMjIuNzUgNC44NTQtMjkuOTc5IDE0LjU2MS01LjMyNyA3LjA0My03Ljk5MiAxOC4xODEtNy45OTIgMzMuNDA2djQ5Ljk2NWMwIDE1LjIyNSAyLjY2MiAyNi40NTcgNy45OTIgMzMuNjg5IDcuMjMyIDkuNzA4IDE3LjIyMiAxNC41NjIgMjkuOTc5IDE0LjU2MnpNMjM3LjU0MSA4OS45MzVjMC0xMy4xMzQgNC4wOTMtMTkuNzAxIDEyLjI3OC0xOS43MDEgOC4xODcgMCAxMi4yNzUgNi41NjcgMTIuMjc1IDE5LjcwMXY1OS45NTVjMCAxMy4zMjgtNC4wODkgMTkuOTg1LTEyLjI3NSAxOS45ODVzLTEyLjI3OC02LjY2MS0xMi4yNzgtMTkuOTg1Vjg5LjkzNXptOTAuNzg2IDEwMy4zNTZjOS41MjMgMCAxOS4zMjgtNS45MDEgMjkuNDEzLTE3LjcwNXYxNS43MDNoMjUuOTgxVjQ4LjgyMkgzNTcuNzR2MTA4Ljc3N2MtNS43MTIgOC4xODYtMTEuMTMzIDEyLjI3NS0xNi4yNzggMTIuMjc1LTMuNDMgMC01LjQyOS0yLjA5My01Ljk5Ni02LjI4LS4xOTEtLjM4MS0uMjg3LTMuNzE1LS4yODctOS45OTRWNDguODIyaC0yNS45ODF2MTEyLjQ5MmMwIDkuNzA1Ljc2OCAxNi44NCAyLjI4NiAyMS40MTEgMi40NzcgNy4wNDMgOC4wODkgMTAuNTY2IDE2Ljg0MyAxMC41NjZ6Ii8+PC9zdmc+");
+}
+*/
+
+
+/* The padding controls the size of the icon-via-background-image, along with the background-size and background-position */
+/* NB: coloring a base64 icon requires a filter; see: hex2filter */
+
+/* These are the social-share icons on artworks */
+.body .social-icon-anchor {
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+	background-size: 130%;
+	filter: var(--filter-anchor-underline-color-hover);
+	margin: .5em;
+	opacity: .5;
+	padding: 1em;
+	transition: opacity 500ms ease;
+}
+
+.body .social-icon-anchor:hover {
+	opacity: 1;
+}
+
+
+/* Indeterminate Progress Bar */
+
+.body .progress-line.active,
+.body .progress-line.active::before {
+	height: 3px;
+	width: 200%;
+	margin: 0;
+	padding: 0;
+}
+
+.body .progress-line.active {
+	background-color: var(--anchor-underline-color);
+	display: flex;
+}
+
+.body .progress-line.active::before {
+	background-color: var(--body-text-color);
+	content: '';
+	animation: running-progress 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/******************************/
+/*** START LOADING MASK CSS ***/
+/******************************/
+
+/* Revised to avoid Cumulative Layout Shift 2020-11-13 */
+
+.body .loading-mask {
+	height: 100%;
+	position: fixed;
+	width: 100%;
+}
+
+/*
+The 'animation' property below would preferably be stated this way:
+
+animation: loadingMaskFadeIn 2000ms linear 750ms infinite normal forwards running;
+
+...following the order:
+
+animation: name duration timing-function delay iteration-count direction fill-mode play-state;
+
+But until the W3 CSS Validator is corrected to accept 8 arguments for the short
+form of 'animation', spell it out in full:
+*/
+
+.body .loading-mask.active {
+
+	animation: loadingMaskFadeIn 2000ms linear 750ms infinite normal forwards running;
+/*
+	animation-name: loadingMaskFadeIn;
+	animation-duration: 2000ms;
+	animation-timing-function: linear;
+	animation-delay: 750ms;
+	animation-iteration-count: infinite;
+	animation-direction: normal;
+	animation-fill-mode: forwards;
+	animation-play-state: running;
+*/
+	background-color: rgba(41, 41, 41, 0.375);
+	opacity: 0;
+	z-index: 999;
+}
+
+/* Shorthand for animation below: */
+/* animation: spinner 1500ms linear 750ms infinite normal none running; */
+
+.body .loading-mask.active::after {
+
+	animation: loadingMaskSpinner 1500ms linear 750ms infinite normal none running;
+/*
+	animation-name: loadingMaskSpinner;
+	animation-duration: 1500ms;
+	animation-timing-function: linear;
+	animation-delay: 750ms;
+	animation-iteration-count: infinite;
+	animation-direction: normal;
+	animation-fill-mode: none;
+	animation-play-state: running;
+*/
+	border-radius: 0.5em;
+	box-shadow: 
+		rgba(0, 0, 0, 0.75) 1.5em 0 0 0, 
+		rgba(0, 0, 0, 0.75) 1.1em 1.1em 0 0, 
+		rgba(0, 0, 0, 0.75) 0 1.5em 0 0, 
+		rgba(0, 0, 0, 0.75) -1.1em 1.1em 0 0, 
+		rgba(0, 0, 0, 0.75) -1.5em 0 0 0, 
+		rgba(0, 0, 0, 0.75) -1.1em -1.1em 0 0, 
+		rgba(0, 0, 0, 0.75) 0 -1.5em 0 0, 
+		rgba(0, 0, 0, 0.75) 1.1em -1.1em 0 0;
+	content: '';
+	display: block;
+	font-size: 16px;
+	height: .75em;
+	margin-top: 50vh;
+	margin-left: 50vw;
+	width: .75em;
+}
+
+/* 
+
+@keyframes animation commonImageFadeIn is defined in common.css
+
+	animation-name: fadeInFromNone;
+	animation-duration: 1s;
+	animation-timing-function: ease;
+	animation-delay: 0s;
+	animation-iteration-count: 1;
+	animation-direction: normal;
+	animation-fill-mode: forwards;
+	animation-play-state: running;
+
+*/
+.body .main img {
+	animation: commonImageFadeIn 1s ease 0s 1 normal forwards running;
+}
+
+
+/*
+TMB: 2021-10-16
+@-webkit-keyframes only needed for older browsers (2015 and earlier)
+*/
+
+@keyframes running-progress {
+	0% { 
+		margin-left: 0px;
+		margin-right: 100%;
+	}
+	50% {
+		margin-left: 25%;
+		margin-right: 0%;
+	}
+	100% {
+		margin-left: 100%;
+		margin-right: 0;
+	}
+}
+
+@keyframes loadingMaskFadeIn {
+	0% {
+		opacity: 0;
+	}
+	50% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+@keyframes loadingMaskSpinner {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}

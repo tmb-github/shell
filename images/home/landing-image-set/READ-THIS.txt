@@ -1,0 +1,31 @@
+HOME LANDING IMAGES
+
+* The images should be named a01, a02, a03, etc.
+* Take a source image and resize it so that the longest side is 2875px (use the full size photo for resizing)
+* Create a background that is 4000x4000px with rgb colors 238, 238, 238 (= #eeeeee)
+* Place the source image on the background and add a drop shadow
+* Save as a0? (a10, a11, etc.)
+* Create corresponding folder in images/home/landing-image-set/, so a09.jpg would go in images/home/landing-image-set/a09/a09.jpg
+* Open /new-art/includes/home/lcp_img_and_preload_link_variables.inc.php and add new image(s) to $img_url_array[], IN DESCENDING ORDER (so a09 comes before a08).
+* In /new-art/image-editor/image_destination.inc.php set $image_destination = 'home landing image';
+* Go into admin mode of site and add the artwork as a09, a10, etc.
+* MOVE the resulting image folder for A09 (etc.) to /new-art/images/home/landing-image-set
+* DELETE from that folder the social-share and thumbnails folders
+* DELETE the entry for A09 (etc.) from /new-art/works/
+* DELETE the entry for A09 (etc.) from /new-art/all-works/works_list.inc.php
+
+==== OLD NOTES AND SOME EXPLANATION ====
+
+Put each image to be converted into a separate folder, each named appropriately (a01, a02, etc.)
+
+Place the images on a 4000x4000px background with rgb colors 238, 238, 238 (= #eeeeee).
+
+Placing the images at 1000,1000; 3000,1000; 1000,3000; 3000,3000 often doesn't look right: the left-to-right and top-and-bottom gaps may seem too wide.
+
+To correct for that, use 1125 and 2875 as replacements for 1000 and 3000, respectively. Each grouping of 4 images will require a different combination, so one may be:
+
+1125,1125; 2875,1125; 1125,2875; 2875,2875
+
+But another might work better with:
+
+1125,1000; 2875,1000; 1125,3000; 2875,3000, etc.

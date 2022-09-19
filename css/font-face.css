@@ -1,0 +1,64 @@
+/* 
+2021-08-21: 
+font-display: swap; has been superceded by font-display: optional;
+See: https://web.dev/font-best-practices/
+ */
+@font-face {
+  font-family: 'Cabin';
+  font-display: swap;
+  font-style: normal;
+  font-weight: 400;
+  src: url(/shell/fonts/Cabin-Roman-400.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Cabin';
+  font-display: swap;
+  font-style: italic;
+  font-weight: 400;
+  src: url(/shell/fonts/Cabin-Italic-400.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Cabin';
+  font-display: swap;
+  font-style: normal;
+  font-weight: 700;
+  src: url(/shell/fonts/Cabin-Bold-700.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'Cabin';
+  font-display: swap;
+  font-style: italic;
+  font-weight: 700;
+  src: url(/shell/fonts/Cabin-Bold-Italic-700.woff2) format('woff2');
+}
+/*
+// 2021-02-13:
+// We're not using material icons; the hamburger is an SVG. So... 
+// SAVE FOR FUTURE USE:
+
+@font-face {
+  font-family: 'Material Icons';
+  font-display: swap;
+  font-style: normal;
+  font-weight: 400;
+  src: url(/shell/fonts/Material-Icons-Normal-400.woff2) format('woff2');
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+          font-feature-settings: 'liga' on;
+  -webkit-font-smoothing: antialiased;
+}
+
+*/
