@@ -160,10 +160,7 @@ siteData = {
 */
 	},
 
-// OLD:	uaString: 'UA-141513157-1'
-// NO!!!	uaString: 'G-6RNBMMHGZL'
-// Use the 'OLD' uaString!
-	uaString: 'UA-141513157-1'
+	uaString: 'UA-#########-1'
 
 };
 

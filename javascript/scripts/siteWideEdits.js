@@ -8,7 +8,7 @@
 (function () {
 
 // Google Universal Analytics (real-time reporting):
-// https://analytics.google.com/analytics/web/#/report-home/a141513157w202613366p196371680
+// https://analytics.google.com/analytics/web/#/report-home/a###################
 
 // getEventListeners(window); --> will log event listeners to console
 
