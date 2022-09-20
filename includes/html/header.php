@@ -209,46 +209,48 @@ if ($_SERVER['HTTP_HOST'] == 'localhost') {
 			</li>
 			<li data-page=dummy-1 data-href=dummy-1 class=menu-side-one><a class=internal-anchor href="dummy-1/" tabindex=-1>Dummy 1</a></li>
 			<li data-page=dummy-2 data-href=dummy-2 class=menu-side-one><a class=internal-anchor href="dummy-2/" tabindex=-1>Dummy 2</a></li>
-<?php 
-/* BEGIN: LI with nested UL */ 
-/*
-2020-02-13:
-We need 2 LABEL elements, one for each side of the drawer, each referencing
-the checkbox. This is an accessibility issue, but I see no way around it.
-But see: https://www.w3.org/TR/html401/interact/forms.html#h-17.9.1
-"More than one LABEL may be associated with the same control by creating 
-multiple references via the 'for' attribute."
+<?php
 
-To satisfy accessibility requirements, I can't have two LABEL elements
-that reference the same INPUT. Using aria-labelledby is meant to reference
-non-LABEL elements. I can't use a custom element, because the Wiersch 
-Validator can't associate the aria-labelledby values on the INPUT with 
-the IDs on the custom element. Also, 'for' can only be used on LABELs.
-So, I'm using a DIV with a custom attribute of 'data-for' to reference the
-ID of the INPUT element.
+	$switcher_name = 'Additional Pages 1';
+	$switcher_id = 'additional-pages-1';
+// This must be 'side-switcher-' followed by a unique character:
+	$side_switcher_id = 'side-switcher-1';
+	$main_menu_id = 'main-menu-1';
+// $page_name => $page_slug:
+	$page_array = [
+		'Dummy 3' => 'dummy-3',
+		'Dummy 4' => 'dummy-4', 
+		'Dummy 5' => 'dummy-5'
+	];
+	include $absolute_root . 'includes/html/header-secondary-ul.inc.php';
 
-NB: We're excluding As and SPANSs surrounding text from being tabbable
-items by adding tabindex=-1 to each of them. The true, tabbable LIs and DIVs
-are provided tabindexes by the JavaScript.
+	$switcher_name = 'Additional Pages 2';
+	$switcher_id = 'additional-pages-2';
+// This must be 'side-switcher-' followed by a unique character:
+	$side_switcher_id = 'side-switcher-2';
+	$main_menu_id = 'main-menu-2';
+// $page_name => $page_slug:
+	$page_array = [
+		'Dummy 13' => 'dummy-13',
+		'Dummy 14' => 'dummy-14', 
+		'Dummy 15' => 'dummy-15'
+	];
+	include $absolute_root . 'includes/html/header-secondary-ul.inc.php';
 
-&#9658; would be the HTML equivalent of the right-pointing triangle
-*/ 
-$switcher_name = 'Additional Pages';
-$switcher_id = 'additional-pages';
+	$switcher_name = 'Additional Pages 3';
+	$switcher_id = 'additional-pages-3';
+// This must be 'side-switcher-' followed by a unique character:
+	$side_switcher_id = 'side-switcher-3';
+	$main_menu_id = 'main-menu-3';
+// $page_name => $page_slug:
+	$page_array = [
+		'Dummy 23' => 'dummy-23',
+		'Dummy 24' => 'dummy-24', 
+		'Dummy 25' => 'dummy-25'
+	];
+	include $absolute_root . 'includes/html/header-secondary-ul.inc.php';
+
 ?>
-			<li data-span="<?php echo $switcher_name; ?>" class="no-progress-line menu-side-one">
-				<input id=side-switcher data-switcher-target="Main Menu" aria-labelledby="<?php echo $switcher_id; ?> main-menu" type=checkbox title="hidden checkbox" name=ignore2 value=ignore2>
-				<div data-for=side-switcher id=<?php echo $switcher_id; ?>><span class=switch-to-secondary-ul tabindex=-1><?php echo $switcher_name; ?></span></div>
-				<ul class=secondary-ul>
-					<li data-span="Main Menu" class="menu-side-two no-progress-line orange ripple">
-						<div data-for=side-switcher data-switcher-target="<?php echo $switcher_name; ?>" id=main-menu class=return-to-main-menu><span class="necessary-span switch-to-primary-ul" tabindex=-1>Main Menu</span></div>
-					</li>
-					<li data-page=dummy-3 data-href=dummy-3 class=menu-side-one><a class=internal-anchor href="dummy-3/" tabindex=-1>Dummy 3</a></li>
-					<li data-page=dummy-4 data-href=dummy-4 class=menu-side-two><a class=internal-anchor href="dummy-4/" tabindex=-1>Dummy 4</a></li>
-					<li data-page=dummy-5 data-href=dummy-5 class=menu-side-two><a class=internal-anchor href="dummy-5/" tabindex=-1>Dummy 5</a></li>
-				</ul>
-			</li>
-<?php /* END: LI with nested UL */ ?>
 			<li data-page=does-not-exist data-href=does-not-exist class=menu-side-one><a class=internal-anchor href="does-not-exist/" tabindex=-1>Does Not Exist</a></li>
 			<li data-page=contact data-href=contact class="menu-side-one orange ripple"><a class="bold-on-selected internal-anchor no-border-bottom" href="contact/" tabindex=-1>Contact</a></li>
 <?php

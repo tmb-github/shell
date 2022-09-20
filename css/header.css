@@ -189,7 +189,7 @@ Reason unknown, this was remmed out but the others were not, 2021-12-13:
 *** This displays on both mobile and desktop normally ***
 *********************************************************/
 
-.header .nav #side-switcher {
+.header .nav [id^="side-switcher"] {
 	display: none;
 }
 
@@ -287,8 +287,6 @@ END: MOBILE+DESKTOP
 **** @media:MOBILE ***
 **********************/
 
-/* qwer */
-
 /*
 This ideally would be max-width: 760px, but there's styling in it intended 
 only for the mobile mode that's being applied to desktop display, and I can't 
@@ -322,6 +320,7 @@ only for the mobile mode that's being applied to desktop display, and I can't
 		display: block;
 	}
 
+/* qwer */
 /* The "back" side of the drawer: */
 	.header .secondary-ul {
 		margin-top: 1rem;
@@ -329,6 +328,11 @@ only for the mobile mode that's being applied to desktop display, and I can't
 		z-index: 1;
 		background-color: var(--menu-drop-down-list-background);
 		color: var(--menu-drop-down-list-color);
+top: -15px;
+	}
+
+	.header .secondary-ul.secondary-ul {
+		padding-bottom: calc(100vh - 60px - 100%);
 	}
 
 /*****************************************
@@ -378,9 +382,19 @@ only for the mobile mode that's being applied to desktop display, and I can't
 		overflow-y: auto;
 	}
 
+/* qwer */
+.header #hamburger ~ .nav .secondary-ul {
+	position: absolute;
+}
+
 	.header #hamburger:checked ~ .nav {
 		transform: translateX(280px);
 	}
+
+/* qwer */
+.header #hamburger:checked ~ .nav .secondary-ul {
+	position: fixed;
+}
 
 /*******************************************************
 *** @media:MOBILE **************************************
@@ -393,13 +407,13 @@ secondary-ul: invisible
 No transition delay here! It would reveal the secondary
 UL being pushed down to its hidden location.
 */
-	.header .nav #side-switcher ~ ul {
+
+/* qwer */
+	.header .nav [id^="side-switcher"] ~ ul {
 		opacity: 0;
 		pointer-events: none;
-/*		transition: var(--opacity-500ms-ease-in-out); */
-/*		--primary-ul-opacity: 1; */
+		z-index: -1;
 	}
-
 
 /* 
 
@@ -422,16 +436,29 @@ primary-ul: invisible
 secondary-ul: visible
 Transition delay here!
 */
-	.header .nav #side-switcher:checked ~ ul {
+
+/* qwer */
+	.header .nav [id^="side-switcher"]:checked ~ ul {
 		opacity: 1;
 		transform: translateX(0);
 		left: 0;
 		top: -15px;
 		transition: var(--opacity-500ms-ease-in-out);
 		pointer-events: visiblePainted;
-		position: fixed;
+		z-index: 999;
 	}
-
+/* qwer EXPERIMENT */
+/*
+	.header .nav [id^="side-switcher"] ~ ul.selected {
+		opacity: 1;
+		transform: translateX(0);
+		left: 0;
+		top: -15px;
+		transition: var(--opacity-500ms-ease-in-out);
+		pointer-events: visiblePainted;
+		z-index: 9999;
+	}
+*/
 /****************************************
 *** @media:MOBILE ***********************
 *** Hamburger button on mobile header ***
@@ -564,8 +591,9 @@ This improves user engagement.
 
 	.header .nav li a:hover,
 	.header .nav li span:hover {
-/* 2021-12-1: */
-		background-color: transparent;
+/* qwer */
+/* OLD 2022-09-19:		background-color: transparent; */
+		background-color: var(--menu-text-hover-background);
 		color: var(--menu-background-color);
 	}
 
@@ -619,10 +647,13 @@ This improves user engagement.
 
 	.header .nav li:not(.ripple) span.switch-to-secondary-ul:not(.selected):hover::after {
 		color: var(--menu-background-color);
+/* qwer */
+/*
 		left: 144px;
 		position: absolute;
 		top: 21px;
 		z-index: -1;
+*/
 	}
 
 /*********************************************************
@@ -746,7 +777,7 @@ This improves user engagement.
 		border-top: 6px solid transparent;
 		content: " ";
 		display: inline-block;
-		margin-right: .7rem;
+/*		margin-right: .7rem; */
 		transform: rotate(0) translateY(1px) translateX(8px);
 	}
 
@@ -797,8 +828,6 @@ This improves user engagement.
 /**********************
 **** @media:DESKTOP ***
 ***********************/
-
-/* qwer */
 
 @media all and (min-width: 760px) {
 

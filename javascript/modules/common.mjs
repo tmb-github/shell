@@ -321,7 +321,11 @@ ajaxMainContent = function (hrefText, target, backbutton, eventType) {
 
 				document.querySelectorAll('#header-nav ul a').forEach(function (anchor) {
 					if (anchor.getAttribute('href') !== hrefText) {
-						anchor.classList.remove('selected');
+						if (anchor.classList.contains('selected')) {
+							anchor.classList.remove('selected');
+/* qwer */
+							anchor.closest('.secondary-ul')?.classList.remove('selected');
+						}
 					}
 				});
 
@@ -332,19 +336,19 @@ ajaxMainContent = function (hrefText, target, backbutton, eventType) {
 					window.history.pushState(stateObject, stateObject.title, stateObject.url);
 				}
 
-// qwer
 // aha!
 // 2022-07-31
 // If there's no hash in the URL, then scroll to the top:
 				if (window.location.hash === '') {
 					window.scroll(0, 0);
 				}
-
+/* qwer */
+console.log(backbutton);
 				if ((backbutton === true) && (hrefText && (hrefText.charAt(0) === '#'))) {
 					hashedElement = document.querySelector(hrefText);
 					if (hashedElement !== null) {
 						hashedElement.scrollIntoView();
-// qwer
+
 // 2022-07-31:
 						if (window.location.hash === '') {
 							o.scrollDownByHeaderHeight();
@@ -994,7 +998,7 @@ commonRoutinesOnFirstLoadOnly = function () {
 // which requires headerHeight adjustment, oddly.
 		if (o.useSpa || (!o.useSpa && (window.history.length === 2))) {
 
-// qwer
+
 // 2022-07-31:
 			o.scrollDownByHeaderHeight();
 
@@ -1124,33 +1128,45 @@ commonEventListeners = function () {
 // GALLERY
 	hamburgerLabelClick = function () {
 		var match;
+		var pageSlug;
 
-		mainElement = document.querySelector('MAIN');
+console.log('hamburger');
+
+
+
+// To see if we're on a secondary UL page, check for .secondary-ul.selected:
+
+		document.querySelectorAll('.secondary-ul.selected').forEach(function (ul) {
+// The selected anchor within the UL will have .selected
+			ul.querySelectorAll('a.selected').forEach(function (a) {
+// Its data-page will be the page-slug, without a trailing slash:
+				pageSlug = a.parentElement.dataset.page;
+			});
+		});
+
+// The MAIN element will have the page slug as one of its classes.
+// If there's a match between them, we need to display the corresponding
+// secondary menu when opening it with the hamburger:
 		match = false;
+		mainElement = document.querySelector('MAIN');
+		if (pageSlug && mainElement.classList.contains(pageSlug)) {
+			match = true;
+		}
 
-// See if one of the classes of the MAIN element matches the data-page attribute
-// of any of the secondary LIs; if so, we're on a secondary menu page.
-// E.g., if MAIN has 'dummy-4' in its classes, and if an LI on the second menu side
-// has a data-page of 'dummy-4', we're on a page matching a link on the secondary menu.
-// In that case, display the reverse side of the menu:
-		document.querySelectorAll('li.menu-side-two').forEach(function (element) {
-			if (element.dataset && element.dataset.page) {
-				if (mainElement.classList.contains(element.dataset.page)) {
-					match = true;
+// Select all of the side-switchers:
+		document.querySelectorAll('[id^=side-switcher]').forEach(function (sideSwitcher) {
+// assume that none of them should be checked (thus clearing out old check, if present):
+			sideSwitcher.checked = false;
+			if (match) {
+// But if we have a match, determined above, check the sideSwitcher that is a sibling
+// to the selected secondary UL:
+				if (sideSwitcher.parentElement.querySelector('#' + sideSwitcher.id + ' ~ .secondary-ul.selected')) {
+					sideSwitcher.checked = true;
 				}
 			}
 		});
-		if (match) {
-			document.querySelectorAll('#side-switcher').forEach(function (sideSwitcher) {
-//console.log('hamburgerLabelClick: SIDE 1: #side-switcher CHECKED');
-				sideSwitcher.checked = true;
-			});
-		} else {
-			document.querySelectorAll('#side-switcher').forEach(function (sideSwitcher) {
-//console.log('hamburgerLabelClick: SIDE 2: #side-switcher UNCHECKED');
-				sideSwitcher.checked = false;
-			});
-		}
+
+
 	};
 
 // To show the blue focus ring around tabbable anchors ONLY when tabbing:
@@ -1279,7 +1295,7 @@ commonEventListeners = function () {
 //console.log('#hamburger checked');
 								element.checked = true;
 							});
-							document.querySelectorAll('#side-switcher').forEach(function (element) {
+							document.querySelectorAll('[id^=side-switcher]').forEach(function (element) {
 //console.log('#side-switcher unchecked');
 								element.checked = false;
 							});
@@ -1303,7 +1319,10 @@ commonEventListeners = function () {
 //console.log('a click');
 							li.firstElementChild.click();
 // If the first child is input#side-switcher:
-						} else if (li.firstElementChild.id === 'side-switcher') {
+
+//						} else if (li.firstElementChild.id === 'side-switcher') {
+							} else if (li.firstElementChild.id.startsWith('side-switcher')) {
+
 //console.log('#side-switcher: REVERSE CHECKED STATE');
 							li.firstElementChild.checked = !li.firstElementChild.checked;
 // The data-switcher-target attribute will have the name of the switcher target ('Main Menu' or 'See the Art');
@@ -1312,6 +1331,9 @@ commonEventListeners = function () {
 // #side-swicher:
 								e.target.blur();
 // "Main Menu" DIV or "See the Art" DIV:
+/* qwer */
+console.log('LI side switcher click A');
+console.log(target);
 								target.click();
 								target.focus();
 							});
@@ -1351,7 +1373,7 @@ commonEventListeners = function () {
 //console.log('#hamburger checked');
 								hamburger.checked = true;
 							});
-							document.querySelectorAll('#side-switcher').forEach(function (sideSwitcher) {
+							document.querySelectorAll('[id^=side-switcher]').forEach(function (sideSwitcher) {
 //console.log('#side-switcher checked');
 								sideSwitcher.checked = true;
 							});
@@ -1374,9 +1396,9 @@ commonEventListeners = function () {
 						if (li.firstElementChild.tagName === 'A') {
 //console.log('a click');
 							li.firstElementChild.click();
-						} else if (li.firstElementChild.matches('div[data-for="side-switcher"]')) {
+						} else if (li.firstElementChild.matches('div[data-for^="side-switcher"]')) {
 //console.log('#side-switcher: REVERSE CHECKED STATE');
-							document.querySelectorAll('#side-switcher').forEach(function (sideSwitcher) {
+							document.querySelectorAll('[id^=side-switcher]').forEach(function (sideSwitcher) {
 								sideSwitcher.checked = !sideSwitcher.checked;
 							});
 // The data-switcher-target attribute will have the name of the switcher target ('Main Menu' or 'See the Art');
@@ -1385,6 +1407,9 @@ commonEventListeners = function () {
 // #side-swicher:
 								e.target.blur();
 // "Main Menu" DIV or "See the Art" DIV:
+/* qwer */
+console.log('LI side switcher click B');
+console.log(target);
 								target.click();
 								target.focus();
 							});
@@ -1426,22 +1451,33 @@ commonEventListeners = function () {
 // SIDE SWITCHERS //
 ////////////////////
 
-	document.querySelectorAll('div[data-for=side-switcher]').forEach(function (element) {
+	document.querySelectorAll('div[data-for^=side-switcher]').forEach(function (element) {
 // For mouse-clicks
-		if (!element.classList.contains('side-switcher-click-listener')) {
-			element.classList.add('side-switcher-click-listener');
+		if (!element.classList.contains(element.dataset.for + '-click-listener')) {
+			element.classList.add(element.dataset.for + '-click-listener');
 			element.addEventListener('click', function (ignore) {
 //console.log('div[data-for=side-switcher]: click -----');
-				document.querySelectorAll('#side-switcher').forEach(function (sideSwitcher) {
-//console.log('#side-switcher click');
+
+// Find the element whose ID matches the 'data-for' attribute of the side-switcher DIV:
+
+				document.querySelectorAll('#' + element.dataset.for).forEach(function (sideSwitcher) {
+/* qwer */
+console.log('#side-switcher click B');
+console.log(sideSwitcher);
 					sideSwitcher.click();
 				});
 //console.log('div[data-for=side-switcher]: click ^^^^^');
 			});
 		}
 // For entering:
+/* qwer */
+/*
 		if (!element.classList.contains('side-switcher-keyup-listener')) {
 			element.classList.add('side-switcher-keyup-listener');
+*/
+		if (!element.classList.contains(element.dataset.for + '-keyup-listener')) {
+			element.classList.add(element.dataset.for + '-keyup-listener');
+
 			element.addEventListener('keyup', function (e) {
 //console.log('div[data-for=side-switcher]: keyup -----');
 // Enter key:
@@ -1467,8 +1503,10 @@ commonEventListeners = function () {
 							}
 						});
 					}
-					document.querySelectorAll('#side-switcher').forEach(function (sideSwitcher) {
-//console.log('#side-switcher click');
+					document.querySelectorAll('[id^=side-switcher]').forEach(function (sideSwitcher) {
+/* qwer */
+console.log('#side-switcher click A');
+console.log(sideSwitcher);
 						sideSwitcher.click();
 					});
 				}
@@ -1941,12 +1979,18 @@ highlightMenuItem = function () {
 
 // 2020-03-10:
 // ensure the url has a trailing slash:
-// qwer
 // 2022-07-31:
 // ...unless it ends with a hash!
 	if ((url.slice(-1) !== '/') && (url.slice(-1) !== '#')) {
 		url += '/';
 	}
+
+/* qwer */
+console.log('highlight');
+// Clear-out .selected on all .secondary-ul ULs:
+	document.querySelectorAll('.secondary-ul').forEach(function (element) {
+		element.classList.remove('selected');
+	});
 
 	document.querySelectorAll('header ul li a').forEach(function (element) {
 		href = element.href;
@@ -1955,11 +1999,15 @@ highlightMenuItem = function () {
 			href += '/';
 		}
 		if (href === url) {
+console.log(href);
 			element.classList.add('selected');
+// Add .selected to any .secondary-ul UL ancestor:
+			element.closest('.secondary-ul')?.classList.add('selected');
 		}
+
 	});
 
-	document.querySelectorAll('div[data-for=side-switcher] span').forEach(function (element) {
+	document.querySelectorAll('div[data-for^=side-switcher] span').forEach(function (element) {
 		element.classList.remove('selected');
 	});
 
@@ -2850,7 +2898,6 @@ revealHashedContent = function (target) {
 
 	window.requestAnimationFrame(function () {
 
-// qwer
 		window.scroll(0, 0);
 
 		if ((backbutton === true) && (hrefText && (hrefText.charAt(0) === '#'))) {
@@ -2862,7 +2909,7 @@ revealHashedContent = function (target) {
 				hashedElement = document.querySelector(o.escapeForwardSlashes(hrefText));
 				if (hashedElement !== null) {
 					hashedElement.scrollIntoView();
-// qwer
+
 					o.scrollDownByHeaderHeight();
 
 				}
@@ -2894,7 +2941,6 @@ reviseSchema = function () {
 
 };
 
-// qwer
 // STANDARD VERSION; special version for gallery pages in gallery.mjs
 reviseMetaData = function (metaDataObject) {
 
@@ -2967,8 +3013,6 @@ scrollDownByHeaderHeight = function () {
 
 	window.setTimeout(function () {
 		headerHeight = o.returnHeaderHeight();
-
-// qwer
 		window.scrollBy(0, (headerHeight * -1));
 	}, 500);
 
