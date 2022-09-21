@@ -70,14 +70,19 @@ function render_initial_page_style_element($page, $css_array) {
 
 }
 
-function render_custom_style_elements($includes_folder) {
+// OLD: function render_custom_style_elements($includes_folder) {
+function render_custom_style_elements($folder) {
 
 // css_array.inc.php used here and in includes/html/head.php:
 
 	$absolute_root = $_SERVER['ABSOLUTE_ROOT'];
 	$minified_css = '';
 
-	$css_array_inc = $absolute_root . 'includes/' . $includes_folder . '/css_array.inc.php';
+// OLD:	$css_array_inc = $absolute_root . 'includes/' . $includes_folder . '/css_array.inc.php';
+	$css_array_inc = $absolute_root . $folder . '/css_array.inc.php';
+
+//echo $css_array_inc = $absolute_root . $folder . '/css_array.inc.php';
+
 
 	if (file_exists($css_array_inc)) {
 

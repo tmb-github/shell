@@ -261,7 +261,9 @@ if ($_SESSION['minify'] == true) {
 ************************/
 
 // Add the page-specific CSS, using the $page variable to identify the CSS file:
-$css_array_inc = $absolute_root . 'includes/' . $page . '/css_array.inc.php';
+// OLD: $css_array_inc = $absolute_root . 'includes/' . $page . '/css_array.inc.php';
+$css_array_inc = $absolute_root . $page . '/css_array.inc.php';
+
 if (file_exists($css_array_inc)) {
 	include $css_array_inc;
 	render_initial_page_style_element($page, $css_array);
