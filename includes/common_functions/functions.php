@@ -1230,7 +1230,6 @@ imagesizes="(max-width: 580px) 87vw, (min-width: 580px) 50vw">
 //////////////////////////////////////////////////////
 
 // ALMOST retired 2021-03-31
-// This is used in includes/gallery/article-08.inc.php 
 // This should likely be replaced by:
 //
 // link_preload_img_srcset()
