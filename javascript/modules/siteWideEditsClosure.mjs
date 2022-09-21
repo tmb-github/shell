@@ -172,9 +172,6 @@ siteWideOnLocationChange = function () {
 window.addEventListener('locationchange', siteWideOnLocationChange, false);
 */
 
-// PAGE: GALLERY
-		o.galleries = [];
-
 		o.googleAnalyticsInitialized = false;
 
 		o.hardLoadFonts = function () {
@@ -342,7 +339,7 @@ window.addEventListener('locationchange', siteWideOnLocationChange, false);
 // various event listeners:
 		o.onResizeEdits = o.debounce(function () {
 
-			o.resetHeaderHeightVariable();
+//			o.resetHeaderHeightVariable();
 // ^ This calls: o.anchorHashFragmentIntercept
 // ^ That in turn calls: o.gallery.hashAnchorClickListener
 

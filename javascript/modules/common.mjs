@@ -39,6 +39,7 @@ var fireCustomEvent;
 var fiveRandomAlphaNumerics;
 var highlightMenuItem;
 var inEu;
+var initializeHeaderHeightAndObserver;
 var initializePopstateLocationChangeListeners;
 var initializeWindowOnResizeRoutines;
 var inner;
@@ -59,9 +60,10 @@ var noTitle;
 var popstateListener;
 var promiseLoader;
 var removeVisibilityHiddenFromTmbAlert;
-var resetHeaderHeightVariable;
+//var resetHeaderHeightVariable;
+var resizeObserverForHeaderHeight;
 var returnAjaxObject;
-var returnHeaderHeight;
+//var returnHeaderHeight;
 var returnTimeStamp;
 var revealHashedContent;
 var reviseMetaData;
@@ -342,8 +344,6 @@ ajaxMainContent = function (hrefText, target, backbutton, eventType) {
 				if (window.location.hash === '') {
 					window.scroll(0, 0);
 				}
-/* qwer */
-console.log(backbutton);
 				if ((backbutton === true) && (hrefText && (hrefText.charAt(0) === '#'))) {
 					hashedElement = document.querySelector(hrefText);
 					if (hashedElement !== null) {
@@ -1039,6 +1039,31 @@ commonRoutinesOnFirstLoadOnly = function () {
 
 	});
 
+/* qwer */
+/* To delay the switch from position: fixed to position: absolute in the secondary-ul CSS: */
+// To listen for checked state:
+	document.querySelectorAll('#hamburger').forEach(function (hamburger) {
+		if (!hamburger.classList.contains('hamburger-change-listener')) {
+			hamburger.classList.add('hamburger-change-listener');
+			hamburger.addEventListener('change', function () {
+				if (hamburger.checked) {
+// Hamburger open:
+// In the corresponding CSS, apply a transition-delay of 100ms to NAV to give
+// time for this rule to be appended and rendered:
+					o.appendToCSS(':root', '{ --secondary-ul-position: fixed; }');
+				} else {
+// Hamburger close:
+// The time delay must equal the duration of the translateX transform on the
+// NAV element in the corresponding CSS (280ms):
+					window.setTimeout(function () {
+						o.appendToCSS(':root', '{ --secondary-ul-position: absolute; }');
+					}, 280);
+				}
+			});
+		}
+	});
+
+	o.initializeHeaderHeightAndObserver();
 
 };
 
@@ -1129,10 +1154,6 @@ commonEventListeners = function () {
 	hamburgerLabelClick = function () {
 		var match;
 		var pageSlug;
-
-console.log('hamburger');
-
-
 
 // To see if we're on a secondary UL page, check for .secondary-ul.selected:
 
@@ -1292,7 +1313,6 @@ console.log('hamburger');
 //console.log('Tab');
 						if (o.maxWidth759px) {
 							document.querySelectorAll('#hamburger').forEach(function (element) {
-//console.log('#hamburger checked');
 								element.checked = true;
 							});
 							document.querySelectorAll('[id^=side-switcher]').forEach(function (element) {
@@ -1321,7 +1341,7 @@ console.log('hamburger');
 // If the first child is input#side-switcher:
 
 //						} else if (li.firstElementChild.id === 'side-switcher') {
-							} else if (li.firstElementChild.id.startsWith('side-switcher')) {
+						} else if (li.firstElementChild.id.startsWith('side-switcher')) {
 
 //console.log('#side-switcher: REVERSE CHECKED STATE');
 							li.firstElementChild.checked = !li.firstElementChild.checked;
@@ -1332,8 +1352,6 @@ console.log('hamburger');
 								e.target.blur();
 // "Main Menu" DIV or "See the Art" DIV:
 /* qwer */
-console.log('LI side switcher click A');
-console.log(target);
 								target.click();
 								target.focus();
 							});
@@ -1370,7 +1388,6 @@ console.log(target);
 //console.log('Tab');
 						if (o.maxWidth759px) {
 							document.querySelectorAll('#hamburger').forEach(function (hamburger) {
-//console.log('#hamburger checked');
 								hamburger.checked = true;
 							});
 							document.querySelectorAll('[id^=side-switcher]').forEach(function (sideSwitcher) {
@@ -1408,8 +1425,6 @@ console.log(target);
 								e.target.blur();
 // "Main Menu" DIV or "See the Art" DIV:
 /* qwer */
-console.log('LI side switcher click B');
-console.log(target);
 								target.click();
 								target.focus();
 							});
@@ -1462,8 +1477,6 @@ console.log(target);
 
 				document.querySelectorAll('#' + element.dataset.for).forEach(function (sideSwitcher) {
 /* qwer */
-console.log('#side-switcher click B');
-console.log(sideSwitcher);
 					sideSwitcher.click();
 				});
 //console.log('div[data-for=side-switcher]: click ^^^^^');
@@ -1505,8 +1518,6 @@ console.log(sideSwitcher);
 					}
 					document.querySelectorAll('[id^=side-switcher]').forEach(function (sideSwitcher) {
 /* qwer */
-console.log('#side-switcher click A');
-console.log(sideSwitcher);
 						sideSwitcher.click();
 					});
 				}
@@ -1985,8 +1996,6 @@ highlightMenuItem = function () {
 		url += '/';
 	}
 
-/* qwer */
-console.log('highlight');
 // Clear-out .selected on all .secondary-ul ULs:
 	document.querySelectorAll('.secondary-ul').forEach(function (element) {
 		element.classList.remove('selected');
@@ -1999,7 +2008,6 @@ console.log('highlight');
 			href += '/';
 		}
 		if (href === url) {
-console.log(href);
 			element.classList.add('selected');
 // Add .selected to any .secondary-ul UL ancestor:
 			element.closest('.secondary-ul')?.classList.add('selected');
@@ -2012,6 +2020,39 @@ console.log(href);
 	});
 
 };
+
+initializeHeaderHeightAndObserver = function () {
+
+	var o;
+
+	o = this;
+// Default to 0; revise immediately in resizeObserver:
+	o.headerHeight = 0;
+
+	resizeObserverForHeaderHeight = new ResizeObserver(function (entries) {
+
+		var rect;
+		var height;
+
+	// We're only observing a single element, so access the first element in
+	// the entries array:
+		rect = entries[0].contentRect;
+
+		height = rect.height;
+
+		if (o.headerHeight !== height) {
+			o.headerHeight = height;
+//console.log('Current Height : ' + height);
+			o.appendToCSS(':root', '{ --header-height: ' + o.headerHeight + 'px; }');
+		}
+
+	});
+
+// start observing for resize
+	resizeObserverForHeaderHeight.observe(document.querySelector('.header'));
+
+};
+
 
 // SHELL: It seems we need parts of this routine!
 
@@ -2109,8 +2150,8 @@ initializeWindowOnResizeRoutines = function () {
 		if (window.matchMedia('(min-width: 760px)').matches) {
 // 2021-12-5:
 // OLD:			document.getElementById('hamburger').checked = false;
-			document.querySelectorAll('#hamburger').forEach(function (element) {
-				element.checked = false;
+			document.querySelectorAll('#hamburger').forEach(function (hamburger) {
+				hamburger.checked = false;
 			});
 		}
 
@@ -2171,9 +2212,9 @@ initializeWindowOnResizeRoutines = function () {
 // called by promiseLoader()
 inner = function () {
 
-	var content;
-	var lastPipe;
-	var metaDescription;
+//	var content;
+//	var lastPipe;
+//	var metaDescription;
 //	var metaElements;
 //	var metaOgDescription;
 //	var metaTwitterDescription;
@@ -2224,7 +2265,9 @@ inner = function () {
 // SAVE:		o.iosCheckAndEdit();
 
 // ALL WE NEED IS THIS HERE:
-	o.resetHeaderHeightVariable();
+//	o.resetHeaderHeightVariable();
+// This is all that's called by o.resetHeaderHeightVariable() that we need:
+	o.anchorHashFragmentIntercept();
 
 	o.commonEventListeners();
 
@@ -2716,18 +2759,18 @@ console.log('------');
 // header height; it is used to record dynamic changes to it. The function
 // creates a second --header-height rule later in a new style sheet that will
 // overrule the one set initially in common.css.
-
+/*
 // PAGES: GALLERY (Maybe...read the code...)
 resetHeaderHeightVariable = function () {
 
-	var headerHeight;
+//	var headerHeight;
 	var o;
 
 // 'this' is the outer 'o' via .bind(o), so the outer 'o' === inner 'o':
 	o = this;
 
-	headerHeight = o.returnHeaderHeight();
-	o.appendToCSS(':root', '{ --header-height: ' + headerHeight + 'px; }');
+//	headerHeight = o.returnHeaderHeight();
+//	o.appendToCSS(':root', '{ --header-height: ' + headerHeight + 'px; }');
 
 // NB!!!
 // If you resize the window, the carousel must be rebuilt, and all click
@@ -2736,6 +2779,7 @@ resetHeaderHeightVariable = function () {
 	o.anchorHashFragmentIntercept();
 
 };
+*/
 
 returnAjaxObject = function () {
 
@@ -2784,7 +2828,9 @@ returnAjaxObject = function () {
 
 };
 
+/*
 returnHeaderHeight = function () {
+	var o = this;
 
 	var header;
 	var headerHeight;
@@ -2802,10 +2848,9 @@ returnHeaderHeight = function () {
 			headerHeight = header.offsetHeight;
 		}
 	}
-
 	return headerHeight;
-
 };
+*/
 
 returnTimeStamp = function () {
 
@@ -3005,15 +3050,15 @@ reviseMetaData = function (metaDataObject) {
 
 scrollDownByHeaderHeight = function () {
 
-	var headerHeight;
+//	var headerHeight;
 	var o;
 
 // 'this' is the outer 'o' via .bind(o), so the outer 'o' === inner 'o':
 	o = this;
 
 	window.setTimeout(function () {
-		headerHeight = o.returnHeaderHeight();
-		window.scrollBy(0, (headerHeight * -1));
+//		headerHeight = o.returnHeaderHeight();
+		window.scrollBy(0, (o.headerHeight * -1));
 	}, 500);
 
 };
@@ -3158,11 +3203,14 @@ setOrRemoveMobileClasses = function () {
 // header.css
 // BUT is used extensively in the JavaScript that edits the sides of the two-sided menu.
 
+/*
 // KEEP -- IT'S USED BY THE JAVASCRIPT:
 		document.querySelectorAll('.header').forEach(function (ignore) {
 			o.resetHeaderHeightVariable();
 		});
-
+*/
+// This is all that's called by o.resetHeaderHeightVariable() that we need:
+		o.anchorHashFragmentIntercept();
 
 //console.log('NON-2nd-SIDE: .menu-side-two: make all LIs tabbable');
 		document.querySelectorAll('.menu-side-one').forEach(function (element) {
@@ -3179,9 +3227,14 @@ setOrRemoveMobileClasses = function () {
 // If min-width: 760px (desktop):
 	} else {
 
+/*
 		document.querySelectorAll('.header').forEach(function (ignore) {
 			o.resetHeaderHeightVariable();
 		});
+*/
+// This is all that's called by o.resetHeaderHeightVariable() that we need:
+		o.anchorHashFragmentIntercept();
+
 		document.querySelectorAll('.menu-side-one').forEach(function (element) {
 			element.tabIndex = 0;
 		});
@@ -3538,6 +3591,7 @@ export default Object.freeze({
 	fiveRandomAlphaNumerics,
 	highlightMenuItem,
 	inEu,
+	initializeHeaderHeightAndObserver,
 	initializePopstateLocationChangeListeners,
 	initializeWindowOnResizeRoutines,
 	inner,
@@ -3557,9 +3611,9 @@ export default Object.freeze({
 	popstateListener,
 	promiseLoader,
 	removeVisibilityHiddenFromTmbAlert,
-	resetHeaderHeightVariable,
+//	resetHeaderHeightVariable,
 	returnAjaxObject,
-	returnHeaderHeight,
+//	returnHeaderHeight,
 	returnTimeStamp,
 	revealHashedContent,
 	reviseMetaData,

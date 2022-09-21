@@ -8,9 +8,8 @@ include $absolute_root . 'google-closure-compiler/src/Compiler.php';
 include $absolute_root . 'google-closure-compiler/src/Response.php';
 include $absolute_root . 'google-closure-compiler/src/exceptions.php';
 
+include $absolute_root . 'domain_info/domain_info.inc.php';
 include $absolute_root . 'includes/common_routines.php';
-
-
 
 if ($_SERVER['HTTP_HOST'] === 'localhost') {
 	$localhost = true;

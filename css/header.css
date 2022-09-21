@@ -376,25 +376,36 @@ top: -15px;
 		z-index: 100;
 	}
 
-/*** 2021-12-09 ***/
+/*** 2022-09-20 ***/
+
 	.header #hamburger ~ .nav {
 		transition: var(--transform-500ms-ease);
+/* Delay is needed to provide time to the appendToCSS() rule in the JS (commonRoutinesOnFirstLoadOnly) to be rendered: */
+		transition-delay: 100ms;
 		overflow-y: auto;
 	}
-
-/* qwer */
-.header #hamburger ~ .nav .secondary-ul {
-	position: absolute;
-}
 
 	.header #hamburger:checked ~ .nav {
 		transform: translateX(280px);
 	}
 
+	:root {
+		--secondary-ul-position: absolute;
+	}
+
 /* qwer */
-.header #hamburger:checked ~ .nav .secondary-ul {
-	position: fixed;
-}
+/* The checked state is being detected and acted on in the corresponding JS (commonRoutinesOnFirstLoadOnly), so there's no need for 2 rules here: */
+/*
+	.header #hamburger ~ .nav .secondary-ul {
+		position: absolute;
+	}
+	.header #hamburger:checked ~ .nav .secondary-ul {
+		position: fixed;
+	}
+*/
+	.header #hamburger ~ .nav .secondary-ul {
+		position: var(--secondary-ul-position);
+	}
 
 /*******************************************************
 *** @media:MOBILE **************************************
