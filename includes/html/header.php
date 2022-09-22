@@ -220,10 +220,16 @@ if ($_SERVER['HTTP_HOST'] == 'localhost') {
 	$page_array = [
 		'Dummy 3' => 'dummy-3',
 		'Dummy 4' => 'dummy-4', 
-		'Dummy 5' => 'dummy-5'
+		'Dummy 5' => 'dummy-5',
+		'Dummy 13' => 'dummy-13',
+		'Dummy 14' => 'dummy-14', 
+		'Dummy 15' => 'dummy-15',
+		'Dummy 23' => 'dummy-23',
+		'Dummy 24' => 'dummy-24', 
+		'Dummy 25' => 'dummy-25'
 	];
 	include $absolute_root . 'includes/html/header-secondary-ul.inc.php';
-
+/*
 	$switcher_name = 'Additional Pages 2';
 	$switcher_id = 'additional-pages-2';
 // This must be 'side-switcher-' followed by a unique character:
@@ -249,7 +255,7 @@ if ($_SERVER['HTTP_HOST'] == 'localhost') {
 		'Dummy 25' => 'dummy-25'
 	];
 	include $absolute_root . 'includes/html/header-secondary-ul.inc.php';
-
+*/
 ?>
 			<li data-page=does-not-exist data-href=does-not-exist class=menu-side-one><a class=internal-anchor href="does-not-exist/" tabindex=-1>Does Not Exist</a></li>
 			<li data-page=contact data-href=contact class="menu-side-one orange ripple"><a class="bold-on-selected internal-anchor no-border-bottom" href="contact/" tabindex=-1>Contact</a></li>

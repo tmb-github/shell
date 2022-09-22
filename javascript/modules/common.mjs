@@ -61,7 +61,6 @@ var popstateListener;
 var promiseLoader;
 var removeVisibilityHiddenFromTmbAlert;
 //var resetHeaderHeightVariable;
-var resizeObserverForHeaderHeight;
 var returnAjaxObject;
 //var returnHeaderHeight;
 var returnTimeStamp;
@@ -323,14 +322,13 @@ ajaxMainContent = function (hrefText, target, backbutton, eventType) {
 
 				document.querySelectorAll('#header-nav ul a').forEach(function (anchor) {
 					if (anchor.getAttribute('href') !== hrefText) {
+/* qwer */
 						if (anchor.classList.contains('selected')) {
 							anchor.classList.remove('selected');
-/* qwer */
 							anchor.closest('.secondary-ul')?.classList.remove('selected');
 						}
 					}
 				});
-
 
 				document.activeElement.blur();
 
@@ -1151,6 +1149,7 @@ commonEventListeners = function () {
 	};
 
 // GALLERY
+/* qwer */
 	hamburgerLabelClick = function () {
 		var match;
 		var pageSlug;
@@ -1312,12 +1311,12 @@ commonEventListeners = function () {
 					if (e.code === 'Tab') {
 //console.log('Tab');
 						if (o.maxWidth759px) {
-							document.querySelectorAll('#hamburger').forEach(function (element) {
-								element.checked = true;
+							document.querySelectorAll('#hamburger').forEach(function (hamburger) {
+								hamburger.checked = true;
 							});
-							document.querySelectorAll('[id^=side-switcher]').forEach(function (element) {
+							document.querySelectorAll('[id^=side-switcher]').forEach(function (sideSwitcher) {
 //console.log('#side-switcher unchecked');
-								element.checked = false;
+								sideSwitcher.checked = false;
 							});
 						}
 					}
@@ -1328,10 +1327,11 @@ commonEventListeners = function () {
 //console.log('#hamburger click');
 							hamburger.click();
 						});
-//console.log('body focus');
 // NB: The BODY element must have 'tabfocus=0' for this to work:
+//console.log('body focus');
 						document.querySelector('body').focus();
 					}
+// Enter key:
 					if (e.code === 'Enter') {
 //console.log('Enter');
 // If the first child is an anchor:
@@ -1339,10 +1339,9 @@ commonEventListeners = function () {
 //console.log('a click');
 							li.firstElementChild.click();
 // If the first child is input#side-switcher:
-
+/* qwer */
 //						} else if (li.firstElementChild.id === 'side-switcher') {
 						} else if (li.firstElementChild.id.startsWith('side-switcher')) {
-
 //console.log('#side-switcher: REVERSE CHECKED STATE');
 							li.firstElementChild.checked = !li.firstElementChild.checked;
 // The data-switcher-target attribute will have the name of the switcher target ('Main Menu' or 'See the Art');
@@ -1351,7 +1350,6 @@ commonEventListeners = function () {
 // #side-swicher:
 								e.target.blur();
 // "Main Menu" DIV or "See the Art" DIV:
-/* qwer */
 								target.click();
 								target.focus();
 							});
@@ -1410,10 +1408,13 @@ commonEventListeners = function () {
 // Enter key:
 					if (e.code === 'Enter') {
 //console.log('Enter');
+// If the first child is an anchor:
 						if (li.firstElementChild.tagName === 'A') {
 //console.log('a click');
 							li.firstElementChild.click();
-						} else if (li.firstElementChild.matches('div[data-for^="side-switcher"]')) {
+// If the first child is input#side-switcher:
+/* qwer */
+						} else if (li.firstElementChild.matches('div[data-for^=side-switcher]')) {
 //console.log('#side-switcher: REVERSE CHECKED STATE');
 							document.querySelectorAll('[id^=side-switcher]').forEach(function (sideSwitcher) {
 								sideSwitcher.checked = !sideSwitcher.checked;
@@ -1424,7 +1425,6 @@ commonEventListeners = function () {
 // #side-swicher:
 								e.target.blur();
 // "Main Menu" DIV or "See the Art" DIV:
-/* qwer */
 								target.click();
 								target.focus();
 							});
@@ -1468,15 +1468,14 @@ commonEventListeners = function () {
 
 	document.querySelectorAll('div[data-for^=side-switcher]').forEach(function (element) {
 // For mouse-clicks
+/* qwer */
 		if (!element.classList.contains(element.dataset.for + '-click-listener')) {
 			element.classList.add(element.dataset.for + '-click-listener');
 			element.addEventListener('click', function (ignore) {
 //console.log('div[data-for=side-switcher]: click -----');
-
 // Find the element whose ID matches the 'data-for' attribute of the side-switcher DIV:
-
-				document.querySelectorAll('#' + element.dataset.for).forEach(function (sideSwitcher) {
 /* qwer */
+				document.querySelectorAll('#' + element.dataset.for).forEach(function (sideSwitcher) {
 					sideSwitcher.click();
 				});
 //console.log('div[data-for=side-switcher]: click ^^^^^');
@@ -1517,7 +1516,6 @@ commonEventListeners = function () {
 						});
 					}
 					document.querySelectorAll('[id^=side-switcher]').forEach(function (sideSwitcher) {
-/* qwer */
 						sideSwitcher.click();
 					});
 				}
@@ -1996,6 +1994,7 @@ highlightMenuItem = function () {
 		url += '/';
 	}
 
+/* qwer */
 // Clear-out .selected on all .secondary-ul ULs:
 	document.querySelectorAll('.secondary-ul').forEach(function (element) {
 		element.classList.remove('selected');
@@ -2009,11 +2008,18 @@ highlightMenuItem = function () {
 		}
 		if (href === url) {
 			element.classList.add('selected');
+/* qwer */
 // Add .selected to any .secondary-ul UL ancestor:
 			element.closest('.secondary-ul')?.classList.add('selected');
 		}
-
 	});
+
+/* asdf */
+	if (!document.querySelector('.secondary-ul.selected')) {
+		document.querySelector('.primary-ul').classList.add('selected');
+	} else {
+		document.querySelector('.primary-ul').classList.remove('selected');
+	}
 
 	document.querySelectorAll('div[data-for^=side-switcher] span').forEach(function (element) {
 		element.classList.remove('selected');
@@ -2024,6 +2030,7 @@ highlightMenuItem = function () {
 initializeHeaderHeightAndObserver = function () {
 
 	var o;
+	var resizeObserverForHeaderHeight;
 
 	o = this;
 // Default to 0; revise immediately in resizeObserver:

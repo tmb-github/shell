@@ -340,8 +340,8 @@ window.addEventListener('locationchange', siteWideOnLocationChange, false);
 		o.onResizeEdits = o.debounce(function () {
 
 //			o.resetHeaderHeightVariable();
-// ^ This calls: o.anchorHashFragmentIntercept
-// ^ That in turn calls: o.gallery.hashAnchorClickListener
+// This is all that's called by o.resetHeaderHeightVariable() that we need:
+			o.anchorHashFragmentIntercept();
 
 			o.setOrRemoveMobileClasses();
 
