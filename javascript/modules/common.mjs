@@ -182,6 +182,11 @@ ajaxMainContent = function (hrefText, target, backbutton, eventType) {
 //console.log('*** setInnerHTML');
 				if (element && element.parentNode) {
 					element.parentNode.removeChild(element);
+// 2022-09-05:
+// Eliminate the reference to the element so that it and its event
+// listeners may be garbage-collected.
+// https://stackoverflow.com/questions/12528049/if-a-dom-element-is-removed-are-its-listeners-also-removed-from-memory
+					element = null;
 					if (tmbTT.active) {
 						html = o.DOMPurify.sanitize(html);
 					}
@@ -264,6 +269,11 @@ ajaxMainContent = function (hrefText, target, backbutton, eventType) {
 						document.querySelectorAll('.custom-style').forEach(function (element) {
 							if (element.parentNode) {
 								element.parentNode.removeChild(element);
+// Remove reference to element so it can be garbage-collected:
+// (Set each element in the loop to null, as not all elements will
+// have parents, so not all of them will deleted, so we can't simply
+// test for the last element returned by the forEach loop)
+								element = null;
 							}
 						});
 
@@ -305,7 +315,9 @@ ajaxMainContent = function (hrefText, target, backbutton, eventType) {
 // This restores the opacity:
 
 				o.appendToCSS(':root', '{ --main-opacity: 1; }');
-				o.appendToCSS(':root', '{ --footer-opacity: 1; }');
+// 2022-09-22
+// Apparently unnecessary:
+//				o.appendToCSS(':root', '{ --footer-opacity: 1; }');
 
 				stateObject = {};
 // we've swapped out the MAIN element, so select it again (?)
@@ -346,7 +358,6 @@ ajaxMainContent = function (hrefText, target, backbutton, eventType) {
 					hashedElement = document.querySelector(hrefText);
 					if (hashedElement !== null) {
 						hashedElement.scrollIntoView();
-
 // 2022-07-31:
 						if (window.location.hash === '') {
 							o.scrollDownByHeaderHeight();
@@ -490,7 +501,9 @@ anchorIntercept = function () {
 		if (e.type !== 'mouseover') {
 
 			o.appendToCSS(':root', '{ --main-opacity: 0; }');
-			o.appendToCSS(':root', '{ --footer-opacity: 0; }');
+// 2022-09-22
+// Apparently unnecessary:
+//			o.appendToCSS(':root', '{ --footer-opacity: 0; }');
 
 			o.activateLoadingMask();
 /*
@@ -2239,8 +2252,12 @@ inner = function () {
 	o.siteWideLoader();
 
 // remove script preload LINK so attacker can't access name of preloaded scripts
-	document.querySelectorAll('link[rel=preload][as=script]').forEach(function (link) {
+	document.querySelectorAll('link[rel=preload][as=script]').forEach(function (link, index, array) {
 		link.parentNode.removeChild(link);
+// if last index, delete element reference so element may be garbage-collected:
+		if (index === (array.length - 1)) {
+			link = null;
+		}
 	});
 
 	if (o.calledCommonVariables === false) {
@@ -3304,6 +3321,10 @@ siteWideLoader = function () {
 	function deleteDynamicScripts() {
 		document.querySelectorAll('.dynamic-script').forEach(function (script) {
 			script.parentNode.removeChild(script);
+// if last index, delete element reference so element may be garbage-collected:
+			if (index === (array.length - 1)) {
+				script = null;
+			}
 		});
 	}
 
@@ -3426,6 +3447,8 @@ siteWideLoader = function () {
 				if (!filter(sibling)) {
 // defer
 					sibling.parentNode.removeChild(sibling);
+// remove reference to element so it can be garbage-collected:
+					sibling = null;
 				}
 			});
 		}
