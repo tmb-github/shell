@@ -924,6 +924,8 @@ This improves user engagement.
 	.header .nav .home-image-link {
 		display: flex;
 		line-height: 0;
+		width: 115px;
+		height: 35px;
 	}
 
 /* 
