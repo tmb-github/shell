@@ -273,9 +273,39 @@ Moved to common-admin-stylings.css:
 *** Anchors in active state EXCEPT ripples ***
 **********************************************/
 
-.header li:not(.ripple) a:active { 
+/*
+OLD:
+.header li:not(.ripple) a:active {
 	box-shadow: 0 0 36px var(--black), inset 0 0 72px var(--dark-gray);
 	border-radius: 10px 10px 10px 10px;
+	outline: 0;
+}
+*/
+
+.header li:not(.ripple) a:active {
+	box-shadow: 0 0 18px var(--black), inset 0 0 5px var(--dark-gray);
+	border-radius: 5px;
+	outline: 0;
+}
+
+/* Hide underline (created as ::before element) during active state */
+.header li:not(.ripple) a:active::before {
+	display: none;
+}
+
+/* 
+Hide border on drop-down list when anchor is active ONLY ON DESKTOP!
+Not in hamburger display! It causes subsequent list items to shift upwards!
+*/
+@media all and (min-width: 760px) {
+	.header .nav ul.secondary-ul li:not(.ripple) > a:active {
+		border: none;
+	}
+}
+
+.header .nav ul.secondary-ul li:not(.ripple) > a:active {
+	box-shadow: 0 0 5px var(--black), inset 0 0 10px var(--dark-gray);
+	border-radius: 5px;
 	outline: 0;
 }
 
