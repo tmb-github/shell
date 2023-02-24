@@ -50,6 +50,7 @@ e.g., if the value is 300deg, reset it to -60deg.
 	--gallery-modal-overlay-left: initial;
 	--gallery-modal-overlay-top: initial;
 	--gallery-work-image-opacity: 0;
+	--hamburger-label-color: #545454;
 	--header-anchor-underline-color-hover: #a9a9a9;
 	--header-anchor-underline-color: transparent;
 	--header-drawer-opacity: 0;
@@ -63,10 +64,12 @@ e.g., if the value is 300deg, reset it to -60deg.
 	--main-scrollbar-width: 0px;
 	--medium-gray: #9f9f9f;
 	--menu-background-color: #fafafa;
+--menu-background-color-mobile: #fafafa;
 	--menu-drop-down-list-background: #fafafa;
 	--menu-drop-down-list-color: #505050;
 	--menu-text-color: #545454;
 	--menu-text-hover-background: #545454;
+	--menu-text-hover-background-mobile: #545454;
 /*	--number-up-menu-settings-height: 0; */
 	--opacity-500ms-ease-in-out: none;
 	--opacity-500ms-ease: none;
@@ -463,6 +466,10 @@ To center a div inside a div:
 	text-align: center;
 }
 
+.text-decoration-underline {
+	text-decoration: underline;
+}
+
 .centered-image {
 	max-width:100%;
 	max-height:100%;
@@ -488,8 +495,24 @@ To center a div inside a div:
 	float: right;
 }
 
+.roman {
+	font-style: normal;
+	font-weight: 400;
+}
+
 .italic {
 	font-style: italic;
+	font-weight: 400;
+}
+
+.bold {
+	font-style: normal;
+	font-weight: 700;
+}
+
+.bold-italic {
+	font-style: italic;
+	font-weight: 700;
 }
 
 .margin-half-em {
@@ -498,8 +521,14 @@ To center a div inside a div:
 .margin-top-half-em {
 	margin-top: .5em;
 }
+.margin-top-quarter-em {
+	margin-top: .25em;
+}
 .margin-bottom-half-em {
 	margin-bottom: .5em;
+}
+.margin-bottom-quarter-em {
+	margin-bottom: .25em;
 }
 
 .margin-1em {

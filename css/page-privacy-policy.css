@@ -12,7 +12,8 @@
 	}
 }
 
-.privacy-policy a:link {
+.privacy-policy a:link,
+.privacy-policy a:visited {
 	background: transparent;
 }
 

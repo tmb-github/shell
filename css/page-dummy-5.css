@@ -12,7 +12,8 @@
 	}
 }
 
-.dummy-5 a:link {
+.dummy-5 a:link,
+.dummy-5 a:visited {
 	background: transparent;
 }
 

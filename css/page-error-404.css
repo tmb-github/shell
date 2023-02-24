@@ -12,7 +12,8 @@
 	}
 }
 
-.error-404 a:link {
+.error-404 a:link,
+.error-404 a:visited {
 	background: transparent;
 }
 

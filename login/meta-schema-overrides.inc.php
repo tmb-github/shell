@@ -4,7 +4,9 @@
 // META overrides //
 ////////////////////
 
-$description = 'Login page for SHELL application [70 characters are best here].';
+// NB: Ensure corresponding [page].mjs file has the same text as $description for its _description variable:
+
+$description = 'Login page for ' . $site_title . ' [70 characters are best here].';
 
 $og_description = $description;
 

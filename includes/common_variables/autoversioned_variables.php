@@ -25,5 +25,5 @@ $site_webmanifest = autoVersion('favicons/site.webmanifest');
 /******************
 ** Schema images **
 ******************/
-$schema_breadcrumb_img_url = autoVersion('images/head/shell-115x35.jpg', $use_webp = false);
-$schema_person_image = $base_href . autoVersion('images/head/shell-1071px.jpg', $use_webp = false);
+$schema_breadcrumb_img_url = autoVersion('images/head/' . $site_title_short_form_lc . '-115x35.jpg', $use_webp = false);
+$schema_person_image = $base_href . autoVersion('images/head/' . $site_title_short_form_lc . '-1071px.jpg', $use_webp = false);

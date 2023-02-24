@@ -4,7 +4,9 @@
 // META overrides //
 ////////////////////
 
-$description = 'Offline page for SHELL application';
+// NB: Ensure corresponding [page].mjs file has the same text as $description for its _description variable:
+
+$description = 'Offline page for ' . $site_title_short_form_uc;
 
 $og_description = $description;
 

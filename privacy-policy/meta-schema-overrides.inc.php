@@ -4,7 +4,9 @@
 // META overrides //
 ////////////////////
 
-$description = 'Privacy Policy for SHELL application [70 characters are best here].';
+// NB: Ensure corresponding [page].mjs file has the same text as $description for its _description variable:
+
+$description = 'Privacy Policy for ' . $site_title . ' [70 characters are best here].';
 
 $og_description = $description;
 

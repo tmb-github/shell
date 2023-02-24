@@ -1,11 +1,13 @@
 <?php
 
 $absolute_root = $_SERVER['ABSOLUTE_ROOT'];
+
+include_once 'index-main-vars.php';
 include_once $absolute_root . 'includes/common_routines.php';
 
 ob_start();
 
-include_once 'index-main-vars.php';
+$oops = false;
 
 if (isset($_POST['submit'])) {
 /* Define username and associated password array */
@@ -36,7 +38,7 @@ if (isset($_POST['submit'])) {
 		$files = glob($target_directory . '*.inc.php'); // get all file names
 		$file_contents = '<?php' . PHP_EOL;
 		$file_contents .= PHP_EOL;
-		$file_contents .= '$absolute_root = $_SERVER[\'DOCUMENT_ROOT\'] . (($_SERVER[\'SERVER_NAME\'] == \'localhost\') ? \'/shell/\' : \'/\');' . PHP_EOL;
+		$file_contents .= '$absolute_root = $_SERVER[\'DOCUMENT_ROOT\'] . (($_SERVER[\'SERVER_NAME\'] == \'localhost\') ? \'/' . $site_title_short_form_lc . '/\' : \'/\');' . PHP_EOL;
 		$file_contents .= PHP_EOL;
 
 		$absolute_root_len = strlen($absolute_root);
@@ -60,6 +62,7 @@ if (isset($_POST['submit'])) {
 	} else {
 /*Unsuccessful attempt: Set error message */
 		// OOPS!
+		$oops = true;
 	}
 }
 
@@ -88,9 +91,14 @@ hence the X-LABEL element:
 */ ?>
 			<x-label for=submit-button></x-label>
 			<input id=submit-button type=submit name=submit value="Login">
-
 		</div>
-	</form>
+<?php
+if ($oops) {
+?>
+		<h3 class=text-align-center>Oops! That username/password combination didn't work. Try again.</h3>
+<?php
+}
+?>	</form>
 
 <?php
 include $absolute_root . 'includes/html/common/main-breadcrumb-schema.inc.php';

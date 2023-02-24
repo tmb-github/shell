@@ -59,7 +59,13 @@ include $absolute_root . 'includes/html/common/head-web-author-data.inc.php';
 	<meta name=apple-mobile-web-app-title            content="<?php echo $apple_mobile_web_app_title; ?>">
 	<meta name=author                                content="<?php echo $author; ?>">
 	<meta name=description                           content="<?php echo $description; ?>">
+<?php
+if ($google_site_verification !== '#') {
+?>
 	<meta name=google-site-verification              content="<?php echo $google_site_verification; ?>">
+<?php
+}
+?>
 	<meta name=mobile-web-app-capable                content="yes">
 	<meta name=msapplication-config                  content="<?php echo $application_config; ?>">
 	<meta name=msapplication-TileColor               content="<?php echo $ms_application_tile_color; ?>">
@@ -102,17 +108,23 @@ $web_author_data_attributes = trim($web_author_data_attributes);
 /************
 ** Twitter **
 *************/
-
 ?>
 	<meta name=twitter:card        content="summary_large_image">
-	<meta name=twitter:creator     content="<?php echo $twitter_creator; ?>">
 	<meta name=twitter:description content="<?php echo $twitter_description; ?>">
-	<meta name=twitter:site        content="<?php echo $twitter_site; ?>">
 	<meta name=twitter:title       content="<?php echo $twitter_title; ?>">
 	<meta name=twitter:url         content="<?php echo $twitter_url; ?>">
 	<meta name=twitter:image       content="<?php echo $twitter_image; ?>">
 	<meta name=twitter:image:alt   content="<?php echo $twitter_image_alt; ?>">
+<?php 
+
+$twitter_account = false;
+
+if ($twitter_account === true) {
+?>
+	<meta name=twitter:creator     content="<?php echo $twitter_creator; ?>">
+	<meta name=twitter:site        content="<?php echo $twitter_site; ?>">
 <?php
+}
 
 /*******
 ** OG **
@@ -208,6 +220,13 @@ if ((!isset($_GET['no-preload-font'])) && ($use_preload_font == true)) {
 	<link rel=preload    href="fonts/Cabin-Roman-400.woff2" as=font type=font/woff2 crossorigin>
 <?php
 }
+
+/*
+For attempts at matching the fonts downloaded by Next.js
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+*/
 
 /**************************************************
 ** Preload site-wide CSS when not in minify mode **

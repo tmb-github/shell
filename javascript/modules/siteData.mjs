@@ -99,6 +99,18 @@ siteData = {
 		'theme/'
 	],
 	pageDependencies: {
+/*
+// EXAMPLE:
+		'home': {
+			mjs: './home.mjs',
+			promiseLoader: [
+				['tmbAlert', 'javascript/scripts/tmbAlert.js', {}]
+			],
+			enqueueLoader: [
+				{src: 'javascript/scripts/tmbBug.js', dataScriptName: 'tmbBug'},
+			]
+		},
+*/
 		'home': {
 			mjs: './home.mjs'
 		},
@@ -160,6 +172,7 @@ siteData = {
 */
 	},
 
+	useGoogleAnalytics: false,
 	uaString: 'UA-#########-1'
 
 };

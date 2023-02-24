@@ -1,5 +1,5 @@
 SetEnvIf Request_URI "^.*" LOCALHOST=https://localhost/shell
-SetEnvIf Request_URI "^.*" LIVEHOST=https://shell.com
+SetEnvIf Request_URI "^.*" LIVEHOST=https://deadlandwoods.com
 AddDefaultCharset utf-8
 <IfModule mod_mime.c>
     AddCharset utf-8 .appcache \
@@ -202,10 +202,10 @@ ServerSignature Off
 	ErrorDocument 500 https://localhost/shell/error/
 </If>
 <If "req('Host') != 'localhost'">
-	ErrorDocument 400 https://thomasbrodhead.com/error/
-	ErrorDocument 403 https://thomasbrodhead.com/error/
-	ErrorDocument 404 https://thomasbrodhead.com/error/
-	ErrorDocument 500 https://thomasbrodhead.com/error/
+	ErrorDocument 400 https://shell.com/error/
+	ErrorDocument 403 https://shell.com/error/
+	ErrorDocument 404 https://shell.com/error/
+	ErrorDocument 500 https://shell.com/error/
 </If>
 Options -MultiViews
 Options -Indexes

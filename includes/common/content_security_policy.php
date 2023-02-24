@@ -370,7 +370,7 @@ if ($use_prefetch_src == true) {
 
 // For LIVE SERVER only
 
-$report_uri = 'report-uri https://shell.report-uri.com/r/d/csp/enforce ;';
+$report_uri = 'report-uri https://' . $site_title_short_form_lc . '.report-uri.com/r/d/csp/enforce ;';
 
 /*******************************
 ** NEL (network error logging **
@@ -382,7 +382,7 @@ $network_error_logging = 'NEL: {"report_to":"default","max_age":31536000,"includ
 ** Report-To **
 **************/
 
-$report_to = 'Report-To: {"group":"default","max_age":31536000,"endpoints":[{"url":"https://shell.report-uri.com/a/d/g"}],"include_subdomains":true} ;';
+$report_to = 'Report-To: {"group":"default","max_age":31536000,"endpoints":[{"url":"https://' . $site_title_short_form_lc . '.report-uri.com/a/d/g"}],"include_subdomains":true} ;';
 
 /**************
 ** expect-ct **
@@ -391,7 +391,7 @@ $report_to = 'Report-To: {"group":"default","max_age":31536000,"endpoints":[{"ur
 // SEE: https://scotthelme.co.uk/a-new-security-header-expect-ct/
 // Check Report-uri and gradually increase the max-age from 30 seconds to a week, etc.
 // (max-age is expressed in seconds)
-$expect_ct = "Expect-CT: enforce, max-age=3600, report-uri='https://shell.report-uri.com/r/d/ct/enforce' ; ";
+$expect_ct = "Expect-CT: enforce, max-age=3600, report-uri='https://" . $site_title_short_form_lc . ".report-uri.com/r/d/ct/enforce' ; ";
 
 // localhost vs. live server:
 if (($_SERVER['SERVER_NAME']) === 'localhost') {

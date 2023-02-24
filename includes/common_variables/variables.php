@@ -29,14 +29,14 @@ $_SERVER['REQUEST_URI'] = strtok($_SERVER['REQUEST_URI'], '?');
 
 // These correspond to $_SERVER['HTTP_HOST']:
 $inmotion_http_host = 'ecbiz261.inmotionhosting.com';
-$shell_http_host = 'shell.com';
+$shell_http_host = $domain_name;
 
 
 /**************
 ** localhost **
 **************/
 
-$local_host_root = 'shell';
+$local_host_root = $htdocs_folder;
 
 // localhost or not:
 $localhost_boolean = ($_SERVER['HTTP_HOST'] === 'localhost');
@@ -153,7 +153,7 @@ $down_for_maintenance = false;
 $include_ecwid_product_properties = false;
 
 // Hard-wire ecwid (set to false to disable):
-$_SESSION['ecwid'] = 'true';
+$_SESSION['ecwid'] = 'false';
 
 // Turn on ecwid with ?ecwid
 if (isset($_GET['ecwid'])) {
@@ -228,8 +228,8 @@ $use_browser_based_lazy_loading = true;
 
 // For use in header navigation bar:
 
-$site_logo_url = 'images/header/shell-logo.png';
-$site_logo_alt = 'SHELL site logo';
+$site_logo_url = 'images/header/' . $site_title_short_form_lc . '-logo.png';
+$site_logo_alt = $site_title_short_form_uc . ' site logo';
 
 
 /**********************
@@ -364,21 +364,21 @@ $safari_pinned_tab_svg = autoVersion('favicons/safari-pinned-tab.svg');
 $site_webmanifest = autoVersion('favicons/site.webmanifest');
 */
 
-$site_webmanifest_name = 'SHELL';
-$site_webmanifest_short_name = 'SHELL';
+$site_webmanifest_name = $site_title_short_form_uc;
+$site_webmanifest_short_name = $site_title_short_form_uc;
 $mask_icon_color = '#eeb935'; // --cta-dark-orange
 $browserconfig_tile_color = $mask_icon_color;
 $ms_application_tile_color = $mask_icon_color;
 $meta_theme_color = '#fafafa'; // --body-text-color
 $site_webmanifest_theme_color = $meta_theme_color;
 $site_webmanifest_background_color = $meta_theme_color;
-$site_webmanifest_description = "SHELL: Description of site";
+$site_webmanifest_description = $site_title_short_form_uc . ": Description of site";
 
 /***********
 ** SCHEMA **
 ***********/
 
-$schema_webpage_description = "SHELL: Needs webpage description.";
+$schema_webpage_description = $site_title_short_form_uc . ": Needs webpage description.";
 $schema_webpage_name = $site_title;
 $schema_webpage_url = $canonical;
 
@@ -390,8 +390,8 @@ $schema_person_url = $canonical;
 *****************/
 
 $social_media_href = array(
-	"Facebook" => "https://www.facebook.com/shell/",
-	"Instagram" => "https://www.instagram.com/shell/",
-	"Pinterest" => "https://www.pinterest.com/shell/",
-	"Twitter" => "https://twitter.com/shell"
+	"Facebook" => "https://www.facebook.com/" . $site_title_short_form_lc,
+	"Instagram" => "https://www.instagram.com/shell/" . $site_title_short_form_lc,
+	"Pinterest" => "https://www.pinterest.com/shell/" . $site_title_short_form_lc,
+	"Twitter" => "https://twitter.com/shell" . $site_title_short_form_lc
 );

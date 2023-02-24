@@ -73,17 +73,17 @@ if ($minify == true) {
 	<meta property="og:title" content="Incompatible Browser | <?php echo $site_title; ?>">
 	<meta property="og:type" content="website">
 	<meta property="og:url" content="<?php echo $base_href; ?>incompatible-browser/">
-	<meta property="og:image" content="<?php echo $base_href; ?>images/head/shell-1200x630.jpg">
+	<meta property="og:image" content="<?php echo $base_href; ?>images/head/<?php echo $site_title_short_form_lc; ?>-1200x630.jpg">
 	<meta property="og:image:alt" content="<?php echo $site_title; ?>">
 	<meta property="og:image:height" content="630">
 	<meta property="og:image:width" content="1200">
-	<meta property="og:image:secure_url" content="<?php echo $base_href; ?>images/head/shell-1200x630.jpg">
+	<meta property="og:image:secure_url" content="<?php echo $base_href; ?>images/head/<?php echo $site_title_short_form_lc; ?>-1200x630.jpg">
 	<meta property="article:published_time" content="2020-01-01T06:00:00+00:00">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:creator" content="@<?php echo $site_title; ?>">
 	<meta name="twitter:site" content="@<?php echo $site_title; ?>">
 	<meta name="twitter:url" content="<?php echo $base_href; ?>incompatible-browser/">
-	<meta name="twitter:image" content="<?php echo $base_href; ?>images/head/shell-1200x630.jpg">
+	<meta name="twitter:image" content="<?php echo $base_href; ?>images/head/<?php echo $site_title_short_form_lc; ?>-1200x630.jpg">
 	<meta name="twitter:image:alt" content="<?php echo $site_title; ?> Logo">
 	<meta name="web_author" content="<?php echo $site_title; ?>">
 	<link href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">

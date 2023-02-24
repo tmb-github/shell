@@ -31,6 +31,8 @@ returnMetaData = function () {
 	var _title;
 	var metaData;
 
+// NB: Ensure that _description below matches $description in the corresponding meta-schema-overrides.inc.php for this page.
+
 	_canonical = '${CANONICAL}';
 	_default = '${DEFAULT}';
 	_title = '${TITLE}';

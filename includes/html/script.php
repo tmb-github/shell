@@ -18,6 +18,14 @@ if (file_exists($dateModified_file)) {
 		"@type": "WebPage",
 		"description": <?php echo '"' . $schema_webpage_description . '"'; ?>,
 		"name": "<?php echo $schema_webpage_name; ?>",
+		"speakable":
+		{
+			"@type": "SpeakableSpecification",
+			"xPath": [
+				"/html/head/title",
+				"/html/head/meta[@name='description']/@content"
+			]
+		},
 		"url": "<?php echo $schema_webpage_url; ?>",
 		"dateModified": <?php echo '"' . $dateModified . '"' . PHP_EOL; ?>
 	}

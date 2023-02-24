@@ -28,6 +28,7 @@ var customizePushAndReplaceState;
 var deactivateLoadingMask;
 var deleteCachesUnregisterServiceWorkerAndClearSessionStorage;
 var editExternalLinks;
+var enqueueArray;
 var escapeForwardSlashes;
 var escapeSingleQuotes;
 var fetchAppendToUploadStatusDiv;
@@ -43,6 +44,7 @@ var initializeHeaderHeightAndObserver;
 var initializePopstateLocationChangeListeners;
 var initializeWindowOnResizeRoutines;
 var inner;
+var innerFinish;
 var isObject;
 // SAVE: var iOS;
 // SAVE: var iosCheckAndEdit;
@@ -74,6 +76,7 @@ var setOrRemoveMobileClasses;
 var setOrientation;
 var setMaxWidth759px;
 var siteWideLoader;
+var stripEndQuotes;
 var stripHtmlTags;
 var tmbTT;
 var updateFenestra;
@@ -237,7 +240,9 @@ ajaxMainContent = function (hrefText, target, backbutton, eventType) {
 				dataPage = 'data-page=';
 				dataPageStart = newData.indexOf(dataPage);
 				dataPageEnd = newData.indexOf(' ', dataPageStart);
+// 2023-02-22
 				page = newData.slice(dataPageStart + dataPage.length, dataPageEnd);
+				page = stripEndQuotes(page);
 
 				if (o.nonce) {
 
@@ -334,7 +339,6 @@ ajaxMainContent = function (hrefText, target, backbutton, eventType) {
 
 				document.querySelectorAll('#header-nav ul a').forEach(function (anchor) {
 					if (anchor.getAttribute('href') !== hrefText) {
-/* qwer */
 						if (anchor.classList.contains('selected')) {
 							anchor.classList.remove('selected');
 							anchor.closest('.secondary-ul')?.classList.remove('selected');
@@ -896,61 +900,64 @@ o.metaNameWebAuthor.dataset.clientIp = '##.##.###.##';
 				return response;
 			};
 
+// 2023-02-14
+			if (o.siteData.useGoogleAnalytics) {
 
 // Run only if NOT during lighthouse audit:
-			if (!adminMode && !lighthouseAudit && onLiveSite && navigator.onLine && !o.googleAnalyticsInitialized) {
+				if (!adminMode && !lighthouseAudit && onLiveSite && navigator.onLine && !o.googleAnalyticsInitialized) {
 // Run the following only outside the EU:
-				if (o.metaNameWebAuthor && o.metaNameWebAuthor.dataset && o.metaNameWebAuthor.dataset.clientIp) {
-					clientIp = o.metaNameWebAuthor.dataset.clientIp;
+					if (o.metaNameWebAuthor && o.metaNameWebAuthor.dataset && o.metaNameWebAuthor.dataset.clientIp) {
+						clientIp = o.metaNameWebAuthor.dataset.clientIp;
 
 // proceed with ipapi lookup and analytics unless IP is in excluded array:
-					proceed = true;
-					if (o.hasOwnProperty('siteData')) {
-						if (o.siteData.hasOwnProperty('excludedIps')) {
-							if (o.siteData.excludedIps.includes(clientIp)) {
-								proceed = false;
+						proceed = true;
+						if (o.hasOwnProperty('siteData')) {
+							if (o.siteData.hasOwnProperty('excludedIps')) {
+								if (o.siteData.excludedIps.includes(clientIp)) {
+									proceed = false;
+								}
 							}
 						}
-					}
 
-					if (proceed) {
+						if (proceed) {
 // The call to ipapi.co (e.g., https://ipapi.co/00.00.000.00/json) returns
 // an Expect-CT header, which produces a Deprecated Feature Used warning in DevTools:
-						request = 'https://ipapi.co/' + clientIp + '/json';
+							request = 'https://ipapi.co/' + clientIp + '/json';
 
 // Test using this url, using different response codes for endpoints:
 // https://httpstat.us is allowed in our connect-src CSP:
 //request = 'https://httpstat.us/503';
 
 // Assume failure...that the client *will* be in the EU:
-						o.inEu = true;
+							o.inEu = true;
 
 // See:
 // https://towardsdev.com/how-to-handle-404-500-and-more-using-fetch-api-in-javascript-f4e301925a51
 
-						fetch(request).then(manageErrors).then(
-							function (response) {
-								return response.json();
-							}
-						).then(function (data) {
-							if (data.error) {
-								console.log(data);
-							} else {
-								o.inEu = data.in_eu;
-							}
-						}).catch(function (error) {
-							o.inEu = error;
-						}).finally(function () {
+							fetch(request).then(manageErrors).then(
+								function (response) {
+									return response.json();
+								}
+							).then(function (data) {
+								if (data.error) {
+									console.log(data);
+								} else {
+									o.inEu = data.in_eu;
+								}
+							}).catch(function (error) {
+								o.inEu = error;
+							}).finally(function () {
 // if we're in the EU, do NOT initialize analytics:
-							if (o.inEu === true) {
-								console.log('EU IP detected: no analytics performed');
-							} else {
-								console.log('Initialize analytics');
-								initializeAnalytics();
-							}
+								if (o.inEu === true) {
+									console.log('EU IP detected: no analytics performed');
+								} else {
+									console.log('Initialize analytics');
+									initializeAnalytics();
+								}
 
-						});
+							});
 
+						}
 					}
 				}
 			}
@@ -1162,7 +1169,6 @@ commonEventListeners = function () {
 	};
 
 // GALLERY
-/* qwer */
 	hamburgerLabelClick = function () {
 		var match;
 		var pageSlug;
@@ -1326,6 +1332,7 @@ commonEventListeners = function () {
 						if (o.maxWidth759px) {
 							document.querySelectorAll('#hamburger').forEach(function (hamburger) {
 								hamburger.checked = true;
+//console.log('#hamburger unchecked');
 							});
 							document.querySelectorAll('[id^=side-switcher]').forEach(function (sideSwitcher) {
 //console.log('#side-switcher unchecked');
@@ -1352,7 +1359,6 @@ commonEventListeners = function () {
 //console.log('a click');
 							li.firstElementChild.click();
 // If the first child is input#side-switcher:
-/* qwer */
 //						} else if (li.firstElementChild.id === 'side-switcher') {
 						} else if (li.firstElementChild.id.startsWith('side-switcher')) {
 //console.log('#side-switcher: REVERSE CHECKED STATE');
@@ -1426,7 +1432,6 @@ commonEventListeners = function () {
 //console.log('a click');
 							li.firstElementChild.click();
 // If the first child is input#side-switcher:
-/* qwer */
 						} else if (li.firstElementChild.matches('div[data-for^=side-switcher]')) {
 //console.log('#side-switcher: REVERSE CHECKED STATE');
 							document.querySelectorAll('[id^=side-switcher]').forEach(function (sideSwitcher) {
@@ -1481,13 +1486,11 @@ commonEventListeners = function () {
 
 	document.querySelectorAll('div[data-for^=side-switcher]').forEach(function (element) {
 // For mouse-clicks
-/* qwer */
 		if (!element.classList.contains(element.dataset.for + '-click-listener')) {
 			element.classList.add(element.dataset.for + '-click-listener');
 			element.addEventListener('click', function (ignore) {
 //console.log('div[data-for=side-switcher]: click -----');
 // Find the element whose ID matches the 'data-for' attribute of the side-switcher DIV:
-/* qwer */
 				document.querySelectorAll('#' + element.dataset.for).forEach(function (sideSwitcher) {
 					sideSwitcher.click();
 				});
@@ -1495,7 +1498,6 @@ commonEventListeners = function () {
 			});
 		}
 // For entering:
-/* qwer */
 /*
 		if (!element.classList.contains('side-switcher-keyup-listener')) {
 			element.classList.add('side-switcher-keyup-listener');
@@ -1823,6 +1825,8 @@ editExternalLinks = function (document, selector, setTitle, title) {
 
 };
 
+enqueueArray = [];
+
 // NOTICE: When a page with the TmbAlert code is first loaded, there
 // will be a brief flash of the alert component UNLESS it is hidden
 // with {visibility: hidden} using CSS.
@@ -2007,7 +2011,6 @@ highlightMenuItem = function () {
 		url += '/';
 	}
 
-/* qwer */
 // Clear-out .selected on all .secondary-ul ULs:
 	document.querySelectorAll('.secondary-ul').forEach(function (element) {
 		element.classList.remove('selected');
@@ -2021,7 +2024,6 @@ highlightMenuItem = function () {
 		}
 		if (href === url) {
 			element.classList.add('selected');
-/* qwer */
 // Add .selected to any .secondary-ul UL ancestor:
 			element.closest('.secondary-ul')?.classList.add('selected');
 		}
@@ -2232,6 +2234,8 @@ initializeWindowOnResizeRoutines = function () {
 // called by promiseLoader()
 inner = function () {
 
+//console.log('inner');
+
 //	var content;
 //	var lastPipe;
 //	var metaDescription;
@@ -2246,10 +2250,17 @@ inner = function () {
 //window.removeEventListener('replacedMainContent', o.inner);
 
 	o.setMaxWidth759px();
-
 	o.setOrRemoveMobileClasses();
-
+// innerFinish() is called by this routine:
 	o.siteWideLoader();
+
+};
+
+innerFinish = function () {
+
+//console.log('innerFinish');
+
+	var o = this;
 
 // remove script preload LINK so attacker can't access name of preloaded scripts
 	document.querySelectorAll('link[rel=preload][as=script]').forEach(function (link, index, array) {
@@ -2305,11 +2316,6 @@ inner = function () {
 // Prevent long-running tasks by using setTimeout() to break tasks up:
 	window.setTimeout(function () {
 
-/*
-		metaElements.forEach(function (element) {
-			element.setAttribute('content', content);
-		});
-*/
 
 // 2022-07-12
 // Used as trigger in numberUp.mjs
@@ -2489,6 +2495,9 @@ loadLocalResource = (function () {
 // This loads external dependencies (e.g., pureJsCarousel), not site modules.
 loadPageDependencies = function () {
 
+// qwer
+//console.log('loadPageDependencies');
+
 	var assignFn;
 	var calledInner;
 	var o;
@@ -2521,23 +2530,30 @@ loadPageDependencies = function () {
 								var urlArr = [];
 								var attributesArr = [];
 								var assignFnArr = [];
-
 // Assign its methods/properties to common object 'o':
 // old:
 //								o.assignToCommonObject(object);
 								o.assignToModulePropertyOnCommonObject(o.pageNameCamelCase, object);
+
+// qwer
+								o.enqueue = [];
+								if ((pageObj.enqueueLoader) && (Array.isArray(pageObj.enqueueLoader)) && (pageObj.enqueueLoader.length !== 0)) {
+//console.log(pageObj.enqueueLoader);
+									pageObj.enqueueLoader.forEach(function (obj) {
+										o.enqueue.push(obj);
+									});
+								}
+
+
 // If there's a promiseLoader property, and it's an array, and it's not empty...
 								if ((pageObj.promiseLoader) && (Array.isArray(pageObj.promiseLoader)) && (pageObj.promiseLoader.length !== 0)) {
 // Cycle through each entry (array) within the array:
 									pageObj.promiseLoader.forEach(function (arr) {
 										var fnName = arr[0];
 										var fnUrl = arr[1];
-
 // 2021-10-23:
 // To support attributes on the element/tag:
 										var fnAttributes = arr[2];
-
-
 // assign the function to the global object 'o':
 										assignFn = function () {
 // If we wanted to make an external dependency specific to a page, we could use
@@ -2686,17 +2702,27 @@ popstateListener = function () {
 
 };
 
-// The promiseLoader() is for libraries that will be referenced by name
-// somewhere within our code, typically to call the routine itself.
-// This is in contrast to the enqueue method, which is for libraries we do not
-// reference by name in our code, but which need to be resident for our code
-// to work. This version of promiseLoader() loads any number of specified
+// The promiseLoader() is for scripts that are a single routine that is defined
+// with a single variable name. If the library has:
+//
+// function xyz() {}
+//
+// ...as an enclosing function, and we may therefore call xyz() in our code,
+// then it's probably right to be loaded with the promiseLoader.
+//
+// This is in contrast to the enqueue method, which is for libraries that are
+// not contained within a single enclosing function, but may be any number of
+// top-level routines and variables (e.g., like so many 3rd-party libraries).
+
+// This version of promiseLoader() loads any number of specified
 // libraries:
 
 // 2021-10-23:
 // To support attributes on the element/tag:
 // OLD: promiseLoader = function (nameArr, urlArr, assignFn) {
 promiseLoader = function (nameArr, urlArr, attributeArr, assignFnArr) {
+
+//console.log('promiseLoader');
 
 /*
 console.log('------');
@@ -2732,7 +2758,6 @@ console.log('------');
 // Push the load routine and its target into the array:
 // OLD:			filteredUrlLoaderArr.push(o.loadLocalResource.js(urlArr[index]));
 			filteredUrlLoaderArr.push(o.loadLocalResource.js(urlArr[index], attributeArr[index]));
-
 		}
 	});
 
@@ -3045,8 +3070,10 @@ reviseMetaData = function (metaDataObject) {
 //		console.log(attribute + '=' + attributeValue + ' content=' + contentValue);
 
 				document.querySelectorAll('meta[' + attribute + '="' + attributeValue + '"]').forEach(function (element) {
+
 					if (metaDataObject.page) {
 						page = metaDataObject.page;
+
 						if ((!element.dataset.page) || (element.dataset.page !== page)) {
 
 							contentValue = contentValue.replace('${BASE}', base);
@@ -3062,6 +3089,7 @@ reviseMetaData = function (metaDataObject) {
 								element.dataset.page = page;
 							}
 						}
+
 					}
 				});
 			});
@@ -3319,33 +3347,31 @@ siteWideLoader = function () {
 	scriptObjects = [];
 
 	function deleteDynamicScripts() {
-		document.querySelectorAll('.dynamic-script').forEach(function (script) {
+		document.querySelectorAll('.dynamic-script').forEach(function (script, index, array) {
 			script.parentNode.removeChild(script);
 // if last index, delete element reference so element may be garbage-collected:
 			if (index === (array.length - 1)) {
 				script = null;
 			}
 		});
+// If there are any scripts to enqueue, this is where innerFinish() is called:
+		o.innerFinish();
 	}
 
-/*
+// The enqueue method loader is for libraries that are
+// not contained within a single enclosing function, but may be any number of
+// top-level routines and variables (e.g., like so many 3rd-party libraries).
 
-// Save for reCAPTCHA in case we reinstate it:
-
-// enqueue() is used for libraries that we don't reference by name in our code,
-// but which need to be loaded so that functions we do call will, in fact,
-// work. This contrasts with the promiseLoader(), which is for libraries we do
-// need to call by name.
 	function enqueue(object) {
 		scriptObjects.push(object);
 	}
-*/
 
 	function loadScriptsSynchronously() {
 
 		var attributeObject = scriptObjects.shift();
 		var fragment = document.createDocumentFragment();
 		var script = document.createElement('script');
+		var scriptName;
 		var value;
 
 		fragment.appendChild(script);
@@ -3361,10 +3387,15 @@ siteWideLoader = function () {
 
 			if (key.substring(0, 4) === 'data') {
 				script.setAttribute(o.camelCaseToKebobCase(key), attributeObject[key]);
+// If dataScriptName is set as an attribute on the enqueued script,
+// then it will be written to the console when it's loaded:
+				if (key === 'dataScriptName') {
+					scriptName = attributeObject[key];
+				}
 			}
 		});
 
-		if (script.type === undefined) {
+		if ((script.type === undefined) || (script.type === '')) {
 			script.type = 'text/javascript';
 		}
 
@@ -3376,47 +3407,42 @@ siteWideLoader = function () {
 		script.async = false;
 		script.classList.add('dynamic-script');
 
-		if ((scriptObjects.length > 0) && (script.type === 'text/javascript')) {
-			script.onload = loadScriptsSynchronously;
-			script.onerror = function (e) {
-				console.log(script.src + ' could not load:');
-				console.log(e);
-				loadScriptsSynchronously();
-			};
+		if (script.type === 'text/javascript') {
+			if (scriptObjects.length > 0) {
+				script.onload = loadScriptsSynchronously;
+				script.onerror = function (e) {
+					console.log(script.src + ' could not load:');
+					console.log(e);
+					loadScriptsSynchronously();
+				};
+			} else {
+				script.onload = deleteDynamicScripts;
+			}
 		}
 
-		document.body.appendChild(fragment);
-
-		if ((scriptObjects.length > 0) && (script.type !== 'text/javascript')) {
-			loadScriptsSynchronously();
+		if (!o.enqueueArray.includes(script.src)) {
+			o.enqueueArray.push(script.src);
+			document.body.appendChild(fragment);
+			if (scriptName) {
+				console.log('loading ' + scriptName);
+			}
 		} else {
-			deleteDynamicScripts();
+// This ensures either:
+// (1) loadScriptsSynchronously() is called next, or
+// (2) deleteDynamicScript() is called next,
+// depending on whether there are more scripts to enqueue:
+			script.type = 'previouslyLoaded';
 		}
+
+		if (script.type !== 'text/javascript') {
+			if (scriptObjects.length > 0) {
+				loadScriptsSynchronously();
+			} else {
+				deleteDynamicScripts();
+			}
+		}
+
 	}
-
-/*
-// Save for reCAPTCHA in case we reinstate it:
-// For using trustedtypes, see: https://developers.google.com/recaptcha/docs/v3
-	if (o.pageName === 'contact') {
-		if (navigator.onLine) {
-			enqueue({src: 'https://www.google.com/recaptcha/api.js?trustedtypes=true'});
-		}
-	}
-*/
-
-/*
-	Object.entries(o.siteData.pageSpecificRoutines).forEach(function ([key, values]) {
-// name of the function must be provided as a string literal:
-		if (key === 'siteWideLoader') {
-			values.forEach(function (value) {
-				if ((o.pageName === 'gallery') && (value === o.pageName)) {
-					o.gallerySiteWideLoader();
-				}
-			});
-		}
-	});
-*/
-
 
 // NB: This assumes everything that follows the FOOTER element is specific to
 // the page in question EXCEPT application/ld+json blocks. Any element that
@@ -3458,11 +3484,25 @@ siteWideLoader = function () {
 		}
 	}
 
-	removeLeftoverFooterSiblings();
-	if (scriptObjects.length !== 0) {
-		loadScriptsSynchronously();
+	if (o.enqueue.length) {
+		o.enqueue.forEach(function (obj) {
+			enqueue(obj);
+		});
 	}
 
+	removeLeftoverFooterSiblings();
+
+	if (scriptObjects.length !== 0) {
+		loadScriptsSynchronously();
+	} else {
+// If there are no scripts to enqueue, then this is where innerFinish() is called:
+		o.innerFinish();
+	}
+
+};
+
+stripEndQuotes = function (str) {
+	return str.replace(/^"?([^"]*)"?$/, '$1');
 };
 
 stripHtmlTags = function (html) {
@@ -3610,6 +3650,7 @@ export default Object.freeze({
 	deactivateLoadingMask,
 	deleteCachesUnregisterServiceWorkerAndClearSessionStorage,
 	editExternalLinks,
+	enqueueArray,
 	escapeForwardSlashes,
 	escapeSingleQuotes,
 	fetchAppendToUploadStatusDiv,
@@ -3625,6 +3666,7 @@ export default Object.freeze({
 	initializePopstateLocationChangeListeners,
 	initializeWindowOnResizeRoutines,
 	inner,
+	innerFinish,
 // SAVE:	iOS,
 // SAVE:	iosCheckAndEdit,
 	isObject,
@@ -3655,6 +3697,7 @@ export default Object.freeze({
 	setOrRemoveMobileClasses,
 	setOrientation,
 	siteWideLoader,
+	stripEndQuotes,
 	stripHtmlTags,
 //standardPushAndReplaceState,
 

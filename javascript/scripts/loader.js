@@ -1,6 +1,6 @@
 /**
 * loader.js - v2.4
-* Copyright (c) 2019-2021 Thomas M. Brodhead <https://bmt-systems.com>
+* Copyright (c) 2019-2023 Thomas M. Brodhead <https://bmt-systems.com>
 * Released under the MIT license
 * Date: 2021-05-22
 */
@@ -62,6 +62,7 @@
 			var fragment;
 			var script;
 			var value;
+			var scriptName;
 
 			attributeObject = scriptObjects.shift();
 			fragment = document.createDocumentFragment();
@@ -80,18 +81,22 @@
 
 				if (key.substring(0, 4) === 'data') {
 					script.setAttribute(camelCaseToKebobCase(key), attributeObject[key]);
+// If dataScriptName is set as an attribute on the enqueued script,
+// then it will be written to the console when it's loaded:
+					if (key === 'dataScriptName') {
+						scriptName = attributeObject[key];
+					}
 				}
 
 			});
 
-			if (script.type === undefined) {
+			if ((script.type === undefined) || (script.type === '')) {
 				script.type = 'text/javascript';
 			}
 
 			script.async = false;
-
 			script.classList.add('dynamic-script');
-
+/*
 // If it's a standard .js file, set mechanism to run this function again after
 // the .js file is loaded:
 			if ((scriptObjects.length > 0) && (script.type === 'text/javascript')) {
@@ -111,6 +116,32 @@
 // files and similar emit no "onload" event:
 			if ((scriptObjects.length > 0) && (script.type !== 'text/javascript')) {
 				loadScriptsSynchronously();
+			}
+*/
+			if (script.type === 'text/javascript') {
+				if (scriptObjects.length > 0) {
+					script.onload = loadScriptsSynchronously;
+					script.onerror = function (e) {
+						console.log(script.src + ' could not load:');
+						console.log(e);
+						loadScriptsSynchronously();
+					};
+				} else {
+					script.onload = deleteDynamicScripts;
+				}
+			}
+
+			document.body.appendChild(fragment);
+			if (scriptName) {
+				console.log('loading ' + scriptName);
+			}
+
+			if (script.type !== 'text/javascript') {
+				if (scriptObjects.length > 0) {
+					loadScriptsSynchronously();
+				} else {
+					deleteDynamicScripts();
+				}
 			}
 
 		};
@@ -174,20 +205,21 @@
 
 // Everything else:
 		if (tmbTT.active) {
-			enqueue({src: 'javascript/scripts/purify.js'});
+			enqueue({src: 'javascript/scripts/purify.js', dataScriptName: 'purify'});
 		}
 
 // 2020-08-15:
 // RETAIN IN CASE WE WANT TO REVERT TO JAVASCRIPT LAZYLOADING:
 //	enqueueXXX({src: 'javascript/scripts/noframework.waypoints.js'});
-		enqueue({src: 'javascript/scripts/passiveSupport.js'});
+		enqueue({src: 'javascript/scripts/passiveSupport.js', dataScriptName: 'passiveSupport'});
+//		enqueue({src: 'javascript/scripts/tmbBug.js'});
 
 // The nonce is set on the global object 'o' in siteWideEditsClosure.
 // It must be set on siteWideEdits.js to be accessible to siteWideEditsClosure
 
 // 2022-04-19:
 // OLD:	enqueue({src: 'javascript/scripts/siteWideEdits.js', nonce: currentScript.nonce});
-		enqueue({src: 'javascript/scripts/siteWideEdits.js', nonce: nonceArgument});
+		enqueue({src: 'javascript/scripts/siteWideEdits.js', nonce: nonceArgument, dataScriptName: 'siteWideEdits'});
 
 // SEE: https://philipwalton.com/articles/idle-until-urgent/
 // Prevent long-running tasks by using setTimeout() to break tasks up:

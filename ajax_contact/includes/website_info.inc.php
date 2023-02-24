@@ -1,9 +1,9 @@
 <?php
 
-$website_url = 'shell.com';
-$website_name = 'Shell';
+$website_url = $domain_name;
+$website_name = $site_title;
 $smtp_password = 'PASSWORD';
-$email_subject_prefix = '[SHELL] ';
+$email_subject_prefix = '[' . $site_title_short_form_uc . '] ';
 
 $smtp_username = 'admin@' . $website_url;
 

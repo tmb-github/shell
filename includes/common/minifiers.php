@@ -19,7 +19,7 @@ function tovic_minify_html_PROBLEM_FAILS_ON_ALL_WORKS_SEE_BELOW($input) {
 // Minify inline CSS declaration(s)
 	if(strpos($input, ' style=') !== false) {
 		$input = preg_replace_callback('#<([^<]+?)\s+style=([\'"])(.*?)\2(?=[\/\s>])#s', function($matches) {
-			return '<' . $matches[1] . ' style=' . $matches[2] . minify_css($matches[3]) . $matches[2];
+			return '<' . $matches[1] . ' style=' . $matches[2] . tovic_minify_css($matches[3]) . $matches[2];
 		}, $input);
 	}
 
@@ -160,7 +160,7 @@ function tovic_minify_html($input) {
 // Minify inline CSS declaration(s)
 	if(strpos($input, ' style=') !== false) {
 		$input = preg_replace_callback('#<([^<]+?)\s+style=([\'"])(.*?)\2(?=[\/\s>])#s', function($matches) {
-			return '<' . $matches[1] . ' style=' . $matches[2] . minify_css($matches[3]) . $matches[2];
+			return '<' . $matches[1] . ' style=' . $matches[2] . tovic_minify_css($matches[3]) . $matches[2];
 		}, $input);
 	}
 

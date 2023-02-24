@@ -9,7 +9,7 @@
 $author = 'John Q. Public';
 $google_site_verification = 'Emklps7uK_STmuirmgr5Z8y6jWumhC-Pch11agfb4pg';
 $application_config = $base_href . $browserconfig_xml;
-$apple_mobile_web_app_title = 'SHELL';
+$apple_mobile_web_app_title = $site_title_short_form_uc;
 
 // For $description, return everything from the title up to
 // ' | John Q. Public', which will be at the end. So, one space before the
@@ -17,12 +17,12 @@ $apple_mobile_web_app_title = 'SHELL';
 
 $last_pipe = strrpos($title, ' |');
 if ($last_pipe !== false) {
-	$description = substr($title, 0, $last_pipe) . ' in the online location of SHELL';
+	$description = substr($title, 0, $last_pipe) . ' in the online location of ' . $site_title_short_form_uc;
 } else {
-	$description = $title . ' in the online location of SHELL';
+	$description = $title . ' in the online location of ' . $site_title_short_form_uc;
 }
 
-$default_og_image = $base_href . autoversion('images/head/shell-1200x630.jpg', $use_webp = false);
+$default_og_image = $base_href . autoversion('images/head/' . $site_title_short_form_lc . '-1200x630.jpg', $use_webp = false);
 
 $og_description = $description;
 // The og:image must be 1200x630 - Test with https://realfavicongenerator.net/social/checker

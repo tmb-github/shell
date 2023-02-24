@@ -15,9 +15,9 @@ in render_initial_page_style_element() function in common_functions/function.php
 	background-color: pink;
 }
 
-.header .nav li.authenticated a:link {
+.header .nav li.authenticated a:link,
+.header .nav li.authenticated a:visited {
 	background-color: pink;
-/* 2021-10-16: Not clearly necessary:	border-bottom: 3px solid pink; */
 	color: #3d3d3d;
 }
 
@@ -36,9 +36,9 @@ in render_initial_page_style_element() function in common_functions/function.php
 	background-color: pink;
 }
 
-.body .header .nav li.authenticated a:link {
+.body .header .nav li.authenticated a:link,
+.body .header .nav li.authenticated a:visited {
 	background-color: pink;
-/* 2021-10-16: Not clearly necessary:	border-bottom: 3px solid pink; */
 	color: #3d3d3d;
 }
 

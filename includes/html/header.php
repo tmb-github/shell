@@ -211,8 +211,8 @@ if ($_SERVER['HTTP_HOST'] == 'localhost') {
 			<li data-page=dummy-2 data-href=dummy-2 class=menu-side-one><a class=internal-anchor href="dummy-2/" tabindex=-1>Dummy 2</a></li>
 <?php
 
-	$switcher_name = 'Additional Pages 1';
-	$switcher_id = 'additional-pages-1';
+	$switcher_name = 'Additional Pages';
+	$switcher_id = 'additional-pages';
 // This must be 'side-switcher-' followed by a unique character:
 	$side_switcher_id = 'side-switcher-1';
 	$main_menu_id = 'main-menu-1';

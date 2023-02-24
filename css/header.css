@@ -237,6 +237,7 @@ Moved to common-admin-stylings.css:
 	pointer-events: all;
 }
 
+
 /**********************************************************
 *** @media:MOBILE+DESKTOP *********************************
 *** Set width of primary and secondary UL to same value ***
@@ -414,6 +415,10 @@ only for the mobile mode that's being applied to desktop display, and I can't
 /*** 2022-09-20 ***/
 	.header #hamburger ~ .nav {
 		transition: var(--transform-500ms-ease);
+
+/*** 2023-02-21 ***/
+		height: 100vh;
+
 /* 
 Delay is needed to provide time to the appendToCSS() rule in the JS
 (commonRoutinesOnFirstLoadOnly) to be rendered:
@@ -510,7 +515,7 @@ Transition delay here!
 	.header label[for=hamburger] {
 		display: block;
 		padding: 18px;
-		color: var(--menu-text-hover-background);
+		color: var(--hamburger-label-color);
 		line-height: 0;
 	}
 
@@ -618,7 +623,7 @@ This improves user engagement.
 	.header .nav li span {
 /* 2021-12-1: */
 /* OLD:		background-color: transparent; */
-		background-color: var(--menu-background-color);
+		background-color: var(--menu-background-color-mobile);
 		border-top-color: var(--dark-gray);
 		border-top-style: solid;
 		border-top-width: 1px;
@@ -636,8 +641,8 @@ This improves user engagement.
 	.header .nav li span:hover {
 /* qwer */
 /* OLD 2022-09-19:		background-color: transparent; */
-		background-color: var(--menu-text-hover-background);
-		color: var(--menu-background-color);
+		background-color: var(--menu-text-hover-background-mobile);
+		color: var(--menu-background-color-mobile);
 	}
 
 	.header .nav li a.selected,

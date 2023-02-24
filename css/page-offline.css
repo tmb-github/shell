@@ -12,7 +12,8 @@
 	}
 }
 
-.offline a:link {
+.offline a:link,
+.offline a:visited {
 	background: transparent;
 }
 

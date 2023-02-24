@@ -53,11 +53,16 @@ $main_classes = $page . " main custom-style-elements";
 // * Replace " data-title=" with " data-title="
 
 
+/*
+
+// Apparently unnecessary...?
+
 if ($_SERVER['HTTP_HOST'] == 'localhost') {
 	$base_href = 'https://localhost/' . $htdocs_folder . "'";
 } else {
 	$base_href = 'https://' . $base_href_name . "'";
 }
+*/
 
 ?>
 
@@ -111,7 +116,7 @@ render_custom_style_elements($page);
 			</li>
 		</ul>
 	</div>
-	<div id=footer>Page created with <a target=_blank href=https://www.xml-sitemaps.com>Google XML sitemap and html sitemaps generator</a> <br> Copyright &copy; 2005-2022 XML-Sitemaps.com</div>
+	<div id=footer>Page created with <a target=_blank href=https://www.xml-sitemaps.com>Google XML sitemap and html sitemaps generator</a> <br> Copyright &copy; 2005-<?php echo date('Y'); ?> XML-Sitemaps.com</div>
 
 <?php
 include $absolute_root . 'includes/html/common/main-breadcrumb-schema.inc.php';
