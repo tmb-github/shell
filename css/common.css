@@ -58,6 +58,18 @@ e.g., if the value is 300deg, reset it to -60deg.
 	--header-height: 60px;
 	--header-nav-li-height: 60px;
 	--image-background-matte-color: #efefef;
+
+/*
+see corresponding ipapi lookup settings in:
+common.css
+privacy-policy.css
+privacyPolicy.mjs
+privacy-policy/main.php
+*/
+
+	--ipapi-lookup-true-display: none;
+	--ipapi-lookup-false-display: none;
+
 	--logo-for-mobile-menu-margin-right: 0;
 /* This affects the opacity of both the main element and the footer: */
 	--main-opacity: 0;

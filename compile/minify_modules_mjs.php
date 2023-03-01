@@ -15,6 +15,27 @@ if (!file_exists($absolute_root . 'javascript/minified-modules')) {
 	}
 }
 
+// TOGGLE ON AND OFF:
+$convert_template_strings = true;
+
+function escapeNonHTML($matches) {
+	return $matches[1] . str_replace("'", "\'", $matches[2]) . $matches[3];
+}
+
+function revise($templateString) {
+	$escapedString = preg_replace_callback('/(`.*?`)/s', function($matches) {
+		$templateString = preg_replace('/\R\s*/', '', $matches[0]);
+		$templateString = str_replace('`', '\'', $templateString);
+		return preg_replace_callback('/(<[^>]*>)([^<>]*)(<\/[^>]*>)/', 'escapeNonHTML', $templateString);
+	}, $templateString);
+	$escapedString = trim($escapedString, "'");
+	$escapedString = str_replace("\'", "ROALDDAHLP!ENGUIN", $escapedString);
+	$escapedString = str_replace("'", "\'", $escapedString);
+	$escapedString = str_replace("ROALDDAHLP!ENGUIN", "\'", $escapedString);
+	return "'" . $escapedString . "'";
+}
+
+
 $mjs = [];
 $min_mjs = [];
 
@@ -311,12 +332,65 @@ for ($i = 0; $i < count($mjs); $i++) {
 // Consolidate consecutive crlfs into a single crlf:
 			$contents = preg_replace("/[\r\n]+/", "\r\n", $contents);
 
+////////////////////////////////////////////////////
+// Convert template strings to single quote strings:
+////////////////////////////////////////////////////
+
+// THIS NEEDS ${x} SEARCH AND REPLACE ADDED TO IT:
+
+			if ($convert_template_strings == true) {
+
+				$backtick_count = substr_count($contents, '`');
+
+				if (($backtick_count % 2) == 0) {
+//	print_r($contents);
+					$offset = 0;
+					$backtick_pos_array = [];
+
+					for ($x = 0; $x < $backtick_count; $x++) {
+						$offset = strpos($contents, '`', $offset);
+						array_push($backtick_pos_array, $offset);
+						$offset += 1;
+					}
+
+					$template_str = [];
+					$normal_str = [];
+					for ($x = 0; $x < $backtick_count; $x++) {
+						$start = $x;
+						$end = $start + 1;
+						$length = ($backtick_pos_array[$end] - $backtick_pos_array[$start]) + 1;
+
+						$template = substr($contents, $backtick_pos_array[$start], $length);
+						$revise_template = revise($template);
+//print_r($template);
+//print_r($revise_template);
+						array_push($template_str, $template);
+						array_push($normal_str, $revise_template);
+						$x += 1;
+					}
+
+					for ($x = 0; $x < count($template_str); $x++) {
+						$contents = str_replace($template_str[$x], $normal_str[$x], $contents);
+					}
+
+				} else {
+					echo PHP_EOL;
+					echo 'Number of backticks is not even - could not convert template strings to standard strings.';
+					echo PHP_EOL;
+				}
+			}
+
+//	print_r($contents);
+
+
 // Name a file where our revised contents may be written:
 			$temp_file = 'closureCompilerTemp.js';
 			if (file_exists($temp_file)) {
 				unlink($temp_file);
 			}
 			file_put_contents($temp_file, $contents);
+
+//file_put_contents('x.js', $contents);
 
 // Now, finally, we can compile the revised contents with the closure compiler:
 // The function now (2020-03-28) uses the locally hosted version of the closure compiler

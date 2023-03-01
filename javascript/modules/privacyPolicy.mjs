@@ -5,6 +5,7 @@
 
 var main;
 var returnMetaData;
+var ipapiLookup;
 
 
 main = function () {
@@ -17,7 +18,28 @@ main = function () {
 
 	metaData = returnMetaData();
 	o.reviseMetaData(metaData);
+	o.privacyPolicy.ipapiLookup();
 
+};
+
+/*
+see corresponding ipapi lookup settings in:
+common.css
+privacy-policy.css
+privacyPolicy.mjs
+privacy-policy/main.php
+*/
+
+ipapiLookup = function () {
+	var o;
+	o = this;
+	if ((o.siteData.hasOwnProperty('ipapiLookup')) && (o.siteData.ipapiLookup === true)) {
+		o.appendToCSS(':root', '{ --ipapi-lookup-true-display: block; }');
+		o.appendToCSS(':root', '{ --ipapi-lookup-false-display: none; }');
+	} else {
+		o.appendToCSS(':root', '{ --ipapi-lookup-true-display: none; }');
+		o.appendToCSS(':root', '{ --ipapi-lookup-false-display: block; }');
+	}
 };
 
 returnMetaData = function () {
@@ -78,5 +100,6 @@ returnMetaData = function () {
 // qwer: for reCAPTCHA: restore recaptchaEdits to module export:
 export default Object.freeze({
 	main,
+	ipapiLookup,
 	returnMetaData
 });

@@ -171,7 +171,14 @@ siteData = {
 		},
 */
 	},
-
+/*
+see corresponding ipapi lookup settings in:
+common.css
+privacy-policy.css
+privacyPolicy.mjs
+privacy-policy/main.php
+*/
+	ipapiLookup: true,
 	useGoogleAnalytics: false,
 	uaString: 'UA-#########-1'
 

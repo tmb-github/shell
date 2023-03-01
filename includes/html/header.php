@@ -143,15 +143,35 @@ $menu = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox=
 
 $lazyload = false;
 
-// return the PICTURE or IMG:
-echo picture_or_img_element($picture, $variable_size, $img_url, $img_widths, $multipliers, $sizes, $picture_attribute_array, $img_attribute_array, $tabs, $lazyload, $social_share);
+$clickable_mobile_logo = true;
 
+if ($clickable_mobile_logo == true) {
 
 // 2021-06-03:
 // role=presentation does not support aria-label="transparent mask"
 // So sayeth: https://web.dev/aria-allowed-attr/?utm_source=lighthouse&utm_medium=devtools
 // research valid aria-labels for role=presentation
 // Also see: https://dockyard.com/blog/2020/03/02/accessible-loading-indicatorswith-no-extra-elements
+
+// To make the mobile image logo a link to the home page (but needs vertical centering):
+	if ($_SERVER['HTTP_HOST'] == 'localhost') {
+		$home = './';
+	} else {
+		$home = '/';
+	}
+		echo '				<a href="' . $home . '" class="internal-anchor mobile-logo-icon" tabindex=-1>' . PHP_EOL;
+		$img_attribute_array['title'] = 'Navigate to Home Page';
+		$tabs = 6;
+		echo picture_or_img_element($picture, $variable_size, $img_url, $img_widths, $multipliers, $sizes, $picture_attribute_array, $img_attribute_array, $tabs, $lazyload, $social_share);
+		echo '					<span class=screen-reader>Home</span>' . PHP_EOL;
+		echo '				</a>' . PHP_EOL;
+
+} else {
+
+// return the PICTURE or IMG:
+	echo picture_or_img_element($picture, $variable_size, $img_url, $img_widths, $multipliers, $sizes, $picture_attribute_array, $img_attribute_array, $tabs, $lazyload, $social_share);
+
+}
 ?>
 	<div class=transparent-mask role=presentation></div>
 <?php /*	<div class=drawer> */ ?>

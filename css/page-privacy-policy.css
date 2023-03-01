@@ -40,3 +40,19 @@
 .privacy-policy.main p {
 	max-width: 27em;
 }
+
+/*
+see corresponding ipapi lookup settings in:
+common.css
+privacy-policy.css
+privacyPolicy.mjs
+privacy-policy/main.php
+*/
+
+.privacy-policy .ipapi-lookup-true {
+	display: var(--ipapi-lookup-true-display);
+}
+
+.privacy-policy .ipapi-lookup-false {
+	display: var(--ipapi-lookup-false-display);
+}

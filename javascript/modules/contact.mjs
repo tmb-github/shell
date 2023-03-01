@@ -9,6 +9,8 @@ var formLogic;
 var main;
 var returnMetaData;
 
+import {contactAnchorEventListeners} from "./shared_contactAnchorEventListeners.mjs";
+
 // SAVE for reCAPTCHA
 // var recaptchaEdits;
 
@@ -27,6 +29,8 @@ main = function () {
 
 	metaData = returnMetaData();
 	o.reviseMetaData(metaData);
+
+	o.contact.contactAnchorEventListeners();
 
 };
 
@@ -291,5 +295,6 @@ recaptchaEdits = function () {
 export default Object.freeze({
 	formLogic,
 	main,
+	contactAnchorEventListeners,
 	returnMetaData
 });

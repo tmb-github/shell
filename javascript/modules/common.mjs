@@ -13,6 +13,7 @@ var calledCommonVariables;
 var camelCaseToKebobCase;
 var checkTrustedTypesSupport;
 var closeDrawerOnAnchorClick;
+var closeDrawerOnMobileLogoClick;
 var commonEventListeners;
 var commonRoutines;
 var commonRoutinesOnFirstLoadOnly;
@@ -462,7 +463,7 @@ anchorHashFragmentIntercept = function () {
 		});
 	};
 
-	reassignHref('a[href*="#"]:not([href*="//"])');
+	reassignHref('a[href*="#"]:not([href*="//"]):not(.email):not(.phone)');
 	reassignHref('a.hash-anchor');
 
 // Create tab index on main-content element, which varies from page to page.
@@ -730,7 +731,7 @@ closeDrawerOnAnchorClick = function () {
 				document.querySelectorAll('#hamburger').forEach(function (hamburger) {
 					hamburger.click();
 				});
-			}, 1000);
+			}, 500);
 		}
 	}
 
@@ -741,6 +742,38 @@ closeDrawerOnAnchorClick = function () {
 		if (!element.classList.contains('drawer-internal-anchor-click-listener')) {
 			element.classList.add('drawer-internal-anchor-click-listener');
 			element.addEventListener('click', internalAnchorClick);
+		}
+	});
+
+};
+
+closeDrawerOnMobileLogoClick = function () {
+
+// SAVE:
+// 'this' is the outer 'o' via .bind(o), so the outer 'o' === inner 'o':
+//	var o = this;
+
+
+	function mobileLogoAnchorClick() {
+		var mediaQueryString;
+		var mqList;
+		mediaQueryString = '(max-width: 759px)';
+		mqList = window.matchMedia(mediaQueryString);
+		if (mqList.matches === true) {
+			window.setTimeout(function () {
+				document.querySelectorAll('#hamburger').forEach(function (hamburger) {
+					if (hamburger.checked) {
+						hamburger.click();
+					}
+				});
+			}, 500);
+		}
+	}
+
+	document.querySelectorAll('.header .logo-for-mobile-menu').forEach(function (element) {
+		if (!element.classList.contains('mobile-logo-anchor-click-listener')) {
+			element.classList.add('mobile-logo-anchor-click-listener');
+			element.addEventListener('click', mobileLogoAnchorClick);
 		}
 	});
 
@@ -919,44 +952,50 @@ o.metaNameWebAuthor.dataset.clientIp = '##.##.###.##';
 							}
 						}
 
+// https://ipapi.co/40.119.158.195/json
+
 						if (proceed) {
+							if ((o.siteData.hasOwnProperty('ipapiLookup')) && (o.siteData.ipapiLookup === true)) {
 // The call to ipapi.co (e.g., https://ipapi.co/00.00.000.00/json) returns
 // an Expect-CT header, which produces a Deprecated Feature Used warning in DevTools:
-							request = 'https://ipapi.co/' + clientIp + '/json';
+								request = 'https://ipapi.co/' + clientIp + '/json';
 
 // Test using this url, using different response codes for endpoints:
 // https://httpstat.us is allowed in our connect-src CSP:
 //request = 'https://httpstat.us/503';
 
 // Assume failure...that the client *will* be in the EU:
-							o.inEu = true;
+								o.inEu = true;
 
 // See:
 // https://towardsdev.com/how-to-handle-404-500-and-more-using-fetch-api-in-javascript-f4e301925a51
 
-							fetch(request).then(manageErrors).then(
-								function (response) {
-									return response.json();
-								}
-							).then(function (data) {
-								if (data.error) {
-									console.log(data);
-								} else {
-									o.inEu = data.in_eu;
-								}
-							}).catch(function (error) {
-								o.inEu = error;
-							}).finally(function () {
-// if we're in the EU, do NOT initialize analytics:
-								if (o.inEu === true) {
-									console.log('EU IP detected: no analytics performed');
-								} else {
-									console.log('Initialize analytics');
-									initializeAnalytics();
-								}
+								fetch(request).then(manageErrors).then(
+									function (response) {
+										return response.json();
+									}
+								).then(function (data) {
+									if (data.error) {
+										console.log(data);
+									} else {
+										o.inEu = data.in_eu;
+									}
+								}).catch(function (error) {
+									o.inEu = error;
+								}).finally(function () {
+	// if we're in the EU, do NOT initialize analytics:
+									if (o.inEu === true) {
+										console.log('EU IP detected: no analytics performed');
+									} else {
+										console.log('Non-EU IP: initialize analytics');
+										initializeAnalytics();
+									}
 
-							});
-
+								});
+							} else {
+								console.log('Initialize analytics');
+								initializeAnalytics();
+							}
 						}
 					}
 				}
@@ -1003,6 +1042,7 @@ commonRoutinesOnFirstLoadOnly = function () {
 
 	o.makeTransparentMaskClickable();
 	o.closeDrawerOnAnchorClick();
+	o.closeDrawerOnMobileLogoClick();
 	o.noTitle('.footer .no-title');
 	o.initializeWindowOnResizeRoutines();
 	o.popstateListener();
@@ -1057,7 +1097,6 @@ commonRoutinesOnFirstLoadOnly = function () {
 
 	});
 
-/* qwer */
 /* To delay the switch from position: fixed to position: absolute in the secondary-ul CSS: */
 // To listen for checked state:
 	document.querySelectorAll('#hamburger').forEach(function (hamburger) {
@@ -1069,12 +1108,18 @@ commonRoutinesOnFirstLoadOnly = function () {
 // In the corresponding CSS, apply a transition-delay of 100ms to NAV to give
 // time for this rule to be appended and rendered:
 					o.appendToCSS(':root', '{ --secondary-ul-position: fixed; }');
+// deadlandwoods:
+					o.appendToCSS(':root', '{ --header-shadow-filter-value: none; }');
+					o.appendToCSS(':root', '{ --header-background-color: unset; }');
 				} else {
 // Hamburger close:
 // The time delay must equal the duration of the translateX transform on the
 // NAV element in the corresponding CSS (280ms):
 					window.setTimeout(function () {
 						o.appendToCSS(':root', '{ --secondary-ul-position: absolute; }');
+// deadlandwoods:
+						o.appendToCSS(':root', '{ --header-shadow-filter-value: drop-shadow(0 4mm 6mm #680000); }');
+						o.appendToCSS(':root', '{ --header-background-color: #7c0000; }');
 					}, 280);
 				}
 			});
@@ -2536,6 +2581,7 @@ loadPageDependencies = function () {
 								o.assignToModulePropertyOnCommonObject(o.pageNameCamelCase, object);
 
 // qwer
+//console.log(pageObj);
 								o.enqueue = [];
 								if ((pageObj.enqueueLoader) && (Array.isArray(pageObj.enqueueLoader)) && (pageObj.enqueueLoader.length !== 0)) {
 //console.log(pageObj.enqueueLoader);
@@ -2543,7 +2589,6 @@ loadPageDependencies = function () {
 										o.enqueue.push(obj);
 									});
 								}
-
 
 // If there's a promiseLoader property, and it's an array, and it's not empty...
 								if ((pageObj.promiseLoader) && (Array.isArray(pageObj.promiseLoader)) && (pageObj.promiseLoader.length !== 0)) {
@@ -3638,6 +3683,7 @@ export default Object.freeze({
 	camelCaseToKebobCase,
 	checkTrustedTypesSupport,
 	closeDrawerOnAnchorClick,
+	closeDrawerOnMobileLogoClick,
 	commonEventListeners,
 	commonRoutines,
 	commonRoutinesOnFirstLoadOnly,

@@ -283,7 +283,8 @@ OLD:
 }
 */
 
-.header li:not(.ripple) a:active {
+.header li:not(.ripple) a:active,
+.header .logo-for-mobile-menu:active {
 	box-shadow: 0 0 18px var(--black), inset 0 0 5px var(--dark-gray);
 	border-radius: 5px;
 	outline: 0;

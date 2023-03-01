@@ -19,6 +19,16 @@ render_custom_style_elements($page);
 ?>
 	<h1 id=main-content tabindex=0>Send Smoke Signals!</h1>
 	<h2 class="font-size-125rem">We’d love to hear from you. Please write to us using the form below.</h2>
+
+	<h3>Call or Write To Us!</h3>
+	<p class=text-align-center><a class=phone href="#"><span class="rev phone">543</span></a></p>
+	<p class=text-align-center><a class=email href="#"><span class="rev email">axe</span></a></p>
+
+<?php /*
+	<p class=text-align-center><a href="tel:+10123456789">(615) 987-1234</a></p>
+	<p class=text-align-center><a href="mailto:joe@example.com">joe@example.com</a></p>
+*/ ?>
+
 	<form class=contact-form>
 		<p class=padding-top-1em><em>Please complete the fields below, then press Send at the bottom.</em></p>
 		<div class=input>

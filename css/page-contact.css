@@ -210,3 +210,28 @@ To solve this for color transitions on text, use a filter on brightness and satu
 .contact.main {
 	max-width: 39em;
 }
+
+
+/*
+See: https://www.nelsonpires.com/development/protect-your-email-and-phone-number-from-spam-bots 
+See: javascript/mjs/shared_contactAnchorEventListeners.mjs
+*/
+
+.contact span.rev { 
+	unicode-bidi: bidi-override; 
+	direction: rtl
+}
+
+.contact span.rev.email::before {
+	content: "moc.elpm";
+}
+.contact span.rev.email::after {
+	content:"@eoj"
+}
+
+.contact span.rev.phone::before {
+	content: "9876-"
+}
+.contact span.rev.phone::after {
+	content: " (210)"
+}
