@@ -40,6 +40,9 @@ ipapiLookup = function () {
 		o.appendToCSS(':root', '{ --ipapi-lookup-true-display: none; }');
 		o.appendToCSS(':root', '{ --ipapi-lookup-false-display: block; }');
 	}
+	window.setTimeout(function () {
+		o.appendToCSS(':root', '{ --ipapi-lookup-opacity: 1; }');
+	}, 250);
 };
 
 returnMetaData = function () {

@@ -67,8 +67,9 @@ privacyPolicy.mjs
 privacy-policy/main.php
 */
 
-	--ipapi-lookup-true-display: none;
+	--ipapi-lookup-true-display: block;
 	--ipapi-lookup-false-display: none;
+	--ipapi-lookup-opacity: 0;
 
 	--logo-for-mobile-menu-margin-right: 0;
 /* This affects the opacity of both the main element and the footer: */

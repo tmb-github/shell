@@ -56,3 +56,9 @@ privacy-policy/main.php
 .privacy-policy .ipapi-lookup-false {
 	display: var(--ipapi-lookup-false-display);
 }
+
+.privacy-policy .ipapi-lookup-true,
+.privacy-policy .ipapi-lookup-false {
+	transition: opacity 500ms linear;
+	opacity: var(--ipapi-lookup-opacity);
+}
