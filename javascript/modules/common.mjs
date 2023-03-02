@@ -3529,7 +3529,7 @@ siteWideLoader = function () {
 		}
 	}
 
-	if (o.enqueue.length) {
+	if ((o.enqueue) && (o.enqueue.length)) {
 		o.enqueue.forEach(function (obj) {
 			enqueue(obj);
 		});
