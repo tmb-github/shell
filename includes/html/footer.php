@@ -38,18 +38,25 @@ $json_data = json_decode($social_icon_json, true);
 ?>
 
 <footer class=footer>
-	<h1 class=screen-reader>Footer</h1>
-	<ul class=social-icons>
+	<h1 class=visually-hidden aria-hidden=true>Footer</h1>
+	<section class=social-media-links>
+		<h2 class=screen-reader>Social Media Links</h2>
+		<ul class=social-icons>
 <?php
 foreach($json_data as $attribute)  {
-	echo '		<li><a class="social-icon-anchor no-open-in-new no-border-bottom ' . $attribute['class'] . '" href="' . $attribute['href'] . '" title="' . $attribute['title'] . '"><span class=screen-reader>' . $attribute['screenReader'] . '</span></a></li>' . PHP_EOL;
+	echo '			<li><a class="social-icon-anchor no-open-in-new no-border-bottom ' . $attribute['class'] . '" href="' . $attribute['href'] . '" title="' . $attribute['title'] . '"><span class=screen-reader>' . $attribute['screenReader'] . '</span></a></li>' . PHP_EOL;
 }
 ?>
-	</ul>
-	<div class="copyright display-block">
+		</ul>
+	</section>
+	<section class="site-links display-block">
+		<h2 class=screen-reader>Site Navigation</h2>
 		<p class=internal-links><a class="internal-anchor privacy-policy" href="privacy-policy/">Privacy Policy</a> | <a class="internal-anchor site-map" href="site-map/">Site Map</a></p>
-		<p class=copyright-notice>All images and text Copyright © 2009–<?php echo date('Y'); ?> by John Q. Public. <span class=avoid-wrap>All Rights Reserved.</span></p>
-	</div>
+	</section>
+	<section class=copyright>
+		<h2 class=screen-reader>Copyright Notice</h2>
+		<p class=copyright-notice>All images and text Copyright © 2009–<?php echo date('Y'); ?> by BMT Systems, Inc. <span class=avoid-wrap>All Rights Reserved.</span></p>
+	</section>
 </footer>
 
 <?php

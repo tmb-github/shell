@@ -77,6 +77,14 @@ of the targeted element.
 	opacity: 1;
 }
 
+/*****************
+*** site links ***
+******************/
+
+.footer .site-links {
+	padding: .5em .5em .25em .5em;
+}
+
 /*****************************************************************************
 *** SEE: hex2filter ******************************************
 *** NB: You *must* prepend "brightness(0) saturate(100%)" to the result to ***
@@ -88,11 +96,12 @@ of the targeted element.
 ****************/
 
 .footer .copyright {
-	padding: .5em;
+	padding: .25em .5em 0 .5em;
 }
 
 .footer .copyright-notice {
-	font-size: .8em;
+	display: inline-block;
+	font-size: .8rem;
 }
 
 /*******************************

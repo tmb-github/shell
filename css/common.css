@@ -123,7 +123,11 @@ This reproduces the old style of the Chrome focus ring:
 	margin: 0;
 }
 
-/* SEE: https://webaim.org/techniques/css/invisiblecontent/ */
+/*
+OLD VERSION
+SEE: https://webaim.org/techniques/css/invisiblecontent/
+*/
+/*
 .mce-tinymce.mce-container.mce-panel .screen-reader,
 .screen-reader,
 .visually-hidden {
@@ -133,6 +137,27 @@ This reproduces the old style of the Chrome focus ring:
 	width: 1px;
 	height: 1px;
 	overflow: hidden;
+}
+*/
+
+/*
+NEW VERSION
+SEE:
+https://github.com/h5bp/main.css/issues/12
+https://gomakethings.com/revisting-aria-label-versus-a-visually-hidden-class/
+*/
+.mce-tinymce.mce-container.mce-panel .screen-reader,
+.screen-reader,
+.visually-hidden {
+	border: 0;
+	clip: rect(0 0 0 0);
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	width: 1px;
+	white-space: nowrap;
 }
 
 

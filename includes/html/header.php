@@ -65,7 +65,7 @@ $header_classes = "header";
 // SAVE: <span class=load-material-icons>eco</span>
 ?>
 <header class="<?php echo $header_classes; ?>">
-	<h1 class=screen-reader>Header</h1>
+	<h1 class=visually-hidden aria-hidden=true>Header</h1>
 	<a href=#main-content id=skip-to-main-content class="hash-anchor skip-to-main-content">Skip to main content</a>
 <?php
 // If false, use font-display: swap; in font-face.css

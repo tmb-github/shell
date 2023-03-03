@@ -347,7 +347,7 @@ if ($log_error_messages_to_html === true) {
 		</main>
 	</div>
 	<footer class="footer">
-		<h1 class="screen-reader">Footer</h1>
+		<h1 class=visually-hidden aria-hidden=true>Footer</h1>
 		<div class="copyright display-block">
 			<p>All images and text Copyright © 2009–<?php echo date("Y"); ?> by <?php echo $site_title; ?>. <span class="avoid-wrap">All Rights Reserved.</span></p>
 		</div>
