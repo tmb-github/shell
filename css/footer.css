@@ -85,6 +85,32 @@ of the targeted element.
 	padding: .5em .5em .25em .5em;
 }
 
+.footer .site-links a {
+	color: var(--footer-anchor);
+	filter: brightness(200%) saturate(200%);
+	opacity: .75;
+	text-decoration: none;
+	transition: opacity 500ms ease;
+}
+
+.footer .site-links a:hover {
+	opacity: 1;
+}
+.footer .site-links a::after:hover {
+	opacity: .75;
+}
+
+/* see https://stackoverflow.com/questions/9847663/css-last-element-on-line */
+
+.footer .site-links li:not(.larger-screens-display-none) {
+	display: inline;
+}
+
+.footer .site-links li:not(:last-child)::after {
+	content: " | ";
+	opacity: .75;
+}
+
 /*****************************************************************************
 *** SEE: hex2filter ******************************************
 *** NB: You *must* prepend "brightness(0) saturate(100%)" to the result to ***
@@ -167,3 +193,4 @@ KEEP IN CASE WE WANT TO RESTORE INSTAGRAM IMAGES IN THE FOOTER:
 	transform: scale(1.1);
 }
 */
+

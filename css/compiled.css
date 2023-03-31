@@ -678,6 +678,19 @@ e.g., if the value is 300deg, reset it to -60deg.
 	--header-height: 60px;
 	--header-nav-li-height: 60px;
 	--image-background-matte-color: #efefef;
+
+/*
+see corresponding ipapi lookup settings in:
+common.css
+privacy-policy.css
+privacyPolicy.mjs
+privacy-policy/main.php
+*/
+
+	--ipapi-lookup-true-display: block;
+	--ipapi-lookup-false-display: none;
+	--ipapi-lookup-opacity: 0;
+
 	--logo-for-mobile-menu-margin-right: 0;
 /* This affects the opacity of both the main element and the footer: */
 	--main-opacity: 0;
@@ -730,7 +743,11 @@ This reproduces the old style of the Chrome focus ring:
 	margin: 0;
 }
 
-/* SEE: https://webaim.org/techniques/css/invisiblecontent/ */
+/*
+OLD VERSION
+SEE: https://webaim.org/techniques/css/invisiblecontent/
+*/
+/*
 .mce-tinymce.mce-container.mce-panel .screen-reader,
 .screen-reader,
 .visually-hidden {
@@ -740,6 +757,27 @@ This reproduces the old style of the Chrome focus ring:
 	width: 1px;
 	height: 1px;
 	overflow: hidden;
+}
+*/
+
+/*
+NEW VERSION
+SEE:
+https://github.com/h5bp/main.css/issues/12
+https://gomakethings.com/revisting-aria-label-versus-a-visually-hidden-class/
+*/
+.mce-tinymce.mce-container.mce-panel .screen-reader,
+.screen-reader,
+.visually-hidden {
+	border: 0;
+	clip: rect(0,0,0,0);
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	width: 1px;
+	white-space: nowrap;
 }
 
 
@@ -3572,6 +3610,40 @@ of the targeted element.
 	opacity: 1;
 }
 
+/*****************
+*** site links ***
+******************/
+
+.footer .site-links {
+	padding: .5em .5em .25em .5em;
+}
+
+.footer .site-links a {
+	color: var(--footer-anchor);
+	filter: brightness(200%) saturate(200%);
+	opacity: .75;
+	text-decoration: none;
+	transition: opacity 500ms ease;
+}
+
+.footer .site-links a:hover {
+	opacity: 1;
+}
+.footer .site-links a::after:hover {
+	opacity: .75;
+}
+
+/* see https://stackoverflow.com/questions/9847663/css-last-element-on-line */
+
+.footer .site-links li:not(.larger-screens-display-none) {
+	display: inline;
+}
+
+.footer .site-links li:not(:last-child)::after {
+	content: " | ";
+	opacity: .75;
+}
+
 /*****************************************************************************
 *** SEE: hex2filter ******************************************
 *** NB: You *must* prepend "brightness(0) saturate(100%)" to the result to ***
@@ -3583,11 +3655,12 @@ of the targeted element.
 ****************/
 
 .footer .copyright {
-	padding: .5em;
+	padding: .25em .5em 0 .5em;
 }
 
 .footer .copyright-notice {
-	font-size: .8em;
+	display: inline-block;
+	font-size: .8rem;
 }
 
 /*******************************
@@ -3653,3 +3726,5 @@ KEEP IN CASE WE WANT TO RESTORE INSTAGRAM IMAGES IN THE FOOTER:
 	transform: scale(1.1);
 }
 */
+
+

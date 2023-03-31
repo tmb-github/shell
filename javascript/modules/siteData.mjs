@@ -68,10 +68,10 @@ siteData = {
 	metaData: {
 		page: 'default',
 		name: {
-			"description": "SHELL application described in 70 characters or less",
+			"description": "SHELL application description [150-160 characters are best].",
 			"twitter:card": "summary_large_image",
 			"twitter:creator": "@Shell",
-			"twitter:description": "SHELL application described in 70 characters or less",
+			"twitter:description": "SHELL application description [150-160 characters are best].",
 			"twitter:site": "@Shell",
 			"twitter:title": "${TITLE}",
 			"twitter:url": "${CANONICAL}",
@@ -79,7 +79,7 @@ siteData = {
 			"twitter:image:alt": "Shell"
 		},
 		property: {
-			"og:description": "SHELL application described in 70 characters or less",
+			"og:description": "SHELL application description [150-160 characters are best].",
 			"og:image": "${BASE}images/head/shell-1200x630.20220913065837.jpg",
 			"og:image:alt": "Shell",
 			"og:image:height": "630",
@@ -179,6 +179,7 @@ privacyPolicy.mjs
 privacy-policy/main.php
 */
 	ipapiLookup: true,
+	metaDescription: 'SHELL application description [150-160 characters are best].',
 	useGoogleAnalytics: false,
 	uaString: 'UA-#########-1'
 

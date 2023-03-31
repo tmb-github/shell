@@ -16,6 +16,14 @@ SetEnvIf Request_URI "^.*" LIVEHOST=https://shell.com
 
 =================
 
+* Edit domain_info/domain_info.inc.php
+
+=================
+
+* Temporarily rename shell*.webp/png files to site name in images/head
+
+=================
+
 * Edit includes/common_variables/variables.php
 --> Pay special attention to schema variables at bottom
 --> Note the various images that must be created in the remmed-out block above them
@@ -23,7 +31,6 @@ SetEnvIf Request_URI "^.*" LIVEHOST=https://shell.com
 =================
 
 When adding a new page, using a DUMMY*.php file as a template:
-* Edit domain_info/domain_info.inc.php
 * Edit includes/html/header.php to list the page in the header navigation
 * Edit includes/html/footer.php to list the page in the footer navigation (if any)
 * Edit includes/html/script.php (schema!)

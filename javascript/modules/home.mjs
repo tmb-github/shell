@@ -1,7 +1,17 @@
-// NB: All functions will have the mjs file name as their parent property,
-// so o.contact.main(), o.contact.formLogic(), etc.
-// ALSO:
-// Every mjs should have a main() function that is called by common.mjs inner()
+// Every mjs file has a main() function that is called by common.mjs inner().
+//
+// Functions from common.mjs are accessed as methods of the 'o' object:
+//
+// o.commonMjsFunction();
+//
+// functions local to this module that need access to the 'o' object and its
+// methods should receive the 'o' object as a parameter when called:
+//
+// localFunction(o);
+//
+// Local functions may also be called with o.[mjsFilePrefix].localFunction();
+// but then, in their body, they must have an 'o' variable set equal to
+// their 'this' keyword, as is done in main().
 
 var main;
 var returnMetaData;
@@ -15,12 +25,12 @@ main = function () {
 // 'this' is the outer 'o' via .bind(o), so the outer 'o' === inner 'o':
 	o = this;
 
-	metaData = returnMetaData();
+	metaData = returnMetaData(o);
 	o.reviseMetaData(metaData);
 
 };
 
-returnMetaData = function () {
+returnMetaData = function (o) {
 
 	var _canonical;
 	var _default;
@@ -36,7 +46,7 @@ returnMetaData = function () {
 	_canonical = '${CANONICAL}';
 	_default = '${DEFAULT}';
 	_title = '${TITLE}';
-	_description = 'Home page of SHELL application [70 characters are best here]';
+	_description = 'Home page of ' + o.siteData.metaDescription;
 	_page = 'home';
 	_image = _default;
 	_imageAlt = _default;

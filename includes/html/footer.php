@@ -49,10 +49,29 @@ foreach($json_data as $attribute)  {
 ?>
 		</ul>
 	</section>
+
 	<section class="site-links display-block">
 		<h2 class=screen-reader>Site Navigation</h2>
-		<p class=internal-links><a class="internal-anchor privacy-policy" href="privacy-policy/">Privacy Policy</a> | <a class="internal-anchor site-map" href="site-map/">Site Map</a></p>
+		<ul class=internal-links>
+			<li class=larger-screens-display-none><a class="internal-anchor home" href="<?php echo $home; ?>">Home</a></li>
+			<li class=larger-screens-display-none><a class="internal-anchor dummy-1" href="dummy-1/">Dummy1</a></li>
+			<li class=larger-screens-display-none><a class="internal-anchor dummy-2" href="dummy-2/">Dummy2</a></li>
+			<li><a class="internal-anchor privacy-policy" href="privacy-policy/">Privacy Policy</a></li>
+			<li><a class="internal-anchor site-map" href="site-map/">Site Map</a></li>
+<?php
+if (isset($_SESSION['authenticated']) && ($_SESSION['authenticated'] == 'true')) {
+?>
+			<li><a class="internal-anchor logout" href="logout/" rel="nofollow">Logout</a></li>
+<?php
+} else {
+?>
+			<li><a class="internal-anchor login" href="login/" rel="nofollow">Login</a></li>
+<?php
+}
+?>
+		</ul>
 	</section>
+
 	<section class=copyright>
 		<h2 class=screen-reader>Copyright Notice</h2>
 		<p class=copyright-notice>All images and text Copyright © 2009–<?php echo date('Y'); ?> by BMT Systems, Inc. <span class=avoid-wrap>All Rights Reserved.</span></p>

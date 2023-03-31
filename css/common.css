@@ -150,7 +150,7 @@ https://gomakethings.com/revisting-aria-label-versus-a-visually-hidden-class/
 .screen-reader,
 .visually-hidden {
 	border: 0;
-	clip: rect(0 0 0 0);
+	clip: rect(0,0,0,0);
 	height: 1px;
 	margin: -1px;
 	overflow: hidden;
@@ -743,6 +743,31 @@ switcher.css
 	}
 }
 */
+
+@media screen and (max-width: 464px) {
+	br.larger-screens {
+		display: none; 
+	}
+	br.smaller-screens {
+		display: inline; 
+	}
+	.larger-screens-display-none {
+		display: initial;
+	}
+}
+
+@media screen and (min-width: 464px) {
+	br.larger-screens {
+		display: inline; 
+	}
+	br.smaller-screens {
+		display: none; 
+	}
+	.larger-screens-display-none {
+		display: none;
+	}
+}
+
 
 
 /* This animation is employed on all images in MAIN via rule in body.css */
