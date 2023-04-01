@@ -85,29 +85,80 @@ of the targeted element.
 	padding: .5em .5em .25em .5em;
 }
 
+/*
+See: removeSeparatorAtEndOfLine() in footerEdits() in common.mjs
+*/
+
+/* 
+width of ::after character ...
+must be measured by selecting character in DevTools
+use it in margin-left below to ensure the block is truly centered.
+*/
+
+/*
+&nbsp; -> \00a0
+&emsp; -> \2003
+&ensp; -> \2002
+en quad --> \2000
+
+See: https://symbl.cc/en/2002/
+
+content: '\00a0|\00a0'; '\a0|\a0'; 
+
+USE WIDTH OF THIS CHARACTER IN margin-left RULE BELOW!
+*/
+
+.footer .site-links ul {
+	text-align: center;
+	margin-left: 20px;
+	display: inline-block;
+	font-size: 0; /* To eliminate white-space characters in between LI elements */
+}
+
+.footer .site-links li {
+	font-size: 1rem;
+}
+
+@media screen and (max-width: 464px) {
+	.footer .site-links li.larger-screens-display-none {
+		display: inherit;
+	}
+}
+
+@media screen and (min-width: 464px) {
+	.footer .site-links li.larger-screens-display-none {
+		display: none;
+	}
+}
+
+.footer .site-links li:not(.larger-screens-display-none) {
+	display: inherit;
+}
+
+.footer .site-links li::after {
+	content: '\2000|\2000';
+	opacity: .75;
+}
+
+.footer .site-links li.last-in-line::after {
+	visibility: hidden;
+}
+
+
 .footer .site-links a {
 	color: var(--footer-anchor);
 	filter: brightness(200%) saturate(200%);
 	opacity: .75;
 	text-decoration: none;
 	transition: opacity 500ms ease;
+	white-space: nowrap;
 }
 
 .footer .site-links a:hover {
 	opacity: 1;
 }
+
 .footer .site-links a::after:hover {
-	opacity: .75;
-}
-
-/* see https://stackoverflow.com/questions/9847663/css-last-element-on-line */
-
-.footer .site-links li:not(.larger-screens-display-none) {
-	display: inline;
-}
-
-.footer .site-links li:not(:last-child)::after {
-	content: " | ";
 	opacity: .75;
 }
 

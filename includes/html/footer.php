@@ -56,6 +56,10 @@ foreach($json_data as $attribute)  {
 			<li class=larger-screens-display-none><a class="internal-anchor home" href="<?php echo $home; ?>">Home</a></li>
 			<li class=larger-screens-display-none><a class="internal-anchor dummy-1" href="dummy-1/">Dummy1</a></li>
 			<li class=larger-screens-display-none><a class="internal-anchor dummy-2" href="dummy-2/">Dummy2</a></li>
+			<li class=larger-screens-display-none><a class="internal-anchor dummy-3" href="dummy-3/">Dummy3</a></li>
+			<li class=larger-screens-display-none><a class="internal-anchor dummy-4" href="dummy-4/">Dummy4</a></li>
+			<li class=larger-screens-display-none><a class="internal-anchor dummy-5" href="dummy-5/">Dummy5</a></li>
+			<li class=larger-screens-display-none><a class="internal-anchor dummy-6" href="dummy-6/">Dummy6</a></li>
 			<li><a class="internal-anchor privacy-policy" href="privacy-policy/">Privacy Policy</a></li>
 			<li><a class="internal-anchor site-map" href="site-map/">Site Map</a></li>
 <?php

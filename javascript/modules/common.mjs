@@ -39,6 +39,7 @@ var fetchResolveWithOptions;
 var fetchResponse;
 var fireCustomEvent;
 var fiveRandomAlphaNumerics;
+var footerEdits;
 var highlightMenuItem;
 var inEu;
 var initializeHeaderHeightAndObserver;
@@ -1127,6 +1128,7 @@ commonRoutinesOnFirstLoadOnly = function () {
 	});
 
 	o.initializeHeaderHeightAndObserver();
+	o.footerEdits();
 
 };
 
@@ -1878,6 +1880,47 @@ enqueueArray = [];
 //
 // This is distinct from the .tmb-alert-hidden CSS which is used
 // to diplay and hide the alert during application use.
+
+footerEdits = function () {
+
+	var o;
+	var removeSeparatorAtEndOfLine;
+
+	o = this;
+
+	removeSeparatorAtEndOfLine = function () {
+
+		function routine() {
+			var lastElement = false;
+			document.querySelectorAll('.footer .site-links .internal-links a').forEach(function (element) {
+				if (lastElement) {
+					if (lastElement.offsetTop !== element.offsetTop) {
+						lastElement.parentElement.classList.add('last-in-line');
+					} else {
+						lastElement.parentElement.classList.remove('last-in-line');
+					}
+				}
+				lastElement = element;
+			});
+			if (lastElement) {
+				lastElement.parentElement.classList.add('last-in-line');
+			}
+		}
+
+		document.querySelectorAll('.footer .site-links .internal-links li').forEach(function (element) {
+			element.classList.remove('last-in-line');
+		});
+
+		routine();
+
+	};
+
+	removeSeparatorAtEndOfLine();
+
+	window.addEventListener('resize', o.debounce(removeSeparatorAtEndOfLine, 250, false));
+
+};
+
 
 removeVisibilityHiddenFromTmbAlert = function () {
 
@@ -3706,6 +3749,7 @@ export default Object.freeze({
 	fetchResponse,
 	fireCustomEvent,
 	fiveRandomAlphaNumerics,
+	footerEdits,
 	highlightMenuItem,
 	inEu,
 	initializeHeaderHeightAndObserver,
