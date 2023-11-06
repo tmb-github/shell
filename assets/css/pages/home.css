@@ -1,0 +1,10 @@
+/* To 463px (next query overtakes 464px): */
+@media all and (max-width: 464px) {
+	.main.home {
+		margin: calc(1em + var(--header-height)) 1em 3em 1em;
+	}
+}
+
+.home p {
+	text-align: center;
+}

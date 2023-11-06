@@ -1,0 +1,69 @@
+/* To 463px (next query overtakes 464px): */
+@media all and (max-width: 464px) {
+	.main.google-fonts {
+		margin: calc(1em + var(--header-height)) 1em 3em 1em;
+	}
+}
+
+.google-fonts .font-samples {
+	text-align: center;
+}
+
+.google-fonts table {
+	border-collapse: collapse;
+	border-spacing: 0;
+	margin: 8px;
+}
+.google-fonts th, td {
+	padding: 3px;
+}
+
+.google-fonts .bot {
+	position: absolute;
+	left: -10000px;
+	top: auto;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	display: none;
+}
+
+.google-fonts .output {
+	margin: 1em;
+}
+
+.google-fonts .output table + table {
+	margin-top: 1em;
+}
+
+.google-fonts .output pre {
+	white-space: pre-wrap;
+}
+
+.google-fonts.main input {
+	max-width: none;
+	width: -webkit-fill-available;
+	margin-top: .5em;
+}
+
+.google-fonts.main button {
+	padding: .5em;
+	margin-right: 1em;
+}
+
+.body .google-fonts a[href*="//"]:not(.no-open-in-new):not(.ripple-button):not(.skip-to-main-content):not(.internal-anchor)::after {
+	margin-left: 0;
+}
+
+.google-fonts button.clear-output {
+	display: none;
+}
+
+.google-fonts button.clear-output.display {
+	display: inline-block;
+}
+
+/* download symbol, not open-in-new symbol */
+.body .google-fonts a[href*="//"]:not(.no-open-in-new):not(.ripple-button):not(.skip-to-main-content):not(.internal-anchor)::after {
+	background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgLTk2MCA5NjAgOTYwIiB3aWR0aD0iMjQiPjxwYXRoIGQ9Ik00ODAtMzIwIDI4MC01MjBsNTYtNTggMTA0IDEwNHYtMzI2aDgwdjMyNmwxMDQtMTA0IDU2IDU4LTIwMCAyMDBaTTI0MC0xNjBxLTMzIDAtNTYuNS0yMy41VDE2MC0yNDB2LTEyMGg4MHYxMjBoNDgwdi0xMjBoODB2MTIwcTAgMzMtMjMuNSA1Ni41VDcyMC0xNjBIMjQwWiIvPjwvc3ZnPg==");
+}

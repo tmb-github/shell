@@ -1,0 +1,169 @@
+/* 
+NB: Only :root variables that are NOT being revised by JavaScript
+may be included in page *.css files. Those being revised by
+JavaScript must be declared in common.css.
+*/
+:root {
+	--main-width: 812px;
+	--main-margin-width: 32px;
+	--main-margins-sum: calc(32px + 32px);
+
+	--liLabelWidth: 73.44px;
+	--liGridGap: 6px;
+	--liInputWidth: 256px;
+	--liBlockWidth: calc(73.44px + 6px + 256px);
+}
+
+/***********
+*** MAIN ***
+***********/
+
+/* To 875px (next query overtakes 876px): */
+@media all and (max-width: 876px) {
+
+	.server-error-test.main {
+		margin: calc(1em + var(--header-height)) var(--main-margin-width) 3em var(--main-margin-width);
+		width: calc(100vw - var(--main-margins-sum));
+	}
+
+}
+
+/*** 876px is --main-width + (--main-margin-width * 2) **/
+/* From 876px: */
+@media all and (min-width: 876px) {
+
+	.server-error-test.main {
+		margin: calc(1em + var(--header-height)) auto 3em auto;
+		width: var(--main-width);
+	}
+
+}
+
+
+/************************
+*** SERVER ERROR TEST ***
+*************************/
+
+
+/* To 399px (next query overtakes 400px): */
+@media all and (max-width: 400px) {
+
+	.server-error-test.main .input-grid {
+		display: grid;
+		grid-template-columns: max-content calc((100vw - var(--main-margins-sum)) - (var(--liLabelWidth) + var(--liGridGap)));
+		grid-gap: var(--liGridGap);
+		margin: 2em 0 0 0;
+		padding-bottom: 1em;
+	}
+
+}
+
+/*** 400px is --liBlockWidth + (--main-margin-width * 2), rounded up **/
+
+/* From 400px to 875px (next query overtakes 876px): */
+@media all and (min-width: 400px) and (max-width: 876px)  {
+
+	.server-error-test.main .input-grid {
+		display: grid;
+		grid-template-columns: max-content var(--liInputWidth);
+		grid-gap: var(--liGridGap);
+		margin: 2em calc(((100vw - var(--main-margins-sum)) - var(--liBlockWidth)) / 2) 0 calc(((100vw - var(--main-margins-sum)) - var(--liBlockWidth)) / 2);
+		padding-bottom: 1em;
+	}
+
+}
+
+/* From 876px: */
+@media all and (min-width: 876px) {
+
+	.server-error-test.main .input-grid {
+		display: grid;
+		grid-template-columns: max-content var(--liInputWidth); 
+		grid-gap: var(--liGridGap);
+		margin: 2em calc((var(--main-width) - var(--liBlockWidth)) / 2) 0 calc((var(--main-width) - var(--liBlockWidth)) / 2);
+		padding-bottom: 1em;
+	}
+
+}
+
+/************************************
+*** Submit Button for entire form ***
+************************************/
+
+
+/*** Reduce the size of the button only when the screen width encroaches on its default width: */
+/* To 328px (next query overtakes 329px): */
+@media all and (max-width: 329px) {
+
+	.server-error-test #submit-button {
+		padding-top: 4px;
+		padding-right: initial;
+		padding-bottom: 4px;
+		padding-left: initial;
+		width: calc(100vw - (var(--liLabelWidth) + var(--liGridGap) + var(--main-margins-sum)));
+	}
+
+}
+
+/* From 329px: */
+@media all and (min-width: 329px) {
+
+	.server-error-test #submit-button {
+		padding-top: 4px;
+		padding-right: 72px;
+		padding-bottom: 4px;
+		padding-left: 72px;
+		width: max-content;
+	}
+
+}
+
+/*
+.server-error-test .outer-container-to-center {
+	float: left;
+}
+*/
+
+.server-error-test .inner-container-to-center {
+	float: left;
+}
+
+.server-error-test .input-grid label {
+	text-align: right;
+}
+
+/*
+--> Colon added directly to HTML 2021-02-02, as per CSE Validator suggestion
+.server-error-test .input-grid label::after {
+	content: ":"; 
+}
+*/
+
+.server-error-test .input-grid input {
+	margin-bottom: 1em;
+	max-width: 13.5em;
+}
+
+.server-error-test label[for=submit-button] {
+	visibility: hidden;
+}
+
+.server-error-test .submit-button {
+	text-align: center;
+}
+
+.server-error-test .submit-button button {
+	display: block;
+	margin: 0 auto;
+	padding: .5em;
+}
+
+.server-error-test .random-word-recognized,
+.server-error-test .random-word-unrecognized {
+	display: none;
+}
+
+.server-error-test .random-word-recognized.show,
+.server-error-test .random-word-unrecognized.show {
+	display: revert;
+}

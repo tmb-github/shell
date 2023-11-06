@@ -1,0 +1,464 @@
+/*** Main Section ***/
+
+
+/* NB: 60px is the height of the fixed header; 16px/1em is the standard margin below it */
+/*
+.main {
+	font: 400 1em/1.5 'Noto Sans', sans-serif;
+}
+*/
+
+.main {
+	position: relative;
+	flex: 1;
+	opacity: var(--main-opacity);
+}
+
+.main .external-anchor:link,
+.main .external-anchor:visited,
+.main .external-anchor:hover,
+.main .external-anchor:focus,
+.main .external-anchor:active {
+	background-color: transparent;
+}
+
+.main .hash-anchor:link,
+.main .hash-anchor:visited,
+.main .hash-anchor:hover,
+.main .hash-anchor:focus,
+.main .hash-anchor:active {
+	background-color: transparent;
+}
+
+/* 
+2020-04-01:
+#efefef is the background color of the gallery image links 
+The background-color setting here sets the color along the
+bottom and right margins, reason unknown.
+*/
+.main .image-anchor:link,
+.main .image-anchor:visited,
+.main .image-anchor:hover,
+.main .image-anchor:focus,
+.main .image-anchor:active {
+	background-color: var(--image-background-matte-color);
+}
+
+.main .internal-anchor:link,
+.main .internal-anchor:visited,
+.main .internal-anchor:hover,
+.main .internal-anchor:focus,
+.main .internal-anchor:active {
+	background-color: transparent;
+}
+
+.main .bullet-text {
+	font-size: 1.2em;
+	font-weight: 700;
+}
+
+/* 
+
+2021-10-17:
+Moved to common-admin-stylings.css:
+
+For titles of works acting as links to artwork-editor -- when signed in as administrator/authenticated:
+
+.main a:not(.no-border-bottom).color-red {
+	color: var(--red);
+}
+
+*/
+
+.main a:not(.no-border-bottom) {
+	background-color: transparent;
+	border-bottom-color: var(--anchor-underline-color);
+	border-bottom-style: solid;
+	border-bottom-width: 2px;
+	color: black;
+	font-weight: 700;
+	margin-bottom: -2px;
+	text-decoration: none;
+	transition: var(--background-color-500ms-ease--border-bottom-color-500ms-ease);
+}
+
+.main a:not(.no-border-bottom):hover {
+	background-color: var(--anchor-background-color-hover);
+	border-bottom-color: var(--anchor-underline-color-hover);
+}
+
+
+.main a:not(.no-border-bottom):active {
+	box-shadow: 0 0 36px var(--anchor-underline-color-hover), inset 0 0 72px #444;
+	border-bottom: 2px solid #fff;
+	border-radius: 10px 10px 0 0;
+	color: #fff;
+	outline: 0;
+}
+
+.main hr {
+	margin: 1em 0 1em 0;
+}
+.main ul {
+	list-style-type: none;
+}
+
+/* margin above first li */
+.main li {
+	margin: 12px 0;
+	text-indent: -1em;
+	padding-left: 1em;
+}
+
+/* margin above all subsequent li's */
+.main li ~ li {
+	margin: 24px 0;
+}
+
+.main ul .first-line {
+	font-style: italic;
+}
+
+/*
+.main ul ul li {
+	margin-left: 16px;
+}
+*/
+
+/******************************/
+/*** MODAL IFRAMES FOR: *******/
+/*** IC: IMAGE CHECK **********/
+/*** LV: LINK VIEWER ANCHOR ***/
+/******************************/
+
+/*** REMOVED because the link viewer is no longer used:
+.main .lv-close-button 
+.main .gray.lv-close-button
+.main .gray.lv-close-button:active
+.main .lv-close-button:hover
+.main .lv-close-button::after
+.main .lv-close-button:hover::after
+***/
+
+.main .gray,
+.main .ripple-button:not(:checked) {
+	border-radius: 5px;
+	border-width: 0;
+	color: black;
+	display: inline-block;
+	font-weight: 700;
+	height: auto;
+	letter-spacing: 2px;
+	overflow: hidden;
+	padding: 12px 30px;
+	position: relative;
+	text-align: center;
+	text-decoration: none;
+	word-wrap: normal;
+	width: auto;
+}
+
+/* https://keithjgrant.com/posts/2017/07/transitioning-gradients/ */
+
+/*** GRAY ***/
+
+.main .gray {
+	background-image: linear-gradient(#f0f0f0, #d2d2d2);
+	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.45); /* #00000063; */
+	text-shadow: 0 1px 0 #fff;
+	z-index: 1;
+}
+
+/* press effect */
+.main .gray:not(.no-more):not(.no-press-effect):active {
+	transform: translateY(1.5px);
+}
+
+.main .gray:not(.no-more)::before {
+	position: absolute;
+	content: '';
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background-image: linear-gradient(#e1e1e1, #c3c3c3);
+	z-index: -1;
+/* For mobile: */
+	transition: none;
+	opacity: 0;
+}
+
+
+/* 
+Needed to prevent hover state from sticking after pressing the button on mobile.
+SEE: https://css-tricks.com/solving-sticky-hover-states-with-media-hover-hover/
+Target non-mobile devices for opacity change on hover and for transition:
+*/
+@media (hover: hover) {
+/* Only transition on desktop: */
+	.main .gray:not(.no-more)::before {
+		transition: opacity .25s linear;
+	}
+/* Only change hover opacity on desktop: */
+	.main .gray:not(.no-more):hover::before {
+		opacity: 1;
+	}
+}
+
+.main .gray:not(.no-more):active::before {
+	background-image: linear-gradient(#d2d2d2, #b4b4b4);
+	opacity: 1;
+}
+
+
+/*** ORANGE ***/
+.main .orange.ripple-button:not(:checked) {
+	background: linear-gradient(var(--cta-orange-light), var(--cta-orange-dark));
+	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.52); /* #00000084; */
+	text-shadow: 0 1px 0 #ffe093;
+}
+
+.main .orange.ripple-button:not(:checked):active {
+	background: linear-gradient(var(--cta-orange-dark), var(--cta-orange-darker));
+	transform: translateY(1.5px);
+}
+
+
+/*** ripple buttons ***/
+
+.main .ripple-button::after {
+	background-image: radial-gradient(circle, #696969 10%, transparent 10.01%);
+	background-position: 50%;
+	content: "";
+	display: block;
+	height: 100%;
+	left: 0;
+	opacity: .2;
+	pointer-events: none;
+	position: absolute;
+	top: 0;
+	transform: scale(0, 0);
+	width: 100%;
+}
+
+.main .ripple-button:hover::after {
+	opacity: 0;
+	transform: scale(10, 10);
+	transition: transform 750ms, opacity 1s;
+}
+
+.main .ripple-button.no-more:hover::after {
+	transform: none;
+}
+
+.main .center-ripple-button {
+	text-align: center;
+}
+
+/*****************************************/
+/************ DETAILS ELEMENT ************/
+/**** Used in both Galleries and About ***/
+/*****************************************/
+
+.main .details-element {
+	margin: 0 0 1em 0;
+	padding: 0;
+	text-align: center;
+}
+
+/*
+
+>>> 2021-03-19: Safari doesn't support @supports selector(), so the CSS strategy below is moot!
+
+See: https://chromestatus.com/feature/6730096436051968
+
+Lighthouse GitHub: https://github.com/GoogleChrome/lighthouse/issues/12089
+
+We should be able to filter this way:
+
+@supports selector(summary::marker) {
+	.main summary {
+		list-style-type: none;
+	}
+}
+
+@supports not selector(summary::marker) {
+	.main summary::-webkit-details-marker {
+		display: none;
+	}
+}
+
+...but chrome < 90 recognizes ::marker, yet it requires
+the old vendor prefix to suppress the caret.
+
+// Suppress caret: Needed for Chrome >= 89:
+
+@supports selector(::marker) {
+	.main summary {
+		list-style: none;
+	}
+}
+
+// Suppress caret: Needed for Chrome < 89, Safari
+
+@supports not selector(::marker) {
+	.main summary::-webkit-details-marker {
+		display: none;
+	}
+}
+
+// UPSHOT: If Lighthouse would not penalize us for using ::webkit-details-marker as a fallback for non-Chrome browsers, we would be able to use the following to suppress it:
+
+.main summary {
+	list-style: none;
+}
+.main summary::-webkit-details-marker {
+	display: none;
+}
+
+// BUT WE CAN'T!!! (2021-03-07)
+
+2021-02-08: posted to: https://groups.google.com/a/chromium.org/g/chromium-discuss
+
+I'm suppressing the default triangle marker in <summary> elements in my site. The info at Feature: 'display: list-item' by default for <summary> states:
+
+The default value of CSS 'display' property for <summary> is changed to 'list-item' from 'block'. We also support '::marker' pseudo element selector for <summary>, and remove '::-webkit-details-marker' pseudo element selector. Before this change, developers did the following in order to hide the details marker: summary::-webkit-details-marker { display: none; margin-inline-end: 0; } Now developers can do: summary { display: block; } or summary { list-style-type: none; }
+
+Chrome v. 89 and below and all versions of Safari require the older method described above. My CSS is therefore:
+
+@supports selector(::marker) {
+	.main summary {
+		list-style: none;
+	}
+}
+
+@supports not selector(::marker) {
+	.main summary::-webkit-details-marker {
+		display: none;
+	}
+}
+
+However, Canary 90 issues this warning in the console:
+
+[Deprecation] ::-webkit-details-marker pseudo element selector is deprecated. Please use ::marker instead. See https://chromestatus.com/feature/6730096436051968 for more details.
+
+How can I write my CSS to suppress this warning? I am using ::marker, and I'm providing a fallback for non-compliant browsers.
+
+*/
+
+/* Toggle Details text: [More/Less Info] */
+
+.main details:not([open]) .details-summary span.more {
+	display: inline-block;
+}
+.main details:not([open]) .details-summary span.less {
+	display: none;
+}
+.main details[open] .details-summary span.more {
+	display: none;
+}
+.main details[open] .details-summary span.less {
+	display: inline-block;
+}
+
+/* Custom caret in [More/Less Info] */
+.main .details-summary {
+	padding: 6px 20px;
+}
+
+/*
+// IF AND WHEN the ::-webkit-details-marker issue described above is fixed, restore this block of CSS for a custom caret!
+// PROBLEM: @supports doesn't work in Safari!
+*/
+
+/*
+@supports selector(::marker) {
+	.main summary {
+		list-style: none;
+	}
+}
+
+@supports not selector(::marker) {
+	.main summary::-webkit-details-marker {
+		display: none;
+	}
+}
+
+
+.main details .details-summary::before {
+	border-bottom: 5px solid transparent;
+	border-left: 5px solid currentColor;
+	border-top: 5px solid transparent;
+	content: ' ';
+	display: inline-block;
+	margin-right: .7rem;
+	vertical-align: middle;
+}
+
+
+.main details[open] .details-summary::before {
+	transform: rotate(90deg) translateX(-3px);
+	transition: transform 200ms ease-out;
+}
+
+.main details:not([open]) .details-summary::before {
+	transform: translateY(-2px);
+}
+*/
+
+
+/* Opacity transition on Details text */
+
+.main .details-content,
+.main .preview-content,
+.main .ekphrasis {
+	margin-top: 1em;
+	text-align: left;
+	overflow: auto;
+}
+
+.main details:not([open]) .details-content {
+	opacity: 0;
+	display: none;
+}
+
+.main details:not([open]) + .preview-content {
+	opacity: 1;
+	display: block;
+}
+
+.main details[open] .details-content {
+	opacity: 1;
+	display: block;
+	animation-name: displayDetailsGradually;
+	animation-duration: 1s;
+}
+
+.main details[open] + .preview-content {
+	opacity: 0;
+	display: none;
+}
+
+.main .details-content p:last-child, 
+.main .ekphrasis p:last-child {
+	margin-bottom: 1em;
+}
+
+@keyframes displayDetailsGradually {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+@keyframes hideDetailsGradually {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+

@@ -1,0 +1,782 @@
+# Combination of
+#
+# http://www.wikipedia.org/robots.txt
+# https://sustainablewww.org/principles/block-unwanted-and-spammy-bots-with-robotstxt-and-speed-up-your-website
+# https://raw.githubusercontent.com/mitchellkrogza/apache-ultimate-bad-bot-blocker/master/robots.txt/robots.txt
+#
+# Duplicates removed with:
+# 
+# https://dedupelist.com/
+#
+# Whitelist:
+# -----------------------
+# Used by Internet Archive...restore if you don't want your site on the WayBack Machine:
+# -----------------------
+# User-agent: archive
+# User-agent: archive.org_bot
+# User-agent: ia_archiver
+# User-agent: ia_archiver/1.6
+#
+# -----------------------
+# I use Semrush, so:
+# -------------------------
+# User-agent: SEMrushBot
+# User-agent: SemrushBot
+# User-agent: SemrushBot-SA
+
+# EDIT & UNREM THIS:
+# Sitemap: https://shell.com/sitemap.xml
+
+User-agent: 01h4x.com
+User-agent: 360spider
+User-agent: 404checker
+User-agent: 404enemy
+User-agent: 80legs
+User-agent: abonti
+User-agent: aboundex
+User-agent: aboundexbot
+User-agent: acunetix
+User-agent: adbeat_bot
+User-agent: admantx
+User-agent: adscanner
+User-agent: adstxtcrawlertp
+User-agent: afd-verbotsverfahren
+User-agent: ahrefsbot
+User-agent: ahrefssiteaudit
+User-agent: aibot
+User-agent: aihitbot
+User-agent: aipbot
+User-agent: alexibot
+User-agent: alittle client
+User-agent: alligator
+User-agent: allsubmitter
+User-agent: alphabot
+User-agent: anarchie
+User-agent: anarchy
+User-agent: anarchy99
+User-agent: ankit
+User-agent: anthill
+User-agent: apexoo
+User-agent: appengine
+User-agent: aqua_products
+User-agent: arquivo-web-crawler
+User-agent: arquivo.pt
+User-agent: aspiegel
+User-agent: aspseek
+User-agent: asterias
+User-agent: atomseobot
+User-agent: attach
+User-agent: autoemailspider
+User-agent: awariorssbot
+User-agent: awariosmartbot
+User-agent: b2w/0.1
+User-agent: backdoorbot
+User-agent: backdoorbot/1.0
+User-agent: backlink-ceck
+User-agent: backlink-check
+User-agent: backlinkcrawler
+User-agent: backstreet
+User-agent: backweb
+User-agent: badass
+User-agent: bandit
+User-agent: barkrowler
+User-agent: batchftp
+User-agent: battleztar bazinga
+User-agent: bbbike
+User-agent: bdcbot
+User-agent: bdfetch
+User-agent: becomebot
+User-agent: betabot
+User-agent: bigfoot
+User-agent: bitacle
+User-agent: black hole
+User-agent: blackboard
+User-agent: blackwidow
+User-agent: blekkobot
+User-agent: blexbot
+User-agent: blow
+User-agent: blowfish
+User-agent: blowfish/1.0
+User-agent: boardreader
+User-agent: bolt
+User-agent: bookmark search tool
+User-agent: botalot
+User-agent: brandprotect
+User-agent: brandwatch
+User-agent: buck
+User-agent: buddy
+User-agent: builtbottough
+User-agent: builtwith
+User-agent: bullseye
+User-agent: bullseye/1.0
+User-agent: bunnyslippers
+User-agent: buzzsumo
+User-agent: bytespider
+User-agent: cah.io.community
+User-agent: calculon
+User-agent: catexplorador
+User-agent: cazoodlebot
+User-agent: ccbot
+User-agent: cegbfeieh
+User-agent: censysinspect
+User-agent: chatgpt-user
+User-agent: check1.exe
+User-agent: cheesebot
+User-agent: cherrypicker
+User-agent: cherrypickerelite/1.0
+User-agent: cherrypickerse/1.0
+User-agent: cheteam
+User-agent: chinaclaw
+User-agent: chlooe
+User-agent: chroot
+User-agent: citoid
+User-agent: claritybot
+User-agent: clark-crawler
+User-agent: cliqzbot
+User-agent: cloud mapping
+User-agent: coccocbot
+User-agent: cocolyzebot
+User-agent: code87
+User-agent: cogentbot
+User-agent: cognitiveseo
+User-agent: collector
+User-agent: com.plumanalytics
+User-agent: copernic
+User-agent: copier
+User-agent: copyrightcheck
+User-agent: copyscape
+User-agent: cosmos
+User-agent: craftbot
+User-agent: crawl.sogou.com
+User-agent: crawler.feedback
+User-agent: crawler4j
+User-agent: crawling at home project
+User-agent: crazywebcrawler
+User-agent: crescent
+User-agent: crescent internet toolpak http ole control v.1.0
+User-agent: crunchbot
+User-agent: cshttp
+User-agent: curious
+User-agent: custo
+User-agent: cyotekwebcopy
+User-agent: databasedrivermysqli
+User-agent: datacha0s
+User-agent: dataforseo.com
+User-agent: dataforseobot
+User-agent: dblbot
+User-agent: demandbase-bot
+User-agent: demon
+User-agent: deusu
+User-agent: devil
+User-agent: digincore
+User-agent: digitalpebble
+User-agent: diibot
+User-agent: dirbuster
+User-agent: disco
+User-agent: discobot
+User-agent: discoverybot
+User-agent: dispatch
+User-agent: dittospyder
+User-agent: dnbcrawler-analytics
+User-agent: dnyzbot
+User-agent: doc
+User-agent: domainappender
+User-agent: domaincrawler
+User-agent: domains project
+User-agent: domainsigmacrawler
+User-agent: domainsproject.org
+User-agent: domainstatsbot
+User-agent: domcopbot
+User-agent: dotbot
+User-agent: download ninja
+User-agent: download wonder
+User-agent: dragonfly
+User-agent: drip
+User-agent: dsearch
+User-agent: dts agent
+User-agent: dumbot
+User-agent: easydl
+User-agent: ebingbong
+User-agent: ecatch
+User-agent: eccp/1.0
+User-agent: ecxi
+User-agent: eirgrabber
+User-agent: email siphon
+User-agent: email wolf
+User-agent: emailcollector
+User-agent: emailsiphon
+User-agent: emailwolf
+User-agent: enterprise_search
+User-agent: enterprise_search/1.0
+User-agent: erocrawler
+User-agent: es
+User-agent: evc-batch
+User-agent: evil
+User-agent: exabot
+User-agent: express webpictures
+User-agent: extlinksbot
+User-agent: extractor
+User-agent: extractorpro
+User-agent: extreme picture finder
+User-agent: eyenetie
+User-agent: ezooms
+User-agent: facebookscraper
+User-agent: fairad client
+User-agent: fast
+User-agent: fdm
+User-agent: femtosearchbot
+User-agent: fetch
+User-agent: fhscan
+User-agent: fimap
+User-agent: firefox/7.0
+User-agent: flaming attackbot
+User-agent: flashget
+User-agent: flunky
+User-agent: foobot
+User-agent: freeuploader
+User-agent: frontpage
+User-agent: fuzz
+User-agent: fyberspider
+User-agent: fyrebot
+User-agent: g-i-g-a-b-o-t
+User-agent: gaisbot
+User-agent: galaxybot
+User-agent: genieo
+User-agent: germcrawler
+User-agent: getintent
+User-agent: getright
+User-agent: getright/4.2
+User-agent: getweb
+User-agent: gigabot
+User-agent: go-ahead-got-it
+User-agent: go-http-client
+User-agent: go!zilla
+User-agent: gopher
+User-agent: gotit
+User-agent: gozilla
+User-agent: gptbot
+User-agent: grabber
+User-agent: grabnet
+User-agent: grafula
+User-agent: grapefx
+User-agent: grapeshotcrawler
+User-agent: gridbot
+User-agent: grub
+User-agent: grub-client
+User-agent: gt::www
+User-agent: haansoft
+User-agent: haosouspider
+User-agent: harvest
+User-agent: harvest/1.5
+User-agent: hatena antenna
+User-agent: havij
+User-agent: headmasterseo
+User-agent: heritrix
+User-agent: hloader
+User-agent: hmview
+User-agent: honolulubot
+User-agent: htmlparser
+User-agent: http://www.searchengineworld.com bot
+User-agent: http://www.webmasterworld.com bot
+User-agent: http::lite
+User-agent: httplib
+User-agent: httrack
+User-agent: humanlinks
+User-agent: hybridbot
+User-agent: iblog
+User-agent: id-search
+User-agent: idbot
+User-agent: idbte4m
+User-agent: ilsebot
+User-agent: image fetch
+User-agent: image sucker
+User-agent: indeedbot
+User-agent: indy library
+User-agent: infonavirobot
+User-agent: infotekies
+User-agent: instabid
+User-agent: intelliseek
+User-agent: interget
+User-agent: internet ninja
+User-agent: internetseer
+User-agent: internetvista monitor
+User-agent: ips-agent
+User-agent: iria
+User-agent: irlbot
+User-agent: iron33/1.0.2
+User-agent: isitwp.com
+User-agent: iskanie
+User-agent: israbot
+User-agent: istellabot
+User-agent: iubenda-radar
+User-agent: jamesbot
+User-agent: jbrofuzz
+User-agent: jennybot
+User-agent: jetbot
+User-agent: jetbot/1.0
+User-agent: jetcar
+User-agent: jetty
+User-agent: jikespider
+User-agent: joc web spider
+User-agent: joomla
+User-agent: jorgee
+User-agent: justview
+User-agent: jyxobot
+User-agent: k2spider
+User-agent: kenjin spider
+User-agent: keybot translation-search-machine
+User-agent: keyword density
+User-agent: keyword density/0.9
+User-agent: kinza
+User-agent: kozmosbot
+User-agent: lanshanbot
+User-agent: larbin
+User-agent: leap
+User-agent: leechftp
+User-agent: leechget
+User-agent: lexibot
+User-agent: lftp
+User-agent: libweb
+User-agent: libweb/clshttp
+User-agent: libwhisker
+User-agent: libwww
+User-agent: liebaofast
+User-agent: lightspeedsystems
+User-agent: likse
+User-agent: linkbot
+User-agent: linkdexbot
+User-agent: linkextractorpro
+User-agent: linko
+User-agent: linkpadbot
+User-agent: linkscan
+User-agent: linkscan/8.1a unix
+User-agent: linksmanager
+User-agent: linkwalker
+User-agent: linqiametadatadownloaderbot
+User-agent: linqiarssbot
+User-agent: linqiascrapebot
+User-agent: lipperhey
+User-agent: lipperhey spider
+User-agent: litemage_walker
+User-agent: lmspider
+User-agent: lnspiderguy
+User-agent: looksmart
+User-agent: ltx71
+User-agent: lwp-request
+User-agent: lwp-trivial
+User-agent: lwp-trivial/1.34
+User-agent: lwp::simple
+User-agent: mag-net
+User-agent: magnet
+User-agent: magpie-crawler
+User-agent: mail.ru_bot
+User-agent: majestic-seo
+User-agent: majestic seo
+User-agent: majestic12
+User-agent: markmonitor
+User-agent: markwatch
+User-agent: mass downloader
+User-agent: masscan
+User-agent: mata hari
+User-agent: mauibot
+User-agent: mb2345browser
+User-agent: meanpath bot
+User-agent: meanpathbot
+User-agent: mediatoolkitbot
+User-agent: mediawords
+User-agent: megaindex.ru
+User-agent: megalodon
+User-agent: metauri
+User-agent: mfc_tear_sample
+User-agent: micromessenger
+User-agent: microsoft data access
+User-agent: microsoft url control
+User-agent: microsoft url control - 5.01.4511
+User-agent: microsoft url control - 6.00.8169
+User-agent: microsoft.url.control
+User-agent: midown tool
+User-agent: miixpc
+User-agent: miixpc/4.2
+User-agent: minefield
+User-agent: mister pix
+User-agent: mj12bot
+User-agent: moblie safari
+User-agent: moget
+User-agent: moget/2.1
+User-agent: mojeek
+User-agent: mojolicious
+User-agent: molokaibot
+User-agent: morfeus fucking scanner
+User-agent: mozilla
+User-agent: mozilla/3
+User-agent: mozilla/4
+User-agent: mozilla/4.0 (compatible; bullseye; windows 95)
+User-agent: mozilla/4.0 (compatible; msie 4.0; windows 2000)
+User-agent: mozilla/4.0 (compatible; msie 4.0; windows 95)
+User-agent: mozilla/4.0 (compatible; msie 4.0; windows 98)
+User-agent: mozilla/4.0 (compatible; msie 4.0; windows nt)
+User-agent: mozilla/4.0 (compatible; msie 4.0; windows xp)
+User-agent: mozilla/5
+User-agent: mozlila
+User-agent: mqqbrowser
+User-agent: mr.4x3
+User-agent: msfrontpage
+User-agent: msiecrawler
+User-agent: msrabot
+User-agent: mtrobot
+User-agent: muhstik-scan
+User-agent: musobot
+User-agent: name intelligence
+User-agent: nameprotect
+User-agent: naver
+User-agent: navroad
+User-agent: nearsite
+User-agent: needle
+User-agent: nerdybot
+User-agent: nessus
+User-agent: net vampire
+User-agent: netants
+User-agent: netcraft
+User-agent: netestate ne crawler
+User-agent: netlyzer
+User-agent: netmechanic
+User-agent: netspider
+User-agent: nettrack
+User-agent: netvibes
+User-agent: netzip
+User-agent: nextgensearchbot
+User-agent: nibbler
+User-agent: nicerspro
+User-agent: niki-bot
+User-agent: nikto
+User-agent: nimblecrawler
+User-agent: nimbostratus
+User-agent: ninja
+User-agent: nmap
+User-agent: npbot
+User-agent: nuclei
+User-agent: nutch
+User-agent: obot
+User-agent: octopus
+User-agent: offline explorer
+User-agent: offline navigator
+User-agent: oncrawl
+User-agent: openbot
+User-agent: openfind
+User-agent: openfind data gathere
+User-agent: openlinkprofiler
+User-agent: openvas
+User-agent: oracle ultra search
+User-agent: orangebot
+User-agent: orangespider
+User-agent: orthogaffe
+User-agent: outclicksbot
+User-agent: outfoxbot
+User-agent: page analyzer
+User-agent: page scorer
+User-agent: pageanalyzer
+User-agent: pagegrabber
+User-agent: pagescorer
+User-agent: pagething.com
+User-agent: pandalytics
+User-agent: panscient
+User-agent: papa foto
+User-agent: pavuk
+User-agent: pcbrowser
+User-agent: pecl::http
+User-agent: peoplepal
+User-agent: perman
+User-agent: petalbot
+User-agent: phpcrawl
+User-agent: pi-monster
+User-agent: picscout
+User-agent: picsearch
+User-agent: picturefinder
+User-agent: piepmatz
+User-agent: pimonster
+User-agent: pixray
+User-agent: pleasecrawl
+User-agent: plumanalytics
+User-agent: pockey
+User-agent: poe-component-client-http
+User-agent: polaris version
+User-agent: probe-image-size
+User-agent: probethenet
+User-agent: propowerbot
+User-agent: propowerbot/2.14
+User-agent: prowebwalker
+User-agent: proximic
+User-agent: psbot
+User-agent: pu_in
+User-agent: pump
+User-agent: pxbroker
+User-agent: pycurl
+User-agent: python-urllib
+User-agent: queryn metasearch
+User-agent: quick-crawler
+User-agent: radiation retriever 1.1
+User-agent: rankactive
+User-agent: rankactivelinkbot
+User-agent: rankflex
+User-agent: rankingbot
+User-agent: rankingbot2
+User-agent: rankivabot
+User-agent: rankurbot
+User-agent: re-re
+User-agent: realdownload
+User-agent: reaper
+User-agent: rebelmouse
+User-agent: recorder
+User-agent: redesscrapy
+User-agent: reget
+User-agent: repomonkey
+User-agent: repomonkey bait & tackle/v1.01
+User-agent: ripper
+User-agent: ripz
+User-agent: rma
+User-agent: rocketcrawler
+User-agent: rogerbot
+User-agent: rssingbot
+User-agent: s1z.ru
+User-agent: salesintelligent
+User-agent: satoristudio.net
+User-agent: sbider
+User-agent: scalaj-http
+User-agent: scan.lol
+User-agent: scanalert
+User-agent: scanbot
+User-agent: scooter
+User-agent: scoutjet
+User-agent: scrapy
+User-agent: screaming
+User-agent: screaming frog seo spider
+User-agent: screenerbot
+User-agent: screpybot
+User-agent: searchestate
+User-agent: searchmetricsbot
+User-agent: searchpreview
+User-agent: seekport
+User-agent: seekportbot
+User-agent: semanticjuice
+User-agent: sentibot
+User-agent: senutobot
+User-agent: seobility
+User-agent: seobilitybot
+User-agent: seocompany.store
+User-agent: seokicks
+User-agent: seokicks-robot
+User-agent: seolyticscrawler
+User-agent: seomoz
+User-agent: seoprofiler
+User-agent: seoscanners
+User-agent: seositecheckup
+User-agent: seostar
+User-agent: seostats
+User-agent: serpstatbot
+User-agent: sexsearcher
+User-agent: shodan
+User-agent: siphon
+User-agent: sistrix
+User-agent: site sucker
+User-agent: sitebeam
+User-agent: sitecheck.internetseer.com
+User-agent: sitechecker.pro
+User-agent: sitecheckerbotcrawler
+User-agent: siteexplorer
+User-agent: siteimprove
+User-agent: sitelockspider
+User-agent: siteripz
+User-agent: sitesnagger
+User-agent: sitesucker
+User-agent: sitevigil
+User-agent: slysearch
+User-agent: smartdownload
+User-agent: smtbot
+User-agent: snake
+User-agent: snapbot
+User-agent: snoopy
+User-agent: socialrankiobot
+User-agent: sociscraper
+User-agent: sogou web spider
+User-agent: sogouspider
+User-agent: sootle
+User-agent: sosospider
+User-agent: sottopop
+User-agent: sp_auditbot
+User-agent: spacebison
+User-agent: spammen
+User-agent: spankbot
+User-agent: spanner
+User-agent: spbot
+User-agent: spinn3r
+User-agent: sputnikbot
+User-agent: spyfu
+User-agent: sqlmap
+User-agent: sqlworm
+User-agent: sqworm
+User-agent: stanford
+User-agent: stanford comp sci
+User-agent: stanford compclub
+User-agent: stanford compsciclub
+User-agent: stanford spiderboys
+User-agent: steeler
+User-agent: stripper
+User-agent: sucker
+User-agent: sucuri
+User-agent: superbot
+User-agent: superhttp
+User-agent: surfbot
+User-agent: surveybot
+User-agent: surveybot_ignoreip
+User-agent: suzuran
+User-agent: swiftbot
+User-agent: sysscan
+User-agent: szukacz
+User-agent: szukacz/1.4
+User-agent: t0phackteam
+User-agent: t8abot
+User-agent: takeout
+User-agent: teleport
+User-agent: teleportpro
+User-agent: telesoft
+User-agent: telesphoreo
+User-agent: telesphorep
+User-agent: teoma
+User-agent: the intraformant
+User-agent: thenomad
+User-agent: thumbor
+User-agent: tighttwatbot
+User-agent: titan
+User-agent: toata
+User-agent: tocrawl/urldispatcher
+User-agent: toweyabot
+User-agent: tracemyfile
+User-agent: trendiction
+User-agent: trendiction.com
+User-agent: trendiction.de
+User-agent: trendictionbot
+User-agent: true_robot
+User-agent: true_robot/1.0
+User-agent: turingos
+User-agent: turnitin
+User-agent: turnitinbot
+User-agent: twengabot
+User-agent: twice
+User-agent: typhoeus
+User-agent: ubermetrics-technologies.com
+User-agent: ubicrawler
+User-agent: unisterbot
+User-agent: upflow
+User-agent: url control
+User-agent: url_spider_pro
+User-agent: urly warning
+User-agent: urly.warning
+User-agent: v-bot
+User-agent: vacuum
+User-agent: vagabondo
+User-agent: vb project
+User-agent: vci
+User-agent: vci webviewer vci webviewer win32
+User-agent: velenpublicwebcrawler
+User-agent: vericitecrawler
+User-agent: vidiblescraper
+User-agent: virusdie
+User-agent: voideye
+User-agent: voil
+User-agent: voltron
+User-agent: voyagerx.com
+User-agent: wallpapers
+User-agent: wallpapers/3.0
+User-agent: wallpapershd
+User-agent: wasalive-bot
+User-agent: wbsearchbot
+User-agent: web auto
+User-agent: web collage
+User-agent: web enhancer
+User-agent: web fetch
+User-agent: web fuck
+User-agent: web image collector
+User-agent: web pix
+User-agent: web sauger
+User-agent: web sucker
+User-agent: webalta
+User-agent: webauto
+User-agent: webbandit
+User-agent: webbandit/3.50
+User-agent: webcollage
+User-agent: webcopier
+User-agent: webdav
+User-agent: webenhancer
+User-agent: webfetch
+User-agent: webfuck
+User-agent: webgains-bot
+User-agent: webgo is
+User-agent: webimagecollector
+User-agent: webleacher
+User-agent: webmasterworld extractor
+User-agent: webmasterworldforumbot
+User-agent: webmeup-crawler
+User-agent: webpix
+User-agent: webpros.com
+User-agent: webprosbot
+User-agent: webreaper
+User-agent: websauger
+User-agent: webshag
+User-agent: website quester
+User-agent: websiteextractor
+User-agent: websitequester
+User-agent: webster
+User-agent: webster pro
+User-agent: webstripper
+User-agent: websucker
+User-agent: webvac
+User-agent: webwhacker
+User-agent: webzip
+User-agent: webzip/4.0
+User-agent: wesee
+User-agent: wget
+User-agent: wget/1.5.3
+User-agent: wget/1.6
+User-agent: whack
+User-agent: whacker
+User-agent: whatweb
+User-agent: who.is bot
+User-agent: widow
+User-agent: winhttrack
+User-agent: wiseguys robot
+User-agent: wisenutbot
+User-agent: wonderbot
+User-agent: woobot
+User-agent: wotbox
+User-agent: wprecon
+User-agent: wpscan
+User-agent: www-collector-e
+User-agent: www-mechanize
+User-agent: www::mechanize
+User-agent: wwwoffle
+User-agent: x09mozilla
+User-agent: x22mozilla
+User-agent: xaldon webspider
+User-agent: xaldon_webspider
+User-agent: xenu
+User-agent: xenu's
+User-agent: xenu's link sleuth 1.1c
+User-agent: xpymep1.exe
+User-agent: youdaobot
+User-agent: zade
+User-agent: zao
+User-agent: zauba
+User-agent: zauba.io
+User-agent: zealbot
+User-agent: zermelo
+User-agent: zeus
+User-agent: zeus 32297 webster pro v2.9 win32
+User-agent: zeus link scout
+User-agent: zgrab
+User-agent: zitebot
+User-agent: zmeu
+User-agent: zoombot
+User-agent: zoominfobot
+User-agent: zumbot
+User-agent: zyborg
+Disallow: /

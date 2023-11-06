@@ -1,0 +1,3 @@
+var main,returnMetaData;main=function(){};
+returnMetaData=function(a){a="Home page of "+a.siteData.metaDescription;return{page:"home",name:{description:a,"twitter:card":"${DEFAULT}","twitter:creator":"${DEFAULT}","twitter:description":a,"twitter:site":"${DEFAULT}","twitter:title":"${TITLE}","twitter:url":"${CANONICAL}","twitter:image":"${DEFAULT}","twitter:image:alt":"${DEFAULT}"},property:{"og:description":a,"og:image":"${DEFAULT}","og:image:alt":"${DEFAULT}","og:image:height":"${DEFAULT}","og:image:width":"${DEFAULT}","og:image:secure_url":"${DEFAULT}",
+"og:image:type":"${DEFAULT}","og:site_name":"${DEFAULT}","og:title":"${TITLE}","og:type":"${DEFAULT}","og:url":"${CANONICAL}"}}};export default Object.freeze({main, returnMetaData}); 
