@@ -5,27 +5,27 @@ JavaScript must be declared in common.css.
 */
 
 @media all and (max-width: 464px) {
-	.main.shell2 h1, 
-	.main.shell2 h2 {
+	.main.shell h1, 
+	.main.shell h2 {
 		margin: 0;
 	}
 }
 /* From 464px: */
 @media all and (min-width: 464px) {
-	.main.shell2 h1, 
-	.main.shell2 h2 {
+	.main.shell h1, 
+	.main.shell h2 {
 		margin: revert;
 		text-align: center;
 	}
 }
 
-.main.shell2 div,
-.main.shell2 p,
-.main.shell2 section,
-.main.shell2 form,
-.main.shell2 hr,
-.main.shell2 a,
-.main.shell2 input {
+.main.shell div,
+.main.shell p,
+.main.shell section,
+.main.shell form,
+.main.shell hr,
+.main.shell a,
+.main.shell input {
 	max-width: 62ch;
 	margin-left: auto;
 	margin-right: auto;
@@ -34,22 +34,22 @@ JavaScript must be declared in common.css.
 /*
 Material Icons "open_in_new" glyph at end of linked text
 */
-.body .shell2 .utility a[href*="//"][target*="link-viewer"]:not(.no-open-in-new):not(.ripple-button):not(.news-link)::after,
-.body .shell2 a[href*="//"]:not(.work-image-anchor):not(.no-open-in-new):not(.ripple-button):not(.news-link):not(.skip-to-main-content):not(.ecwid-anchor):not(.ec-link):not(.internal-anchor)::after {
+.body .shell .utility a[href*="//"][target*="link-viewer"]:not(.no-open-in-new):not(.ripple-button):not(.news-link)::after,
+.body .shell a[href*="//"]:not(.work-image-anchor):not(.no-open-in-new):not(.ripple-button):not(.news-link):not(.skip-to-main-content):not(.ecwid-anchor):not(.ec-link):not(.internal-anchor)::after {
 	border-bottom-color: transparent;
 	filter: invert(7%) sepia(100%) saturate(6561%) hue-rotate(247deg) brightness(115%) contrast(147%);
 }
 
-.body .shell2 .utility a[href*="//"][target*="link-viewer"]:not(.no-open-in-new):not(.ripple-button):not(.news-link):hover::after,
-.body .shell2 .utility a[href*="//"]:not(.work-image-anchor):not(.no-open-in-new):not(.ripple-button):not(.news-link):not(.skip-to-main-content):not(.ecwid-anchor):not(.ec-link):not(.internal-anchor):hover::after {
+.body .shell .utility a[href*="//"][target*="link-viewer"]:not(.no-open-in-new):not(.ripple-button):not(.news-link):hover::after,
+.body .shell .utility a[href*="//"]:not(.work-image-anchor):not(.no-open-in-new):not(.ripple-button):not(.news-link):not(.skip-to-main-content):not(.ecwid-anchor):not(.ec-link):not(.internal-anchor):hover::after {
 	background-color: transparent;
 	border-bottom-color: transparent;
 	color: var(--open-in-new-anchor-color-hover);
 }
 
 /* Pure red on "open in new" symbol on active */
-.body .shell2 .utility a[href*="//"][target*="link-viewer"]:not(.no-open-in-new):not(.ripple-button):not(.news-link)::after,
-.body .shell2 .utility a[href*="//"]:not(.work-image-anchor):not(.no-open-in-new):not(.ripple-button):not(.news-link):not(.skip-to-main-content):not(.ecwid-anchor):not(.ec-link):not(.internal-anchor):active::after {
+.body .shell .utility a[href*="//"][target*="link-viewer"]:not(.no-open-in-new):not(.ripple-button):not(.news-link)::after,
+.body .shell .utility a[href*="//"]:not(.work-image-anchor):not(.no-open-in-new):not(.ripple-button):not(.news-link):not(.skip-to-main-content):not(.ecwid-anchor):not(.ec-link):not(.internal-anchor):active::after {
 	filter: invert(15%) sepia(99%) saturate(7454%) hue-rotate(3deg) brightness(104%) contrast(114%);
 }
 
@@ -62,51 +62,51 @@ Material Icons "open_in_new" glyph at end of linked text
 
 /* Revert some standard styles */
 
-.main.shell2 * {
+.main.shell * {
 	padding: revert;
 	margin: revert;
 }
 
-.main.shell2 a:not(.no-border-bottom) {
+.main.shell a:not(.no-border-bottom) {
 	color: revert;
 	border: revert;
 	margin: 0;
 	width: fit-content;
 }
 
-.main.shell2 code[class$="selector"] {
+.main.shell code[class$="selector"] {
 	line-height: 2;
 }
 
-.main.shell2 .utility input {
+.main.shell .utility input {
 	font-family: 'Consolas';
 	font-weight: 700;
 }
 
-.main.shell2 h1,
-.main.shell2 h2,
-.main.shell2 h3 {
+.main.shell h1,
+.main.shell h2,
+.main.shell h3 {
 	font-weight: 700;
 	font-family: 'Noto Sans', serif;
 	overflow-wrap: break-word;
 }
 
-.main.shell2 h1 {
+.main.shell h1 {
 	font-size: 1.625em;
 }
 
-.main.shell2 h2 {
+.main.shell h2 {
 	font-size: 1.375em;
 }
 
-.main.shell2 code {
+.main.shell code {
 	font-family: Consolas, sans-serif;
 	font-size: 18px;
 	line-height: 1.5;
 	margin: 0 -0.5em 0 0;
 }
 
-.main.shell2 .utility li {
+.main.shell .utility li {
 	text-indent: unset;
 }
 
@@ -116,26 +116,26 @@ code span {
 
 
 @media screen and (max-width: 760px) {
-	.main.shell2 {
+	.main.shell {
 		margin: var(--header-height) 1.5em 0 1.5em;
 	}
 }
 
 @media screen and (min-width: 760px) {
-	.main.shell2 {
+	.main.shell {
 		margin: var(--header-height) 22% 0 22%;
 	}
 }
 
 
 
-/*** Main (.shell2) ***/
+/*** Main (.shell) ***/
 
-.shell2 {
+.shell {
 	margin: 0 0;
 }
 
-.shell2 a {
+.shell a {
 	display: inline-block;
 	padding-bottom: .5em;
 	margin-right: 0;
@@ -143,19 +143,19 @@ code span {
 }
 
 /* if an anchor is followed by a code block */
-.shell2 a:has(+ code) {
+.shell a:has(+ code) {
 	display: block;
 }
 
-.shell2 a img {
+.shell a img {
 	float: left;
 }
 
-.shell2 .utility {
+.shell .utility {
 	margin-bottom: 1.5em;
 }
 
-.shell2 .display-none {
+.shell .display-none {
 	display: none;
 }
 

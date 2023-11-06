@@ -128,7 +128,7 @@ for ($i = 0; $i < count($js); $i++) {
 
 // 2022-08-20:
 //		if ($source === '../assets/javascript/scripts/loader.js') {
-// C:/xampp/htdocs/shell2/assets/javascript/scripts/./loader.js
+// C:/xampp/htdocs/shell/assets/javascript/scripts/./loader.js
 // 2023-11-01:
 // qwer.htaccess
 // IMPORTANT: Note dot! /./

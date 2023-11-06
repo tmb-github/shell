@@ -30,8 +30,8 @@ include $html_inc_path . 'header.php';
 // qwer:htaccess
 // htaccess revision
 
-// if /shell2/, then /shell2/pages/home/
-// if /shell2/anything-else, then /shell2/pages/anything-else
+// if /shell/, then /shell/pages/home/
+// if /shell/anything-else, then /shell/pages/anything-else
 
 if ($_SERVER['HTTP_HOST'] == 'localhost') {
 	$base = '/' . $htdocs_folder . '/';

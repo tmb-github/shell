@@ -31,9 +31,9 @@ window.incompatibleBrowser = function (e) {
 	window.removeEventListener('error', window.incompatibleBrowser);
 
 	origin = (
-		(window.location.href === 'https://shell2.com/')
-		? 'https://shell2.com/'
-		: 'https://localhost/shell2/'
+		(window.location.href === 'https://shell.com/')
+		? 'https://shell.com/'
+		: 'https://localhost/shell/'
 	);
 
 	window.location.href = origin + 'incompatible-browser?filename=' + encodeURI(e.filename) + '&lineno=' + encodeURI(e.lineno) + '&colno=' + encodeURI(e.colno) + '&message=' + encodeURI(e.message);
@@ -42,5 +42,3 @@ window.incompatibleBrowser = function (e) {
 
 // A syntax error during parsing simply generates 'error':
 window.addEventListener('error', window.incompatibleBrowser);
-
-//window.DOMContentLoaded

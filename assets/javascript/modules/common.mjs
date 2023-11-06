@@ -520,7 +520,7 @@ anchorHashFragmentIntercept = function () {
 	};
 
 // 2023-10-16:
-// Needed for Shell2 program: section:not(.utility)
+// Needed for Shell program: section:not(.utility)
 // OLD:	reassignHref('a[href*="#"]:not([href*="//"]):not(.email):not(.phone)');
 	reassignHref('a[href*="#"]:not([href*="//"]):not(.email):not(.phone):not(.preserve-href)');
 	reassignHref('a.hash-anchor');

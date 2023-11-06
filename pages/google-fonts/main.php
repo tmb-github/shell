@@ -7,7 +7,7 @@ include_once $absolute_root . 'includes/common_routines.php';
 
 ob_start();
 
-$main_classes = $page . " shell2 main custom-style-elements";
+$main_classes = $page . " shell main custom-style-elements";
 
 $fontTypes = array('woff2', 'woff', 'ttf', 'svg', 'eot');
 

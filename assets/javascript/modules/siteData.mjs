@@ -76,8 +76,8 @@ siteData = {
 			weight: 400
 		}
 	}],
-	liveSiteUrl: 'https://shell2.com',
-	localhostUrl: 'https://localhost/shell2',
+	liveSiteUrl: 'https://shell.com',
+	localhostUrl: 'https://localhost/shell',
 	metaData: {
 		page: 'default',
 		name: {

@@ -1,10 +1,10 @@
-SetEnvIf Request_URI "^.*" LOCALHOST=https://localhost/shell2
-SetEnvIf Request_URI "^.*" LIVEHOST=https://shell2.com
+SetEnvIf Request_URI "^.*" LOCALHOST=https://localhost/shell
+SetEnvIf Request_URI "^.*" LIVEHOST=https://shell.com
 SetEnvIf Host localhost SCHEME=https://
 SetEnvIf Host localhost HOST=localhost
-SetEnvIf Host localhost BASE_PATH=/shell2/
+SetEnvIf Host localhost BASE_PATH=/shell/
 SetEnvIf Host !localhost SCHEME=https://
-SetEnvIf Host !localhost HOST=shell2.com
+SetEnvIf Host !localhost HOST=shell.com
 SetEnvIf Host !localhost BASE_PATH=/
 <IfModule mod_rewrite.c>
 	RewriteEngine On
@@ -206,16 +206,16 @@ ServerSignature Off
 	deny from all
 </Files>
 <If "req('Host') = 'localhost'">
-	ErrorDocument 400 https://localhost/shell2/error/?400
-	ErrorDocument 403 https://localhost/shell2/error/?403
-	ErrorDocument 404 /shell2/error/
-	ErrorDocument 500 https://localhost/shell2/error/?500
+	ErrorDocument 400 https://localhost/shell/error/?400
+	ErrorDocument 403 https://localhost/shell/error/?403
+	ErrorDocument 404 /shell/error/
+	ErrorDocument 500 https://localhost/shell/error/?500
 </If>
 <If "req('Host') != 'localhost'">
-	ErrorDocument 400 https://shell2.com/error/?400
-	ErrorDocument 403 https://shell2.com/error/?403
+	ErrorDocument 400 https://shell.com/error/?400
+	ErrorDocument 403 https://shell.com/error/?403
 	ErrorDocument 404 /error/
-	ErrorDocument 500 https://shell2.com/error/?500
+	ErrorDocument 500 https://shell.com/error/?500
 </If>
 Options +FollowSymLinks -MultiViews
 Options -Indexes
@@ -246,7 +246,7 @@ RewriteEngine On
 	RewriteRule ^(.*)$ error/ [L,R=404]
 	RewriteCond %{HTTP_HOST} =localhost
 	RewriteCond %{REQUEST_METHOD} !POST
-	RewriteCond %{THE_REQUEST} /shell2/(private|pages)/ [NC]
+	RewriteCond %{THE_REQUEST} /shell/(private|pages)/ [NC]
 	RewriteRule ^ - [F,L]
 	RewriteCond %{HTTP_HOST} !=localhost
 	RewriteCond %{REQUEST_METHOD} !POST
