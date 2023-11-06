@@ -36,20 +36,6 @@ e.g., if the value is 300deg, reset it to -60deg.
 /*	TEST: --footer-background-color: #303030; */
 
 	--footer-text-color: #fff;
-	--gallery-carousel-fixed-ancestor-height: 191px;
-	--gallery-carousel-fixed-ancestor-opacity: 0;
-	--gallery-carousel-list-margin-auto: inherit;
-	--gallery-carousel-list-transition: none;
-	--gallery-carousel-list-translate-x: none;
-	--gallery-carousel-main-opacity: 0;
-	--gallery-carousel-main-visibility: visible;
-	--gallery-carousel-width: 75vw;
-	--gallery-footer-social-icon-anchors-opacity: 0;
-	--gallery-lv-iframe-height: auto;
-	--gallery-lv-iframe-width: auto;
-	--gallery-modal-overlay-left: initial;
-	--gallery-modal-overlay-top: initial;
-	--gallery-work-image-opacity: 0;
 	--hamburger-label-color: #545454;
 	--header-anchor-underline-color-hover: #a9a9a9;
 	--header-anchor-underline-color: transparent;
@@ -327,9 +313,20 @@ input[readonly] {
 *** 
 *** ...which is set below for all IMG elements as a default.
 *************************************************************************************/
-img { 
+img {
 /* To style ALT text in IMG elements, which briefly flashes in a large blue font in Firefox */
 	color: var(--body-text-color);
+}
+
+/*
+2023-10-16: 
+object-fit: contain; will not work if height width have been set,
+and setting them to 'unset' or 'initial' has no effect; they simply
+may not be set in the first place. So, object-fit: contain; is used
+on an image, add .object-fit-contain to its classes:
+*/
+
+img:not(.object-fit-contain) {
 /* 2020-10-04: Necessary for aspect ratio to work when using pixel width and height on IMG element: */
 	height: auto;
 	width: auto;

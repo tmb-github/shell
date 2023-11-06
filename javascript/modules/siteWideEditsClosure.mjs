@@ -367,13 +367,21 @@ window.addEventListener('locationchange', siteWideOnLocationChange, false);
 // ------------------------------
 
 		import('./siteData.mjs').then(function ({default: object}) {
-
 // Assign its methods/properties to common object 'o':
 			o.assignToCommonObject(object);
 
+// Methods common to framework:
 			import('./common.mjs').then(function ({default: object}) {
 				o.assignToCommonObject(object);
-				o.initializationRoutines();
+
+// Methods common to site:
+				import('./siteCommon.mjs').then(function ({default: object}) {
+					o.assignToCommonObject(object);
+					o.initializationRoutines();
+				}).catch(function (error) {
+					console.log(error);
+				});
+
 			}).catch(function (error) {
 				console.log(error);
 			});

@@ -38,6 +38,7 @@ $page_array = [
 	'Dummy 5' => 'dummy-5'
 ];
 */
+if (count($page_array) > 0) {
 ?>
 			<li data-span="<?php echo $switcher_name; ?>" class="no-progress-line menu-side-one">
 				<input id=<?php echo $side_switcher_id; ?> data-switcher-target="Main Menu" aria-labelledby="<?php echo $switcher_id; ?> main-menu" type=checkbox title="hidden checkbox" name=ignore2 value=ignore2>
@@ -55,3 +56,6 @@ foreach ($page_array as $page_name => $page_slug) {
 ?>
 				</ul>
 			</li>
+<?php
+}
+?>

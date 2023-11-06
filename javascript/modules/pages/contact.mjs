@@ -19,7 +19,7 @@ var formLogic;
 var main;
 var returnMetaData;
 
-import {contactAnchorEventListeners} from "./shared_contactAnchorEventListeners.mjs";
+import {contactAnchorEventListeners} from "../shared/contactAnchorEventListeners.mjs";
 
 // SAVE for reCAPTCHA
 // var recaptchaEdits;

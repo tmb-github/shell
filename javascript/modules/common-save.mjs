@@ -424,7 +424,7 @@ ajaxMainContent = function (hrefText, target, backbutton, eventType) {
 			sessionValue = window.sessionStorage.getItem(ajaxURL);
 		}
 		if (!sessionValue) {
-// qwer
+// ajax
 			o.ajax.post(ajaxURL, queries, ajaxResponse, true);
 		} else {
 			ajaxResponse(sessionValue);
@@ -464,10 +464,7 @@ anchorHashFragmentIntercept = function () {
 		});
 	};
 
-// 2023-10-16:
-// Needed for QA program: section:not(.utility) 
-// OLD:	reassignHref('a[href*="#"]:not([href*="//"]):not(.email):not(.phone)');
-	reassignHref('a[href*="#"]:not([href*="//"]):not(.email):not(.phone):not(.preserve-href)');
+	reassignHref('a[href*="#"]:not([href*="//"]):not(.email):not(.phone)');
 	reassignHref('a.hash-anchor');
 
 // Create tab index on main-content element, which varies from page to page.
@@ -1094,7 +1091,6 @@ commonRoutinesOnFirstLoadOnly = function () {
 
 		hrefText = 'error-404/';
 		target = o.baseHref + 'error-404/main.php';
-
 		backbutton = true;
 		eventType = 'click';
 
@@ -1610,17 +1606,10 @@ commonVariables = function () {
 	o.ajax = o.returnAjaxObject();
 
 // update global baseHref:
-// 2023-10-17
-// Need fallback in case base href is not found...put in siteData?
-// MAKE INTO UTILITY FUNCTION
+// MAKE INTO UTILITY FUNCTION:
 	document.querySelectorAll('base').forEach(function (element) {
-		if (element.hasAttribute('href')) {
-			o.baseHref = element.getAttribute('href');
-		} else {
-			console.log('ERROR: Could not find BASE href');
-		}
+		o.baseHref = element.getAttribute('href');
 	});
-
 
 	o.customEvent = [];
 
@@ -2594,6 +2583,7 @@ loadLocalResource = (function () {
 // This loads external dependencies (e.g., pureJsCarousel), not site modules.
 loadPageDependencies = function () {
 
+// qwer
 //console.log('loadPageDependencies');
 
 	var assignFn;
@@ -2621,7 +2611,7 @@ loadPageDependencies = function () {
 // One way or another, the routines that follow will call inner():
 							calledInner = true;
 // Import the page module...
-							import('./pages/' + pageObj.mjs).then(function ({default: object}) {
+							import(pageObj.mjs).then(function ({default: object}) {
 // 2021-10-24:
 // (nameArr, urlArr, attributeArr, assignFnArr)
 								var nameArr = [];
@@ -2633,6 +2623,7 @@ loadPageDependencies = function () {
 //								o.assignToCommonObject(object);
 								o.assignToModulePropertyOnCommonObject(o.pageNameCamelCase, object);
 
+// qwer
 //console.log(pageObj);
 								o.enqueue = [];
 								if ((pageObj.enqueueLoader) && (Array.isArray(pageObj.enqueueLoader)) && (pageObj.enqueueLoader.length !== 0)) {
@@ -2939,9 +2930,6 @@ returnAjaxObject = function () {
 		Object.keys(data).forEach(function (key) {
 			query.push(encodeURIComponent(key) + '=' + encodeURIComponent(data[key]));
 		});
-// qwer
-//console.log(url, callback, 'POST', query.join('&'), asynchronous);
-
 		o.ajax.send(url, callback, 'POST', query.join('&'), asynchronous);
 // NEED TO CATCH POST ERROR: TypeError: Cannot read property 'requestContent' of undefined
 	};
@@ -2955,14 +2943,9 @@ returnAjaxObject = function () {
 		var http;
 
 		http = new XMLHttpRequest();
-// qwer
-//console.log(method, url, asynchronous);
-
 		http.open(method, url, asynchronous);
 		http.onreadystatechange = function () {
 			if (http.readyState === 4) {
-// qwer
-//console.log(http.status);
 				if (http.status === 200) {
 					callback(http.responseText);
 				} else {
@@ -2975,8 +2958,6 @@ returnAjaxObject = function () {
 		if (method === 'POST') {
 			http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 		}
-// qwer
-//console.log(data);
 		http.send(data);
 	};
 

@@ -58,6 +58,7 @@ include $absolute_root . 'includes/html/common/head-web-author-data.inc.php';
 	<meta name=apple-mobile-web-app-status-bar-style content="black">
 	<meta name=apple-mobile-web-app-title            content="<?php echo $apple_mobile_web_app_title; ?>">
 	<meta name=author                                content="<?php echo $author; ?>">
+	<meta name=CCBot                                 content="nofollow">
 	<meta name=description                           content="<?php echo $description; ?>">
 <?php
 if ($google_site_verification !== '#') {

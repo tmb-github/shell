@@ -276,10 +276,23 @@ if ($_SERVER['HTTP_HOST'] == 'localhost') {
 	];
 	include $absolute_root . 'includes/html/header-secondary-ul.inc.php';
 */
+
+// qwer
+$display_does_not_exist_page = true;
+if ($display_does_not_exist_page) {
 ?>
 			<li data-page=does-not-exist data-href=does-not-exist class=menu-side-one><a class=internal-anchor href="does-not-exist/" tabindex=-1>Does Not Exist</a></li>
+<?php
+}
+
+// qwer
+$include_contact_page = true;
+if ($include_contact_page == true) {
+?>
 			<li data-page=contact data-href=contact class="menu-side-one orange ripple"><a class="bold-on-selected internal-anchor no-border-bottom" href="contact/" tabindex=-1>Contact</a></li>
 <?php
+}
+
 if (isset($_SESSION['authenticated']) && ($_SESSION['authenticated'] == 'true')) {
 ?>
 			<li data-page=logout data-href=logout class=menu-side-one><a class=internal-anchor href="logout/" tabindex=-1>Logout</a></li>
