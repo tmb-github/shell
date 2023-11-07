@@ -1,8 +1,7 @@
 # Don't track content of these folders
 000--*/
 private/
-images/
-youtube-channel/
+#images/
 
 # Compiled source #
 ###################

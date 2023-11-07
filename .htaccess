@@ -10,6 +10,13 @@ SetEnvIf Host !localhost BASE_PATH=/
 	RewriteEngine On
 	RewriteRule ^ - [E=BASE_URL:%{ENV:SCHEME}%{ENV:HOST}%{ENV:BASE_PATH}]
 </IfModule>
+<If "req('Host') = 'localhost'">
+	<IfModule mod_headers.c>
+		Header set Cache-Control "no-cache, no-store, must-revalidate"
+		Header set Pragma "no-cache"
+		Header set Expires 0
+	</IfModule> 
+</If>
 AddDefaultCharset utf-8
 <IfModule mod_mime.c>
     AddCharset utf-8 .appcache \

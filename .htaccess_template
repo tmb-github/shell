@@ -50,6 +50,15 @@ SetEnvIf Host !localhost BASE_PATH=/
 	RewriteRule ^ - [E=BASE_URL:%{ENV:SCHEME}%{ENV:HOST}%{ENV:BASE_PATH}]
 </IfModule>
 
+<If "req('Host') = 'localhost'">
+	<IfModule mod_headers.c>
+		Header set Cache-Control "no-cache, no-store, must-revalidate"
+		Header set Pragma "no-cache"
+		Header set Expires 0
+	</IfModule> 
+</If>
+
+
 ### NEEDED FOR IMAGICK ON LIVEHOST ###
 
 #<If "req('Host') != 'localhost'">
@@ -754,13 +763,6 @@ ServerSignature Off
 ### NB: <If> blocks are a feature of Apache 2.4 and up.
 ###
 ### To test headers on localhost, use Powershell command: (invoke-webrequest http://localhost/).headers
-
-# Use for testing so rewrites aren't cached, which would prevent rule changes from having any effect:
-#<IfModule mod_headers.c>
-#	Header set Cache-Control "no-cache, no-store, must-revalidate"
-#	Header set Pragma "no-cache"
-#	Header set Expires 0
-#</IfModule> 
 
 # These apparently cannot use environment variables and must be written out in full
 <If "req('Host') = 'localhost'">
