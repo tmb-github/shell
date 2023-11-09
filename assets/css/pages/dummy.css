@@ -1,3 +1,9 @@
+/* 
+NB: :root variables declared in page *.css files cannot be revised by JavaScript.
+Any CSS variable that will be edited by JavaScript MUST be declared in common.css.
+Only :root variables declared in common.css can be revised by JavaScript.
+*/
+
 /* To 463px (next query overtakes 464px): */
 @media all and (max-width: 464px) {
 	.main.dummy {

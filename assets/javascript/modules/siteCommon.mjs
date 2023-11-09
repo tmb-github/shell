@@ -15,7 +15,6 @@ var fetchJson;
 var fetchProgress;
 var fetchStatus;
 var fieldsetControlsAndInfo;
-var fiveRandomAlphaNumerics;
 var formatTime;
 var formClasses;
 var loadUtilityModules;
@@ -130,29 +129,6 @@ fetchStatus = function (msg) {
 			element.appendChild(fragment);
 		}
 	}(document.querySelector(o.dataUtility() + ' .fetch-status')));
-};
-
-// Ensures first characters is not number:
-fiveRandomAlphaNumerics = function () {
-	var alfas;
-	var first;
-	var getRandomChar;
-	var nums;
-	var rest;
-
-	getRandomChar = function (...params) {
-		var symbols = params.join('');
-		return symbols[Math.floor(Math.random() * symbols.length)];
-	};
-
-	alfas = 'abcdefghijklmnopqrstuvwxyz';
-	nums = '0123456789';
-
-	first = getRandomChar(alfas);
-	rest = [...new Array(4)].map(() => getRandomChar(alfas, nums));
-
-	return [first, ...rest].join('');
-
 };
 
 formatTime = function (milliseconds) {
@@ -436,7 +412,6 @@ export default Object.freeze({
 	fetchProgress,
 	fetchStatus,
 	fieldsetControlsAndInfo,
-	fiveRandomAlphaNumerics,
 	formatTime,
 	formClasses,
 	loadUtilityModules,

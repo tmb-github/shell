@@ -2161,14 +2161,33 @@ fireCustomEvent = function (eventName) {
 
 };
 
-// Generate 5-character alphanumeric string:
+// Ensures first characters is not number:
+// revised 2023-11-09
 fiveRandomAlphaNumerics = function () {
 
-// SAVE:
-// 'this' is the outer 'o' via .bind(o), so the outer 'o' === inner 'o':
-//	var o = this;
+// If a number may be in the first position, this is all you need:
+//
+// Math.random().toString(36).substring(2, 7)
+//
+// but IDs and other identifiers may not start with numbers, hence
+// the following routine:
 
-	return (Math.random().toString(36) + '00000000000000000').slice(2, 7);
+	var getRandomLetter;
+	var randomLetter;
+	var randomString;
+
+	getRandomLetter = function () {
+		var alphabet;
+		var randomIndex;
+		alphabet = 'abcdefghijklmnopqrstuvwxyz';
+		randomIndex = Math.floor(Math.random() * alphabet.length);
+		return alphabet[randomIndex];
+	};
+
+	randomString = Math.random().toString(36).substring(2, 6);
+	randomLetter = getRandomLetter();
+
+	return randomLetter + randomString;
 
 };
 
