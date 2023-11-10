@@ -863,6 +863,6 @@ RewriteEngine On
 # The rewrites will fail unless the assignment of ABSOLUTE_ROOT is done as part of the same line
 # It sets the prefix for ALL the rewrites above.
 # Note that this is where $_SERVER['ABSOLUTE_ROOT'] is set for PHP routines.
-	RewriteRule ^ - [E=ABSOLUTE_ROOT:%{DOCUMENT_ROOT}%{ENV:BASE_PATH}]
+	RewriteRule ^ - [E=ABSOLUTE_ROOT:%{DOCUMENT_ROOT}%{ENV:BASE_PATH},QSA]
 
 </IfModule>

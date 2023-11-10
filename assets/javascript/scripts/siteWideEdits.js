@@ -19,7 +19,12 @@
 
 // Delete query string:
 	if (window.location.href.includes('?')) {
-		window.history.replaceState({}, document.title, window.location.href.split('?')[0]);
+
+// 2023-11-10:
+// KEEP!!!
+// Restore this if query strings need to be removed. BUT WHY WOULD THEY?
+//		window.history.replaceState({}, document.title, window.location.href.split('?')[0]);
+
 		if (window.sessionStorage) {
 			window.sessionStorage.clear();
 		}

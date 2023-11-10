@@ -259,5 +259,5 @@ RewriteEngine On
 	RewriteCond %{REQUEST_METHOD} !POST
 	RewriteCond %{THE_REQUEST} /(private|pages)/ [NC]
 	RewriteRule ^ - [F,L]
-	RewriteRule ^ - [E=ABSOLUTE_ROOT:%{DOCUMENT_ROOT}%{ENV:BASE_PATH}]
+	RewriteRule ^ - [E=ABSOLUTE_ROOT:%{DOCUMENT_ROOT}%{ENV:BASE_PATH},QSA]
 </IfModule>

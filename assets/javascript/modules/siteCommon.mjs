@@ -189,6 +189,10 @@ loadUtilityModules = function (page) {
 			import('./utilities/' + module + '.mjs').then(function ({default: object}) {
 				modules.push(module);
 				o.assignToModulePropertyOnCommonObject(o.pageNameCamelCase, object);
+// qwer
+// 2023-11-10
+// Fire custom event that the module is now loaded (= assigned to the common object)
+				o.fireCustomEvent(module + 'ModuleLoaded');
 			}).catch(function () {
 				loadErrors = true;
 				orphanedUtilities.push(o.camelCaseToKebobCase(module));
@@ -206,6 +210,14 @@ loadUtilityModules = function (page) {
 // run each of the modules
 		modules.forEach(function (module) {
 			o[page][module]();
+// qwer
+// 2023-11-10
+// Fire custom event that the module has been executed.
+// This allows code that's dependent on the modules only to execute
+// when it's available, by wrapping it in a window.addEventListener()
+// that listens for the custom event name, which will just be the 
+// module name + 'ModuleExecuted':
+			o.fireCustomEvent(module + 'ModuleExecuted');
 		});
 
 	});
