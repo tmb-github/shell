@@ -3746,22 +3746,22 @@ JavaScript must be declared in common.css.
 /*
 Material Icons "open_in_new" glyph at end of linked text
 */
-.body .shell .utility a[href*="//"][target*="link-viewer"]:not(.no-open-in-new):not(.ripple-button):not(.news-link)::after,
-.body .shell a[href*="//"]:not(.work-image-anchor):not(.no-open-in-new):not(.ripple-button):not(.news-link):not(.skip-to-main-content):not(.ecwid-anchor):not(.ec-link):not(.internal-anchor)::after {
+.body .shell .utility a[href*="//"][target*="link-viewer"]:not(.no-open-in-new):not(.ripple-button)::after,
+.body .shell a[href*="//"]:not(.no-open-in-new):not(.ripple-button):not(.skip-to-main-content):not(.internal-anchor)::after {
 	border-bottom-color: transparent;
 	filter: invert(7%) sepia(100%) saturate(6561%) hue-rotate(247deg) brightness(115%) contrast(147%);
 }
 
-.body .shell .utility a[href*="//"][target*="link-viewer"]:not(.no-open-in-new):not(.ripple-button):not(.news-link):hover::after,
-.body .shell .utility a[href*="//"]:not(.work-image-anchor):not(.no-open-in-new):not(.ripple-button):not(.news-link):not(.skip-to-main-content):not(.ecwid-anchor):not(.ec-link):not(.internal-anchor):hover::after {
+.body .shell .utility a[href*="//"][target*="link-viewer"]:not(.no-open-in-new):not(.ripple-button):hover::after,
+.body .shell .utility a[href*="//"]:not(.no-open-in-new):not(.ripple-button):not(.skip-to-main-content):not(.internal-anchor):hover::after {
 	background-color: transparent;
 	border-bottom-color: transparent;
 	color: var(--open-in-new-anchor-color-hover);
 }
 
 /* Pure red on "open in new" symbol on active */
-.body .shell .utility a[href*="//"][target*="link-viewer"]:not(.no-open-in-new):not(.ripple-button):not(.news-link)::after,
-.body .shell .utility a[href*="//"]:not(.work-image-anchor):not(.no-open-in-new):not(.ripple-button):not(.news-link):not(.skip-to-main-content):not(.ecwid-anchor):not(.ec-link):not(.internal-anchor):active::after {
+.body .shell .utility a[href*="//"][target*="link-viewer"]:not(.no-open-in-new):not(.ripple-button)::after,
+.body .shell .utility a[href*="//"]:not(.no-open-in-new):not(.ripple-button):not(.skip-to-main-content):not(.internal-anchor):active::after {
 	filter: invert(15%) sepia(99%) saturate(7454%) hue-rotate(3deg) brightness(104%) contrast(114%);
 }
 
