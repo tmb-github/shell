@@ -378,7 +378,6 @@ main = function () {
 
 	};
 
-
 	return siteWideEditsClosure;
 
 };

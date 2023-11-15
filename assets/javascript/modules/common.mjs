@@ -130,8 +130,8 @@ ajaxMainContent = function (hrefText, target, backbutton, eventType) {
 // 'this' is the outer 'o' via .bind(o), so the outer 'o' === inner 'o':
 	o = this;
 
-// For testing:
 // qwer:htaccess
+// For testing:
 //console.log('---------------');
 //console.log('o.ajaxMainContent');
 //console.log('hrefText = ' + hrefText);
@@ -155,12 +155,7 @@ ajaxMainContent = function (hrefText, target, backbutton, eventType) {
 	}
 
 // qwer:htaccess
-// 2023-10-28
-
 	o.URL = URL;
-
-// No need to revise this...the .htaccess rewrite rules will kick in and do
-// everything:
 
 // qwer:htaccess
 // 2023-10-29
@@ -175,9 +170,6 @@ ajaxMainContent = function (hrefText, target, backbutton, eventType) {
 	} else {
 		ajaxURL = URL + 'main.php';
 	}
-
-//console.log('ajaxURL = ' + ajaxURL);
-//console.log(window.sessionStorage);
 
 // Go to home directory if none indicated
 	if (hrefText === null) {
@@ -240,7 +232,6 @@ ajaxMainContent = function (hrefText, target, backbutton, eventType) {
 				}
 			}
 
-// 2021-04-18:
 			if (window.sessionStorage) {
 				window.sessionStorage.setItem(ajaxURL, data);
 			}
@@ -250,20 +241,6 @@ ajaxMainContent = function (hrefText, target, backbutton, eventType) {
 			if (eventType !== 'mouseover') {
 
 				main = document.querySelector('main');
-
-// qwer:htaccess:
-// Needed now that we're adding this when the user hits the error page;
-// remove it before navigating again (no harm to try to remove if it's not there):
-
-//		(function (main) {
-//			if (main) {
-//				main.removeAttribute('data-http-status');
-//			}
-//		}(document.querySelector('MAIN')))
-
-
-// OLD (2022-03-17):
-//			window.setTimeout(function () {
 
 // This sets the new content as we move from page to page using the SPA:
 //
@@ -412,10 +389,8 @@ ajaxMainContent = function (hrefText, target, backbutton, eventType) {
 // MINERVA 2:
 // 2023-10-29
 // This works with MINERVA 1 above to solve the long-standing long-press backbutton problem!
-
 //console.log('MINERVA 2');
 //console.log('backbutton = ' + backbutton);
-
 				if (backbutton === false) {
 					window.history.replaceState(stateObject, stateObject.title, stateObject.url);
 				}
@@ -426,7 +401,6 @@ ajaxMainContent = function (hrefText, target, backbutton, eventType) {
 				if (window.location.hash === '') {
 					window.scroll(0, 0);
 				}
-
 				if ((backbutton === true) && (hrefText && (hrefText.charAt(0) === '#'))) {
 					hashedElement = document.querySelector(hrefText);
 					if (hashedElement !== null) {
@@ -489,7 +463,6 @@ ajaxMainContent = function (hrefText, target, backbutton, eventType) {
 			ajaxResponse(sessionValue);
 		}
 	}
-
 };
 
 anchorHashFragmentIntercept = function () {
@@ -600,6 +573,10 @@ anchorIntercept = function () {
 
 		backbutton = false;
 // qwer:htaccess
+// Necessary to distinguish true backbuttoning through 404 pages.
+// A quirk of that routine is that the 'backbutton' variable passed
+// to it must be set to 'true' even if not backbuttoning...described
+// at the routine in a comment:
 		o.backbutton = backbutton;
 
 // When navigating to the home page, hrefText will be null and target will be
@@ -1152,23 +1129,22 @@ commonRoutinesOnFirstLoadOnly = function () {
 		var backbutton;
 		var eventType;
 		var hrefText;
-// qwer:htaccess2
+// qwer:htaccess
 		var stateObject;
 		var target;
 
 //console.log('--- start http404 callback');
 		hrefText = 'error/';
 
-// qwer:htaccess2
+// qwer:htaccess
 		stateObject = {};
 		stateObject.title = 'Error';
 		stateObject.url = o.URL;
 		window.history.pushState(stateObject, stateObject.title, stateObject.url);
 
-// qwer:htaccess2
+// qwer:htaccess
 // 2023-10-29:
 // Needed for new directory structure, with site pages in /pages/ folder:
-//		target = o.baseHref + 'error/main.php';
 		target = o.baseHref + 'pages/error/main.php';
 
 // IMPORTANT: by setting backbutton to true, we don't get a history.pushState()
@@ -1186,7 +1162,6 @@ commonRoutinesOnFirstLoadOnly = function () {
 		if (o.backbutton === true) {
 			window.history.back();
 		}
-//console.log('--- end http404 callback');
 
 	});
 
@@ -1945,15 +1920,10 @@ deleteCachesUnregisterServiceWorkerAndClearSessionStorage = function () {
 		});
 	}
 
-// 2021-04-18:
 // Clearing session storage:
 	if (window.sessionStorage) {
 		window.sessionStorage.clear();
 	}
-//
-//	} else {
-//		console.log('On live site');
-//	}
 
 };
 
@@ -3070,16 +3040,9 @@ returnAjaxObject = function () {
 		var http;
 
 		http = new XMLHttpRequest();
-
 		http.open(method, url, asynchronous);
 		http.onreadystatechange = function () {
 			if (http.readyState === 4) {
-
-//o.httpStatus = http.status;
-// qwer:htaccess
-
-//o.httpStatus = http.status;
-//console.log('- new status: ' + http.status);
 				if (http.status === 200) {
 					callback(http.responseText);
 				} else {
@@ -3092,7 +3055,6 @@ returnAjaxObject = function () {
 		};
 		if (method === 'POST') {
 			http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-//			http.withCredentials = true;
 		}
 		http.send(data);
 	};
