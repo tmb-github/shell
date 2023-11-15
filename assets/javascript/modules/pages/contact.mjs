@@ -46,8 +46,9 @@ main = function () {
 
 	metaData = returnMetaData(o);
 	o.reviseMetaData(metaData);
-
 	o.contact.contactAnchorEventListeners();
+// always include this in every page.mjs, and execute it last in main():
+	o.appendToCSS(':root', '{ --main-opacity: 1; }');
 
 };
 

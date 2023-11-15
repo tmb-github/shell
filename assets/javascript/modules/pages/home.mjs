@@ -28,6 +28,9 @@ main = function () {
 	var o;
 	o = this;
 
+// always include this in every page.mjs, and execute it last in main():
+	o.appendToCSS(':root', '{ --main-opacity: 1; }');
+
 };
 
 returnMetaData = function (o) {

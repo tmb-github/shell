@@ -33,6 +33,9 @@ main = function () {
 // passing as an argument a string with name of this module (camelCase, not kebob-case):
 //	o.loadUtilityModules('dummy');
 
+// always include this in every page.mjs, and execute it last in main():
+	o.appendToCSS(':root', '{ --main-opacity: 1; }');
+
 };
 
 returnMetaData = function (o) {

@@ -369,8 +369,12 @@ ajaxMainContent = function (hrefText, target, backbutton, eventType) {
 // to navigate about the site using the SPA. Doing that prevents a flash of
 // unstyled content (mainly a flash of images on the left side of the screen).
 // This restores the opacity:
-
-				o.appendToCSS(':root', '{ --main-opacity: 1; }');
+//
+// asdf
+// 2023-11-15:
+// Put in main() of each page mjs file so that any style edits performed by
+// those pages are performed before the opacity is returned to 1:
+//				o.appendToCSS(':root', '{ --main-opacity: 1; }');
 
 				stateObject = {};
 // we've swapped out the MAIN element, so select it again (?)
@@ -1133,7 +1137,12 @@ commonRoutinesOnFirstLoadOnly = function () {
 
 	o.firstLoad = false;
 
-	o.appendToCSS(':root', '{ --main-opacity: 1; }');
+// asdf
+// 2023-11-15
+// Put in main() of each page mjs file so that any style edits performed by
+// those pages are performed before the opacity is returned to 1:
+//	o.appendToCSS(':root', '{ --main-opacity: 1; }');
+
 // This works on first load without an issue; there is no flash of the footer in the viewport:
 	o.appendToCSS(':root', '{ --footer-opacity: 1; }');
 

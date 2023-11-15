@@ -37,6 +37,8 @@ main = function () {
 	o.reviseMetaData(metaData);
 
 	o.serverErrorTest.formLogic();
+// always include this in every page.mjs, and execute it last in main():
+	o.appendToCSS(':root', '{ --main-opacity: 1; }');
 
 };
 
