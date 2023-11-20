@@ -6,7 +6,7 @@
 // $schema_name = formal page name
 // $title = <title> text, 60 characters max
 
-include $absolute_root . 'includes/domain_info/domain_info.inc.php';
+include $absolute_root . 'includes/common/domain_info.php';
 
 $slug = 'error';
 $page = $slug;

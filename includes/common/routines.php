@@ -69,10 +69,10 @@ session_start([
 
 
 // Include variables that do NOT rely on functions:
-include_once 'common_variables/variables.php';
-include_once 'common_functions/functions.php';
+include_once $absolute_root . 'includes/common/variables.php';
+include_once $absolute_root . 'includes/common/functions.php';
 // Include variables that DO rely on functions:
-include_once 'common_variables/autoversioned_variables.php';
+include_once $absolute_root . 'includes/common/autoversioned_variables.php';
 
 
 /*****************************************************************
@@ -98,12 +98,14 @@ if (!isset($_SESSION['webp_support']) && empty($_SESSION['webp_support'])) {
 }
 
 
-/*******************************************
-** include all PHP files in common folder **
-*******************************************/
+/*****************************************************
+** include all PHP files in common utilities folder **
+*****************************************************/
 
+// 2023-11-20
+// Moved all of those PHP files to utilities subfolder
 // Include all of the common PHP files *perhaps* except social-media-data.php file:
-foreach (glob(dirname(__FILE__) . "/common/*.php") as $filename) {
+foreach (glob($absolute_root . "includes/common/utilities/*.php") as $filename) {
 	if ($include_social_media_curl === true) {
 		include $filename;
 	} else {
@@ -113,6 +115,13 @@ foreach (glob(dirname(__FILE__) . "/common/*.php") as $filename) {
 		}
 	}
 }
+
+/********
+** CSP **
+********/
+
+// Relies on BROWSER class, which is in 'utility' folder and included in loop above:
+include_once $absolute_root . 'includes/common/content_security_policy.php';
 
 /*******************
 ** Detect AJAXing **

@@ -749,7 +749,7 @@ function return_img_attribute_array($alt, $centered_image, $waypoints, $width, $
 
 function picture_or_img_element($picture, $variable_size, $img_url, $img_widths, $multipliers, $sizes, $picture_attribute_array, $img_attribute_array, $tabs, $lazyload, $social_share) {
 
-// $use_browser_based_lazy_loading is defined in includes/common_variables/variables.php
+// $use_browser_based_lazy_loading is defined in includes/common/variables.php
 	$use_browser_based_lazy_loading = $GLOBALS['use_browser_based_lazy_loading'];
 
 //file_put_contents('x.txt', $img_url . PHP_EOL, FILE_APPEND);

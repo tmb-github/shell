@@ -369,9 +369,9 @@ ajaxMainContent = function (hrefText, target, backbutton, eventType) {
 // qwer:htaccess
 // add 404/403 etc. status to data-http-status
 				if (ajaxURL.endsWith("/error/main.php")) {
-					mainElement.setAttribute('data-http-status', o.httpStatus);
+					mainElement?.setAttribute('data-http-status', o.httpStatus);
 				} else {
-					mainElement.removeAttribute('data-http-status');
+					mainElement?.removeAttribute('data-http-status');
 				}
 
 				document.querySelectorAll('#header-nav ul a').forEach(function (anchor) {

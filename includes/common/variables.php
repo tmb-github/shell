@@ -4,7 +4,7 @@
 // COMMON GLOBAL VARIABLES & SESSION VARIABLES
 // ===========================================
 
-// NB: THIS FILE IS CALLED BY common_routines.php
+// NB: THIS FILE IS CALLED BY common/routines.php
 
 /******************************************************************************
 *******************************************************************************

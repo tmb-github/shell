@@ -1,8 +1,8 @@
 <?php
 
 $absolute_root = $_SERVER['ABSOLUTE_ROOT'];
-include $absolute_root . 'includes/domain_info/domain_info.inc.php';
-include $absolute_root . 'includes/common_routines.php';
+include $absolute_root . 'includes/common/domain_info.php';
+include $absolute_root . 'includes/common/routines.php';
 
 if ($_SERVER['HTTP_HOST'] === 'localhost') {
 	$http_host = "https://localhost/" . $htdocs_folder . "/";

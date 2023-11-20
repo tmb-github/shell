@@ -26,8 +26,8 @@ include $absolute_root . 'includes/google-closure-compiler/src/Compiler.php';
 include $absolute_root . 'includes/google-closure-compiler/src/Response.php';
 include $absolute_root . 'includes/google-closure-compiler/src/exceptions.php';
 
-include $absolute_root . 'includes/domain_info/domain_info.inc.php';
-include $absolute_root . 'includes/common_routines.php';
+include $absolute_root . 'includes/common/domain_info.php';
+include $absolute_root . 'includes/common/routines.php';
 
 // 2023-11-01
 // Ensure nothing served is minified 

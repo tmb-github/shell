@@ -3,7 +3,7 @@
 $absolute_root = $_SERVER['ABSOLUTE_ROOT'];
 
 include_once 'index-main-vars.php';
-include_once $absolute_root . 'includes/common_routines.php';
+include_once $absolute_root . 'includes/common/routines.php';
 
 ob_start();
 

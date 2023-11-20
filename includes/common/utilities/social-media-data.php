@@ -160,7 +160,7 @@ if ((!isset($_SESSION['instagram_handle'])) || (empty($_SESSION['instagram_handl
 }
 
 // NB: All Instagram variables (except $instagram_url, set here) 
-// are set in common_routines.php, not in variables.php:
+// are set in common/routines.php, not in variables.php:
 //
 // $display_instagram_image_links
 // $instagram_data_json_file
