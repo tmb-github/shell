@@ -7,8 +7,8 @@ $minify = $_SESSION['minify'] ? ' data-minify=true' : ' data-minify=false';
 ?>
 <html lang=en-US<?php echo $minify; ?>>
 <?php
-include $html_inc_path . 'head.php';
-include $html_inc_path . 'body.php';
+include $component_path . 'head.php';
+include $component_path . 'body.php';
 ?>
 </html>
 <?php

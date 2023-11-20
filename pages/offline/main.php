@@ -20,9 +20,9 @@ render_custom_style_elements($page);
 	<h1 class=font-style-italic id=main-content tabindex=0>Hey, we're offline...</h1>
 	<h2 class="font-size-125rem font-style-italic text-align-center">This may just work: Try going to the <a href="./">home page</a> of the site.</h2>
 <?php
-include $absolute_root . 'includes/html/common/main-breadcrumb-schema.inc.php';
+include $absolute_root . 'includes/components/etc/main.breadcrumb-schema.inc.php';
 ?>
 </main>
 <?php
-include $absolute_root . 'includes/html/common/main-ending.inc.php';
+include $absolute_root . 'includes/components/etc/main.ending.inc.php';
 ?>

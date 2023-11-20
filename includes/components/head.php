@@ -35,7 +35,7 @@ if (!isset($page) || empty($page)) {
 ** META values **
 *****************/
 
-include $absolute_root . 'includes/html/common/meta-schema-defaults.inc.php';
+include $absolute_root . 'includes/components/etc/meta.schema-defaults.inc.php';
 
 // 2023-10-31
 // qwer:htaccess
@@ -48,7 +48,7 @@ if (file_exists($absolute_root . 'pages/' . $page . '/meta-schema-overrides.inc.
 ** web_author data **
 *********************/
 
-include $absolute_root . 'includes/html/common/head-web-author-data.inc.php';
+include $absolute_root . 'includes/components/etc/head.web-author-data.inc.php';
 
 ?>
 
@@ -260,8 +260,8 @@ if ($_SESSION['minify'] != true) {
 // see: https://caniuse.com/?search=imagesrcset
 
 if ($_SESSION['browser'] != 'Safari') {
-	if (file_exists($absolute_root . 'includes/html/common/head-lcp-preload-' . $page . '.inc.php')) {
-		include $absolute_root . 'includes/html/common/head-lcp-preload-' . $page . '.inc.php';
+	if (file_exists($absolute_root . 'includes/components/etc/head-lcp-preload-' . $page . '.inc.php')) {
+		include $absolute_root . 'includes/components/etc/head-lcp-preload-' . $page . '.inc.php';
 	};
 }
 

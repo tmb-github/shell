@@ -14,7 +14,7 @@ if (isset($_SESSION['authenticated']) && ($_SESSION['authenticated'] == 'true'))
 	<div class="loading-mask active"></div>
 <?php
 
-include $html_inc_path . 'header.php';
+include $component_path . 'header.php';
 
 ?>
 
@@ -96,8 +96,8 @@ if ((session_status() == PHP_SESSION_ACTIVE) && (isset($_SESSION['compile'])) &&
 
 //include $document_root . $_SERVER['REQUEST_URI'] . 'main.php';
 //echo PHP_EOL;
-include $html_inc_path . 'footer.php';
-include $html_inc_path . 'script.php';
+include $component_path . 'footer.php';
+include $component_path . 'script.php';
 echo PHP_EOL;
 ?>
 </body>

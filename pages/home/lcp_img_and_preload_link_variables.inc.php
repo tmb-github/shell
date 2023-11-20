@@ -2,7 +2,7 @@
 
 // LCP = Largest Contentful Paint
 // These are the variables used for the landing image on the home page (/main.php)
-// and the corresponding preload LINK in the HEAD (/includes/html/head.php)
+// and the corresponding preload LINK in the HEAD (/includes/components/head.php)
 
 // NB: To generate CSS for the transitioning animation,
 // edit the index.php in https://localhost/shell/make-animation-css/

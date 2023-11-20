@@ -29,7 +29,7 @@ if ($redirect == 400) {
 // we need this here for the $htdocs_folder:
 include $absolute_root . "includes/common/domain_info.php";
 
-// Needed by routine that loads the correct <MAIN> element in includes/html/body.php:
+// Needed by routine that loads the correct <MAIN> element in includes/components/body.php:
 if (isset($_SERVER['SERVER_NAME']) && !empty($_SERVER['SERVER_NAME']) && ($_SERVER['SERVER_NAME'] == 'localhost')) {
 	$root = '/' . $htdocs_folder . '/';
 } else {
@@ -40,6 +40,6 @@ $_SERVER['REQUEST_URI'] = $root . 'error';
 
 include 'index-main-vars.php';
 include $absolute_root . 'includes/common/routines.php';
-include $absolute_root . 'includes/html/html.php';
+include $absolute_root . 'includes/components/html.php';
 
 ?>

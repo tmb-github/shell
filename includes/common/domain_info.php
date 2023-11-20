@@ -16,4 +16,4 @@ $site_title_short_form_lc = 'shell';
 // subfolder of htdocs directory:
 $htdocs_folder = 'shell';
 
-// NB: Ensure includes\html\common\meta-schema-defaults.inc.php is edited FULLY.
+// NB: Ensure includes\components\etc\meta.schema-defaults.inc.php is edited FULLY.

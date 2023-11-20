@@ -248,7 +248,8 @@ if ($_SERVER['HTTP_HOST'] == 'localhost') {
 		'Dummy 5' => 'dummy-5',
 	];
 */
-	include $absolute_root . 'includes/html/header-secondary-ul.inc.php';
+
+	include $absolute_root . 'includes/components/etc/header.secondary-ul.inc.php';
 /*
 	$switcher_name = 'Additional Pages 2';
 	$switcher_id = 'additional-pages-2';
@@ -261,7 +262,7 @@ if ($_SERVER['HTTP_HOST'] == 'localhost') {
 		'Dummy 14' => 'dummy-14', 
 		'Dummy 15' => 'dummy-15'
 	];
-	include $absolute_root . 'includes/html/header-secondary-ul.inc.php';
+	include $absolute_root . 'includes/components/etc/header.secondary-ul.inc.php';
 
 	$switcher_name = 'Additional Pages 3';
 	$switcher_id = 'additional-pages-3';
@@ -274,7 +275,7 @@ if ($_SERVER['HTTP_HOST'] == 'localhost') {
 		'Dummy 24' => 'dummy-24', 
 		'Dummy 25' => 'dummy-25'
 	];
-	include $absolute_root . 'includes/html/header-secondary-ul.inc.php';
+	include $absolute_root . 'includes/components/etc/header.secondary-ul.inc.php';
 */
 
 $display_login_page = false;

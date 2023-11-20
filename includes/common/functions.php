@@ -95,7 +95,7 @@ function render_initial_page_style_element($page, $css_array) {
 // OLD: function render_custom_style_elements($includes_folder) {
 function render_custom_style_elements($folder) {
 
-// css_array.inc.php used here and in includes/html/head.php:
+// css_array.inc.php used here and in includes/components/head.php:
 
 	$absolute_root = $_SERVER['ABSOLUTE_ROOT'];
 	$minified_css = '';

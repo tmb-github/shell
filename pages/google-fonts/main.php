@@ -50,9 +50,9 @@ render_custom_style_elements($page);
 	<section class=output></section>
 
 <?php
-include $absolute_root . 'includes/html/common/main-breadcrumb-schema.inc.php';
+include $absolute_root . 'includes/components/etc/main.breadcrumb-schema.inc.php';
 ?>
 </main>
 <?php
-include $absolute_root . 'includes/html/common/main-ending.inc.php';
+include $absolute_root . 'includes/components/etc/main.ending.inc.php';
 ?>

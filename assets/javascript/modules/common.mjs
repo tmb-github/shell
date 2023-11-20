@@ -1727,7 +1727,7 @@ commonVariables = function () {
 
 
 // 2021-03-14: the meta tag data-use-service-worker is controlled by
-// the $use_service_worker variable in includes/common_variables/variables.php
+// the $use_service_worker variable in includes/common/variables.php
 // It's been toggled off because of the looming Lighthouse audit (scheduled
 // for Chrome 93, August 2021) that will reject Service Worker sites that are
 // not installable by the test. So, for now, o.metaDataUseServiceWorker will

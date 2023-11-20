@@ -103,9 +103,9 @@ render_custom_style_elements($page);
 	<div id=footer>Page created with <a target=_blank href=https://www.xml-sitemaps.com>Google XML sitemap and html sitemaps generator</a> <br> Copyright &copy; 2005-<?php echo date('Y'); ?> XML-Sitemaps.com</div>
 
 <?php
-include $absolute_root . 'includes/html/common/main-breadcrumb-schema.inc.php';
+include $absolute_root . 'includes/components/etc/main.breadcrumb-schema.inc.php';
 ?>
 </main>
 <?php
-include $absolute_root . 'includes/html/common/main-ending.inc.php';
+include $absolute_root . 'includes/components/etc/main.ending.inc.php';
 ?>

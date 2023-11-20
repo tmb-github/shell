@@ -67,7 +67,7 @@ if ($do_not_use_static_html == true) {
 }
 
 // Compile index.php pages for /404/localhost/ and /404/livehost/ directories from /error/
-// Needed in error/index.php and includes/html/body.php:
+// Needed in error/index.php and includes/components/body.php:
 $_SESSION['compile'] = 'true';
 
 if ($localhost === true) {

@@ -183,7 +183,7 @@ $use_hash_navigation = false;
 ** html_inc_path **
 ******************/
 
-$html_inc_path = $absolute_root . '/includes/html/';
+$component_path = $absolute_root . '/includes/components/';
 
 
 /**********************************
