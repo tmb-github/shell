@@ -20,11 +20,15 @@ etc.
 So, remove /compile/ from string. If the result is NOT empty (''), then append a trailing slash to it.
 */
 
+/*
 $request_uri = $_SERVER['REQUEST_URI'];
 $root_folder = str_replace('/compile/', '', $request_uri);
 if (strlen($root_folder) !== '') {
 	$root_folder .= '/';
 }
+*/
+
+$root_folder = $_SERVER['BASE_PATH'];
 
 $absolute_root = $_SERVER['ABSOLUTE_ROOT'];
 

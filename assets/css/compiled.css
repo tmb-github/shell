@@ -2989,6 +2989,7 @@ BEGIN: html/main.css
 	position: relative;
 	flex: 1;
 	opacity: var(--main-opacity);
+	transition: opacity 500ms ease;
 }
 
 .main .external-anchor:link,

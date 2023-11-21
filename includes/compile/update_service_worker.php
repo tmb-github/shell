@@ -372,11 +372,11 @@ FINAL OPERATIONS:
 	$service_worker_content = str_replace("\t", "  ", $service_worker_content);
 
 // delete old service worker(s):
-	foreach (GLOB("../sw*.js") as $filename) {
+	foreach (GLOB($absolute_root . "sw*.js") as $filename) {
 		unlink($filename);
 	}
 //file_put_contents('../sw' . $timestamp . '.js', $service_worker_content);
-	file_put_contents('../sw.js', $service_worker_content);
+	file_put_contents($absolute_root . 'sw.js', $service_worker_content);
 
 //	minify_with_closure_compiler('../sw.js', '../sw.' . $timestamp . '.min.js');
 } else {
