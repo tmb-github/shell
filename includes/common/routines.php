@@ -142,8 +142,10 @@ if (!isset($title)) {
 ***************************************/
 
 if ($down_for_maintenance == true) {
-	header('Location: ' . $absolute_root . 'down-for-maintenance/');
-	exit;
+
+// BASE_PATH defined in .htaccess:
+	header('Location: ' . $_SERVER['BASE_PATH'] . 'down-for-maintenance');
+
 }
 
 

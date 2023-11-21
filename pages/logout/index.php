@@ -8,6 +8,7 @@ session_start([
 $_SESSION = array();
 session_destroy();
 
-header("Location: ../");
+// BASE_PATH defined in .htaccess:
+header('Location: ' . $_SERVER['BASE_PATH']);
 
 ?>
