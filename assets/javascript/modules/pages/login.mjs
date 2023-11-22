@@ -51,8 +51,8 @@ formLogic = function () {
 
 	formOnSubmit = function (event) {
 		var ajaxURL;
-		var contactFormMutate;
 		var hideUsernamePasswordUnrecognized;
+		var loginFormMutate;
 		var password;
 		var passwordInput;
 		var username;
@@ -62,7 +62,7 @@ formLogic = function () {
 
 		event.preventDefault();
 
-		contactFormMutate = function () {
+		loginFormMutate = function () {
 
 			var ajaxResponse;
 
@@ -94,10 +94,12 @@ formLogic = function () {
 							} else {
 								showUsernamePasswordUnrecognized();
 							}
+
+							o.ajax.post(ajaxURL, {'username': username, 'password': password}, ajaxResponse, true);
+
 						};
 					}
 				}
-				o.ajax.post(ajaxURL, {'username': username, 'password': password}, ajaxResponse, true);
 			}
 		};
 
@@ -128,7 +130,7 @@ formLogic = function () {
 		submit = document.querySelector('.login-form input');
 		ajaxURL = o.metaDataRootDir + 'includes/forms/login/login_process.php';
 
-		contactFormMutate();
+		loginFormMutate();
 
 	};
 
