@@ -75,7 +75,7 @@ formLogic = function () {
 					if (password === '') {
 						alert("Password required.\n\nPlease add password and re-submit.\n");
 					} else {
-
+console.log('xxx');
 						submit.disabled = true;
 // response:
 						ajaxResponse = function (userData) {
@@ -94,10 +94,10 @@ formLogic = function () {
 							} else {
 								showUsernamePasswordUnrecognized();
 							}
-
-							o.ajax.post(ajaxURL, {'username': username, 'password': password}, ajaxResponse, true);
-
 						};
+
+						o.ajax.post(ajaxURL, {'username': username, 'password': password}, ajaxResponse, true);
+
 					}
 				}
 			}

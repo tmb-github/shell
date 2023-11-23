@@ -9,7 +9,6 @@ if (file_exists($dateModified_file)) {
 } else {
 	$dateModified = '1999-01-01T00:00:00+00:00';
 }
-
 ?>
 
 <script type=application/ld+json id=schema-web-page>
@@ -53,6 +52,7 @@ foreach($social_media_href as $media => $href)  {
 		]
 	}
 </script>
+
 <?php
 
 // RE: 'defer' attribute from MDN:

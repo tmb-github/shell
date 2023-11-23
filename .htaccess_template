@@ -62,7 +62,8 @@ SetEnvIf Host !localhost BASE_PATH=/
 
 
 ### NEEDED FOR IMAGICK ON LIVEHOST ###
-
+### The compiler finds this and retains it on the live site ###
+### Even though it's commented, DO NOT DELETE ###
 #<If "req('Host') != 'localhost'">
 #	suPHP_ConfigPath /home/a07af35/public_html
 #</If>

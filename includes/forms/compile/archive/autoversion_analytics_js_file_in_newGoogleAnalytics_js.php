@@ -49,5 +49,5 @@ if (file_exists($new_google_analytics_template_js)) {
 	}
 
 } else {
-	echo $new_google_analytics_template_js . ' could not be found...procedure aborted.' . PHP_EOL . PHP_EOL;
+	echo $new_google_analytics_template_js . ' could not be found . . . procedure aborted.' . PHP_EOL . PHP_EOL;
 }

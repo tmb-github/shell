@@ -127,6 +127,9 @@ siteData = {
 		'home': {
 			mjs: './home.mjs'
 		},
+		'compile': {
+			mjs: './compile.mjs'
+		},
 		'contact': {
 			mjs: './contact.mjs'
 		},

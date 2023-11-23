@@ -1,0 +1,26 @@
+SetEnvIf Request_URI "^.*" LOCALHOST=https://localhost/shell
+SetEnvIf Request_URI "^.*" LIVEHOST=https://thomasbrodhead.com
+
+SetEnvIf Host localhost SCHEME=https://
+SetEnvIf Host localhost HOST=localhost
+SetEnvIf Host localhost BASE_PATH=/shell/
+
+SetEnvIf Host !localhost SCHEME=https://
+SetEnvIf Host !localhost HOST=thomasbrodhead.com
+SetEnvIf Host !localhost BASE_PATH=/
+
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+	RewriteRule ^ - [E=BASE_URL:%{ENV:SCHEME}%{ENV:HOST}%{ENV:BASE_PATH}]
+	RewriteRule ^ - [E=ABSOLUTE_ROOT:%{DOCUMENT_ROOT}%{ENV:BASE_PATH}]
+</IfModule>
+
+<If "req('Host') = 'localhost'">
+	<IfModule mod_headers.c>
+		Header set Cache-Control "no-cache, no-store, must-revalidate"
+		Header set Pragma "no-cache"
+		Header set Expires 0
+	</IfModule> 
+</If>
+
+

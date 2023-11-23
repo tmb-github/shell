@@ -119,8 +119,10 @@ $base_href = $protocol . $_SERVER['HTTP_HOST'] . $root_dir;
 **************/
 
 $canonical = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+
+// OLD COMPILE VERSION!
 // Compiling the 404 page will result in 'compile' showing as the URL unless we change it:
-$canonical = str_replace('/compile/', '/error/', $canonical);
+//$canonical = str_replace('/compile/', '/error/', $canonical);
 
 
 /******************

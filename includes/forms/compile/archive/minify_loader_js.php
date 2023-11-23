@@ -3,6 +3,7 @@
 echo 'Minifying loader.js . . .' . PHP_EOL;
 
 $absolute_root = $_SERVER['ABSOLUTE_ROOT'];
+
 $source = $absolute_root . 'assets/javascript/loader.js';
 $destination = $absolute_root . 'assets/javascript/loader.min.js';
 
@@ -16,14 +17,14 @@ if (file_exists($source)) {
 		echo 'SUCCESS: Closure Compiler minified: ' . $source . PHP_EOL;
 	}
 } else {
-	echo $source . ' does not exist...procedure aborted.' . PHP_EOL . PHP_EOL;
+	echo $source . ' does not exist . . . procedure aborted.' . PHP_EOL . PHP_EOL;
 }
 
 ///////
 
-echo 'Minifying loader.js . . .' . PHP_EOL;
+//echo 'Minifying loader.js . . .' . PHP_EOL;
 
-$absolute_root = $_SERVER['ABSOLUTE_ROOT'];
+//$absolute_root = $_SERVER['ABSOLUTE_ROOT'];
 
 if (!file_exists($absolute_root . 'assets/javascript/minified-scripts')) {
 // NB: 0777 is security permission: make executable
@@ -103,7 +104,7 @@ if (file_exists($source)) {
 // 2022-08-20:
 // Do the same for enqueued scripts:
 // THIS APPARENTLY HAS NO EFFECT...REASON UNKNOWN.
-// ACTUAL SOLUTION IN minify_scripts_js.php...relative path to the loader file
+// ACTUAL SOLUTION IN minify_scripts.php...relative path to the loader file
 // was failing; absolute path was needed.
 		$contents = str_replace("({src: 'assets/javascript/scripts/", "({src: 'assets/javascript/minified-scripts/", $contents);
 		$contents = str_replace('({src: "assets/javascript/scripts/', '({src: "assets/javascript/minified-scripts/', $contents);
@@ -154,5 +155,5 @@ if (file_exists($source)) {
 	unlink($temp_file);
 
 } else {
-	echo $source . ' does not exist...procedure aborted.' . PHP_EOL . PHP_EOL;
+	echo $source . ' does not exist . . . procedure aborted.' . PHP_EOL . PHP_EOL;
 }

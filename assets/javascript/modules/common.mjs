@@ -2031,24 +2031,37 @@ fetchAppendToUploadStatusDiv = function (msg) {
 	var o;
 	var fragment;
 	var pElement;
+	var textNode;
 
 // 'this' is the outer 'o' via .bind(o), so the outer 'o' === inner 'o':
 	o = this;
 
-	fragment = document.createDocumentFragment();
-// Create P element to be inserted into the DOM:
-	pElement = document.createElement('P');
-// Append it to the fragment:
-	fragment.appendChild(pElement);
-// Modify the properties of the element now that it's attached to the fragment:
+// 2023-11-22
+// Done to accommodate revision of 'compile' routine:
 
-	if (tmbTT.active) {
-		pElement.innerHTML = o.DOMPurify.sanitize(msg);
+	if ((msg !== 'Done.') && (msg !== 'Not Selected')) {
+
+		fragment = document.createDocumentFragment();
+	// Create P element to be inserted into the DOM:
+		pElement = document.createElement('P');
+	// Append it to the fragment:
+		fragment.appendChild(pElement);
+	// Modify the properties of the element now that it's attached to the fragment:
+
+		if (tmbTT.active) {
+			pElement.innerHTML = o.DOMPurify.sanitize(msg);
+		} else {
+			pElement.innerHTML = msg;
+		}
+
+		o.fetchUploadStatusDiv.appendChild(fragment);
+
 	} else {
-		pElement.innerHTML = msg;
+		if (o.fetchUploadStatusDiv.lastElementChild) {
+			textNode = document.createTextNode(msg);
+			o.fetchUploadStatusDiv.lastElementChild.appendChild(textNode);
+		}
 	}
-
-	o.fetchUploadStatusDiv.appendChild(fragment);
 
 };
 

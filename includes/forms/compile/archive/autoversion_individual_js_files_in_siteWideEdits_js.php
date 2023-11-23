@@ -54,5 +54,5 @@ if (file_exists($site_wide_edits_template_js)) {
 	file_put_contents($absolute_root . 'assets/javascript/siteWideEdits.js', $sitewide_template);
 
 } else {
-	echo $site_wide_edits_template_js . ' could not be found...procedure aborted.' . PHP_EOL . PHP_EOL;
+	echo $site_wide_edits_template_js . ' could not be found . . . procedure aborted.' . PHP_EOL . PHP_EOL;
 }

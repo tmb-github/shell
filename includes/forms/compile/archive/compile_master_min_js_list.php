@@ -37,7 +37,7 @@ if (file_exists($loader_template_js)) {
 				$js = file_get_contents($absolute_root . $resource);
 				$master .= $js . PHP_EOL;
 			} else {
-				echo PHP_EOL . $absolute_root . $resource . ' could not be found...procedure compromised.' . PHP_EOL . PHP_EOL;
+				echo PHP_EOL . $absolute_root . $resource . ' could not be found . . . procedure compromised.' . PHP_EOL . PHP_EOL;
 			}
 		}
 	}
@@ -45,5 +45,5 @@ if (file_exists($loader_template_js)) {
 	file_put_contents($absolute_root . 'assets/javascript/minified-scripts/master.min.js', $master);
 
 } else {
-	echo $loader_template_js . ' could not be found...procedure aborted.' . PHP_EOL . PHP_EOL;
+	echo $loader_template_js . ' could not be found . . . procedure aborted.' . PHP_EOL . PHP_EOL;
 }

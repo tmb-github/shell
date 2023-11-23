@@ -333,6 +333,7 @@ if ($include_contact_page == true) {
 
 if (isset($_SESSION['authenticated']) && ($_SESSION['authenticated'] == 'true')) {
 ?>
+			<li data-page=compile data-href=compile class=menu-side-one><a class=internal-anchor href="compile/" tabindex=-1>Compile</a></li>
 			<li data-page=logout data-href=logout class=menu-side-one><a class=internal-anchor href="logout/" tabindex=-1>Logout</a></li>
 <?php
 }
