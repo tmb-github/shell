@@ -1,3 +1,12 @@
+<?php
+
+session_start([
+	'name' => '__Secure-PHPSESSID',
+	'cache_limiter' => 'private_no_expire:'
+]);
+
+if (isset($_SESSION['authenticated']) && ($_SESSION['authenticated'] == 'true')) {
+?>
 <!doctype html>
 <html lang=en-us>
 <head>
@@ -24,3 +33,12 @@ echo '</pre>';
 ?>
 </body>
 </html>
+<?php
+
+} else {
+
+// BASE_PATH defined in .htaccess:
+	header('Location: ' . $_SERVER['BASE_PATH'] . 'login/');
+
+}
+?>
