@@ -1,8 +1,8 @@
 /**
-* serverErrorTest.mjs
+* badRequestTest.mjs
 * Copyright (c) 2019-2023 Thomas M. Brodhead <https://bmt-systems.com>
 * Released under the MIT license
-* Date: 2023-11-26
+* Date: 2023-11-01
 */
 
 // Every mjs file has a main() function that is called by common.mjs inner().
@@ -36,7 +36,7 @@ main = function () {
 	metaData = returnMetaData(o);
 	o.reviseMetaData(metaData);
 
-	o.serverErrorTest.formLogic();
+	o.badRequestTest.formLogic();
 // always include this in every page.mjs, and execute it last in main():
 	o.appendToCSS(':root', '{ --main-opacity: 1; }');
 
@@ -66,8 +66,8 @@ formLogic = function () {
 			o.ajax.post(ajaxURL, {}, ajaxResponse, true);
 		};
 
-		submit = document.querySelector('.server-error-test-form button');
-		ajaxURL = o.metaDataRootDir + 'includes/forms/server-error-test/server_error_test_process.php';
+		submit = document.querySelector('.bad-request-test-form button');
+		ajaxURL = o.metaDataRootDir + 'includes/forms/bad-request-test/bad_request_test_process.php';
 
 		contactFormMutate();
 
@@ -75,12 +75,12 @@ formLogic = function () {
 
 	(function (form) {
 		if (form) {
-			if (!form.classList.contains('server-error-test-form-on-submit-listener')) {
-				form.classList.add('server-error-test-form-on-submit-listener');
+			if (!form.classList.contains('bad-request-test-form-on-submit-listener')) {
+				form.classList.add('bad-request-test-form-on-submit-listener');
 				form.addEventListener('submit', formOnSubmit);
 			}
 		}
-	}(document.querySelector('.server-error-test-form')));
+	}(document.querySelector('.bad-request-test-form')));
 
 };
 
@@ -100,8 +100,8 @@ returnMetaData = function (o) {
 	_canonical = '${CANONICAL}';
 	_default = '${DEFAULT}';
 	_title = '${TITLE}';
-	_description = 'Server Error Test page description for ' + o.siteData.metaDescription;
-	_page = 'server-error-test';
+	_description = 'Bad Request Test page description for ' + o.siteData.metaDescription;
+	_page = 'bad-request-test';
 	_image = _default;
 	_imageAlt = _default;
 

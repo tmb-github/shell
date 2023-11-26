@@ -20,7 +20,7 @@ if ($redirect == 400) {
 } else if ($redirect == 403) {
 	header("HTTP/1.1 403 Forbidden", true, 403);
 } else if ($redirect == 500) {
-	header("HTTP/1.1 403 Internal Server Error", true, 500);
+	header("HTTP/1.1 500 Internal Server Error", true, 500);
 // treat everything else as a 404:
 } else {
 	header("HTTP/1.1 404 Not Found", true, 404);

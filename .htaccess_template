@@ -779,7 +779,7 @@ Options -Indexes
 #
 # 1) Using option: Regular Expressions, searches for:
 #
-# .*\[perdir C:/xampp/htdocs/shell/\]
+# .*\[perdir C:/xampp/htdocs/new-art2/\]
 #
 # and replaces with nothing.
 #
@@ -825,11 +825,11 @@ Options -Indexes
 # the slash in the domain.
 #
 # For a live site, the REQUEST_FILENAME would be "xyz" for https://example.com/xyz
-# For localhost, the REQUEST_FILENAME would be "xyz" for https://localhost/shell/xyz
+# For localhost, the REQUEST_FILENAME would be "xyz" for https://localhost/new-art2/xyz
 #
 # Confusingly, the REQUEST_URI includes the slash--it ALWAYS starts with a slash. 
 # For a live site, the REQUEST_URI would be "/xyz" for https://example.com/xyz
-# But for a localhost site, the REQUEST_URI would be "/shell/xyz" for https://localhost/shell/xyz
+# But for a localhost site, the REQUEST_URI would be "/new-art2/xyz" for https://localhost/new-art2/xyz
 #
 # Because the REQUEST_FILENAME is appended to the document root, which ALWAYS  
 # ends in a slash, NEVER begin a RewriteRule assignment with a slash, unless you
@@ -886,6 +886,25 @@ Options -Indexes
 #
 # -----------------------------------------------------------------------------
 #
+# Percents (%1) vs. dollars ($1)
+#
+# In RewriteRule, %1, %2, %3, etc., reference the matched patterns in the last
+# RewriteCond's pattern.
+#
+# In RewriteRule, $1, $2, $3, etc., reference the matched patterns in the 
+# RewriteRule's pattern itself.
+#
+# So, note the use of %2 and $1 in the following rule:
+#
+# Input: https://localhost/xxx/comical
+#
+# RewriteCond %{REQUEST_URI} ^/(xxx/)?(chromatic-geometry|comical)/
+# RewriteRule ^(.+)$ theme/%2/$1 [L]
+#
+# Output: https://localhost/theme/comical/xxx/comical
+#
+# -----------------------------------------------------------------------------
+#
 # The [L] flag does nor really mean "LAST"...it effectively means LOOP AGAIN.
 # It means "last" of the current iteration. It causes the mod_rewrite process
 # to stop and then start all over again from the top of the current
@@ -911,29 +930,6 @@ Options -Indexes
 # GET /private/ HTTP/1.1
 # or:
 # GET /private/my-stuff HTTP/1.1
-#
-# -----------------------------------------------------------------------------
-#
-# What's incredibly confusing is that the numbered capturing groups in the
-# RewriteRule are taken NOT from the pattern in the RewriteRule, but from the
-# RewriteCond that precedes it. So, a RewriteRule could have ^(.*)$ for its
-# pattern, with $1/$2/xyz/$3 in the revision on the righthand side of the rule.
-# To avoid confusion, and, importantly, to exclude all but REQUEST_FILENAMEs
-# that actually match the intended pattern in the RewriteConds, you should
-# craft a RewiteRule pattern that conforms to the RewriteCondition.
-#
-# So, you could do this, with a catch-all pattern in the RewriteRule:
-#
-# RewriteCond %{REQUEST_URI} ^/(shell/)?(folder1|folder2|folder3)(/.*)?$
-# RewriteRule ^(.*)$ /%1theme/%2/%3 [R=301,L]
-#
-# But you're better off using an atomic pattern in the rule, like this:
-#
-# RewriteCond %{REQUEST_URI} ^/(shell/)?(folder1|folder2|folder3)(/.*)?$
-# RewriteRule ^(shell/)?([^\/]+)(\/.*)?$ /%1theme/%2%3 [R=301,L]
-#
-# That way, you can correlate the ongoing revision of the REQUEST_FILENAME 
-# with the pattern.
 #
 # -----------------------------------------------------------------------------
 

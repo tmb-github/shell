@@ -124,6 +124,9 @@ siteData = {
 			]
 		},
 */
+		'bad-request-test': {
+			mjs: './badRequestTest.mjs'
+		},
 		'home': {
 			mjs: './home.mjs'
 		},

@@ -347,7 +347,6 @@ ajaxMainContent = function (hrefText, target, backbutton, eventType) {
 // unstyled content (mainly a flash of images on the left side of the screen).
 // This restores the opacity:
 //
-// asdf
 // 2023-11-15:
 // Put in main() of each page mjs file so that any style edits performed by
 // those pages are performed before the opacity is returned to 1:
@@ -370,6 +369,7 @@ ajaxMainContent = function (hrefText, target, backbutton, eventType) {
 // add 404/403 etc. status to data-http-status
 				if (ajaxURL.endsWith("/error/main.php")) {
 					mainElement?.setAttribute('data-http-status', o.httpStatus);
+//					mainElement?.setAttribute('data-title', 'Error ' + o.httpStatus + ' | ' + );
 				} else {
 					mainElement?.removeAttribute('data-http-status');
 				}
@@ -1114,7 +1114,6 @@ commonRoutinesOnFirstLoadOnly = function () {
 
 	o.firstLoad = false;
 
-// asdf
 // 2023-11-15
 // Put in main() of each page mjs file so that any style edits performed by
 // those pages are performed before the opacity is returned to 1:
@@ -2228,7 +2227,6 @@ highlightMenuItem = function () {
 		}
 	});
 
-/* asdf */
 	if (!document.querySelector('.secondary-ul.selected')) {
 		document.querySelector('.primary-ul').classList.add('selected');
 	} else {
@@ -2476,6 +2474,7 @@ innerFinish = function () {
 	o.editExternalLinks(document, '.main a[class*="social-icon-anchor"][href*="//"]', true, 'Share on social media (opens in new window/tab)');
 	o.editExternalLinks(document, '.footer a[href*="//"]', false, true);
 
+// qwer
 // reset meta data to defaults before running page-specific module, which may
 // have its own metadata that is assumed to overwrite the default...so,
 // set (or restore, depending on the case) the defaults first:

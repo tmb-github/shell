@@ -301,18 +301,27 @@ if ($display_google_fonts_page == true) {
 <?php
 }
 
-// 404 testing:
-$display_does_not_exist_page = true;
-if ($display_does_not_exist_page == true) {
+// 400 testing:
+$display_bad_request_test_page = true;
+if ($display_bad_request_test_page == true) {
 ?>
-			<li data-page=does-not-exist data-href=does-not-exist class=menu-side-one><a class=internal-anchor href="does-not-exist/" tabindex=-1>Does Not Exist</a></li>
+			<li data-page=bad-request-test data-href=bad-request-test class=menu-side-one><a class=internal-anchor href="bad-request-test/" tabindex=-1>Bad Request Test</a></li>
 <?php
 }
+
 // 403 testing:
 $display_private_page = true;
 if ($display_private_page == true) {
 ?>
 			<li data-page=private data-href=private class=menu-side-one><a class=internal-anchor href="private/" tabindex=-1>Private</a></li>
+<?php
+}
+
+// 404 testing:
+$display_does_not_exist_page = true;
+if ($display_does_not_exist_page == true) {
+?>
+			<li data-page=does-not-exist data-href=does-not-exist class=menu-side-one><a class=internal-anchor href="does-not-exist/" tabindex=-1>Does Not Exist</a></li>
 <?php
 }
 

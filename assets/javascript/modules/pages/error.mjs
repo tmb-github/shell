@@ -35,6 +35,17 @@ main = function () {
 	metaData = returnMetaData(o);
 	o.reviseMetaData(metaData);
 	o.error.editPageText();
+
+// To stop the line that's drawn repeatedly at the bottom of the header.
+// This can happen if we get a 400 error during email contact form
+// submission, which will have the line carried over from the start of the
+// sending process.
+	(function (header) {
+		if (header) {
+			header.classList.remove('draw');
+		}
+	}(document.querySelector('header')));
+
 // always include this in every page.mjs, and execute it last in main():
 	o.appendToCSS(':root', '{ --main-opacity: 1; }');
 
@@ -100,6 +111,25 @@ editPageText = function () {
 				if (title && title.innerHTML.includes('|')) {
 // Replace everything from the start to the first "|"
 					title.innerHTML = title.innerHTML.replace(/^.*?\|/, 'Error ' + main.dataset.httpStatus + ' |');
+
+// 2023-11-26
+// Bandaid solution to 500 error test, perhaps other errors. The 500 error test
+// initially is registered as a 400 error, with 3 meta values not receiving the
+// correct status codes. This routine corrects for that.
+					(function (dataTitleContent) {
+						var pipeIndex;
+						var revisedTitle;
+						if (dataTitleContent) {
+							pipeIndex = dataTitleContent.indexOf('|');
+							if (pipeIndex !== -1) {
+								revisedTitle = 'Error ' + o.httpStatus + ' ' + dataTitleContent.substring(pipeIndex);
+								document.querySelector('MAIN')?.setAttribute('data-title', revisedTitle);
+								document.querySelector('META[name="twitter:title"]')?.setAttribute('content', revisedTitle);
+								document.querySelector('META[property="og:title"]')?.setAttribute('content', revisedTitle);
+							}
+						};
+					}(document.querySelector('MAIN')?.getAttribute('data-title')));
+
 				}
 			}(document.querySelector('TITLE')));
 		}
@@ -125,6 +155,7 @@ returnMetaData = function (o) {
 	_canonical = '${CANONICAL}';
 	_default = '${DEFAULT}';
 	_title = '${TITLE}';
+
 //	_description = 'Error 404 page description for ' + o.siteData.metaDescription;
 //	_page = 'error';
 	_image = _default;

@@ -8,9 +8,7 @@
 
 include $absolute_root . 'includes/common/domain_info.php';
 
-$slug = 'server-error-test';
+$slug = 'bad-request-test';
 $page = $slug;
 $schema_name = ucwords(str_replace('-', ' ', $slug));
 $title = $schema_name . ' | ' . $site_title;
-
-

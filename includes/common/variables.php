@@ -12,6 +12,10 @@
 *******************************************************************************
 ******************************************************************************/
 
+// To keep admin mode on, unrem the following (helpful for development of admin
+// tools):
+$_SESSION['authenticated'] = 'true';
+
 /****************
 ** request_uri **
 ****************/

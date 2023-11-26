@@ -1,19 +1,86 @@
+#########################################
+### VARIABLES FOR LOCAL AND LIVE HOST ###
+#########################################
+
+# No equal signs (also, no variables in assignment):
 SetEnv LOCALHOST https://localhost/shell
 SetEnv LIVEHOST https://shell.com
 SetEnv ASSETS_FOLDER "assets/"
+
+# Equal signs:
 SetEnvIf Host localhost SCHEME=https://
 SetEnvIf Host localhost HOST=localhost
 SetEnvIf Host localhost BASE_PATH=/shell/
 SetEnvIf Host !localhost SCHEME=https://
 SetEnvIf Host !localhost HOST=shell.com
 SetEnvIf Host !localhost BASE_PATH=/
+
+# If %{VARIABLES} are required in the assigments, you must do them as part of a
+# RewriteRule. Also, %{VARIABLES} must previously be set within the block
+# itself or by a prior "SetEnvIf" statement, but NOT by a "SetEnv" statement.
 <IfModule mod_rewrite.c>
 	RewriteEngine On
 	RewriteRule ^ - [E=BASE_URL:%{ENV:SCHEME}%{ENV:HOST}%{ENV:BASE_PATH}]
 	RewriteRule ^ - [E=ABSOLUTE_ROOT:%{DOCUMENT_ROOT}%{ENV:BASE_PATH}]
 </IfModule>
+
+
+### IMPORTANT ###
+### UNREM THIS WHEN TESTING REWRITES ###
+#<If "req('Host') = 'localhost'">
+#	<IfModule mod_headers.c>
+#		Header set Cache-Control "no-cache, no-store, must-revalidate"
+#		Header set Pragma "no-cache"
+#		Header set Expires 0
+#	</IfModule> 
+#</If>
+
+### NEEDED FOR IMAGICK ON LIVEHOST ###
+### The compiler finds this and retains it on the live site ###
+### Even though it's commented, DO NOT DELETE ###
+#<If "req('Host') != 'localhost'">
+#	suPHP_ConfigPath /home/a07af35/public_html
+#</If>
+
+
+## SEE: https://httpstatus.io/ for 404, 301, 302 status codes checker
+## https://websiteadvantage.com.au/404-Error-Handler-Checker
+#
+# 2019-08-31: revision based on webhint.io
+#
+# ######################################################################
+# # MEDIA TYPES AND CHARACTER ENCODINGS (content-type)                 #
+# ######################################################################
+
+# ----------------------------------------------------------------------
+# | Media types                                                        |
+# ----------------------------------------------------------------------
+
+# Serve resources with the proper media types (f.k.a. MIME types).
+# https://webhint.io/docs/user-guide/hints/hint-content-type/
+
+# Serve all resources labeled as `text/html` or `text/plain`
+# with the media type `charset` parameter set to `utf-8`.
+#
+# https://httpd.apache.org/docs/current/mod/core.html#adddefaultcharset
+
 AddDefaultCharset utf-8
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+#######################
+# BEGIN MIME SECTION: #
+#######################
+
 <IfModule mod_mime.c>
+
+# Serve the following file types with the media type `charset`
+# parameter set to `utf-8`.
+#
+# https://httpd.apache.org/docs/current/mod/mod_mime.html#addcharset
+
+# We're in a mod_mime.c section: <IfModule mod_mime.c>
+
     AddCharset utf-8 .appcache \
                      .atom \
                      .css \
@@ -27,38 +94,174 @@ AddDefaultCharset utf-8
                      .vtt \
                      .webmanifest \
                      .xml
+
+# We're in a mod_mime.c section: </IfModule>
+
+# We're in a mod_mime.c section: <IfModule mod_mime.c>
+
+  # Data interchange
+
+    # 2.2.x+
+
     AddType text/xml                                    xml
+
+    # 2.2.x - 2.4.x
+
     AddType application/json                            json
     AddType application/rss+xml                         rss
+
+    # 2.4.x+
+
     AddType application/json                            map
+
+  # JavaScript
+
+    # 2.2.x+
+
+    # See: https://html.spec.whatwg.org/multipage/scripting.html#scriptingLanguages.
     AddType application/javascript                      js mjs
+
+
+  # Manifest files
+
+    # 2.2.x+
+
     AddType application/manifest+json                   webmanifest
     AddType text/cache-manifest                         appcache
+
+
+  # Media files
+
+    # 2.2.x - 2.4.x
+
     AddType audio/mp4                                   f4a f4b m4a
     AddType audio/ogg                                   oga ogg spx
     AddType video/mp4                                   mp4 mp4v mpg4
     AddType video/ogg                                   ogv
     AddType video/webm                                  webm
     AddType video/x-flv                                 flv
+
+    # 2.2.x+
+
     AddType image/svg+xml                               svgz
     AddType image/x-icon                                cur
+
+    # 2.4.x+
+
     AddType image/webp                                  webp
+
+
+  # Web fonts
+
+    # 2.2.x - 2.4.x
+
     AddType application/vnd.ms-fontobject               eot
+
+    # 2.2.x+
+
     AddType font/woff                                   woff
     AddType font/woff2                                  woff2
     AddType font/ttf                                    ttf
     AddType font/collection                             ttc
     AddType font/otf                                    otf
+
+
+  # Other
+
+    # 2.2.x+
+
     AddType text/vtt                                    vtt
+
+# We're in a mod_mime.c section: </IfModule>
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+#####################
+# END MIME SECTION: #
+#####################
+
 </IfModule>
+
+
+# ######################################################################
+# # Compression (http-compression)                                     #
+# ######################################################################
+
+# Server resources compressed.
+# https://webhint.io/docs/user-guide/hints/hint-http-compression/
+
+# [!] The following relies on Apache being configured to have
+#     the correct filename extensions to media types mappings
+#     (see `content-type` section).
+#
+# [!] For Zopfli and Brotli this snippet assumes that running
+#     the build step will result in 3 version for every resource:
+#
+#     * the original (e.g.: script.js) - this file should exists
+#       in case the user agent doesn’t requests things compressed
+#     * the file compressed with Zopfli (e.g.: script.js.gz)
+#     * the file compressed with Brotli (e.g.: script.js.br)
+
 <IfModule mod_rewrite.c>
     <IfModule mod_headers.c>
+
+        # Turn on the rewrite engine (this is necessary in order for
+        # the `RewriteRule` directives to work).
+        #
+        # https://httpd.apache.org/docs/current/mod/core.html#options
+
         RewriteEngine On
+
+        # Enable the `FollowSymLinks` option if it isn't already.
+        #
+        # https://httpd.apache.org/docs/current/mod/core.html#options
+
         Options +FollowSymlinks
+
+        # If the web host doesn't allow the `FollowSymlinks` option,
+        # it needs to be comment out or removed, and then the following
+        # uncomment, but be aware of the performance impact.
+        #
+        # https://httpd.apache.org/docs/current/misc/perf-tuning.html#symlinks
+
+        # Options +SymLinksIfOwnerMatch
+
+        # Depending on how the server is set up, you may also need to
+        # use the `RewriteOptions` directive to enable some options for
+        # the rewrite engine.
+        #
+        # https://httpd.apache.org/docs/current/mod/mod_rewrite.html#rewriteoptions
+
+        # RewriteBase /
+
+        # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+        # 1) Brotli
+
+            # If `Accept-Encoding` header contains `br`
+
             RewriteCond "%{HTTP:Accept-encoding}" "br"
+
+            # and the request is made over HTTPS.
+
             RewriteCond "%{HTTPS}" "on"
+
+            # The Brotli pre-compressed version of the file exists
+            # (e.g.: `script.js` is requested and `script.js.gz` exists).
+
             RewriteCond "%{REQUEST_FILENAME}\.br" "-s"
+
+            # Then, serve the Brotli pre-compressed version of the file.
+
             RewriteRule "^(.*)" "$1\.br" [QSA]
+
+            # Set the correct media type of the requested file. Otherwise,
+            # it will be served with the br media type since the file has
+            # the `.br` extension.
+            #
+            # Also, set the special purpose environment variables so
+            # that Apache doesn't recompress these files.
+
             RewriteRule "\.(ico|cur)\.br$"      "-" [T=image/x-icon,E=no-brotli:1,E=no-gzip:1]
             RewriteRule "\.(md|markdown)\.br$"  "-" [T=text/markdown,E=no-brotli:1,E=no-gzip:1]
             RewriteRule "\.appcache\.br$"       "-" [T=text/cache-manifest,E=no-brotli:1,E=no-gzip:1]
@@ -84,12 +287,38 @@ AddDefaultCharset utf-8
             RewriteRule "\.webmanifest\.br$"    "-" [T=application/manifest+json,E=no-brotli:1,E=no-gzip:1]
             RewriteRule "\.xhtml\.br$"          "-" [T=application/xhtml+xml,E=no-brotli:1,E=no-gzip:1]
             RewriteRule "\.xml\.br$"            "-" [T=text/xml,E=no-brotli:1,E=no-gzip:1]
+
+            # Set the `Content-Encoding` header.
+
             <FilesMatch "\.br$">
                 Header append Content-Encoding br
             </FilesMatch>
+
+        # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+        # 2) Zopfli
+
+            # If `Accept-Encoding` header contains `gzip` and the
+            # request is made over HTTP.
+
             RewriteCond "%{HTTP:Accept-encoding}" "gzip"
+
+            # The Zopfli pre-compressed version of the file exists
+            # (e.g.: `script.js` is requested and `script.js.gz` exists).
+
             RewriteCond "%{REQUEST_FILENAME}\.gz" "-s"
+
+            # Then serve the Zopfli pre-compressed version of the file.
+
             RewriteRule "^(.*)" "$1\.gz" [QSA]
+
+            # Set the media types of the file, as otherwise, because
+            # the file has the `.gz` extension, it wil be served with
+            # the gzip media type.
+            #
+            # Also, set the special purpose environment variables so
+            # that Apache doesn't recompress these files.
+
             RewriteRule "\.(ico|cur)\.gz$"      "-" [T=image/x-icon,E=no-brotli:1,E=no-gzip:1]
             RewriteRule "\.(md|markdown)\.gz$"  "-" [T=text/markdown,E=no-brotli:1,E=no-gzip:1]
             RewriteRule "\.appcache\.gz$"       "-" [T=text/cache-manifest,E=no-brotli:1,E=no-gzip:1]
@@ -115,15 +344,35 @@ AddDefaultCharset utf-8
             RewriteRule "\.webmanifest\.gz$"    "-" [T=application/manifest+json,E=no-brotli:1,E=no-gzip:1]
             RewriteRule "\.xhtml\.gz$"          "-" [T=application/xhtml+xml,E=no-brotli:1,E=no-gzip:1]
             RewriteRule "\.xml\.gz$"            "-" [T=text/xml,E=no-brotli:1,E=no-gzip:1]
+
+            # Set the `Content-Encoding` header.
+
             <FilesMatch "\.gz$">
                 Header append Content-Encoding gzip
             </FilesMatch>
+
+        # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+        # Set the `Vary` header.
+
         <FilesMatch "\.(br|gz)$">
             Header append Vary Accept-Encoding
         </FilesMatch>
+
     </IfModule>
 </IfModule>
+
 <IfModule mod_deflate.c>
+
+    # 3) gzip
+    #
+    # [!] For Apache versions below version 2.3.7 you don't need to
+    # enable `mod_filter` and can remove the `<IfModule mod_filter.c>`
+    # and `</IfModule>` lines as `AddOutputFilterByType` is still in
+    # the core directives.
+    #
+    # https://httpd.apache.org/docs/current/mod/mod_filter.html#addoutputfilterbytype
+
     <IfModule mod_filter.c>
         AddOutputFilterByType DEFLATE "application/atom+xml" \
                                       "application/json" \
@@ -148,37 +397,220 @@ AddDefaultCharset utf-8
                                       "text/vtt" \
                                       "text/xml"
     </IfModule>
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    # Special case: SVGZ
+    #
+    # If these files type would be served without the
+    # `Content-Enable: gzip` response header, user agents would
+    # not know that they first need to uncompress the response,
+    # and thus, wouldn't be able to understand the content.
+
     <IfModule mod_mime.c>
         AddEncoding gzip              svgz
     </IfModule>
+
 </IfModule>
+
+
+# ######################################################################
+# # Caching (http-cache)                                               #
+# ######################################################################
+
+# Serve resources with far-future expiration date.
+# https://webhint.io/docs/user-guide/hints/hint-http-cache/
+
+# [!] The following relies on Apache being configured to have
+#     the correct filename extensions to media types mappings
+#     (see apache `content-type` section).
+#
+# [!] Do not use or comment out the following if you are not
+#     using filename/path-based revving.
+
 <IfModule mod_expires.c>
+
+  # Automatically add the `Cache-Control` header (as well as the
+  # equivalent `Expires` header).
+
     ExpiresActive on
+
+  # By default, inform user agents to cache all resources for 1 year.
+
     ExpiresDefault                                   "access plus 1 year"
+
+
+  # Overwrite the previous for file types whose content usually changes
+  # very often, and thus, should not be cached for such a long period,
+  # or at all.
+
+    # AppCache manifest files
+
         ExpiresByType text/cache-manifest            "access plus 0 seconds"
+
+
+    # /favicon.ico (cannot be renamed!)
+
+        # [!] If you have access to the main Apache configuration
+        #     file, you can match the root favicon exactly using the
+        #     `<Location>` directive. The same cannot be done inside
+        #     of a `.htaccess` file where only the `<Files>` directive
+        #     can be used, reason why the best that can be done is match
+        #     all files named `favicon.ico` (but that should work fine
+        #     if filename/path-based revving is used)
+        #
+        # See also: https://httpd.apache.org/docs/current/sections.html#file-and-web.
+
         <Files "favicon.ico">
             ExpiresByType image/x-icon               "access plus 1 year"
         </Files>
+
+
+    # Data interchange
+
         ExpiresByType application/atom+xml           "access plus 1 hour"
         ExpiresByType application/rdf+xml            "access plus 1 hour"
         ExpiresByType application/rss+xml            "access plus 1 hour"
+
         ExpiresByType application/json               "access plus 0 seconds"
         ExpiresByType application/ld+json            "access plus 0 seconds"
         ExpiresByType application/schema+json        "access plus 0 seconds"
         ExpiresByType application/vnd.geo+json       "access plus 0 seconds"
         ExpiresByType text/xml                       "access plus 0 seconds"
+
+
+    # HTML
+
         ExpiresByType text/html                      "access plus 0 seconds"
+
+
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    # Where needed add `immutable` value to the `Cache-Control` header
+
     <IfModule mod_headers.c>
+
+        # Because `mod_headers` cannot match based on the content-type,
+        # the following workaround needs to be done.
+
+        # 1) Add the `immutable` value to the `Cache-Control` header
+        #    to all resources.
+
         Header merge Cache-Control immutable
+
+        # 2) Remove the value for all resources that shouldn't be have it.
+
+# NB: 'ico' is normally part of this list, but since I'm cache-busting it with autoversioning, remove it from the regex listing:
+
         <FilesMatch "\.(appcache|cur|geojson|json(ld)?|x?html?|topojson|xml)$">
             Header edit Cache-Control immutable ""
         </FilesMatch>
+
     </IfModule>
+
 </IfModule>
+
+
+# ######################################################################
+# # DOCUMENT MODES (highest-available-document-mode)                   #
+# ######################################################################
+
+#########################
+# BEGIN HEADERS SECTION:#
+#########################
+
 <IfModule mod_headers.c>
+
+# Force Internet Explorer 8/9/10 to render pages in the highest mode
+# available in the various cases when it may not.
+#
+# https://webhint.io/docs/user-guide/hints/hint-highest-available-document-mode/
+
+#!<IfModule mod_headers.c>
+#!
+#!    # Because `mod_headers` cannot match based on the content-type,
+#!    # and the `X-UA-Compatible` response header should only be sent
+#!    # for HTML documents and not for the other resources, the following
+#!    # workaround needs to be done.
+#!
+#!    # 1) Add the header to all resources.
+#!
+#!    Header set X-UA-Compatible "IE=edge"
+#!
+#!    # 2) Remove the header for all resources that should not have it.
+#!
+#!    <FilesMatch "\.(appcache|atom|bbaw|bmp|crx|css|cur|eot|f4[abpv]|flv|geojson|gif|htc|ic[os]|jpe?g|m?js|json(ld)?|m4[av]|manifest|map|markdown|md|mp4|oex|og[agv]|opus|otf|pdf|png|rdf|rss|safariextz|svgz?|swf|topojson|tt[cf]|txt|vcard|vcf|vtt|webapp|web[mp]|webmanifest|woff2?|xloc|xml|xpi)$">
+#!        Header unset X-UA-Compatible
+#!    </FilesMatch>
+#!
+#!</IfModule>
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# If the `X-UA-Compatible` header is not needed, remove or comment
+# out the section above. If it's still added from somewhere in the
+# stack (e.g. the framework level, language level such as PHP, etc.),
+# and that cannot be changed, the following may be used to remove it
+# at the Apache level.
+
+# <IfModule mod_headers.c>
+#     Header unset X-UA-Compatible
+# </IfModule>
+
+
+# ######################################################################
+# # SECURITY                                                           #
+# ######################################################################
+
+# ----------------------------------------------------------------------
+# | HTTP Strict Transport Security (strict-transport-security)         |
+# ----------------------------------------------------------------------
+
+# Serve resources with the Strict-Transport-Security header.
+# https://webhint.io/docs/user-guide/hints/hint-strict-transport-security/
+#
+# [!] Uncomment the following if the site supports HTTPS.
+
+# We're in a mod_headers.c section: <IfModule mod_headers.c>
+# Preloading and includeSubDomains are potentially DANGEROUS.
+# See: https://www.tunetheweb.com/blog/dangerous-web-security-features/
+#    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
     Header always set Strict-Transport-Security "max-age=31536000"
+# We're in a mod_headers.c section: </IfModule>
+
+# ----------------------------------------------------------------------
+# | X-Content-Type-Options                                             |
+# ----------------------------------------------------------------------
+
+# Serve resources with the x-content-type-options header set to `nosniff`.
+# https://webhint.io/docs/user-guide/hints/hint-x-content-type-options/
+
+# We're in a mod_headers.c section: <IfModule mod_headers.c>
     Header always set X-Content-Type-Options nosniff
+# We're in a mod_headers.c section: </IfModule>
+
+
+# ######################################################################
+# # Unnedded / Disallowed headers                                      #
+# ######################################################################
+
+# ----------------------------------------------------------------------
+# | HTML only headers (no-html-only-headers)                            |
+# ----------------------------------------------------------------------
+
+# Do not send HTML only headers for non-HTML resources,
+# https://webhint.io/docs/user-guide/hints/hint-no-html-only-headers/#page-heading
+
+# We're in a mod_headers.c section: <IfModule mod_headers.c>
+
+    # Set header for all types (recommended by Mozilla Observatory), then
+    # unset for specific types (recommended by webhint.io)
+
     Header set X-XSS-Protection: "1; mode=block"
+
+    # Because `mod_headers` cannot match based on the content-type,
+    # the following workaround needs to be used.
+
     <FilesMatch "\.(appcache|atom|bbaw|bmp|crx|css|cur|eot|f4[abpv]|flv|geojson|gif|htc|ic[os]|jpe?g|m?js|json(ld)?|m4[av]|manifest|map|markdown|md|mp4|oex|og[agv]|opus|otf|pdf|png|rdf|rss|safariextz|svgz?|swf|topojson|tt[cf]|txt|vcard|vcf|vtt|webapp|web[mp]|webmanifest|woff2?|xloc|xml|xpi)$">
         Header unset Content-Security-Policy
         Header unset X-Content-Security-Policy
@@ -186,6 +618,26 @@ AddDefaultCharset utf-8
         Header unset X-WebKit-CSP
         Header unset X-XSS-Protection
     </FilesMatch>
+
+# We're in a mod_headers.c section: </IfModule>
+
+# ----------------------------------------------------------------------
+# | Disallowed headers (no-disallowed-headers)                         |
+# ----------------------------------------------------------------------
+
+# Remove unneeded headers.
+# https://webhint.io/docs/user-guide/hints/hint-no-disallowed-headers/
+
+# If the headers are sent, in most cases, to make Apache stop sending
+# them requires removing the configurations that tells Apache to add
+# them (e.g. for the `X-UA-Compatible` header, that would be mean
+# removing something such as `Header set X-UA-Compatible "IE=edge"`).
+# However, if the headers are added from somewhere in the stack (e.g.:
+# the framework level, language level such as PHP, etc.), and that
+# cannot be changed, you can try to remove them at the Apache level,
+# using the following.
+
+# We're in a mod_headers.c section: <IfModule mod_headers.c>
     Header unset Expires
     Header unset Host
     Header unset P3P
@@ -199,14 +651,87 @@ AddDefaultCharset utf-8
     Header unset X-Powered-By
     Header unset X-Runtime
     Header unset X-Version
+# We're in a mod_headers.c section: </IfModule>
+
+# We're in a mod_headers.c section: <IfModule mod_headers.c>
+
 	Header set Connection keep-alive
+
+# Send cookies to browser only when https is active for the site:
+#
+# OLD:	Header always edit Set-Cookie (.*) "$1; SameSite=strict"
+# NEW: (2020-01-25)
+# EDIT: (2020-02-01) -- HttpOnly is already set in common_routines.php, so no
+# need for it again here:
+# OLD: (2020-02-18) -- Header always edit Set-Cookie (.*) "$1; Secure; SameSite=Strict"
+
+# To satisfy Mozilla Observatory, Security Headers:
+#
+## 2021-03-26: THIS IS NOW BEING SET IN common_routines.php:
+#	Header always edit Set-Cookie (.*) "$1; SameSite=Strict"
+#
+# To satisfy Chrome (2020-03-07):
+#	Header always edit Set-Cookie (.*) "$1; SameSite=None"
+
 	Header set Referrer-Policy same-origin
+# WEBPAGETEST wants this in place:
+# 2020-08-13:
+# WEBHINT wants frame-ancestors: 'self'
+#	Header always set X-Frame-Options "SAMEORIGIN"
+
+# We're in a mod_headers.c section: </IfModule>
+
+#######################
+# END HEADERS SECTION:#
+#######################
+
 </IfModule>
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# Prevent Apache from sending in the `Server` response header its
+# exact version number, the description of the generic OS-type or
+# information about its compiled-in modules.
+#
+# https://httpd.apache.org/docs/current/mod/core.html#servertokens
+
+# [!] The following will only work in the main Apache configuration
+#     file, so do not uncomment the following if this is include it
+#     in a .htaccess file!
+
+# ServerTokens Prod
+
+
+# ######################################################################
+# # Custom configurations                                              #
+# ######################################################################
+
+# Add here your custom configurations.
+
 ServerSignature Off
+
+# Prevent visitor from accessing .htaccess file:
 <Files .htaccess>
 	order allow,deny
 	deny from all
 </Files>
+
+##############
+### ERRORS ###
+##############
+
+### Custom error pages ###
+###
+### The redirect to the 404 error pages indicated here should only happen if
+### the /404/localhost/ and /404/livehost/ routines in the rewrite section are
+### remmed-out:
+###
+### NB: <If> blocks are a feature of Apache 2.4 and up.
+###
+
+
+# These apparently cannot use environment variables and must be written out in full
 <If "req('Host') = 'localhost'">
 	ErrorDocument 400 https://localhost/shell/error/?400
 	ErrorDocument 403 https://localhost/shell/error/?403
@@ -219,44 +744,339 @@ ServerSignature Off
 	ErrorDocument 404 /error/
 	ErrorDocument 500 https://shell.com/error/?500
 </If>
+
+### Error prevention ###
 Options +FollowSymLinks -MultiViews
+
+### Prevent an index list from displaying in non-public directories/directories without an index.php/index.html ###
 Options -Indexes
+
 <IfModule mod_rewrite.c>
+
+# REWRITE PRIMER:
+#
+# My live site is using Apache/2.4.58 as of 2023-11-19
+#
+# -----------------------------------------------------------------------------
+#
+# To test rewrites, change the standard LogLevel in xampp\apache\conf\httpd.conf
+# from:
+#
+# LogLevel warn
+#
+# to:
+#
+# ErrorLog "logs/error.log"
+# LogLevel debug rewrite:trace8
+# LogFormat "mod_rewrite: %{UNIQUE_ID}e %{REQUEST_URI}e ==> %m %v %U%q -> %R%q" mod_rewrite_format
+# CustomLog "logs/access.log" mod_rewrite_format
+#
+# The logs will be written to xampp\apache\logs\error.log
+#
+# -----------------------------------------------------------------------------
+#
+# In Notepad++, create macro that
+#
+# 1) Using option: Regular Expressions, searches for:
+#
+# .*\[perdir C:/xampp/htdocs/new-art2/\]
+#
+# and replaces with nothing.
+#
+# 2) Using option: Extended (\n \r \t \0 \x...), searches for:
+#
+# applying pattern
+#
+# and adds CRLF before it with:
+#
+# \r\napplying pattern
+#
+# This will greatly simplify reading the logs.
+#
+# -----------------------------------------------------------------------------
+#
+# The goal of the rewrites is to revise the REQUEST_FILENAME, at least
+# internally, if not also in the visible URL (accomplished only with [R]).
+#
+# Both the REQUEST_FILENAME (the exact, system-level address of an asset)
+# and the REQUEST_URI (what the user enters in the URL bar) are available for
+# comparisons.
+#
+# The REQUEST_FILENAME is what is revised by the rewrites. The REQUEST_URI
+# remains constant. (Note: the REQUEST_URI may actually be changed, but only
+# with the [R] flag.)
+#
+# -----------------------------------------------------------------------------
+#
+# So, in this RewriteRule:
+#
+# RewriteRule ^((?:(?!(\/)).)*)$ pages/home/$1
+#
+# The pattern ^((?:(?!(\/)).)*)$ is matched against the REQUEST_FILENAME, not
+# the REQUEST_URI.
+#
+# The statement pages/home/$1 is the transformation of the REQUEST_FILENAME for
+# all subsequent rewrite blocks (in this case, prepending pages/home/ to the
+# REQUEST_FILENAME
+#
+# -----------------------------------------------------------------------------
+#
+# At the beginning of the process, the REQUEST_FILENAME is everything following
+# the slash in the domain.
+#
+# For a live site, the REQUEST_FILENAME would be "xyz" for https://example.com/xyz
+# For localhost, the REQUEST_FILENAME would be "xyz" for https://localhost/new-art2/xyz
+#
+# Confusingly, the REQUEST_URI includes the slash--it ALWAYS starts with a slash. 
+# For a live site, the REQUEST_URI would be "/xyz" for https://example.com/xyz
+# But for a localhost site, the REQUEST_URI would be "/new-art2/xyz" for https://localhost/new-art2/xyz
+#
+# Because the REQUEST_FILENAME is appended to the document root, which ALWAYS  
+# ends in a slash, NEVER begin a RewriteRule assignment with a slash, unless you
+# intend to redirect [R] and revise the visible URI.
+#
+# So, this is incorrect, because it would result in https://example.com//pages/home/whatever.html
+#
+# RewriteRule ^((?:(?!(\/)).)*)$ /pages/home/$1
+#
+# But this is correct, because it would result in https://example.com/pages/home/whatever.html
+#
+# RewriteRule ^((?:(?!(\/)).)*)$ pages/home/$1
+#
+# -----------------------------------------------------------------------------
+#
+# The order of operation is NOT the order of the statements:
+#
+# The current REQUEST_FILENAME is first compared against the pattern in the
+# RewriteRule, i.e., the pattern on the lefthand side in the RewriteRule itself
+# (i.e, the last statement). If it matches the pattern, then the RewriteConds
+# that precede it are checked one by one. If all the RewriteConds passes, then
+# the REQUEST_FILENAME is revised following the 2nd part of the RewriteRule
+#
+# For example:
+#
+# RewriteCond %{REQUEST_FILENAME} !-f
+# RewriteCond %{REQUEST_URI} !^/pages/
+# RewriteRule ^((?:(?!(\/)).)*)$ pages/home/$1
+#
+# The engine first checks if a URI matches ^((?:(?!(\/)).)*)$. If so, then
+# each of the previously stated RewriteConds will be checked. If they match,
+# then the rewrite of pages/home/$1 will be applied.
+#
+# -----------------------------------------------------------------------------
+#
+# You may not use variable expansion of the form %{VARIABLE} in regexs. They
+# will be interpreted as literal text. (E.g., if you attempt to use
+# %{ENV:PATTERN} in the regex, then you are trying to match the literal string
+# "%{ENV:PATTERN}", which is clearly not intended.
+#
+# So, environment variables (e.g., %{ENV:BASE_PATH}) may ONLY be used on the
+# lefthand side of a RewriteCond, not on the righthand side, but it may be
+# used on the righthand side of a RewriteRule
+#
+# In other words, in a RewriteCond test, %{VARIABLE} syntax may only be used
+# in the first argument (on the left). In a RewriteRule substitution,
+# %{VARIABLE} syntax may be used in the second argument (on the right)
+#
+# -----------------------------------------------------------------------------
+#
+# The REQUEST_FILENAME will be appended to the domain following its final slash
+# This means the RewriteRule should NEVER begin with a slash! (Unless you are
+# redirecting [R] and are changing the visible URI.)
+#
+# -----------------------------------------------------------------------------
+#
+# Percents (%1) vs. dollars ($1)
+#
+# In RewriteRule, %1, %2, %3, etc., reference the matched patterns in the last
+# RewriteCond's pattern.
+#
+# In RewriteRule, $1, $2, $3, etc., reference the matched patterns in the 
+# RewriteRule's pattern itself.
+#
+# So, note the use of %2 and $1 in the following rule:
+#
+# Input: https://localhost/xxx/comical
+#
+# RewriteCond %{REQUEST_URI} ^/(xxx/)?(chromatic-geometry|comical)/
+# RewriteRule ^(.+)$ theme/%2/$1 [L]
+#
+# Output: https://localhost/theme/comical/xxx/comical
+#
+# -----------------------------------------------------------------------------
+#
+# The [L] flag does nor really mean "LAST"...it effectively means LOOP AGAIN.
+# It means "last" of the current iteration. It causes the mod_rewrite process
+# to stop and then start all over again from the top of the current
+# <IfModule mod_rewrite.c> block! So, it's really a looping directive (stop
+# and Loop again). This allows rules not applied during the initial
+# drop-through to be caught during the second drop-through. If the rules are
+# not crafted carefully, an infinite loop may occur, with the same rule
+# applied repeatedly (e.g., "pages/" being appended repeatedly).
+#
+# -----------------------------------------------------------------------------
+#
+# [DPI] = Discard Path Information (Apache versions 2.2.12 and later).
+# Without this flag, the PATH_INFO part of the previous rewrite will be
+# appended to the current rewrite.
+#
+# -----------------------------------------------------------------------------
+#
+# %{THE_REQUEST}, useful for POST checks, will include the REQUEST_URI in
+# this format:
+#
+# GET /private HTTP/1.1
+# or:
+# GET /private/ HTTP/1.1
+# or:
+# GET /private/my-stuff HTTP/1.1
+#
+# -----------------------------------------------------------------------------
+
 	RewriteEngine On
+
+# Exclude file requests from rewrite:
 	RewriteCond %{REQUEST_FILENAME} !-f
+# Check root for existence of 'maintenance_on' file:
 	RewriteCond %{DOCUMENT_ROOT}%{ENV:BASE_PATH}maintenance_on -f
+# Check for pages/maintenance folder:
 	RewriteCond %{DOCUMENT_ROOT}%{ENV:BASE_PATH}pages/maintenance/ -d
+# If the request wasn't for the maintenance page:
 	RewriteCond %{REQUEST_URI} !/(shell/)?maintenance/$ [NC]
+# Go to maintenance page:
 	RewriteRule ^(.*)$ %{ENV:BASE_PATH}maintenance/ [L]
+
+## Ensure rewrite to https:
 	RewriteCond %{HTTPS} !=on
 	RewriteRule ^/?(.*) https://%{ENV:HOST}%{ENV:BASE_PATH}$1 [R=301,L]
+
+## Strip any leading 'www.'
 	RewriteCond %{HTTP_HOST} ^www\.
 	RewriteRule ^(.*)$ %{ENV:BASE_URL}$1 [R=301,L]
+
+# Strip autoversion from resources:
 	RewriteRule ^((ftp|https?):\/\/)?(.*)\.((?=.*\d)[a-z\d]+)?\.(css|ico|jpe?g|m?js|json|png|gif|svg|xml|webp|webmanifest|mp4|webm|ogv)$ $1$3.$5 [L]
+
+# Exclude asset directories, etc., from rewrites:
+# NOTE: You may list the directories using pipes, e.g.,
+# (?:includes|assets|etc)
 	RewriteRule ^(?:shell/)?(?:includes)/ - [END]
+
+# Target: REQUEST_FILENAME that begins with one of the subfolders of 'assets'
+# Pattern: One or more of any characters
+# Condition 1: It's not a file
+# Condition 2: It's not a directory
+# Condition 3: URI begins with one of the direct subfolders of 'assets'
+# Rewrite REQUEST_FILENAME: Prepend "assets/"
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteCond %{REQUEST_FILENAME} !-d
 	RewriteCond %{REQUEST_URI} ^/(shell/)?(css|favicons|fonts|images|javascript)/
 	RewriteRule ^(.+)$ assets/$1 [DPI]
+
+# Target: The root itself
+# Pattern: If it's an empty string...
+# Condition 1: If it's a directory
+# Rewrite REQUEST_FILENAME: "home/"
+#
+# '' -> home/
+#
 	RewriteCond %{REQUEST_FILENAME} -d
 	RewriteRule ^$ home/ [DPI]
+
+# Target: REQUEST_FILENAME off the root (link must open it)
+# Pattern: If it's a string without a slash...
+# Condition 1: If it's not a file
+# Condition 2: If it's not a directory
+# Condition 3: If it does not begin with "/home/"
+# Condition 4: URI with at least one dot but no slashes before or after it,
+# with a leading slash (which REQUEST_URIs will always have, so must be built
+# into the pattern).
+# Rewrite REQUEST_FILENAME: Prepend "home/" 
+# (IMPORTANT: We will splice in "/pages/" in the next step)
+#
+# abc.file -> home/abc.file
+#
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteCond %{REQUEST_FILENAME} !-d
 	RewriteCond %{REQUEST_URI} !^/(shell/)?home/
 	RewriteCond %{REQUEST_URI} ^.*\/(?:$|[^\/]*\.[^\/]*)$
 	RewriteRule ^([^\/]*)$ home/$1 [DPI]
+
+# Target: REQUEST_FILENAME that does not yet have "/pages/" prepended to it:
+# Pattern: One or more of ANY characters
+# Condition 1: If it's not a file
+# Condition 2: If it's not a directory
+# Condition 3: URI not beginning with "/pages/"
+# Rewrite REQUEST_FILENAME: Prepend "pages/"
+#
+# home/abc -> pages/home/abc
+# random/abc -> pages/random/abc
+# home/abc.file -> pages/home/abc.file
+# random/abc.file -> pages/random/abc.file
+#
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteCond %{REQUEST_FILENAME} !-d
 	RewriteCond %{REQUEST_URI} !^/(shell/)?pages/
 	RewriteRule ^(.+)$ pages/$1 [DPI]
+
+# Target: Directory without trailing slash
+# Pattern: One or more characters NOT ending in slash:
+# Condition 1: If it is a directory
+# Condition 2: URI does not end with a slash
+# Rewrite REQUEST_FILENAME: append "/"
+#
+# home/abc -> pages/home/abc
+# random/abc -> pages/random/abc
 	RewriteCond %{REQUEST_FILENAME} -d
 	RewriteCond %{REQUEST_URI} !/$
 	RewriteRule ^(.+[^/])$ $1/ [DPI]
+
+### REDIRECT TO ERROR PAGE (404) IF, BY NOW, IT DOESN'T MATCH AN ACTUAL FILE OR FOLDER ###
+### NOTE: JavaScript must send 404 status code when loading this page ###
+# Pattern: If it's passed through all the above rules, and it's anything at all...
+# Condition 1: If it's not a file
+# Condition 2: If it's not a directory
+# Rewrite REQUEST_FILENAME: Go directly to error/ page
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteCond %{REQUEST_FILENAME} !-d
 	RewriteRule ^(.*)$ pages/error [R=404]
+
+### BLOCK DIRECT ACCESSS TO FORBIDDEN FOLDERS (403 error) ###
+### NOTE: RENAME /shell/ TO ACTUAL LOCALHOST ###
+# Pattern: Anything
+# Condition 1: Not by POST
+# Condition 2: The request is root directory followed by either private/ or pages/
+#
+# NOTE: %{THE_REQUEST} will be the REQUEST_URI in this format:
+#
+# GET /private/ HTTP/1.1
+# or:
+# POST /private/ HTTP/1.1
+# or:
+# GET /shell/private/my-stuff HTTP/1.1
+# etc.
+#
+# [A-Z]+ matches one or more uppercase letters. 
+# This part of the pattern ensures that the request method (e.g., GET, POST) is matched.
+#
+# \s matches any whitespace character (space, tab, newline). 
+# This part of the pattern ensures that there is at least one whitespace character after the request method.
+#
+# (/shell/|/) -> either /shell/ or /
+# (pages|private)/ -> either pages/ or private/
+#
+# Rewrite REQUEST_FILENAME: Fail [F], sending to 403 ErrorDocument.
 	RewriteCond %{REQUEST_METHOD} !POST
 	RewriteCond %{THE_REQUEST} ^[A-Z]+\s(/shell/|/)(assets|pages|private)/ [NC]
 	RewriteRule ^ - [F]
+
+# Pattern: Any string (^ = beginning)
+# Rewrite: Do nothing
+# BUT...
+# The rewrites will fail unless the assignment of ABSOLUTE_ROOT is done as part of the same line
+# It sets the prefix for ALL the rewrites above.
+# Note that this is where $_SERVER['ABSOLUTE_ROOT'] is set for PHP routines.
 	RewriteRule ^ - [QSA]
+
+
 </IfModule>
