@@ -95,7 +95,7 @@ if ($minify == true) {
 	<link rel="icon" href="favicons/favicon-16x16.png" sizes="16x16" type="image/png">
 	<link rel="manifest" href="favicons/site.webmanifest" type="application/manifest+json">
 	<link rel="mask-icon" href="favicons/safari-pinned-tab.svg" color="#eeb935">
-	<style>
+	<style <?php echo $inline_nonce_property; ?>>
 <?php
 if ($minify == true) {
 	$html_top = ob_get_contents();
@@ -312,6 +312,19 @@ if ($minify == true) {
 			letter-spacing: .1em;
 			word-spacing: .1em;
 		}
+
+		.visually-hidden {
+			border: 0;
+			clip: rect(0,0,0,0);
+			height: 1px;
+			margin: -1px;
+			overflow: hidden;
+			padding: 0;
+			position: absolute;
+			width: 1px;
+			white-space: nowrap;
+		}
+
 <?php
 if ($minify == true) {
 	$css = ob_get_contents();
