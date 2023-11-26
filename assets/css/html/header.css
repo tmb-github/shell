@@ -889,6 +889,13 @@ This improves user engagement.
 *** Prevent layout shift of menu items ***
 *****************************************/
 
+/* catch-all: */
+	.header li[data-href],
+	.header li[data-href] a {
+		width: max-content;
+	}
+
+
 	.header li[data-href="home"],
 	.header li[data-href="home"] a {
 		width: 115px;
@@ -899,43 +906,6 @@ This improves user engagement.
 	.header li[data-span="Additional Pages"] input {
 		width: 126px;
 	}
-
-	.header li[data-href="dummy-1"],
-	.header li[data-href="dummy-1"] a {
-		width: 73px;
-	}
-
-	.header li[data-href="dummy-2"],
-	.header li[data-href="dummy-2"] a {
-		width: 73px;
-	}
-
-	.header li[data-href="dummy-3"],
-	.header li[data-href="dummy-3"] a {
-		width: 73px;
-	}
-
-	.header li[data-href="dummy-4"],
-	.header li[data-href="dummy-4"] a {
-		width: 73px;
-	}
-
-	.header li[data-href="dummy-5"],
-	.header li[data-href="dummy-5"] a {
-		width: 73px;
-	}
-
-	.header li[data-href="does-not-exist"],
-	.header li[data-href="does-not-exist"] a {
-		width: 109px;
-	}
-
-/*
-	.header li[data-href="contact"],
-	.header li[data-href="contact"] a {
-		width: 128px;
-	}
-*/
 
 /*************************************
 *** @media:DESKTOP *******************

@@ -277,72 +277,23 @@ if ($_SERVER['HTTP_HOST'] == 'localhost') {
 	];
 	include $absolute_root . 'includes/components/etc/header.secondary-ul.inc.php';
 */
-
-$display_login_page = false;
-if ($display_login_page == true) {
+?>
+			<li data-page=dummy data-href=dummy class=menu-side-one><a class=internal-anchor href="dummy/" tabindex=-1>Dummy</a></li>
+			<li data-page=google-fonts data-href=google-fonts class=menu-side-one><a class=internal-anchor href="google-fonts/" tabindex=-1>Google Fonts</a></li>
+			<li data-page=contact data-href=contact class="menu-side-one orange ripple"><a class="bold-on-selected internal-anchor no-border-bottom" href="contact/" tabindex=-1>Contact</a></li>
+<?php
+if (!isset($_SESSION['authenticated']) || ($_SESSION['authenticated'] != 'true')) {
 ?>
 			<li data-page=login data-href=login class=menu-side-one><a class=internal-anchor href="login/" tabindex=-1>Login</a></li>
 <?php
 }
-
-// qwer:htaccess
-// 404 testing:
-$display_dummy_page = true;
-if ($display_dummy_page == true) {
-?>
-			<li data-page=dummy data-href=dummy class=menu-side-one><a class=internal-anchor href="dummy/" tabindex=-1>Dummy</a></li>
-<?php
-}
-
-$display_google_fonts_page = true;
-if ($display_google_fonts_page == true) {
-?>
-			<li data-page=google-fonts data-href=google-fonts class=menu-side-one><a class=internal-anchor href="google-fonts/" tabindex=-1>Google Fonts</a></li>
-<?php
-}
-
-// 400 testing:
-$display_bad_request_test_page = true;
-if ($display_bad_request_test_page == true) {
-?>
-			<li data-page=bad-request-test data-href=bad-request-test class=menu-side-one><a class=internal-anchor href="bad-request-test/" tabindex=-1>Bad Request Test</a></li>
-<?php
-}
-
-// 403 testing:
-$display_private_page = true;
-if ($display_private_page == true) {
-?>
-			<li data-page=private data-href=private class=menu-side-one><a class=internal-anchor href="private/" tabindex=-1>Private</a></li>
-<?php
-}
-
-// 404 testing:
-$display_does_not_exist_page = true;
-if ($display_does_not_exist_page == true) {
-?>
-			<li data-page=does-not-exist data-href=does-not-exist class=menu-side-one><a class=internal-anchor href="does-not-exist/" tabindex=-1>Does Not Exist</a></li>
-<?php
-}
-
-// 500 testing:
-$display_server_error_test_page = true;
-if ($display_server_error_test_page == true) {
-?>
-			<li data-page=server-error-test data-href=server-error-test class=menu-side-one><a class=internal-anchor href="server-error-test/" tabindex=-1>Server Error Test</a></li>
-<?php
-}
-
-$include_contact_page = true;
-if ($include_contact_page == true) {
-?>
-			<li data-page=contact data-href=contact class="menu-side-one orange ripple"><a class="bold-on-selected internal-anchor no-border-bottom" href="contact/" tabindex=-1>Contact</a></li>
-<?php
-}
-
 if (isset($_SESSION['authenticated']) && ($_SESSION['authenticated'] == 'true')) {
 ?>
 			<li data-page=compile data-href=compile class=menu-side-one><a class=internal-anchor href="compile/" tabindex=-1>Compile</a></li>
+			<li data-page=bad-request-test data-href=bad-request-test class=menu-side-one><a class=internal-anchor href="bad-request-test/" tabindex=-1>Bad Request</a></li>
+			<li data-page=private data-href=private class=menu-side-one><a class=internal-anchor href="private/" tabindex=-1>Forbidden</a></li>
+			<li data-page=does-not-exist data-href=does-not-exist class=menu-side-one><a class=internal-anchor href="does-not-exist/" tabindex=-1>Not Found</a></li>
+			<li data-page=server-error-test data-href=server-error-test class=menu-side-one><a class=internal-anchor href="server-error-test/" tabindex=-1>Server Error</a></li>
 			<li data-page=logout data-href=logout class=menu-side-one><a class=internal-anchor href="logout/" tabindex=-1>Logout</a></li>
 <?php
 }

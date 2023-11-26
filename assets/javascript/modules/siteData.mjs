@@ -127,9 +127,6 @@ siteData = {
 		'bad-request-test': {
 			mjs: './badRequestTest.mjs'
 		},
-		'home': {
-			mjs: './home.mjs'
-		},
 		'compile': {
 			mjs: './compile.mjs'
 		},
@@ -142,14 +139,17 @@ siteData = {
 		'endpoints': {
 			mjs: './endpoints.mjs'
 		},
-		'playlists': {
-			mjs: './playlists.mjs'
-		},
 		'error': {
 			mjs: './error.mjs'
 		},
 		'google-fonts': {
 			mjs: './googleFonts.mjs'
+		},
+		'home': {
+			mjs: './home.mjs'
+		},
+		'playlists': {
+			mjs: './playlists.mjs'
 		},
 		'login': {
 			mjs: './login.mjs'
