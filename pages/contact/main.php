@@ -1,5 +1,7 @@
 <?php
 
+// reCAPTCHA and HONEYPOT code in this file; rem/unrem each appropriately
+
 $absolute_root = $_SERVER['ABSOLUTE_ROOT'];
 
 include_once 'index-main-vars.php';
@@ -9,6 +11,12 @@ ob_start();
 
 $main_classes = $page . " main custom-style-elements";
 
+// Toggle between true and false to display
+// CSS-rendered contact info version
+// and standard contact form version 
+
+$contact_form_version = false;
+
 ?>
 
 <main class="<?php echo $main_classes; ?>" data-page="<?php echo $page; ?>" data-title="<?php echo $title; ?>">
@@ -17,19 +25,17 @@ $main_classes = $page . " main custom-style-elements";
 render_custom_style_elements($page);
 
 ?>
-	<h1 id=main-content tabindex=0>Contact</h1>
-	<h2 class="font-size-125rem text-align-center">We'd love to hear from you.</h2>
-
-	<section class=phone-and-email>
-		<p class=text-align-center><a class=phone href="#"><span class="rev phone">543</span></a></p>
-		<p class=text-align-center><a class=email href="#"><span class="rev email">axe</span></a></p>
-	</section>
-
-<?php /*
-	<p class=text-align-center><a href="tel:+10123456789">(615) 987-1234</a></p>
-	<p class=text-align-center><a href="mailto:joe@example.com">joe@example.com</a></p>
-*/ ?>
-
+	<h1 id=main-content tabindex=0>Send Smoke Signals!</h1>
+<?php
+if ($contact_form_version == false) {
+?>
+	<h2 class="text-align-center font-size-125rem">We’d love to hear from you. Please write or call us about buying an existing work or commissioning something new.</h2>
+	<br>
+	<p class="text-align-center font-size-125rem"><a class=phone href="#"><span class="rev phone">543</span></a></p>
+	<p class="text-align-center font-size-125rem"><a class=email href="#"><span class="rev email">ma</span></a></p>
+<?php
+} else {
+?>
 	<form class=contact-form>
 		<p class=padding-top-1em><em>Please complete the fields below, then press Send at the bottom.</em></p>
 		<div class=input>
@@ -44,7 +50,7 @@ render_custom_style_elements($page);
 			</label>
 			<input id=input-email type=email name=email title="Please fill out this field" autocomplete=on required><br>
 
-<?php /* For honeypot method */ ?> 
+<?php /* Honeypot */ ?>
 			<label for=input-bot class=bot aria-hidden=true>
 				<strong>How You Found Us *</strong>
 			</label>
@@ -90,7 +96,9 @@ have two elements with the same ID. So the JavaScript for this site deletes
 			<p class="sent display-none"><em>Your message is sent.</em></p>
 		</div>
 	</form>
+
 <?php
+}
 include $absolute_root . 'includes/components/etc/main.breadcrumb-schema.inc.php';
 ?>
 </main>

@@ -2,9 +2,8 @@
 // reCAPTCHA and HONEYPOT code in this file; rem/unrem each appropriately
 */
 
-/* REM out or change 'display' to 'initial' to reveal */
 .contact .contact-form {
-	display: none;
+	display: initial;
 }
 
 .contact .phone-and-email {
@@ -233,10 +232,10 @@ See: javascript/mjs/shared_contactAnchorEventListeners.mjs
 }
 
 .contact span.rev.email::before {
-	content: "moc.elpm";
+	content: "moc.elp";
 }
 .contact span.rev.email::after {
-	content:"@eoj"
+	content:"xe@eoj"
 }
 
 .contact span.rev.phone::before {
