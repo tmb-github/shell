@@ -7,7 +7,7 @@ if ($update_service_worker == true) {
 
 	$preload_assets_into_cache = false;
 
-	$timestamp = date("YmdHis", filemtime($absolute_root . 'assets/favicons/site.webmanifest'));
+	$timestamp = date("YmdHis", filemtime($absolute_root . $assets_folder . 'favicons/site.webmanifest'));
 
 	$sw_offline_html = [];
 	$sw_offline_css = [];
@@ -18,7 +18,7 @@ if ($update_service_worker == true) {
 	$sw_offline_catch_all = [];
 
 // Convert serviceWorkerTemplate.js
-	$service_worker_template_js = $absolute_root . 'assets/javascript/serviceWorkerTemplate/serviceWorkerTemplate.js';
+	$service_worker_template_js = $absolute_root . $assets_folder . 'javascript/serviceWorkerTemplate/serviceWorkerTemplate.js';
 	if (file_exists($service_worker_template_js)) {
 
 		$service_worker_content = file_get_contents($service_worker_template_js);
@@ -49,7 +49,7 @@ if ($update_service_worker == true) {
 // CSS //
 /////////
 
-		$individual_imports_template_css = $absolute_root . 'assets/css/individual-imports.TEMPLATE.css';
+		$individual_imports_template_css = $absolute_root . $assets_folder . 'css/individual-imports.TEMPLATE.css';
 
 		if (file_exists($individual_imports_template_css)) {
 			$file = fopen($individual_imports_template_css, "r");
@@ -57,13 +57,13 @@ if ($update_service_worker == true) {
 				$line = trim(fgets($file));
 				if ($line !== '') {
 					preg_match('~"(.*?)"~', $line, $css_filename);
-					$css = autoversion('assets/css/' . $css_filename[1]);
+					$css = autoversion($assets_folder . 'css/' . $css_filename[1]);
 					array_push($sw_offline_css, $css);
 				}
 			}
-			$css = autoversion('assets/css/compiled.css');
+			$css = autoversion($assets_folder . 'css/compiled.css');
 			array_push($sw_offline_css, $css);
-			$css = autoversion('assets/css/individual-imports.css');
+			$css = autoversion($assets_folder . 'css/individual-imports.css');
 			array_push($sw_offline_css, $css);
 
 			asort($sw_offline_css);
@@ -83,7 +83,7 @@ if ($update_service_worker == true) {
 ////////////////
 
 // Get .js (and .min.js) files:
-		$sw_offline_javascript_files = recursiveSubfolderSearch($absolute_root . 'assets/javascript', '/.+\.min.m?js/');
+		$sw_offline_javascript_files = recursiveSubfolderSearch($absolute_root . $assets_folder . 'javascript', '/.+\.min.m?js/');
 
 // eliminate '../' at beginning of each listing:
 		foreach($sw_offline_javascript_files as &$javascript) {
@@ -127,7 +127,7 @@ if ($update_service_worker == true) {
 		}
 
 // Get .map files:
-		$sw_offline_javascript_map = recursiveSubfolderSearch($absolute_root . 'assets/javascript', '/.+\.map/');
+		$sw_offline_javascript_map = recursiveSubfolderSearch($absolute_root . $assets_folder . 'javascript', '/.+\.map/');
 
 // eliminate '../' at beginning of each listing:
 		foreach($sw_offline_javascript_map as &$javascript_map) {
@@ -156,8 +156,8 @@ if ($update_service_worker == true) {
 // If there is both a non-minified and minified version of a file, 
 // only store the minified version in the cache:
 //
-// 'assets/javascript/siteWideEdits.20191027205510.js',
-// 'assets/javascript/siteWideEdits.min.20191027205512.js',
+// $assets_folder . 'javascript/siteWideEdits.20191027205510.js',
+// $assets_folder . 'javascript/siteWideEdits.min.20191027205512.js',
 //
 // So...look for files with '.min.' in the array; then see if there
 // are any correlative, non-'.min.' files; remove the non-'.min.' files
@@ -199,7 +199,7 @@ if ($update_service_worker == true) {
 // FONTS //
 ///////////
 
-		$fontface_template_css = $absolute_root . 'assets/css/font-face.TEMPLATE.css';
+		$fontface_template_css = $absolute_root . $assets_folder . 'css/font-face.TEMPLATE.css';
 
 		if (file_exists($fontface_template_css)) {
 			$file = fopen($fontface_template_css, "r");
@@ -236,7 +236,7 @@ if ($update_service_worker == true) {
 			array_push($sw_offline_favicons, $icon);
 		}
 
-		$site_webmanifest_autoversioned = autoVersion('assets/favicons/site.webmanifest');
+		$site_webmanifest_autoversioned = autoversion($assets_folder . 'favicons/site.webmanifest');
 		array_push($sw_offline_favicons, $site_webmanifest_autoversioned);
 
 		asort($sw_offline_favicons);
@@ -257,24 +257,24 @@ if ($update_service_worker == true) {
 	$special_cacheing = true;
 	if ($special_cacheing) {
 // All pngs throughout site:
-		$sw_offline_images_png = recursiveSubfolderSearch($absolute_root . 'assets/images', '/.+\.png/');
+		$sw_offline_images_png = recursiveSubfolderSearch($absolute_root . $assets_folder . 'images', '/.+\.png/');
 // JPGs and WEBPs on home page only:
 
-//	$sw_offline_images_home_jpg = recursiveSubfolderSearch($absolute_root . 'assets/images/home', '/.+\.jpg/');
-//	$sw_offline_images_home_webp = recursiveSubfolderSearch($absolute_root . 'assets/images/home', '/.+\.webp/');
+//	$sw_offline_images_home_jpg = recursiveSubfolderSearch($absolute_root . $assets_folder . 'images/home', '/.+\.jpg/');
+//	$sw_offline_images_home_webp = recursiveSubfolderSearch($absolute_root . $assets_folder . 'images/home', '/.+\.webp/');
 // Only include 767px images. (There must be a better way to write the regex for this, but this works and will have to do for the moment:
-		$sw_offline_images_home_jpg = recursiveSubfolderSearch($absolute_root . 'assets/images/home', '/.+-768p.+\.jpg/');
-		$sw_offline_images_home_webp = recursiveSubfolderSearch($absolute_root . 'assets/images/home', '/.+-768p.+\.webp/');
+		$sw_offline_images_home_jpg = recursiveSubfolderSearch($absolute_root . $assets_folder . 'images/home', '/.+-768p.+\.jpg/');
+		$sw_offline_images_home_webp = recursiveSubfolderSearch($absolute_root . $assets_folder . 'images/home', '/.+-768p.+\.webp/');
 
 // JPGs and WEBPs on header:
-		$sw_offline_images_header_jpg = recursiveSubfolderSearch($absolute_root . 'assets/images/header', '/.+\.jpg/');
-		$sw_offline_images_header_webp = recursiveSubfolderSearch($absolute_root . 'assets/images/header', '/.+\.webp/');
+		$sw_offline_images_header_jpg = recursiveSubfolderSearch($absolute_root . $assets_folder . 'images/header', '/.+\.jpg/');
+		$sw_offline_images_header_webp = recursiveSubfolderSearch($absolute_root . $assets_folder . 'images/header', '/.+\.webp/');
 // Merge the arrays:
 		$sw_offline_images = array_merge($sw_offline_images_png, $sw_offline_images_home_jpg, $sw_offline_images_home_webp, $sw_offline_images_header_jpg, $sw_offline_images_header_webp);
 	} else {
-		$sw_offline_images_webp = recursiveSubfolderSearch($absolute_root . 'assets/images', '/.+\.webp/');
-		$sw_offline_images_jpg = recursiveSubfolderSearch($absolute_root . 'assets/images', '/.+\.jpg/');
-		$sw_offline_images_png = recursiveSubfolderSearch($absolute_root . 'assets/images', '/.+\.png/');
+		$sw_offline_images_webp = recursiveSubfolderSearch($absolute_root . $assets_folder . 'images', '/.+\.webp/');
+		$sw_offline_images_jpg = recursiveSubfolderSearch($absolute_root . $assets_folder . 'images', '/.+\.jpg/');
+		$sw_offline_images_png = recursiveSubfolderSearch($absolute_root . $assets_folder . 'images', '/.+\.png/');
 // Merge the arrays:
 		$sw_offline_images = array_merge($sw_offline_images_webp, $sw_offline_images_jpg, $sw_offline_images_png);
 	}

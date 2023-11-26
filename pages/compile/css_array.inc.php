@@ -1,2 +1,2 @@
 <?php
-$css_array = ['assets/css/pages/compile.css'];
+$css_array = ['css/pages/compile.css'];

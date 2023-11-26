@@ -16,7 +16,7 @@ if ($update_browserconfig_xml == true) {
 	$browserconfig_xml .= '  </msapplication>' . PHP_EOL;
 	$browserconfig_xml .= '</browserconfig>' . PHP_EOL;
 
-	$return_value = file_put_contents($absolute_root . 'assets/favicons/browserconfig.xml', $browserconfig_xml);
+	$return_value = file_put_contents($absolute_root . $assets_folder . 'favicons/browserconfig.xml', $browserconfig_xml);
 
 	$status_ok = ($return_value !== false);
 

@@ -105,14 +105,14 @@ formLogic = function () {
 			).then(o.fetchResponse).then(
 				function (resolve) {
 					o.fetchAppendToUploadStatusDiv(resolve.message);
-					return o.fetchResolve(resolve, compilePostFolder + 'minify_scripts.php', 'Minifying assets/javascript/scripts/*.js . . .');
+					return o.fetchResolve(resolve, compilePostFolder + 'minify_scripts.php', 'Minifying javascript/scripts/*.js . . .');
 				},
 				o.fetchReject
 // FETCH:
 			).then(o.fetchResponse).then(
 				function (resolve) {
 					o.fetchAppendToUploadStatusDiv(resolve.message);
-					return o.fetchResolve(resolve, compilePostFolder + 'minify_modules.php', 'Minifying assets/javascript/modules/*.mjs . . .');
+					return o.fetchResolve(resolve, compilePostFolder + 'minify_modules.php', 'Minifying javascript/modules/*.mjs . . .');
 				},
 				o.fetchReject
 // FETCH:

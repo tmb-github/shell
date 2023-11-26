@@ -4,6 +4,7 @@ include 'compile_reqs.inc.php';
 
 if ($do_not_compile_static_html == true) {
 
+//	$html = 'Setting $compile_static_html = false;<br>';
 	$php_text = '<?php' . PHP_EOL . '$compile_static_html = false;';
 
 	$return_value = file_put_contents($absolute_root . 'includes/common/utilities/compile_static_html.inc.php', $php_text);

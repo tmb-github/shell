@@ -1,12 +1,15 @@
 <?php
 
 include 'compile_reqs.inc.php';
+include_once $absolute_root . 'includes/common/functions.php';
 
 if ($update_individual_imports_css == true) {
 
 // Make copy of individual-imports.TEMPLATE.css into individual-imports.css in
 // which each imported CSS file is auto-versioned:
 
+// Note that this function requests CSS files directly, and thus needs
+// $assets_folder prefix on every such call:
 	update_individual_imports_css();
 
 	$status_ok = true;

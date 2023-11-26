@@ -1,2 +1,2 @@
 <?php
-$css_array = ['assets/css/pages/error.css'];
+$css_array = ['css/pages/error.css'];

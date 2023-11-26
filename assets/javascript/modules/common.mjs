@@ -1764,7 +1764,7 @@ consoleLog = function (msg) {
 // It will affect image displayed on mobile devices, in which we're not using
 // the iframe previewer.
 //
-// NB: This is risky. It assumes that every JPG in the assets/images/various directory
+// NB: This is risky. It assumes that every JPG in the images/various directory
 // has a corresponding WEBP. What to do if the resource isn't there?
 
 conditionallyReplaceJpgExtensionWithWebpExtension = function (document, selector) {

@@ -24,7 +24,7 @@ if ($last_pipe !== false) {
 	$description = 'Shell application for website development';
 }
 
-$default_og_image = $base_href . autoversion('assets/images/head/' . $site_title_short_form_lc . '-1200x630.jpg', $use_webp = false);
+$default_og_image = $base_href . autoversion('images/head/' . $site_title_short_form_lc . '-1200x630.jpg', $use_webp = false);
 
 $og_description = $description;
 // The og:image must be 1200x630 - Test with https://realfavicongenerator.net/social/checker

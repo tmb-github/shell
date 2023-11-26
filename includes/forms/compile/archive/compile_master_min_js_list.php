@@ -3,9 +3,10 @@
 echo 'Compiling master.min.js list . . .' . PHP_EOL;
 
 $absolute_root = $_SERVER['ABSOLUTE_ROOT'];
+$assets_folder = $_SERVER['ASSETS_FOLDER'];
 
 // Use the contents of the loader to determine what to put in the master JS file:
-$loader_template_js = $absolute_root . 'assets/javascript/scripts/loader.js';
+$loader_template_js = $absolute_root . $assets_folder . 'javascript/scripts/loader.js';
 
 if (file_exists($loader_template_js)) {
 
@@ -24,13 +25,13 @@ if (file_exists($loader_template_js)) {
 		$resource = $matches[2][$i];
 		if (substr($resource, 0, 10) === 'javascript') {
 
-			$resource = str_replace('assets/javascript/scripts', 'assets/javascript/minified-scripts', $resource);
+			$resource = str_replace($assets_folder . 'javascript/scripts', $assets_folder . 'javascript/minified-scripts', $resource);
 
 			$resource = str_replace('.js', '.min.js', $resource);
 			$resource = str_replace('.min.min', '.min', $resource);
 /*
-			if ($resource === 'assets/javascript/scripts/siteWideEditsRedux.js') {
-				$resource = 'assets/javascript/minified-scripts/siteWideEditsRedux.min.js';
+			if ($resource === $assets_folder . 'javascript/scripts/siteWideEditsRedux.js') {
+				$resource = $assets_folder . 'javascript/minified-scripts/siteWideEditsRedux.min.js';
 			}
 */
 			if (file_exists($absolute_root . $resource)) {
@@ -42,7 +43,7 @@ if (file_exists($loader_template_js)) {
 		}
 	}
 
-	file_put_contents($absolute_root . 'assets/javascript/minified-scripts/master.min.js', $master);
+	file_put_contents($absolute_root . $assets_folder . 'javascript/minified-scripts/master.min.js', $master);
 
 } else {
 	echo $loader_template_js . ' could not be found . . . procedure aborted.' . PHP_EOL . PHP_EOL;

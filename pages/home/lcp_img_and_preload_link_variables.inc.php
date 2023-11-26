@@ -6,19 +6,19 @@
 
 // NB: To generate CSS for the transitioning animation,
 // edit the index.php in https://localhost/shell/make-animation-css/
-// and then open that URL; copy the CSS written to the screen to assets/css/pages/home.css
+// and then open that URL; copy the CSS written to the screen to css/pages/home.css
 
 // TRANSITIONING IMAGE (list in opposite order of desired appearance, so last listed will be shown first, etc.):
 $img_url_array = [
-	'assets/images/home/landing-image-set/a02/a02.jpg',
-	'assets/images/home/landing-image-set/a07/a07.jpg',
-	'assets/images/home/landing-image-set/a06/a06.jpg',
-	'assets/images/home/landing-image-set/a05/a05.jpg',
-	'assets/images/home/landing-image-set/a04/a04.jpg',
-	'assets/images/home/landing-image-set/a03/a03.jpg',
-	'assets/images/home/landing-image-set/a09/a09.jpg',
-	'assets/images/home/landing-image-set/a01/a01.jpg',
-	'assets/images/home/landing-image-set/a08/a08.jpg'
+	'images/home/landing-image-set/a02/a02.jpg',
+	'images/home/landing-image-set/a07/a07.jpg',
+	'images/home/landing-image-set/a06/a06.jpg',
+	'images/home/landing-image-set/a05/a05.jpg',
+	'images/home/landing-image-set/a04/a04.jpg',
+	'images/home/landing-image-set/a03/a03.jpg',
+	'images/home/landing-image-set/a09/a09.jpg',
+	'images/home/landing-image-set/a01/a01.jpg',
+	'images/home/landing-image-set/a08/a08.jpg'
 ];
 
 // If $variable_size == true, provide $img_widths & sizes; leave multipliers empty

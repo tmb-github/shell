@@ -2,10 +2,7 @@
 
 include 'compile_reqs.inc.php';
 
-file_put_contents('xyz.txt', 'wow');
-
 if ($do_not_use_static_html == true) {
-
 
 	$php_text = '<?php' . PHP_EOL . '$use_static_html = false;';
 	$return_value = file_put_contents($absolute_root . 'includes/common/utilities/use_static_html.inc.php', $php_text);

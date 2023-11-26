@@ -1,2 +1,2 @@
 <?php
-$css_array = ['assets/css/pages/google-fonts.css'];
+$css_array = ['css/pages/google-fonts.css'];

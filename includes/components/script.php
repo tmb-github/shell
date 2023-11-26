@@ -2,7 +2,7 @@
 ob_start();
 echo PHP_EOL;
 
-$dateModified_file = $absolute_root . 'compile/dateModified.txt';
+$dateModified_file = $absolute_root . 'includes/forms/compile/dateModified.txt';
 
 if (file_exists($dateModified_file)) {
 	$dateModified = file_get_contents($dateModified_file);
@@ -76,18 +76,18 @@ foreach($social_media_href as $media => $href)  {
 // 2020-04-01: Apparently, we're fastest now (on localhost, at least) when we
 // load the error listener separately and THEN the loader script:
 if ($_SESSION['minify'] == true) {
-	$error_listener_script = 'assets/javascript/minified-scripts/errorListener.min.js';
-	$defer_script = 'assets/javascript/minified-scripts/loader.min.js';
-	$initialize_script = 'assets/javascript/minified-scripts/initialize.min.js';
+	$error_listener_script = 'javascript/minified-scripts/errorListener.min.js';
+	$defer_script = 'javascript/minified-scripts/loader.min.js';
+	$initialize_script = 'javascript/minified-scripts/initialize.min.js';
 } else {
-	$error_listener_script = 'assets/javascript/scripts/errorListener.js';
-	$defer_script = 'assets/javascript/scripts/loader.js';
-	$initialize_script = 'assets/javascript/scripts/initialize.js';
+	$error_listener_script = 'javascript/scripts/errorListener.js';
+	$defer_script = 'javascript/scripts/loader.js';
+	$initialize_script = 'javascript/scripts/initialize.js';
 }
 
 // FOR TESTING, un-rem and change variables here:
-//$error_listener_script = 'assets/javascript/minified-scripts/errorListener.min.js';
-//$defer_script = 'assets/javascript/minified-scripts/loader.min.js';
+//$error_listener_script = 'javascript/minified-scripts/errorListener.min.js';
+//$defer_script = 'javascript/minified-scripts/loader.min.js';
 
 // NB: To force minify in localhost, unrem the minify session variable in variables.php.
 
@@ -109,12 +109,12 @@ if (strpos($canonical, '/error/') === false) {
 
 	if ($use_initialize_script == true) {
 ?>
-<script src=<?php echo autoVersion($initialize_script); ?> <?php echo $inline_nonce_property; ?> defer integrity="<?php echo javascript_integrity_sha384($absolute_root . $initialize_script); ?>"></script>
+<script src=<?php echo autoversion($initialize_script); ?> <?php echo $inline_nonce_property; ?> defer integrity="<?php echo javascript_integrity_sha384($initialize_script); ?>"></script>
 <?php
 	} else {
 ?>
-<script src=<?php echo autoVersion($error_listener_script); ?> <?php echo $inline_nonce_property; ?> defer integrity="<?php echo javascript_integrity_sha384($absolute_root . $error_listener_script); ?>"></script>
-<script src=<?php echo autoVersion($defer_script); ?> <?php echo $inline_nonce_property; ?> defer integrity="<?php echo javascript_integrity_sha384($absolute_root . $defer_script); ?>"></script>
+<script src=<?php echo autoversion($error_listener_script); ?> <?php echo $inline_nonce_property; ?> defer integrity="<?php echo javascript_integrity_sha384($error_listener_script); ?>"></script>
+<script src=<?php echo autoversion($defer_script); ?> <?php echo $inline_nonce_property; ?> defer integrity="<?php echo javascript_integrity_sha384($defer_script); ?>"></script>
 <?php
 	}
 

@@ -23,8 +23,8 @@ $sizes = '';
 // 2020-07-18
 // Provide full URL, including extension (for revision of picture_or_img_element())
 // 2020-05-15:
-// OLD: $img_url = 'assets/images/header/shell-logo.jpg';
-$img_url = $site_logo_url; //'assets/images/header/shell-logo.png';
+// OLD: $img_url = 'images/header/shell-logo.jpg';
+$img_url = $site_logo_url; //'images/header/shell-logo.png';
 
 // VARIABLE: $picture_attribute_array = array('class' => 'logo-for-mobile-menu');
 // settings needed for $img_attribute_array[]:
@@ -126,7 +126,7 @@ $menu = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox=
 // CONSTANT:	$img_widths = ['115x35', '230x70', '345x105', '460x140'];
 // CONSTANT:	$multipliers = ['1', '2', '3', '4'];
 // CONSTANT:	$sizes = '';
-// CONSTANT:	$img_url = 'assets/images/header/shell-logo';
+// CONSTANT:	$img_url = 'images/header/shell-logo';
 	$picture_attribute_array = array(
 		'class' => 'logo-for-mobile-menu'
 	);
@@ -191,7 +191,7 @@ if ($_SERVER['HTTP_HOST'] == 'localhost') {
 <?php
 // $img_url will have "-" plus the pixel size from the img_widths[] array plus "px.jpg" appended to it.
 // NB: $img_url omits the size and extension:
-// Example full URL: 'assets/images/header/shell-logo-115x35px.jpg'
+// Example full URL: 'images/header/shell-logo-115x35px.jpg'
 
 // CONSTANT:	$picture = $GLOBALS['use_picture_element'];
 // CONSTANT:	$variable_size = false;
@@ -200,7 +200,7 @@ if ($_SERVER['HTTP_HOST'] == 'localhost') {
 // CONSTANT:	$img_widths = ['115', '230', '345', '460'];
 // CONSTANT:	$multipliers = ['1', '2', '3', '4'];
 // CONSTANT:	$sizes = '';
-// CONSTANT:	$img_url = 'assets/images/header/SHELL-logo.jpg';
+// CONSTANT:	$img_url = 'images/header/SHELL-logo.jpg';
 
 	$picture_attribute_array = array();
 // settings needed for $img_attribute_array[]:

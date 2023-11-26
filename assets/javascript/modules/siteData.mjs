@@ -42,35 +42,35 @@ siteData = {
 	excludedIps: ['::1', '00.00.000.00'],
 	fontArray: [{
 		family: 'Noto-Sans',
-		source: 'url(assets/fonts/Noto-Sans-Roman-400.woff2)',
+		source: 'url(fonts/Noto-Sans-Roman-400.woff2)',
 		descriptors: {
 			style: 'normal',
 			weight: 400
 		}
 	}, {
 		family: 'Noto-Sans',
-		source: 'url(assets/fonts/Noto-Sans-Italic-400.woff2)',
+		source: 'url(fonts/Noto-Sans-Italic-400.woff2)',
 		descriptors: {
 			style: 'italic',
 			weight: 400
 		}
 	}, {
 		family: 'Noto-Sans',
-		source: 'url(assets/fonts/Noto-Sans-Bold-700.woff2)',
+		source: 'url(fonts/Noto-Sans-Bold-700.woff2)',
 		descriptors: {
 			style: 'normal',
 			weight: 700
 		}
 	}, {
 		family: 'Noto-Sans',
-		source: 'url(assets/fonts/Noto-Sans-Bold-Italic-700.woff2)',
+		source: 'url(fonts/Noto-Sans-Bold-Italic-700.woff2)',
 		descriptors: {
 			style: 'italic',
 			weight: 700
 		}
 	}, {
 		family: 'Consolas',
-		source: 'url(assets/fonts/Consolas-Normal.woff2)',
+		source: 'url(fonts/Consolas-Normal.woff2)',
 		descriptors: {
 			style: 'normal',
 			weight: 400
@@ -88,16 +88,16 @@ siteData = {
 			"twitter:site": "@verylocaltv",
 			"twitter:title": "${TITLE}",
 			"twitter:url": "${CANONICAL}",
-			"twitter:image": "${BASE}assets/images/head/shell-1200x630.20220913065837.jpg",
+			"twitter:image": "${BASE}images/head/shell-1200x630.20220913065837.jpg",
 			"twitter:image:alt": "Shell"
 		},
 		property: {
 			"og:description": "Shell application for website development",
-			"og:image": "${BASE}assets/images/head/shell-1200x630.20220913065837.jpg",
+			"og:image": "${BASE}images/head/shell-1200x630.20220913065837.jpg",
 			"og:image:alt": "Shell",
 			"og:image:height": "630",
 			"og:image:width": "1200",
-			"og:image:secure_url": "${BASE}assets/images/head/shell-1200x630.20220913065837.jpg",
+			"og:image:secure_url": "${BASE}images/head/shell-1200x630.20220913065837.jpg",
 			"og:image:type": "image/jpeg",
 			"og:site_name": "Shell",
 			"og:title": "${TITLE}",
@@ -117,10 +117,10 @@ siteData = {
 		'home': {
 			mjs: './home.mjs',
 			promiseLoader: [
-				['tmbAlert', 'assets/javascript/scripts/tmbAlert.js', {}]
+				['tmbAlert', 'javascript/scripts/tmbAlert.js', {}]
 			],
 			enqueueLoader: [
-				{src: 'assets/javascript/scripts/tmbBug.js', dataScriptName: 'tmbBug'},
+				{src: 'javascript/scripts/tmbBug.js', dataScriptName: 'tmbBug'},
 			]
 		},
 */
@@ -176,7 +176,7 @@ siteData = {
 			mjs: './merchandise.mjs',
 			promiseLoader: [
 				['Ecwid', 'https://app.ecwid.com/script.js?67178212&data_platform=code&data_date=2021-10-23', {'data-cfasync': 'false', 'async': 'false'}],
-				['ecwidHelper', 'assets/javascript/scripts/ecwidHelper.js', {}],
+				['ecwidHelper', 'javascript/scripts/ecwidHelper.js', {}],
 			]
 		},
 */

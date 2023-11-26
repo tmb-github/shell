@@ -1,2 +1,2 @@
 <?php
-$css_array = ['assets/css/pages/dummy.css'];
+$css_array = ['css/pages/dummy.css'];

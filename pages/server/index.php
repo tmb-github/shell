@@ -7,12 +7,7 @@ session_start([
 
 if (isset($_SESSION['authenticated']) && ($_SESSION['authenticated'] == 'true')) {
 
-	$absolute_root = $_SERVER['ABSOLUTE_ROOT'];
-
-	include 'index-main-vars.php';
-
-	include $absolute_root . 'includes/common/routines.php';
-	include $absolute_root . 'includes/components/html.php';
+	echo print_r($_SERVER, true);
 
 } else {
 
@@ -20,5 +15,3 @@ if (isset($_SESSION['authenticated']) && ($_SESSION['authenticated'] == 'true'))
 	header('Location: ' . $_SERVER['BASE_PATH'] . 'login/');
 
 }
-
-?>

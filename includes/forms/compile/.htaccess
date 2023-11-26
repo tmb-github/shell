@@ -1,18 +1,19 @@
 SetEnvIf Request_URI "^.*" LOCALHOST=https://localhost/shell
-SetEnvIf Request_URI "^.*" LIVEHOST=https://thomasbrodhead.com
+SetEnvIf Request_URI "^.*" LIVEHOST=https://shell.com
 
 SetEnvIf Host localhost SCHEME=https://
 SetEnvIf Host localhost HOST=localhost
 SetEnvIf Host localhost BASE_PATH=/shell/
 
 SetEnvIf Host !localhost SCHEME=https://
-SetEnvIf Host !localhost HOST=thomasbrodhead.com
+SetEnvIf Host !localhost HOST=shell.com
 SetEnvIf Host !localhost BASE_PATH=/
 
 <IfModule mod_rewrite.c>
 	RewriteEngine On
 	RewriteRule ^ - [E=BASE_URL:%{ENV:SCHEME}%{ENV:HOST}%{ENV:BASE_PATH}]
 	RewriteRule ^ - [E=ABSOLUTE_ROOT:%{DOCUMENT_ROOT}%{ENV:BASE_PATH}]
+	RewriteRule ^ - [E=ASSETS_FOLDER:assets/]
 </IfModule>
 
 <If "req('Host') = 'localhost'">

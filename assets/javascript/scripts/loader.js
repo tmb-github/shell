@@ -205,21 +205,21 @@
 
 // Everything else:
 		if (tmbTT.active) {
-			enqueue({src: 'assets/javascript/scripts/purify.js', dataScriptName: 'purify'});
+			enqueue({src: 'javascript/scripts/purify.js', dataScriptName: 'purify'});
 		}
 
 // 2020-08-15:
 // RETAIN IN CASE WE WANT TO REVERT TO JAVASCRIPT LAZYLOADING:
-//	enqueueXXX({src: 'assets/javascript/scripts/noframework.waypoints.js'});
-		enqueue({src: 'assets/javascript/scripts/passiveSupport.js', dataScriptName: 'passiveSupport'});
-//		enqueue({src: 'assets/javascript/scripts/tmbBug.js'});
+//	enqueueXXX({src: 'javascript/scripts/noframework.waypoints.js'});
+		enqueue({src: 'javascript/scripts/passiveSupport.js', dataScriptName: 'passiveSupport'});
+//		enqueue({src: 'javascript/scripts/tmbBug.js'});
 
 // The nonce is set on the global object 'o' in siteWideEditsClosure.
 // It must be set on siteWideEdits.js to be accessible to siteWideEditsClosure
 
 // 2022-04-19:
-// OLD:	enqueue({src: 'assets/javascript/scripts/siteWideEdits.js', nonce: currentScript.nonce});
-		enqueue({src: 'assets/javascript/scripts/siteWideEdits.js', nonce: nonceArgument, dataScriptName: 'siteWideEdits'});
+// OLD:	enqueue({src: 'javascript/scripts/siteWideEdits.js', nonce: currentScript.nonce});
+		enqueue({src: 'javascript/scripts/siteWideEdits.js', nonce: nonceArgument, dataScriptName: 'siteWideEdits'});
 
 // SEE: https://philipwalton.com/articles/idle-until-urgent/
 // Prevent long-running tasks by using setTimeout() to break tasks up:

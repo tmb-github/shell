@@ -1,2 +1,2 @@
 <?php
-$css_array = ['assets/css/pages/site-map.css'];
+$css_array = ['css/pages/site-map.css'];

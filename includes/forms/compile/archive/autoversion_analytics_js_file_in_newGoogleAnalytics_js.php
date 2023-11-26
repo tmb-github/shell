@@ -3,6 +3,7 @@
 echo 'Autoversioning analytics js file in newGoogleAnalytics.js . . .' . PHP_EOL;
 
 $absolute_root = $_SERVER['ABSOLUTE_ROOT'];
+$assets_folder = $_SERVER['ASSETS_FOLDER'];
 
 function javascript_integrity_sha384_analytics($complete_file_path) {
 	$hash = hash_file('sha384', $complete_file_path, true);
@@ -24,17 +25,17 @@ function str_replace_last($search, $replace, $str) {
 // etc.
 $include_subresource_integrity = true;
 
-$new_google_analytics_template_js = $absolute_root . 'assets/javascript/newGoogleAnalytics.TEMPLATE.js';
-$new_google_analytics_js = $absolute_root . 'assets/javascript/newGoogleAnalytics.js';
+$new_google_analytics_template_js = $absolute_root . $assets_folder . 'javascript/newGoogleAnalytics.TEMPLATE.js';
+$new_google_analytics_js = $absolute_root . $assets_folder . 'javascript/newGoogleAnalytics.js';
 
-$javascript_analytics_js = 'assets/javascript/analytics.js';
+$javascript_analytics_js = $assets_folder . 'javascript/analytics.js';
 
 if (file_exists($new_google_analytics_template_js)) {
 
 	$template = file_get_contents($new_google_analytics_template_js);
 
 	if (file_exists($absolute_root . $javascript_analytics_js)) {
-		$autoversioned = autoVersion($javascript_analytics_js);
+		$autoversioned = autoversion($javascript_analytics_js);
 		$template = str_replace($javascript_analytics_js, $autoversioned, $template);
 
 // optionally append integrity attribute:

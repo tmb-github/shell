@@ -31,18 +31,18 @@ if ($minify_modules == true) {
 
 	if ($localhost === true) {
 
-		$folderPath = $absolute_root . 'assets/javascript/modules';
+		$folderPath = $absolute_root . $assets_folder . 'javascript/modules';
 
 // getAllSubfolders() is common function in functions.php
 		$subfolders = getAllSubfolders($folderPath);
 
 		foreach (($subfolders) as $subfolder) {
-			$full_subfolder_path = $absolute_root . 'assets/javascript/minified-modules/' . $subfolder;
+			$full_subfolder_path = $absolute_root . $assets_folder . 'javascript/minified-modules/' . $subfolder;
 			if (!file_exists($full_subfolder_path)) {
 // NB: 0777 is security permission: make executable
 				mkdir($full_subfolder_path, 0777);
 			} else {
-				$files = glob('assets/javascript/minified-modules/' . $subfolder . '/*'); // get all file names
+				$files = glob($assets_folder . 'javascript/minified-modules/' . $subfolder . '/*'); // get all file names
 				foreach($files as $file){ // iterate files
 				if(is_file($file))
 					unlink($file); // delete file
@@ -54,12 +54,12 @@ if ($minify_modules == true) {
 		$min_mjs = [];
 
 		foreach (($subfolders) as $subfolder) {
-			$full_asset_path = $absolute_root . 'assets/javascript/modules/' . $subfolder . '/*.mjs';
+			$full_asset_path = $absolute_root . $assets_folder . 'javascript/modules/' . $subfolder . '/*.mjs';
 			foreach (glob($full_asset_path) as $filename) {
 				if (!endsWith($filename, '.min.mjs')) {
 					array_push($mjs, $filename);
 					$min = str_replace('.mjs', '.min.mjs', $filename);
-					$min = str_replace('assets/javascript/modules/', 'assets/javascript/minified-modules/', $min);
+					$min = str_replace('javascript/modules/', 'javascript/minified-modules/', $min);
 					array_push($min_mjs, $min);
 				}
 			}
@@ -67,7 +67,7 @@ if ($minify_modules == true) {
 
 // $mjs     is array of all of the .mjs module files 
 // $min_mjs is array of all of the .mjs module files with the extension changed to .min.mjs
-// ...and with the destination directory set to assets/javascript/minified-modules/'
+// ...and with the destination directory set to $assets_folder . 'javascript/minified-modules/'
 
 		for ($i = 0; $i < count($mjs); $i++) {
 
@@ -96,14 +96,7 @@ if ($minify_modules == true) {
 				$contents = preg_replace($pattern, '', $contents);
 
 // Get an autoversioning value corresponding to the current time:
-				$url = 'dummy.txt';
-				file_put_contents($url, 'abcdefghijklmnopqrstuvwxyz');
-				if (file_exists($url)) {
-					$date = date("YmdHis", filemtime($url));
-				} else {
-					$date = '19990221125549';
-				}
-				unlink($url);
+				$date = date('YmdHis', time());
 
 // Convert special cases to immunize them from the splicing to come:
 				$contents = str_replace("https://www.google.com/recaptcha/api.js", "httpswwwgooglecomrecaptchaapijs", $contents);
@@ -128,8 +121,8 @@ if ($minify_modules == true) {
 // Safeguard against double .mins:
 				$contents = str_replace(".min.min.", ".min.", $contents);
 
-				$contents = str_replace("assets/javascript/scripts", "assets/javascript/minified-scripts", $contents);
-				$contents = str_replace('assets/javascript/scripts', 'assets/javascript/minified-scripts', $contents);
+				$contents = str_replace("javascript/scripts", "javascript/minified-scripts", $contents);
+				$contents = str_replace('javascript/scripts', 'javascript/minified-scripts', $contents);
 
 // Revert special cases to former form:
 				$contents = str_replace("httpswwwgooglecomrecaptchaapijs", "https://www.google.com/recaptcha/api.js", $contents);

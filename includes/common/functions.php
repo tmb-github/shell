@@ -19,6 +19,10 @@ function last_slug($url) {
 }
 */
 
+/*
+2022-03-05
+TODO: See if we're using the old error page at all...should the new 404 page be the error page?
+*/
 
 // qwer:htaccess
 // Used in compile routines for .js and .mjs folders:
@@ -42,12 +46,13 @@ function getAllSubfolders($folder) {
 }
 
 
-/*
-2022-03-05
-TODO: See if we're using the old error page at all...should the new 404 page be the error page?
-*/
+function javascript_integrity_sha256($script_uri) {
 
-function javascript_integrity_sha256($complete_file_path) {
+	$absolute_root = $_SERVER['ABSOLUTE_ROOT'];
+	$assets_folder = $_SERVER['ASSETS_FOLDER'];
+
+	$complete_file_path = $absolute_root . $assets_folder . $script_uri;
+
 	if (file_exists($complete_file_path)) {
 		$hash = hash_file('sha256', $complete_file_path, true);
 		$hash_base64 = base64_encode($hash);
@@ -57,7 +62,13 @@ function javascript_integrity_sha256($complete_file_path) {
 	return "sha256-$hash_base64";
 }
 
-function javascript_integrity_sha384($complete_file_path) {
+function javascript_integrity_sha384($script_uri) {
+
+	$absolute_root = $_SERVER['ABSOLUTE_ROOT'];
+	$assets_folder = $_SERVER['ASSETS_FOLDER'];
+
+	$complete_file_path = $absolute_root . $assets_folder . $script_uri;
+
 	if (file_exists($complete_file_path)) {
 		$hash = hash_file('sha384', $complete_file_path, true);
 		$hash_base64 = base64_encode($hash);
@@ -71,26 +82,29 @@ function javascript_integrity_sha384($complete_file_path) {
 // Used in HEAD
 function render_initial_page_style_element($page, $css_array) {
 
+	$absolute_root = $_SERVER['ABSOLUTE_ROOT'];
+	$assets_folder = $_SERVER['ASSETS_FOLDER'];
+
 // 2021-10-17
 // Prepend common-admin-stylings.css to $css_array if logged in as admin
 	if (isset($_SESSION['authenticated']) && ($_SESSION['authenticated'] == 'true')) {
-		array_unshift($css_array, 'assets/css/common-admin-stylings.css'); 
+		array_unshift($css_array, 'css/common-admin-stylings.css'); 
 	}
 
-	$absolute_root = $_SERVER['ABSOLUTE_ROOT'];
 	$minified_css = '';
 
 	foreach ($css_array as $css) {
-		if (file_exists($absolute_root . $css)) {
-			$minified_css .= tovic_minify_css(file_get_contents($absolute_root . $css));
+// 2023-11-23: added '$assets_folder' to path:
+		if (file_exists($absolute_root . $assets_folder . $css)) {
+			$minified_css .= tovic_minify_css(file_get_contents($absolute_root . $assets_folder . $css));
 		}
 	}
-
 	if ($minified_css != '') {
 		echo '	<style class=custom-style data-page=' . $page . ' ' . $GLOBALS['inline_nonce_property'] . '>' . $minified_css . '</style>' . PHP_EOL;
 	}
 
 }
+
 
 // OLD: function render_custom_style_elements($includes_folder) {
 function render_custom_style_elements($folder) {
@@ -98,21 +112,20 @@ function render_custom_style_elements($folder) {
 // css_array.inc.php used here and in includes/components/head.php:
 
 	$absolute_root = $_SERVER['ABSOLUTE_ROOT'];
+	$assets_folder = $_SERVER['ASSETS_FOLDER'];
+
 	$minified_css = '';
 
-// 2023-10-28:
-// htaccess revision
-//	OLD: $css_array_inc = $absolute_root . $folder . '/css_array.inc.php';
 	$css_array_inc = $absolute_root . 'pages/' . $folder . '/css_array.inc.php';
-
 
 	if (file_exists($css_array_inc)) {
 
 		include $css_array_inc;
 
 		foreach ($css_array as $css) {
-			if (file_exists($absolute_root . $css)) {
-				$minified_css .= tovic_minify_css(file_get_contents($absolute_root . $css));
+// 2023-11-23:
+			if (file_exists($absolute_root . $assets_folder . $css)) {
+				$minified_css .= tovic_minify_css(file_get_contents($absolute_root . $assets_folder . $css));
 			}
 			$minified_css .= ' ';
 		}
@@ -127,11 +140,14 @@ function render_custom_style_elements($folder) {
 
 
 function render_custom_style_elements_body_only_no_tags($css_array) {
-	$absolute_root = return_absolute_root();
+
+	$absolute_root = $_SERVER['ABSOLUTE_ROOT'];
+	$assets_folder = $_SERVER['ASSETS_FOLDER'];
+
 	$minified_css = '';
 	foreach ($css_array as $css) {
-		if (file_exists($absolute_root . $css)) {
-			$minified_css .= tovic_minify_css(file_get_contents($absolute_root . $css));
+		if (file_exists($absolute_root . $assets_folder . $css)) {
+			$minified_css .= tovic_minify_css(file_get_contents($absolute_root . $assets_folder . $css));
 		}
 	}
 	if ($minified_css != '') {
@@ -141,11 +157,14 @@ function render_custom_style_elements_body_only_no_tags($css_array) {
 
 
 function render_style_elements($css_array, $nonce) {
-	$absolute_root = return_absolute_root();
+
+	$absolute_root = $_SERVER['ABSOLUTE_ROOT'];
+	$assets_folder = $_SERVER['ASSETS_FOLDER'];
+
 	$minified_css = '';
 	foreach ($css_array as $css) {
-		if (file_exists($absolute_root . $css)) {
-			$minified_css .= tovic_minify_css(file_get_contents($absolute_root . $css));
+		if (file_exists($absolute_root . $assets_folder . $css)) {
+			$minified_css .= tovic_minify_css(file_get_contents($absolute_root . $assets_folder . $css));
 		}
 	}
 	if ($minified_css != '') {
@@ -267,7 +286,7 @@ function return_absolute_root() {
 
 function return_relative_root() {
 
-// e.g., /shell/ or /shell/about/
+// e.g., /new-art2/ or /new-art2/about/
 // OLD:	$number_of_slashes = substr_count($_SERVER['REQUEST_URI'], "/");
 // TEST, 2021-11-03:
 // NEW: $number_of_slashes = substr_count($_SERVER['SCRIPT_NAME'], "/");
@@ -279,7 +298,7 @@ function return_relative_root() {
 
 	//$number_of_slashes = substr_count($_SERVER['CONTEXT_DOCUMENT_ROOT'], "/");
 
-	if ($_SERVER['HTTP_HOST'] === $domain_name) {
+	if ($_SERVER['HTTP_HOST'] === 'thomasbrodhead.com') {
 		$number_of_super_folders_to_root = $number_of_slashes - 1;
 	} else {
 		$number_of_super_folders_to_root = $number_of_slashes - 2;
@@ -293,7 +312,7 @@ function return_relative_root() {
 	for ($i = 0; $i < $number_of_super_folders_to_root; $i++) {
 		$relative_root .= '../';
 	}
-//$relative_root = '/Applications/XAMPP/htdocs/shell/';
+//$relative_root = '/Applications/XAMPP/htdocs/new-art2/';
 	return $relative_root;
 
 }
@@ -307,9 +326,12 @@ function return_relative_root() {
 
 // NB: During development, set $use_webp to FALSE; change to TRUE once all 
 // images are ready and webps have been generated. Do here and at beginning 
-// of autoVersion():
+// of autoversion():
 
 function autoversion_lazyload($img, $use_webp = true) {
+
+	$absolute_root = $_SERVER['ABSOLUTE_ROOT'];
+	$assets_folder = $_SERVER['ASSETS_FOLDER'];
 
 	$use_single_pixel_base64_img = true;
 
@@ -318,9 +340,10 @@ function autoversion_lazyload($img, $use_webp = true) {
 	} else {
 // THIS IS EXPENSIVE; SINGLE PIXEL METHOD SEEMS BETTER
 // make a scaled base64 that scales to size:
-		$absolute_root = return_absolute_root();
+
 // Write it to a text file that can be retrieved later, as make_base64_png() is an expensive procedure, time-wise:
-		$base64_storage_file = $absolute_root . $img . '.base64.txt';
+		$base64_storage_file = $absolute_root . $assets_folder. $img . '.base64.txt';
+
 		if (file_exists($base64_storage_file)) {
 			$base64 = file_get_contents($base64_storage_file);
 		} else {
@@ -328,14 +351,19 @@ function autoversion_lazyload($img, $use_webp = true) {
 			file_put_contents($base64_storage_file, $base64);
 		}
 	}
-	$autoversioned_img = autoVersion($img, $use_webp);
+// NB: autoVersion adds $asset_folder automatically:
+	$autoversioned_img = autoversion($img, $use_webp);
 
 	return $base64 . '" data-src="' . $autoversioned_img . '" data-lazyload="true';
 }
 
 function make_base64_png($img) {
+
+	$absolute_root = $_SERVER['ABSOLUTE_ROOT'];
+	$assets_folder = $_SERVER['ASSETS_FOLDER'];
+
 // exclude base64 images
-	$absolute_root = return_absolute_root();
+	$absolute_root = $_SERVER['ABSOLUTE_ROOT'];
 	$jpg = $absolute_root . $img;
 // Get $width and $height of JPG
 	list($width, $height, $type, $attr) = getimagesize($jpg);
@@ -360,132 +388,124 @@ function make_base64_png($img) {
 // images are ready and webps have been generated. Do here and at beginning 
 // of autoversion_lazyload():
 
-// qwer
-//function autoVersion($url, $use_webp = true) {
-function autoVersion($url, $use_webp = true) {
+// Cleaned-up 2023-11-25:
+function autoversion($url, $use_webp = true) {
 
-// 2021-11-09:
-// THIS DOESN'T WORK, REASON UNKNOWN:
-//	$use_webp = true;
-//	if ($use_webp == 'no_webp') {
-//		$use_webp = false;
-//	}
+	$absolute_root = $_SERVER['ABSOLUTE_ROOT'];
+	$assets_folder = $_SERVER['ASSETS_FOLDER'];
 
-// Set $external_site = TRUE if the resource is not on the localhost or parent domain;
-// write original code for that HERE.
-
+// Assume resource is on localhost and set $external_site = FALSE, then revise:
 	$external_site = FALSE;
-	$absolute_root = return_absolute_root();
+	if ((substr($url, 0, 8) == "https://") || (substr($url, 0, 7) == "http://") || (substr($url, 0, 2) == "//")) {
+		$external_site = TRUE;
+	}
 
-// 2021-04-26:
-// Needed to accept new SSL certificate for PHP 8 on localhost
-	$context = stream_context_create( [
-		'ssl' => [
-			'verify_peer' => false,
-			'verify_peer_name' => false,
-		],
-	]);
+///////////////////////////////////////////////////
+// First Goal: Get the timestamp of the resource //
+///////////////////////////////////////////////////
 
 // If we're retrieving static content from an external site:
 	if ($external_site) {
 
-// 2021-04-26:
-//		$headers = get_headers($url, 1);
+// Needed to accept new SSL certificate for PHP 8 on localhost
+		$context = stream_context_create( [
+			'ssl' => [
+				'verify_peer' => false,
+				'verify_peer_name' => false,
+			],
+		]);
+
 		$headers = get_headers($url, 1, $context);
 
 		if ($headers && (strpos($headers[0], '200') !== FALSE)) {
-			$time = strtotime($headers['Last-Modified']);
-			$date = date("YmdHis", $time);
+			$timestamp = strtotime($headers['Last-Modified']);
+			$date_time = date("YmdHis", $timestamp);
 		} else {
-			$date = '19990221125549';
+			$date_time = '19990221125549';
 		}
-// Otherwise, we're retrieving it from the dynamic server or from the local server:
+
+// Otherwise, we're retrieving it locally:
 	} else {
-// filemtime can't handle cross-origin requests, sigh...
-		if ((substr($url, 0, 8) == "https://") || (substr($url, 0, 7) == "http://") || (substr($url, 0, 2) == "//")) {
-			return $url;
-		} else {
-// 2019-04-07
-// qwer
 
-// 2020-08-07:
-			if (($use_webp == true) && (isset($_SESSION['webp_support']) && !empty($_SESSION['webp_support']) && ($_SESSION['webp_support'] === true))) {
+		$internal_url = $assets_folder . $url;
 
-				//$ext = substr($url, -3);
-				$ext = substr(strrchr($url, '.'), 1);
+		if (($use_webp == true) && (isset($_SESSION['webp_support']) && !empty($_SESSION['webp_support']) && ($_SESSION['webp_support'] === true))) {
 
-				if (($ext === 'jpg') || ($ext === 'jpeg') || ($ext === 'png') || ($ext === 'gif')) {
-					if ($ext === 'jpg') {
-						$webp_url = str_replace('.jpg', '.webp', $url);
-					}
-					if ($ext === 'jpeg') {
-						$webp_url = str_replace('.jpeg', '.webp', $url);
-					}
-					if ($ext === 'png') {
-						$webp_url = str_replace('.png', '.webp', $url);
-					}
-					if ($ext === 'gif') {
-						$webp_url = str_replace('.gif', '.webp', $url);
-					}
-// This file check for the existence of WEBP files really slows it down.
-// Consider using '$use_webp = false' in the function call during development;
-// WEBPs should be generated only as the project is wrapping up.
-					//if (file_exists($relative_root . $webp_url)) {
-						$url = $webp_url;
-					//}
+			$ext = substr(strrchr($internal_url, '.'), 1);
+
+			if (($ext === 'jpg') || ($ext === 'jpeg') || ($ext === 'png') || ($ext === 'gif')) {
+				if ($ext === 'jpg') {
+					$webp_url = str_replace('.jpg', '.webp', $internal_url);
 				}
+				if ($ext === 'jpeg') {
+					$webp_url = str_replace('.jpeg', '.webp', $internal_url);
+				}
+				if ($ext === 'png') {
+					$webp_url = str_replace('.png', '.webp', $internal_url);
+				}
+				if ($ext === 'gif') {
+					$webp_url = str_replace('.gif', '.webp', $internal_url);
+				}
+				$internal_url = $webp_url;
 			}
-
-/*
-// 2022-03-05:
-// OLD:
-			$relative_url = $relative_root . $url;
-			if (file_exists($relative_url)) {
-				$date = date("YmdHis", filemtime($relative_url));
-			} else {
-				$date = '19990221125549';
-			}
-*/
-			$absolute_root = return_absolute_root();
-			$absolute_url = $absolute_root . $url;
-			if (file_exists($absolute_url)) {
-				$date = date("YmdHis", filemtime($absolute_url));
-			} else {
-				$date = '19990221125549';
-			}
-
 		}
+
+		$full_url = $absolute_root . $internal_url;
+
+		if (file_exists($full_url)) {
+			$date_time = date("YmdHis", filemtime($full_url));
+		} else {
+			$date_time = '19990221125549';
+		}
+
 	}
-//file_put_contents('x.txt', $url . PHP_EOL, FILE_APPEND);
-// Add date & time stamp to resource name: https://www.example.com/js/defer.min.20160221212802.js
+
+// Now, splice the timestamp before the extension:
+
 	$name = explode('.', $url);
 	$extension = array_pop($name);
-	array_push($name, $date, $extension);
-	$fullname = implode('.', $name);
+	array_push($name, $date_time, $extension);
+	$autoversioned_url = implode('.', $name);
 
-	return $fullname;
+	return $autoversioned_url;
+
 }
 
-/* Copy of individual-imports.TEMPLATE.css into individual-imports.css in which each imported CSS file is auto-versioned */
+/* Copy of master-list.css into individual-imports.css in which each imported CSS file is auto-versioned */
 
+// Called during 'compile' routine:
+// Perhaps move it out of 'functions.php'?
 function update_individual_imports_css() {
 
-	$absolute_root = return_absolute_root();
-	$individual_imports_template_css = $absolute_root . 'assets/css/individual-imports.TEMPLATE.css';
-	$individual_imports_css = $absolute_root . 'assets/css/individual-imports.css';
+	$absolute_root = $_SERVER['ABSOLUTE_ROOT'];
+	$assets_folder = $_SERVER['ASSETS_FOLDER'];
 
-	if (file_exists($individual_imports_template_css)) {
+// 2023-11-23
+// Here we must prefix 'css/' with $assets_folder:
 
-		$file = fopen($individual_imports_template_css, "r");
+	$master_list_template_css = $absolute_root . $assets_folder. 'css/individual-imports.TEMPLATE.css';
+	$individual_imports_css = $absolute_root . $assets_folder. 'css/individual-imports.css';
+
+	if (file_exists($master_list_template_css)) {
+
+		$file = fopen($master_list_template_css, "r");
 		$array = [];
+
+// 2023-11-24:
+// NOTE: We do NOT need to prefix the folder name with $assets_folder, etc., for the
+// routine that follows:
+
+		$css_folder = 'css/';
+		$css_folder_length = strlen($css_folder);
 
 		while (!feof($file)) {
 			$line = trim(fgets($file));
 			if ($line !== '') {
 				preg_match('~"(.*?)"~', $line, $filename);
-				$auto_versioned_filename = autoVersion('assets/css/' . $filename[1]);
-// strip off the leading 'assets/css/' regardless:
-				$auto_versioned_filename = substr($auto_versioned_filename, 11);
+// autoversion() adds $asset_folder automatically:
+				$auto_versioned_filename = autoversion($css_folder . $filename[1]);
+// strip off the leading 'css/', which we only needed for the autoversion() function:
+				$auto_versioned_filename = substr($auto_versioned_filename, $css_folder_length);
 				$line = str_replace($filename[1], $auto_versioned_filename, $line);
 				array_push($array, $line);
 			}
@@ -499,10 +519,9 @@ function update_individual_imports_css() {
 		fclose($fh);
 
 	} else {
-		echo $individual_imports_template_css . ' could not be found...procedure aborted.' . PHP_EOL . PHP_EOL;
+		echo $master_list_template_css . ' could not be found...procedure aborted.' . PHP_EOL . PHP_EOL;
 	}
 }
-
 function greatest_common_denominator($a, $b) {
 	$a = abs($a);
 	$b = abs($b);
@@ -532,13 +551,16 @@ function simplify($num, $den) {
 // qwer
 function aspect_ratio_image_stats($image_url) {
 
+	$absolute_root = $_SERVER['ABSOLUTE_ROOT'];
+	$assets_folder = $_SERVER['ASSETS_FOLDER'];
+
 	$arr = array();
 	$image_width = 0;
 	$image_height = 0;
 	$aspect_width = 0;
 	$aspect_height = 0;
 
-	$absolute_root = return_absolute_root();
+	$absolute_root = $_SERVER['ABSOLUTE_ROOT'];
 //echo $relative_root . $image_url;
 
 	if (file_exists($absolute_root . $image_url)) {
@@ -589,11 +611,11 @@ function aspect_ratio_img_tag($image_url, $alt) {
 
 		$image_src = autoversion_lazyload($image_url, $use_webp = true);
 	} else {
-		$image_src = autoVersion($image_url, $use_webp = true);
+		$image_src = autoversion($image_url, $use_webp = true);
 	}
 */
 
-	$image_src = autoVersion($image_url, $use_webp = true);
+	$image_src = autoversion($image_url, $use_webp = true);
 
 	$i = aspect_ratio_image_stats($image_url);
 	$image_width = $i['image_width'];
@@ -780,9 +802,9 @@ function picture_or_img_element($picture, $variable_size, $img_url, $img_widths,
 
 	for ($x = 0; $x < $img_widths_count; $x++) {
 		$url = $img_url_without_extension . '-' . $img_widths[$x] . 'px' . $extension;
-		array_push($src_array, autoVersion($url, $use_webp = true));
-		array_push($src_array_jpg, autoVersion($url, $use_webp = false));
-		array_push($src_array_webp, autoVersion($url, $use_webp = true));
+		array_push($src_array, autoversion($url, $use_webp = true));
+		array_push($src_array_jpg, autoversion($url, $use_webp = false));
+		array_push($src_array_webp, autoversion($url, $use_webp = true));
 	}
 
 // NB: We use the largest image as the 'src' in the <img> tag, because
@@ -849,7 +871,7 @@ function picture_or_img_element($picture, $variable_size, $img_url, $img_widths,
 
 // Unless we learn otherwise, the social share image should never be a webp,
 // so use JPG always:
-		$data_social_share = autoVersion($url, $use_webp = false);
+		$data_social_share = autoversion($url, $use_webp = false);
 	} else {
 		$data_social_share = 'default';
 	}
@@ -1117,8 +1139,8 @@ SEE: https://web.dev/preload-responsive-images/
 <link 
 rel=preload 
 as=image 
-href=assets/images/home/landing-image-set/a01/a01.20210330223318.webp imagesrcset="images/home/landing-image-set/a01/a01-683px.20210330223318.webp 683w, images/home/landing-image-set/a01/a01-768px.20210330223318.webp 768w, images/home/landing-image-set/a01/a01-804px.20210330223318.webp 804w, images/home/landing-image-set/a01/a01-918px.20210330223318.webp 918w, images/home/landing-image-set/a01/a01-1024px.20210330223317.webp 1024w, images/home/landing-image-set/a01/a01-1225px.20210330223317.webp 1225w" 
-imagesizes="(max-width: 580px) 87vw, (min-width: 580px) 50vw">
+href=images/home/landing-image-set/a01/a01.20210330223318.webp imagesrcset="images/home/landing-image-set/a01/a01-683px.20210330223318.webp 683w, images/home/landing-image-set/a01/a01-768px.20210330223318.webp 768w, images/home/landing-image-set/a01/a01-804px.20210330223318.webp 804w, images/home/landing-image-set/a01/a01-918px.20210330223318.webp 918w, images/home/landing-image-set/a01/a01-1024px.20210330223317.webp 1024w, images/home/landing-image-set/a01/a01-1225px.20210330223317.webp 1225w" 
+imagesizes="(max-width: 580px) 87vw, (min-width: 580px) 50vw, 87vw">
 
 */
 
@@ -1147,9 +1169,9 @@ imagesizes="(max-width: 580px) 87vw, (min-width: 580px) 50vw">
 
 	for ($x = 0; $x < $img_widths_count; $x++) {
 		$url = $img_url_without_extension . '-' . $img_widths[$x] . 'px' . $extension;
-		array_push($src_array, autoVersion($url, $use_webp = true));
-		array_push($src_array_jpg, autoVersion($url, $use_webp = false));
-		array_push($src_array_webp, autoVersion($url, $use_webp = true));
+		array_push($src_array, autoversion($url, $use_webp = true));
+		array_push($src_array_jpg, autoversion($url, $use_webp = false));
+		array_push($src_array_webp, autoversion($url, $use_webp = true));
 	}
 
 // NB: We use the largest image as the 'src' in the <img> tag, because
@@ -1252,6 +1274,7 @@ imagesizes="(max-width: 580px) 87vw, (min-width: 580px) 50vw">
 //////////////////////////////////////////////////////
 
 // ALMOST retired 2021-03-31
+// This is used in gallery/article-08.inc.php 
 // This should likely be replaced by:
 //
 // link_preload_img_srcset()
@@ -1297,26 +1320,26 @@ function link_preload_srcset_tag2($image_url, $alt, $srcset_sizes) {
 		for ($x = 0; $x < $srcset_sizes_count; $x++) {
 			$url = splice_size($image_url, '-' . $srcset_sizes[$x] . 'px');
 
-			array_push($image_src_array, autoVersion($url, $use_webp = true));
+			array_push($image_src_array, autoversion($url, $use_webp = true));
 
 		}
 	} else {
 
-		$image_src = autoVersion($image_url, $use_webp = true);
+		$image_src = autoversion($image_url, $use_webp = true);
 
 		for ($x = 0; $x < $srcset_sizes_count; $x++) {
 			$url = splice_size($image_url, '-' . $srcset_sizes[$x] . 'px');
 
-			array_push($image_src_array, autoVersion($url, $use_webp = true));
+			array_push($image_src_array, autoversion($url, $use_webp = true));
 
 		}
 	}
 */
 
-		$image_src = autoVersion($image_url, $use_webp = true);
+		$image_src = autoversion($image_url, $use_webp = true);
 		for ($x = 0; $x < $srcset_sizes_count; $x++) {
 			$url = splice_size($image_url, '-' . $srcset_sizes[$x] . 'px');
-			array_push($image_src_array, autoVersion($url, $use_webp = true));
+			array_push($image_src_array, autoversion($url, $use_webp = true));
 		}
 
 	$i = aspect_ratio_image_stats($image_url);
@@ -1341,7 +1364,7 @@ function link_preload_srcset_tag2($image_url, $alt, $srcset_sizes) {
 	}
 
 // 2019-09-30: To default to 1600px image:
-	$image_src = autoVersion(splice_size($image_url, '-1600px'));
+	$image_src = autoversion(splice_size($image_url, '-1600px'));
 
 	$link_tag = '<link rel=preload as=image href="' . $image_src . '" imagesrcset="' . $srcset . '" imagesizes="' . $sizes . '">' . PHP_EOL;
 
@@ -1363,19 +1386,19 @@ function link_preload_srcset_tag($image_url, $alt, $srcset_sizes, $isolate_one_p
 	if ($GLOBALS['aspect_ratio_lazyload'] === true) {
 		for ($x = 0; $x < $srcset_sizes_count; $x++) {
 			$url = splice_size($image_url, '-' . $srcset_sizes[$x] . 'px');
-			array_push($image_src_array, autoVersion($url, $use_webp = true));
+			array_push($image_src_array, autoversion($url, $use_webp = true));
 		}
 	} else {
 		for ($x = 0; $x < $srcset_sizes_count; $x++) {
 			$url = splice_size($image_url, '-' . $srcset_sizes[$x] . 'px');
-			array_push($image_src_array, autoVersion($url, $use_webp = true));
+			array_push($image_src_array, autoversion($url, $use_webp = true));
 		}
 	}
 */
 
 	for ($x = 0; $x < $srcset_sizes_count; $x++) {
 		$url = splice_size($image_url, '-' . $srcset_sizes[$x] . 'px');
-		array_push($image_src_array, autoVersion($url, $use_webp = true));
+		array_push($image_src_array, autoversion($url, $use_webp = true));
 	}
 
 	$link_preload = '';
@@ -1436,18 +1459,18 @@ function link_prefetch_srcset_tag($image_url, $alt, $srcset_sizes, $isolate_one_
 	if ($GLOBALS['aspect_ratio_lazyload'] === true) {
 		for ($x = 0; $x < $srcset_sizes_count; $x++) {
 			$url = splice_size($image_url, '-' . $srcset_sizes[$x] . 'px');
-			array_push($image_src_array, autoVersion($url, $use_webp = true));
+			array_push($image_src_array, autoversion($url, $use_webp = true));
 		}
 	} else {
 		for ($x = 0; $x < $srcset_sizes_count; $x++) {
 			$url = splice_size($image_url, '-' . $srcset_sizes[$x] . 'px');
-			array_push($image_src_array, autoVersion($url, $use_webp = true));
+			array_push($image_src_array, autoversion($url, $use_webp = true));
 		}
 	}
 */
 	for ($x = 0; $x < $srcset_sizes_count; $x++) {
 		$url = splice_size($image_url, '-' . $srcset_sizes[$x] . 'px');
-		array_push($image_src_array, autoVersion($url, $use_webp = true));
+		array_push($image_src_array, autoversion($url, $use_webp = true));
 	}
 
 	$link_prefetch = '';
@@ -1483,6 +1506,12 @@ function link_prefetch_srcset_tag($image_url, $alt, $srcset_sizes, $isolate_one_
 	}
 	return $link_prefetch;
 }
+
+
+/*
+The resource https://localhost/new-art2/images/chromatic-geometry/Chromatectonic-Costanza-by-Thomas-Brodhead-2017-768px.20190522222954.webp was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.
+The resource https://localhost/new-art2/images/chromatic-geometry/Chromatectonic-Costanza-by-Thomas-Brodhead-2017-1024px.20190522222954.webp was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.
+*/
 
 
 function seoUrl($string) {

@@ -28,9 +28,9 @@
 
 		if (currentScript.src.indexOf('.min.')) {
 			tenRandomDigits = Math.floor(Math.random() * 9000000000) + 1000000000;
-			script.src = 'assets/javascript/minified-scripts/loader.min.' + tenRandomDigits + '.js';
+			script.src = 'javascript/minified-scripts/loader.min.' + tenRandomDigits + '.js';
 		} else {
-			script.src = 'assets/javascript/scripts/loader.js';
+			script.src = 'javascript/scripts/loader.js';
 		}
 
 		document.body.appendChild(fragment);

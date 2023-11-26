@@ -7,7 +7,7 @@ ob_start();
 ***********************/
 
 $absolute_root = $_SERVER['ABSOLUTE_ROOT'];
-
+$assets_folder = $_SERVER['ASSETS_FOLDER'];
 
 /***********************************
 ** To allow robot indexing or not **
@@ -218,11 +218,11 @@ $use_preload_font = false;
 
 if ((!isset($_GET['no-preload-font'])) && ($use_preload_font == true)) {
 ?>
-	<link rel=preload    href="assets/fonts/Noto-Sans-Bold-700.woff2" as=font type=font/woff2 crossorigin>
-	<link rel=preload    href="assets/fonts/Noto-Sans-Bold-Italic-700.woff2" as=font type=font/woff2 crossorigin>
-	<link rel=preload    href="assets/fonts/Noto-Sans-Italic-400.woff2" as=font type=font/woff2 crossorigin>
-	<link rel=preload    href="assets/fonts/Noto-Sans-Roman-400.woff2" as=font type=font/woff2 crossorigin>
-	<link rel=preload    href="assets/fonts/Consolas-Normal.woff2" as=font type=font/woff2 crossorigin>
+	<link rel=preload    href="fonts/Noto-Sans-Bold-700.woff2" as=font type=font/woff2 crossorigin>
+	<link rel=preload    href="fonts/Noto-Sans-Bold-Italic-700.woff2" as=font type=font/woff2 crossorigin>
+	<link rel=preload    href="fonts/Noto-Sans-Italic-400.woff2" as=font type=font/woff2 crossorigin>
+	<link rel=preload    href="fonts/Noto-Sans-Roman-400.woff2" as=font type=font/woff2 crossorigin>
+	<link rel=preload    href="fonts/Consolas-Normal.woff2" as=font type=font/woff2 crossorigin>
 <?php
 }
 
@@ -239,9 +239,9 @@ For attempts at matching the fonts downloaded by Next.js
 
 if ($_SESSION['minify'] != true) {
 	if (($_SERVER['SERVER_NAME']) === 'localhost') {
-		echo '	<link rel=preload    href="' . autoversion('assets/css/individual-imports.css') . '" as=style type=text/css>' . PHP_EOL;
+		echo '	<link rel=preload    href="' . autoversion('css/individual-imports.css') . '" as=style type=text/css>' . PHP_EOL;
 	} else {
-		echo '	<link rel=preload    href="' . autoversion('assets/css/compiled.css') . '" as=style type=text/css>' . PHP_EOL;
+		echo '	<link rel=preload    href="' . autoversion('css/compiled.css') . '" as=style type=text/css>' . PHP_EOL;
 	}
 }
 
@@ -270,13 +270,13 @@ if ($_SESSION['browser'] != 'Safari') {
 ********************/
 
 if ($_SESSION['minify'] == true) {
-	$minified_css = tovic_minify_css(file_get_contents($absolute_root . 'assets/css/compiled.css'));
+	$minified_css = tovic_minify_css(file_get_contents($absolute_root . $assets_folder . 'css/compiled.css'));
 	echo '<style ' . $inline_nonce_property . '>' . $minified_css . '</style>';
 } else {
 	if (($_SERVER['SERVER_NAME']) === 'localhost') {
-		echo '	<link rel=stylesheet href="' . autoversion('assets/css/individual-imports.css') . '" type=text/css>' . PHP_EOL;
+		echo '	<link rel=stylesheet href="' . autoversion('css/individual-imports.css') . '" type=text/css>' . PHP_EOL;
 	} else {
-		echo '	<link rel=stylesheet href="' . autoversion('assets/css/compiled.css') . '" type=text/css>' . PHP_EOL;
+		echo '	<link rel=stylesheet href="' . autoversion('css/compiled.css') . '" type=text/css>' . PHP_EOL;
 	}
 }
 

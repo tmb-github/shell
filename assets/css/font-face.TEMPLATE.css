@@ -8,35 +8,35 @@ See: https://web.dev/font-best-practices/
   font-display: swap;
   font-style: normal;
   font-weight: 400;
-  src: url(/###ROOT-FOLDER###/assets/fonts/Noto-Sans-Roman-400.woff2) format('woff2');
+  src: url(/###ROOT-FOLDER###/fonts/Noto-Sans-Roman-400.woff2) format('woff2');
 }
 @font-face {
   font-family: 'Noto Sans';
   font-display: swap;
   font-style: italic;
   font-weight: 400;
-  src: url(/###ROOT-FOLDER###/assets/fonts/Noto-Sans-Italic-400.woff2) format('woff2');
+  src: url(/###ROOT-FOLDER###/fonts/Noto-Sans-Italic-400.woff2) format('woff2');
 }
 @font-face {
   font-family: 'Noto Sans';
   font-display: swap;
   font-style: normal;
   font-weight: 700;
-  src: url(/###ROOT-FOLDER###/assets/fonts/Noto-Sans-Bold-700.woff2) format('woff2');
+  src: url(/###ROOT-FOLDER###/fonts/Noto-Sans-Bold-700.woff2) format('woff2');
 }
 @font-face {
   font-family: 'Noto Sans';
   font-display: swap;
   font-style: italic;
   font-weight: 700;
-  src: url(/###ROOT-FOLDER###/assets/fonts/Noto-Sans-Bold-Italic-700.woff2) format('woff2');
+  src: url(/###ROOT-FOLDER###/fonts/Noto-Sans-Bold-Italic-700.woff2) format('woff2');
 }
 @font-face {
   font-family: 'Consolas';
   font-display: swap;
   font-style: normal;
   font-weight: 400;
-  src: url(/###ROOT-FOLDER###/assets/fonts/Consolas-Normal.woff2) format('woff2');
+  src: url(/###ROOT-FOLDER###/fonts/Consolas-Normal.woff2) format('woff2');
 }
 
 /*
@@ -49,7 +49,7 @@ See: https://web.dev/font-best-practices/
   font-display: swap;
   font-style: normal;
   font-weight: 400;
-  src: url(/###ROOT-FOLDER###/assets/fonts/Material-Icons-Normal-400.woff2) format('woff2');
+  src: url(/###ROOT-FOLDER###/fonts/Material-Icons-Normal-400.woff2) format('woff2');
 }
 
 .material-icons {

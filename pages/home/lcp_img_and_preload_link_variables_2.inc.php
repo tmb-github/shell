@@ -6,10 +6,10 @@
 
 // NB: To generate CSS for the transitioning animation,
 // edit the index.php in https://localhost/shell/make-animation-css/
-// and then open that URL; copy the CSS written to the screen to assets/css/pages/home.css
+// and then open that URL; copy the CSS written to the screen to css/pages/home.css
 
 $img_url_array = [
-	'assets/images/home/dummy/dummy-gallery.jpg'
+	'images/home/dummy/dummy-gallery.jpg'
 ];
 
 // If $variable_size == true, provide $img_widths & sizes; leave multipliers empty

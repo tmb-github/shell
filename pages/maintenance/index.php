@@ -1,6 +1,7 @@
 <?php
 
 $absolute_root = $_SERVER['ABSOLUTE_ROOT'];
+
 include $absolute_root . 'includes/common/domain_info.php';
 include $absolute_root . 'includes/common/routines.php';
 
@@ -27,7 +28,7 @@ $site_name = $domain_name;
 	<meta name="description" content="Down for Maintenance in the online portfolio of <?php echo $site_title; ?>">
 	<meta name="google-site-verification" content="Emklps7uK_STmuirmgr5Z8y6jWumhC-Pch11agfb4pg">
 	<meta name="mobile-web-app-capable" content="yes">
-	<meta name="msapplication-config" content="<?php echo $http_host; ?>assets/favicons/browserconfig.xml">
+	<meta name="msapplication-config" content="<?php echo $http_host; ?>favicons/browserconfig.xml">
 	<meta name="msapplication-TileColor" content="#eeb935">
 	<meta name="robots" content="noindex, nofollow">
 	<meta name="theme-color" content="#fafafa">
@@ -38,28 +39,28 @@ $site_name = $domain_name;
 	<meta property="og:title" content="Down for Maintenance | <?php echo $site_title; ?>">
 	<meta property="og:type" content="website">
 	<meta property="og:url" content="<?php echo $http_host; ?>down-for-maintenance/">
-	<meta property="og:image" content="<?php echo $http_host; ?>assets/images/head/<?php echo $site_title_short_form_lc; ?>-1200x630.jpg">
+	<meta property="og:image" content="<?php echo $http_host; ?>images/head/<?php echo $site_title_short_form_lc; ?>-1200x630.jpg">
 	<meta property="og:image:alt" content="<?php echo $site_title; ?>">
 	<meta property="og:image:height" content="630">
 	<meta property="og:image:width" content="1200">
-	<meta property="og:image:secure_url" content="<?php echo $http_host; ?>assets/images/head/<?php echo $site_title_short_form_lc; ?>-1200x630.jpg">
+	<meta property="og:image:secure_url" content="<?php echo $http_host; ?>images/head/<?php echo $site_title_short_form_lc; ?>-1200x630.jpg">
 	<meta property="article:published_time" content="2020-01-01T06:00:00+00:00">
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:creator" content="@<?php echo $site_title; ?>">
 	<meta name="twitter:site" content="@<?php echo $site_title; ?>">
 	<meta name="twitter:url" content="<?php echo $http_host; ?>down-for-maintenance/">
-	<meta name="twitter:image" content="<?php echo $http_host; ?>assets/images/head/<?php echo $site_title_short_form_lc; ?>-1200x630.jpg">
+	<meta name="twitter:image" content="<?php echo $http_host; ?>images/head/<?php echo $site_title_short_form_lc; ?>-1200x630.jpg">
 	<meta name="twitter:image:alt" content="<?php echo $site_title; ?> Logo">
 	<meta name="web_author" content="<?php echo $site_title; ?>">
 	<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<link rel="apple-touch-icon" href="assets/favicons/apple-touch-icon.png">
+	<link rel="apple-touch-icon" href="favicons/apple-touch-icon.png">
 	<link rel="canonical" href="<?php echo $http_host; ?>down-for-maintenance/">
-	<link rel="icon" href="assets/favicons/favicon.ico" type="image/x-icon">
-	<link rel="icon" href="assets/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
-	<link rel="icon" href="assets/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
-	<link rel="manifest" href="assets/favicons/site.webmanifest" type="application/manifest+json">
-	<link rel="mask-icon" href="assets/favicons/safari-pinned-tab.svg" color="#eeb935">
+	<link rel="icon" href="favicons/favicon.ico" type="image/x-icon">
+	<link rel="icon" href="favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+	<link rel="icon" href="favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+	<link rel="manifest" href="favicons/site.webmanifest" type="application/manifest+json">
+	<link rel="mask-icon" href="favicons/safari-pinned-tab.svg" color="#eeb935">
 	<style <?php echo $inline_nonce_property; ?>>
 		main {
 			display: block;

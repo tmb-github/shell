@@ -4,40 +4,43 @@ include 'compile_reqs.inc.php';
 
 if ($update_site_webmanifest == true) {
 
+	$favicons_location = 'favicons/';
+	$favicons_location_length = strlen($favicons_location);
+
 	$site_webmanifest = '{' . PHP_EOL; 
 	$site_webmanifest .= '  "background_color": "' . $site_webmanifest_background_color . '",' . PHP_EOL; 
 	$site_webmanifest .= '  "description": "' . $site_webmanifest_description . '",' . PHP_EOL;
 	$site_webmanifest .= '  "display": "standalone",' . PHP_EOL;
 	$site_webmanifest .= '  "icons": [{' . PHP_EOL;
 
-// remove initial 'assets/favicons/':
-	$site_webmanifest .= '      "src": "' . substr($favicon_ico, 16) . '",' . PHP_EOL; 
+// remove initial 'favicons/':
+	$site_webmanifest .= '      "src": "' . substr($favicon_ico, $favicons_location_length) . '",' . PHP_EOL; 
 	$site_webmanifest .= '      "type": "image/x-icon",' . PHP_EOL; 
 	$site_webmanifest .= '      "sizes": "48x48"' . PHP_EOL; 
 	$site_webmanifest .= '    }, {' . PHP_EOL; 
 
-// remove initial 'assets/favicons/':
-	$site_webmanifest .= '      "src": "' . substr($maskable_icon_192x192_png, 16) . '",' . PHP_EOL; 
+// remove initial 'favicons/':
+	$site_webmanifest .= '      "src": "' . substr($maskable_icon_192x192_png, $favicons_location_length) . '",' . PHP_EOL; 
 	$site_webmanifest .= '      "sizes": "192x192",' . PHP_EOL; 
 	$site_webmanifest .= '      "type": "image/png",' . PHP_EOL; 
 	$site_webmanifest .= '      "purpose": "maskable"' . PHP_EOL;
 	$site_webmanifest .= '    }, {' . PHP_EOL; 
 
-// remove initial 'assets/favicons/':
-	$site_webmanifest .= '      "src": "' . substr($maskable_icon_512x512_png, 16) . '",' . PHP_EOL; 
+// remove initial 'favicons/':
+	$site_webmanifest .= '      "src": "' . substr($maskable_icon_512x512_png, $favicons_location_length) . '",' . PHP_EOL; 
 	$site_webmanifest .= '      "sizes": "512x512",' . PHP_EOL; 
 	$site_webmanifest .= '      "type": "image/png",' . PHP_EOL; 
 	$site_webmanifest .= '      "purpose": "maskable"' . PHP_EOL;
 	$site_webmanifest .= '    }, {' . PHP_EOL; 
 
-// remove initial 'assets/favicons/':
-	$site_webmanifest .= '      "src": "' . substr($android_chrome_192x192_png, 16) . '",' . PHP_EOL; 
+// remove initial 'favicons/':
+	$site_webmanifest .= '      "src": "' . substr($android_chrome_192x192_png, $favicons_location_length) . '",' . PHP_EOL; 
 	$site_webmanifest .= '      "sizes": "192x192",' . PHP_EOL; 
 	$site_webmanifest .= '      "type": "image/png"' . PHP_EOL; 
 	$site_webmanifest .= '    }, {' . PHP_EOL; 
 
-// remove initial 'assets/favicons/':
-	$site_webmanifest .= '      "src": "' . substr($android_chrome_512x512_png, 16) . '",' . PHP_EOL; 
+// remove initial 'favicons/':
+	$site_webmanifest .= '      "src": "' . substr($android_chrome_512x512_png, $favicons_location_length) . '",' . PHP_EOL; 
 	$site_webmanifest .= '      "sizes": "512x512",' . PHP_EOL; 
 	$site_webmanifest .= '      "type": "image/png"' . PHP_EOL; 
 	$site_webmanifest .= '    }],' . PHP_EOL; 
@@ -63,7 +66,7 @@ if ($update_site_webmanifest == true) {
 		$site_webmanifest = json_encode(json_decode($site_webmanifest));
 	}
 
-	$return_value = file_put_contents($absolute_root . 'assets/favicons/site.webmanifest', $site_webmanifest);
+	$return_value = file_put_contents($absolute_root . $assets_folder . 'favicons/site.webmanifest', $site_webmanifest);
 
 	$status_ok = ($return_value !== false);
 

@@ -9,9 +9,8 @@ if ($compile_css == true) {
 // Write to compiled.css the contents of all CSS files found in individual-imports.TEMPLATE.css
 
 	$html = '';
-	$individual_imports_template_css = $absolute_root . 'assets/css/individual-imports.TEMPLATE.css';
-
-	$compiled = $absolute_root . 'assets/css/compiled.css';
+	$individual_imports_template_css = $absolute_root . $assets_folder . 'css/individual-imports.TEMPLATE.css';
+	$compiled = $absolute_root . $assets_folder . 'css/compiled.css';
 	if (file_exists($compiled)) {
 		unlink($compiled);
 	}
@@ -29,7 +28,7 @@ if ($compile_css == true) {
 				$contents .= PHP_EOL;
 				$contents .= "******************/" . PHP_EOL;
 				$contents .= PHP_EOL;
-				$contents .= file_get_contents($absolute_root . 'assets/css/' . $css_filename[1]) . PHP_EOL;
+				$contents .= file_get_contents($absolute_root . $assets_folder . 'css/' . $css_filename[1]) . PHP_EOL;
 			}
 		}
 		fclose($file);

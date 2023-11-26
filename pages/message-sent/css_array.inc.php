@@ -1,2 +1,2 @@
 <?php
-$css_array = ['assets/css/pages/message-sent.css'];
+$css_array = ['css/pages/message-sent.css'];

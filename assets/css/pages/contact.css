@@ -224,7 +224,7 @@ To solve this for color transitions on text, use a filter on brightness and satu
 
 /*
 See: https://www.nelsonpires.com/development/protect-your-email-and-phone-number-from-spam-bots 
-See: assets/javascript/mjs/shared_contactAnchorEventListeners.mjs
+See: javascript/mjs/shared_contactAnchorEventListeners.mjs
 */
 
 .contact span.rev { 

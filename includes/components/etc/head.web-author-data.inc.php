@@ -94,8 +94,8 @@ $data_root_dir = ' data-root-dir="' . $root_dir . '"';
 **************/
 
 $timestamp = '19990221125549';
-if (file_exists($absolute_root . 'assets/favicons/site.webmanifest')) {
-	$file_m_time = filemtime($absolute_root . 'assets/favicons/site.webmanifest');
+if (file_exists($absolute_root . $assets_folder . 'favicons/site.webmanifest')) {
+	$file_m_time = filemtime($absolute_root . $assets_folder . 'favicons/site.webmanifest');
 	$timestamp = date("YmdHis", $file_m_time);
 }
 $data_timestamp = ' data-timestamp=' . $timestamp;

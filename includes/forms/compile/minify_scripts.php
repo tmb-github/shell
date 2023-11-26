@@ -22,17 +22,17 @@ if ($minify_scripts == true) {
 
 	if ($localhost === true) {
 
-		$folderPath = $absolute_root . 'assets/javascript/scripts';
+		$folderPath = $absolute_root . $assets_folder . 'javascript/scripts';
 // getAllSubfolders() is common function in functions.php
 		$subfolders = getAllSubfolders($folderPath);
 
 		foreach (($subfolders) as $subfolder) {
-			$full_subfolder_path = $absolute_root . 'assets/javascript/minified-scripts/' . $subfolder;
+			$full_subfolder_path = $absolute_root . $assets_folder . 'javascript/minified-scripts/' . $subfolder;
 			if (!file_exists($full_subfolder_path)) {
 // NB: 0777 is security permission: make executable
 				mkdir($full_subfolder_path, 0777);
 			} else {
-				$files = glob('assets/javascript/minified-scripts/' . $subfolder . '/*'); // get all file names
+				$files = glob($assets_folder . 'javascript/minified-scripts/' . $subfolder . '/*'); // get all file names
 				foreach($files as $file){ // iterate files
 				if(is_file($file))
 					unlink($file); // delete file
@@ -44,12 +44,12 @@ if ($minify_scripts == true) {
 		$min_js = [];
 
 		foreach (($subfolders) as $subfolder) {
-			$full_asset_path = $absolute_root . 'assets/javascript/scripts/' . $subfolder . '/*.js';
+			$full_asset_path = $absolute_root . $assets_folder . 'javascript/scripts/' . $subfolder . '/*.js';
 			foreach (glob($full_asset_path) as $filename) {
 				if (!endsWith($filename, '.min.js')) {
 					array_push($js, $filename);
 					$min = str_replace('.js', '.min.js', $filename);
-					$min = str_replace('assets/javascript/scripts/', 'assets/javascript/minified-scripts/', $min);
+					$min = str_replace('javascript/scripts/', 'javascript/minified-scripts/', $min);
 					array_push($min_js, $min);
 				}
 			}
@@ -57,7 +57,7 @@ if ($minify_scripts == true) {
 
 // $js     is array of all of the .js files 
 // $min_js is array of all of the .js files with the extension changed to .min.js
-// ...and with the destination directory set to assets/javascript/minified-scripts/'
+// ...and with the destination directory set to $assets_folder . 'javascript/minified-scripts/'
 
 		for ($i = 0; $i < count($js); $i++) {
 
@@ -101,14 +101,7 @@ if ($minify_scripts == true) {
 				$contents = preg_replace($pattern, '', $contents);
 
 // Get an autoversioning value corresponding to the current time:
-				$url = 'dummy.txt';
-				file_put_contents($url, 'abcdefghijklmnopqrstuvwxyz');
-				if (file_exists($url)) {
-					$date = date("YmdHis", filemtime($url));
-				} else {
-					$date = '19990221125549';
-				}
-				unlink($url);
+				$date = date('YmdHis', time());
 
 // If the js files we're processing reference modules in their unminified
 // state, we need to splice in .min before .mjs in each place they occur.
@@ -136,18 +129,18 @@ if ($minify_scripts == true) {
 // 2023-11-01:
 // qwer.htaccess
 // IMPORTANT: Note dot! /./
-				if ($source == $absolute_root . 'assets/javascript/scripts/./loader.js') {
-					$contents = str_replace("assets/javascript/scripts", "assets/javascript/minified-scripts", $contents);
+				if ($source == $absolute_root . $assets_folder . 'javascript/scripts/./loader.js') {
+					$contents = str_replace("javascript/scripts", "javascript/minified-scripts", $contents);
 				}
 // Safeguard against double .mins:
 				$contents = str_replace(".min.min.", ".min.", $contents);
 
-				$contents = str_replace("['assets/javascript/scripts", "['assets/javascript/minified-scripts", $contents);
-				$contents = str_replace('["assets/javascript/scripts', '["assets/javascript/minified-scripts', $contents);
+				$contents = str_replace("['javascript/scripts", "['javascript/minified-scripts", $contents);
+				$contents = str_replace('["javascript/scripts', '["javascript/minified-scripts', $contents);
 
 // Finally, replace each instance of "import('./" with "import('./minified-modules/":
 // NB: Within the JavaScript itself, minified-modules is a child folder. At the 
-// top of this routine, we have to spell out assets/javascript/minified-modules for the files
+// top of this routine, we have to spell out $assets_folder . javascript/minified-modules for the files
 // to be written to the right place:
 				$contents = str_replace("import('../modules/", "import('../minified-modules/", $contents);
 				$contents = str_replace('import("../modules/', 'import("../minified-modules/', $contents);

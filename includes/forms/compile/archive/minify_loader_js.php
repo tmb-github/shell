@@ -3,9 +3,10 @@
 echo 'Minifying loader.js . . .' . PHP_EOL;
 
 $absolute_root = $_SERVER['ABSOLUTE_ROOT'];
+$assets_folder = $_SERVER['ASSETS_FOLDER'];
 
-$source = $absolute_root . 'assets/javascript/loader.js';
-$destination = $absolute_root . 'assets/javascript/loader.min.js';
+$source = $absolute_root . $assets_folder . 'javascript/loader.js';
+$destination = $absolute_root . $assets_folder . 'javascript/loader.min.js';
 
 if (file_exists($source)) {
 	minify_with_closure_compiler($source, $destination);
@@ -26,19 +27,19 @@ if (file_exists($source)) {
 
 //$absolute_root = $_SERVER['ABSOLUTE_ROOT'];
 
-if (!file_exists($absolute_root . 'assets/javascript/minified-scripts')) {
+if (!file_exists($absolute_root . $assets_folder . 'javascript/minified-scripts')) {
 // NB: 0777 is security permission: make executable
-	mkdir($absolute_root . 'assets/javascript/minified-scripts', 0777);
+	mkdir($absolute_root . $assets_folder . 'javascript/minified-scripts', 0777);
 } else {
-	$files = glob('assets/javascript/minified-scripts/*'); // get all file names
+	$files = glob($assets_folder . 'javascript/minified-scripts/*'); // get all file names
 	foreach($files as $file){ // iterate files
 	if(is_file($file))
 		unlink($file); // delete file
 	}
 }
 
-$source = $absolute_root . 'assets/javascript/scripts/loader.js';
-$destination = $absolute_root . 'assets/javascript/minified-scripts/loader.min.js';
+$source = $absolute_root . $assets_folder . 'javascript/scripts/loader.js';
+$destination = $absolute_root . $assets_folder . 'javascript/minified-scripts/loader.min.js';
 
 if (file_exists($source)) {
 
@@ -69,14 +70,7 @@ if (file_exists($source)) {
 	$contents = str_replace(".min.min.", ".min.", $contents);
 
 // Get an autoversioning value corresponding to the current time:
-	$url = 'dummy.txt';
-	file_put_contents($url, 'abcdefghijklmnopqrstuvwxyz');
-	if (file_exists($url)) {
-		$date = date("YmdHis", filemtime($url));
-	} else {
-		$date = '19990221125549';
-	}
-	unlink($url);
+	$date = date('YmdHis', time());
 
 // The mjs files we're processing reference other modules in their unminified
 // state, so we need to splice in .min before .mjs in each place they occur.
@@ -96,7 +90,7 @@ if (file_exists($source)) {
 
 // Finally, replace each instance of "import('./" with "import('./minified-modules/":
 // NB: Within the JavaScript itself, minified-modules is a child folder. At the 
-// top of this routine, we have to spell out assets/javascript/minified-modules for the files
+// top of this routine, we have to spell out javascript/minified-modules for the files
 // to be written to the right place:
 		$contents = str_replace("import('./", "import('./minified-modules/", $contents);
 		$contents = str_replace('import("./', 'import("./minified-modules/', $contents);
@@ -106,8 +100,8 @@ if (file_exists($source)) {
 // THIS APPARENTLY HAS NO EFFECT...REASON UNKNOWN.
 // ACTUAL SOLUTION IN minify_scripts.php...relative path to the loader file
 // was failing; absolute path was needed.
-		$contents = str_replace("({src: 'assets/javascript/scripts/", "({src: 'assets/javascript/minified-scripts/", $contents);
-		$contents = str_replace('({src: "assets/javascript/scripts/', '({src: "assets/javascript/minified-scripts/', $contents);
+		$contents = str_replace("({src: " . $assets_folder . "javascript/scripts/", "({src: " . $assets_folder . "javascript/minified-scripts/", $contents);
+		$contents = str_replace('({src: ' . $assets_folder . 'javascript/scripts/', '({src: ' . $assets_folder . 'javascript/minified-scripts/', $contents);
 
 
 // Safeguard against double minified-modules:

@@ -1,2 +1,2 @@
 <?php
-$css_array = ['assets/css/pages/privacy-policy.css'];
+$css_array = ['css/pages/privacy-policy.css'];
