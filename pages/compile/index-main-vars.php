@@ -11,4 +11,4 @@ include $absolute_root . 'includes/common/domain_info.php';
 $slug = 'compile';
 $page = $slug;
 $schema_name = ucwords(str_replace('-', ' ', $slug));
-$title = $schema_name . ' | ' . $site_title;
+$title = $schema_name . ' | Admin | ' . $site_title;

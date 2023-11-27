@@ -286,6 +286,7 @@ if ($_SESSION['minify'] == true) {
 
 // Add the page-specific CSS, using the $page variable to identify the CSS file:
 
+
 // 2023-10-29
 // qwer:htaccess
 // OLD: $css_array_inc = $absolute_root . $page . '/css_array.inc.php';

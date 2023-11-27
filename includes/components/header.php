@@ -174,8 +174,6 @@ if ($clickable_mobile_logo == true) {
 }
 ?>
 	<div class=transparent-mask role=presentation></div>
-<?php /*	<div class=drawer> */ ?>
-<?php /* #header-nav ID is used by the JavaScript to add and remove .selected class from anchors */ ?>
 	<nav class=nav id=header-nav aria-labelledby=navigation-heading>
 		<h2 class=screen-reader id=navigation-heading>Site Navigation</h2>
 		<ul class=primary-ul>
@@ -237,9 +235,35 @@ if (!isset($_SESSION['authenticated']) || ($_SESSION['authenticated'] != 'true')
 <?php
 }
 
-if (isset($_SESSION['authenticated']) && ($_SESSION['authenticated'] == true)) {
-	$switcher_name = 'Admin Tools';
-	$switcher_id = 'admin-tools';
+if (isset($_SESSION['authenticated']) && ($_SESSION['authenticated'] == 'true')) {
+
+/*
+// The version for pages that are in subfolders off a main folder may be used
+// for standard pages off the root. But the logic for working out the correct
+// <title> (with Compile | Admin | Shell, along with what's needed in META tags
+// in the <head>) as well as the breadcrumbs, hasn't been worked out. Special
+// logic was devised for the Gallery and Theme pages of the art site. At some
+// point, a better solution for this is needed. 
+
+	$switcher_name = 'Admin';
+	$switcher_id = 'admin';
+	$ul_class = 'secondary-ul admin';
+
+	$page_array = [
+		['', 'compile', 'Compile', 'menu-side-one'],
+		['', 'bad-request-test', 'Bad Request', 'menu-side-one'],
+		['', 'private', 'Forbidden', 'menu-side-one'],
+		['', 'does-not-exist', 'Not Found', 'menu-side-one'],
+		['', 'server-error-test', 'Server Error', 'menu-side-one'],
+		['', 'logout', 'Logout', 'menu-side-one']
+	];
+
+	include $absolute_root . 'includes/components/etc/header.secondary-ul-for-pages-in-subfolders.inc.php';
+
+*/
+
+	$switcher_name = 'Admin';
+	$switcher_id = 'admin';
 	$side_switcher_id = 'side-switcher-1';
 	$main_menu_id = 'main-menu-1';
 	$page_array = [
@@ -247,12 +271,15 @@ if (isset($_SESSION['authenticated']) && ($_SESSION['authenticated'] == true)) {
 		'Bad Request' => 'bad-request-test', 
 		'Forbidden' => 'private',
 		'Not Found' => 'does-not-exist',
-		'Server Error' => 'server-error-test', 
+		'Server Error' => 'server-error-test',
+		'Bad Request' => 'bad-request-test', 
 		'Logout' => 'logout'
 	];
 
 	include $absolute_root . 'includes/components/etc/header.secondary-ul.inc.php';
+
 }
+
 ?>
 		</ul>
 		<div class=progress-line></div>

@@ -215,6 +215,7 @@ ajaxMainContent = function (hrefText, target, backbutton, eventType) {
 			var switcheroo;
 
 			function setInnerHTML(element, html) {
+
 				if (element && element.parentNode) {
 					element.parentNode.removeChild(element);
 // 2022-09-05:

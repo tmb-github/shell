@@ -29,7 +29,7 @@ render_custom_style_elements($page);
 <?php
 if ($contact_form_version == false) {
 ?>
-	<h2 class="text-align-center font-size-125rem">We’d love to hear from you. Please write or call us about buying an existing work or commissioning something new.</h2>
+	<h2 class="text-align-center font-size-125rem">We’d love to hear from you. Please write or call us.</h2>
 	<br>
 	<p class="text-align-center font-size-125rem"><a class=phone href="#"><span class="rev phone">543</span></a></p>
 	<p class="text-align-center font-size-125rem"><a class=email href="#"><span class="rev email">ma</span></a></p>
