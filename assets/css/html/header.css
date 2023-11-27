@@ -336,6 +336,11 @@ only for the mobile mode that's being applied to desktop display, and I can't
 ** shorter UL.                                             **
 ************************************************************/
 
+/* Ensure last item in list has border at bottom: */
+	.header .nav li:last-child div {
+		border-bottom: 1px solid var(--dark-gray);
+	}
+
 	.header .nav ul {
 /* qwer */
 		background: var(--menu-background-color);

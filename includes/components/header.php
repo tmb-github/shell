@@ -227,57 +227,6 @@ if ($_SERVER['HTTP_HOST'] == 'localhost') {
 					<div class="home-text-link internal-anchor">Home</div>
 				</a>
 			</li>
-<?php /*
-// List actual pages starting here:
-			<li data-page=endpoints data-href=endpoints class=menu-side-one><a class=internal-anchor href="endpoints/" tabindex=-1>Endpoints</a></li>
-			<li data-page=playlists data-href=playlists class=menu-side-one><a class=internal-anchor href="playlists/" tabindex=-1>Playlists</a></li>
-*/ ?>
-<?php
-
-	$switcher_name = 'Additional Pages';
-	$switcher_id = 'additional-pages';
-// This must be 'side-switcher-' followed by a unique character:
-	$side_switcher_id = 'side-switcher-1';
-	$main_menu_id = 'main-menu-1';
-// $page_name => $page_slug:
-	$page_array = [];
-/*
-	$page_array = [
-		'Dummy 3' => 'dummy-3',
-		'Dummy 4' => 'dummy-4', 
-		'Dummy 5' => 'dummy-5',
-	];
-*/
-
-	include $absolute_root . 'includes/components/etc/header.secondary-ul.inc.php';
-/*
-	$switcher_name = 'Additional Pages 2';
-	$switcher_id = 'additional-pages-2';
-// This must be 'side-switcher-' followed by a unique character:
-	$side_switcher_id = 'side-switcher-2';
-	$main_menu_id = 'main-menu-2';
-// $page_name => $page_slug:
-	$page_array = [
-		'Dummy 13' => 'dummy-13',
-		'Dummy 14' => 'dummy-14', 
-		'Dummy 15' => 'dummy-15'
-	];
-	include $absolute_root . 'includes/components/etc/header.secondary-ul.inc.php';
-
-	$switcher_name = 'Additional Pages 3';
-	$switcher_id = 'additional-pages-3';
-// This must be 'side-switcher-' followed by a unique character:
-	$side_switcher_id = 'side-switcher-3';
-	$main_menu_id = 'main-menu-3';
-// $page_name => $page_slug:
-	$page_array = [
-		'Dummy 23' => 'dummy-23',
-		'Dummy 24' => 'dummy-24', 
-		'Dummy 25' => 'dummy-25'
-	];
-	include $absolute_root . 'includes/components/etc/header.secondary-ul.inc.php';
-*/
-?>
 			<li data-page=dummy data-href=dummy class=menu-side-one><a class=internal-anchor href="dummy/" tabindex=-1>Dummy</a></li>
 			<li data-page=google-fonts data-href=google-fonts class=menu-side-one><a class=internal-anchor href="google-fonts/" tabindex=-1>Google Fonts</a></li>
 			<li data-page=contact data-href=contact class="menu-side-one orange ripple"><a class="bold-on-selected internal-anchor no-border-bottom" href="contact/" tabindex=-1>Contact</a></li>
@@ -287,15 +236,22 @@ if (!isset($_SESSION['authenticated']) || ($_SESSION['authenticated'] != 'true')
 			<li data-page=login data-href=login class=menu-side-one><a class=internal-anchor href="login/" tabindex=-1>Login</a></li>
 <?php
 }
-if (isset($_SESSION['authenticated']) && ($_SESSION['authenticated'] == 'true')) {
-?>
-			<li data-page=compile data-href=compile class=menu-side-one><a class=internal-anchor href="compile/" tabindex=-1>Compile</a></li>
-			<li data-page=bad-request-test data-href=bad-request-test class=menu-side-one><a class=internal-anchor href="bad-request-test/" tabindex=-1>Bad Request</a></li>
-			<li data-page=private data-href=private class=menu-side-one><a class=internal-anchor href="private/" tabindex=-1>Forbidden</a></li>
-			<li data-page=does-not-exist data-href=does-not-exist class=menu-side-one><a class=internal-anchor href="does-not-exist/" tabindex=-1>Not Found</a></li>
-			<li data-page=server-error-test data-href=server-error-test class=menu-side-one><a class=internal-anchor href="server-error-test/" tabindex=-1>Server Error</a></li>
-			<li data-page=logout data-href=logout class=menu-side-one><a class=internal-anchor href="logout/" tabindex=-1>Logout</a></li>
-<?php
+
+if (isset($_SESSION['authenticated']) && ($_SESSION['authenticated'] == true)) {
+	$switcher_name = 'Admin Tools';
+	$switcher_id = 'admin-tools';
+	$side_switcher_id = 'side-switcher-1';
+	$main_menu_id = 'main-menu-1';
+	$page_array = [
+		'Compile' => 'compile',
+		'Bad Request' => 'bad-request-test', 
+		'Forbidden' => 'private',
+		'Not Found' => 'does-not-exist',
+		'Server Error' => 'server-error-test', 
+		'Logout' => 'logout'
+	];
+
+	include $absolute_root . 'includes/components/etc/header.secondary-ul.inc.php';
 }
 ?>
 		</ul>
