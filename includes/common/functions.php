@@ -31,19 +31,19 @@ function generate_title_from_request_uri($site_title) {
 	$reversed_folder_array = array_reverse($folder_array);
 
 	$base_folder = str_replace("/", "", $_SERVER['BASE_PATH']);
-	$new_folder_array = [];
+	$folder_name = [];
 
 	foreach ($reversed_folder_array as $folder) {
 // exclude empty entries and localhost base_path folder name:
 		if (($folder !== '') && ($folder !== $base_folder) && ($folder !== 'main.php')) {
-			$hyphenated = str_replace("-", " ", $folder);
-			$uppercased = ucwords($hyphenated);
-			array_push($new_folder_array, $uppercased);
+			$dehyphenated = str_replace("-", " ", $folder);
+			$uppercased = ucwords($dehyphenated);
+			array_push($folder_name, $uppercased);
 		}
 	}
-	array_push($new_folder_array, $site_title);
+	array_push($folder_name, $site_title);
 
-	$title = implode(" | ", $new_folder_array);
+	$title = implode(" | ", $folder_name);
 
 	return $title;
 

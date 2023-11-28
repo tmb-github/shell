@@ -84,7 +84,7 @@ render_custom_style_elements('compile');
 	</form>
 
 <?php
-include $absolute_root . 'includes/components/etc/main.breadcrumb-schema.inc.php';
+include $absolute_root . 'includes/components/breadcrumb_schema.php';
 ?>
 </main>
 <?php
