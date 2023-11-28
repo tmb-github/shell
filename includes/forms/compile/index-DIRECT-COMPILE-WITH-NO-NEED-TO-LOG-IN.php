@@ -37,6 +37,7 @@ if (isset($_SESSION['authenticated']) && ($_SESSION['authenticated'] == 'true'))
 	include $absolute_root . 'includes/google-closure-compiler/src/exceptions.php';
 
 	include $absolute_root . 'includes/common/domain_info.php';
+include_once $absolute_root . 'includes/common/functions.php';
 // This will include 'includes/common/functions.php':
 	include $absolute_root . 'includes/common/routines.php';
 

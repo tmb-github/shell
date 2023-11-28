@@ -2,6 +2,7 @@
 
 $absolute_root = $_SERVER['ABSOLUTE_ROOT'];
 include $absolute_root . 'includes/common/domain_info.php';
+include_once $absolute_root . 'includes/common/functions.php';
 include $absolute_root . 'includes/common/routines.php';
 
 // The error messages will be part of the query string, but perhaps we can

@@ -24,6 +24,31 @@ function last_slug($url) {
 TODO: See if we're using the old error page at all...should the new 404 page be the error page?
 */
 
+// 2023-11-27
+function generate_title_from_request_uri($site_title) {
+
+	$folder_array = explode("/", $_SERVER['REQUEST_URI']);
+	$reversed_folder_array = array_reverse($folder_array);
+
+	$base_folder = str_replace("/", "", $_SERVER['BASE_PATH']);
+	$new_folder_array = [];
+
+	foreach ($reversed_folder_array as $folder) {
+// exclude empty entries and localhost base_path folder name:
+		if (($folder !== '') && ($folder !== $base_folder) && ($folder !== 'main.php')) {
+			$hyphenated = str_replace("-", " ", $folder);
+			$uppercased = ucwords($hyphenated);
+			array_push($new_folder_array, $uppercased);
+		}
+	}
+	array_push($new_folder_array, $site_title);
+
+	$title = implode(" | ", $new_folder_array);
+
+	return $title;
+
+}
+
 // qwer:htaccess
 // Used in compile routines for .js and .mjs folders:
 function getAllSubfolders($folder) {

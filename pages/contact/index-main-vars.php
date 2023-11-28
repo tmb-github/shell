@@ -7,8 +7,9 @@
 // $title = <title> text, 60 characters max
 
 include $absolute_root . 'includes/common/domain_info.php';
+include_once $absolute_root . 'includes/common/functions.php';
 
 $slug = 'contact';
 $page = $slug;
 $schema_name = ucwords(str_replace('-', ' ', $slug));
-$title = $schema_name . ' | ' . $site_title;
+$title = generate_title_from_request_uri($site_title);
