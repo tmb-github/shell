@@ -13,9 +13,7 @@ $main_classes = $page . " main custom-style-elements";
 
 <main class="<?php echo $main_classes; ?>" data-page="<?php echo $page; ?>" data-title="<?php echo $title; ?>">
 <?php
-
-render_custom_style_elements($page);
-
+render_custom_style_elements();
 ?>
 	<h1 class=font-style-italic id=main-content tabindex=0>Hey, we're offline...</h1>
 	<h2 class="font-size-125rem font-style-italic text-align-center">This may just work: Try going to the <a href="./">home page</a> of the site.</h2>

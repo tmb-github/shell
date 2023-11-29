@@ -19,10 +19,30 @@ function last_slug($url) {
 }
 */
 
-/*
-2022-03-05
-TODO: See if we're using the old error page at all...should the new 404 page be the error page?
-*/
+
+function generate_page_location_from_requerst_uri() {
+
+	$folder_array = explode("/", $_SERVER['REQUEST_URI']);
+	$base_folder = str_replace("/", "", $_SERVER['BASE_PATH']);
+
+	$page_location = '';
+	foreach ($folder_array as $folder) {
+// exclude empty entries and localhost base_path folder name:
+		if (($folder !== '') && ($folder !== $base_folder) && ($folder !== 'main.php')) {
+			$page_location .= $folder . '/';
+		}
+	}
+
+// Trim off final slash if it exists:
+	$page_location = rtrim($page_location, '/');
+
+	if ($page_location == '') {
+		$page_location = 'home';
+	}
+
+	return $page_location;
+
+}
 
 // 2023-11-27
 function generate_title_from_request_uri($site_title) {
@@ -62,11 +82,16 @@ function getAllSubfolders($folder) {
 		if ($dir->isDir()) {
 // Remove the initial part of the path
 			$relativePath = str_replace($folder, '', $path);
+// NEW: We need to convert \ to / on Windows:
+// Replace backslashes with forward slashes
+			$relativePath = str_replace('\\', '/', $relativePath);
 // Remove leading directory separator if present
-			$relativePath = ltrim($relativePath, DIRECTORY_SEPARATOR);
+			$relativePath = ltrim($relativePath, '/');
+// OLD: $relativePath = ltrim($relativePath, DIRECTORY_SEPARATOR);
 			$subfolders[] = $relativePath;
 		}
 	}
+
 	return $subfolders;
 }
 
@@ -132,7 +157,9 @@ function render_initial_page_style_element($page, $css_array) {
 
 
 // OLD: function render_custom_style_elements($includes_folder) {
-function render_custom_style_elements($folder) {
+function render_custom_style_elements() {
+
+	$folder = generate_page_location_from_requerst_uri();
 
 // css_array.inc.php used here and in includes/components/head.php:
 

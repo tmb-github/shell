@@ -2,28 +2,29 @@
 
 include 'compile_reqs.inc.php';
 
+function escapeNonHTML($matches) {
+	return $matches[1] . str_replace("'", "\'", $matches[2]) . $matches[3];
+}
+
+function revise($templateString) {
+	$escapedString = preg_replace_callback('/(`.*?`)/s', function($matches) {
+		$templateString = preg_replace('/\R\s*/', '', $matches[0]);
+		$templateString = str_replace('`', '\'', $templateString);
+		return preg_replace_callback('/(<[^>]*>)([^<>]*)(<\/[^>]*>)/', 'escapeNonHTML', $templateString);
+	}, $templateString);
+	$escapedString = trim($escapedString, "'");
+	$escapedString = str_replace("\'", "ROALDDAHLP!ENGUIN", $escapedString);
+	$escapedString = str_replace("'", "\'", $escapedString);
+	$escapedString = str_replace("ROALDDAHLP!ENGUIN", "\'", $escapedString);
+	return "'" . $escapedString . "'";
+}
+
+
 if ($minify_modules == true) {
 	$html = '';
 
 // TOGGLE ON AND OFF:
 	$convert_template_strings = true;
-
-	function escapeNonHTML($matches) {
-		return $matches[1] . str_replace("'", "\'", $matches[2]) . $matches[3];
-	}
-
-	function revise($templateString) {
-		$escapedString = preg_replace_callback('/(`.*?`)/s', function($matches) {
-			$templateString = preg_replace('/\R\s*/', '', $matches[0]);
-			$templateString = str_replace('`', '\'', $templateString);
-			return preg_replace_callback('/(<[^>]*>)([^<>]*)(<\/[^>]*>)/', 'escapeNonHTML', $templateString);
-		}, $templateString);
-		$escapedString = trim($escapedString, "'");
-		$escapedString = str_replace("\'", "ROALDDAHLP!ENGUIN", $escapedString);
-		$escapedString = str_replace("'", "\'", $escapedString);
-		$escapedString = str_replace("ROALDDAHLP!ENGUIN", "\'", $escapedString);
-		return "'" . $escapedString . "'";
-	}
 
 ///////////////////////////////
 // ONLY COMPILE ON LOCALHOST //
@@ -68,6 +69,20 @@ if ($minify_modules == true) {
 // $mjs     is array of all of the .mjs module files 
 // $min_mjs is array of all of the .mjs module files with the extension changed to .min.mjs
 // ...and with the destination directory set to $assets_folder . 'javascript/minified-modules/'
+
+// The getAllSubfolders() routine results in perfectly serviceable addresses
+// but at the same time unsightly /./ sequences in them. So, before going ahead:
+//
+// Convert: C:/xampp/htdocs/shell/assets/javascript/minified-modules/./appendToCssClosure.min.mjs',
+// To:      C:/xampp/htdocs/shell/assets/javascript/minified-modules/appendToCssClosure.min.mjs',
+
+		foreach ($mjs as &$module) {
+			$module = str_replace('/./', '/', $module);
+		}
+
+		foreach ($min_mjs as &$min_module) {
+			$min_module = str_replace('/./', '/', $min_module);
+		}
 
 		for ($i = 0; $i < count($mjs); $i++) {
 
@@ -449,7 +464,6 @@ if ($minify_modules == true) {
 		$html .= '<strong>Then and only then compile the live site.</strong><br>';
 		$html .= '<br>';
 	}
-
 	$status_ok = true;
 	if ($status_ok) {
 		$message = $html . 'Done.';

@@ -68,9 +68,7 @@ if ($_SERVER['HTTP_HOST'] == 'localhost') {
 
 <main class="<?php echo $main_classes; ?>" data-page="<?php echo $page; ?>" data-title="<?php echo $title; ?>">
 <?php
-
-render_custom_style_elements($page);
-
+render_custom_style_elements();
 ?>
 	<div id=top>
 		<h1>Site Map</h1>

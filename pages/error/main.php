@@ -20,7 +20,7 @@ if (!isset($redirect) || empty($redirect)) {
 
 <?php
 
-render_custom_style_elements($page);
+render_custom_style_elements();
 
 // default:
 $error = "";

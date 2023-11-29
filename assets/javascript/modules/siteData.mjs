@@ -125,10 +125,10 @@ siteData = {
 		},
 */
 		'bad-request-test': {
-			mjs: './badRequestTest.mjs'
+			mjs: './admin/badRequestTest.mjs'
 		},
 		'compile': {
-			mjs: './compile.mjs'
+			mjs: './admin/compile.mjs'
 		},
 		'contact': {
 			mjs: './contact.mjs'
@@ -152,7 +152,7 @@ siteData = {
 			mjs: './playlists.mjs'
 		},
 		'login': {
-			mjs: './login.mjs'
+			mjs: './admin/login.mjs'
 		},
 		'message-sent': {
 			mjs: './messageSent.mjs'
@@ -164,7 +164,7 @@ siteData = {
 			mjs: './privacyPolicy.mjs'
 		},
 		'server-error-test': {
-			mjs: './serverErrorTest.mjs'
+			mjs: './admin/serverErrorTest.mjs'
 		},
 		'site-map': {
 			mjs: './siteMap.mjs'

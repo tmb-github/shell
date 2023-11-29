@@ -231,7 +231,7 @@ if ($_SERVER['HTTP_HOST'] == 'localhost') {
 <?php
 if (!isset($_SESSION['authenticated']) || ($_SESSION['authenticated'] != 'true')) {
 ?>
-			<li data-page=login data-href=login class=menu-side-one><a class=internal-anchor href="login/" tabindex=-1>Login</a></li>
+			<li data-page=login data-href=login class=menu-side-one><a class=internal-anchor href="admin/login/" tabindex=-1>Login</a></li>
 <?php
 }
 
@@ -267,13 +267,15 @@ if (isset($_SESSION['authenticated']) && ($_SESSION['authenticated'] == 'true'))
 	$side_switcher_id = 'side-switcher-1';
 	$main_menu_id = 'main-menu-1';
 	$page_array = [
-		'Compile' => 'compile',
-		'Bad Request' => 'bad-request-test', 
+		'Compile' => 'admin/compile',
+		'Bad Request' => 'admin/bad-request-test', 
 		'Forbidden' => 'private',
-		'Not Found' => 'does-not-exist',
-		'Server Error' => 'server-error-test',
-		'Bad Request' => 'bad-request-test', 
-		'Logout' => 'logout'
+		'Not Found' => 'admin/does-not-exist',
+		'Server Error' => 'admin/server-error-test',
+		'Bad Request' => 'admin/bad-request-test', 
+		'Help' => 'admin/help', 
+		'Server' => 'admin/server', 
+		'Logout' => 'admin/logout'
 	];
 
 	include $absolute_root . 'includes/components/etc/header.secondary-ul.inc.php';

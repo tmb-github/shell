@@ -59,13 +59,13 @@ foreach($json_data as $attribute)  {
 <?php
 if (isset($_SESSION['authenticated']) && ($_SESSION['authenticated'] == 'true')) {
 ?>
-			<li><a class="internal-anchor logout" href="logout/" rel="nofollow">Logout</a></li>
+			<li><a class="internal-anchor logout" href="admin/logout/" rel="nofollow">Logout</a></li>
 <?php
 } else {
 	$display_login = false;
 	if ($display_login) {
 ?>
-			<li><a class="internal-anchor login" href="login/" rel="nofollow">Login</a></li>
+			<li><a class="internal-anchor login" href="admin/login/" rel="nofollow">Login</a></li>
 <?php
 	}
 }

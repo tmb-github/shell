@@ -284,16 +284,12 @@ if ($_SESSION['minify'] == true) {
 ** Page-specific CSS: **
 ************************/
 
+$page_location = generate_page_location_from_requerst_uri();
+
 // Add the page-specific CSS, using the $page variable to identify the CSS file:
 
-
-// 2023-10-29
-// qwer:htaccess
-// OLD: $css_array_inc = $absolute_root . $page . '/css_array.inc.php';
-$css_array_inc = $absolute_root . 'pages/' . $page . '/css_array.inc.php';
-
-//echo $css_array_inc;
-//exit;
+//OLD: $css_array_inc = $absolute_root . 'pages/' . $page . '/css_array.inc.php';
+$css_array_inc = $absolute_root . 'pages/' . $page_location . '/css_array.inc.php';
 
 if (file_exists($css_array_inc)) {
 	include $css_array_inc;

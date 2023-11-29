@@ -59,15 +59,25 @@ if ($minify_scripts == true) {
 // $min_js is array of all of the .js files with the extension changed to .min.js
 // ...and with the destination directory set to $assets_folder . 'javascript/minified-scripts/'
 
+// The getAllSubfolders() routine results in perfectly serviceable addresses
+// but at the same time unsightly /./ sequences in them. So, before going ahead:
+//
+// Convert: C:/xampp/htdocs/shell/assets/javascript/minified-scripts/./appendToCssClosure.min.js',
+// To:      C:/xampp/htdocs/shell/assets/javascript/minified-scripts/appendToCssClosure.min.js',
+
+		foreach ($js as &$javascript) {
+			$javascript = str_replace('/./', '/', $javascript);
+		}
+
+		foreach ($min_js as &$min_javascript) {
+			$min_javascript = str_replace('/./', '/', $min_javascript);
+		}
+
+
 		for ($i = 0; $i < count($js); $i++) {
 
 			$source = $js[$i];
 			$destination = $min_js[$i];
-
-// 2023-11-01
-// replace "/./" with "/" in source and destination:
-//	$source = str_replace("/./", "/", $source);
-//	$destination = str_replace("/./", "/", $source);
 
 // 2021-03-08:
 // This caused the routine on localhost on MAC to complain, reason unknown:
@@ -126,10 +136,8 @@ if ($minify_scripts == true) {
 				$contents = str_replace(".min.js'", ".min." . $date . ".js'", $contents);
 				$contents = str_replace('.min.js"', '.min.' . $date . '.js"', $contents);
 
-// 2023-11-01:
-// qwer.htaccess
-// IMPORTANT: Note dot! /./
-				if ($source == $absolute_root . $assets_folder . 'javascript/scripts/./loader.js') {
+// Replace /scripts/ with /minified-scripts/ in the loader:
+				if ($source == $absolute_root . $assets_folder . 'javascript/scripts/loader.js') {
 					$contents = str_replace("javascript/scripts", "javascript/minified-scripts", $contents);
 				}
 // Safeguard against double .mins:
