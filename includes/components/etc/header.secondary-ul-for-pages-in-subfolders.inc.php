@@ -25,4 +25,3 @@ foreach ($page_array as $p) {
 			</li>
 <?php
 }
-?>

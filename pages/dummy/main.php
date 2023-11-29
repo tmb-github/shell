@@ -31,4 +31,3 @@ include $absolute_root . 'includes/components/breadcrumb_schema.php';
 </main>
 <?php
 include $absolute_root . 'includes/components/etc/main.ending.inc.php';
-?>

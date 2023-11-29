@@ -40,4 +40,3 @@ if ($log_visitors == true) {
 	file_put_contents($filename, $info, FILE_APPEND);
 
 }
-?>

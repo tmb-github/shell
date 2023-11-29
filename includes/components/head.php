@@ -300,4 +300,3 @@ if (file_exists($css_array_inc)) {
 $html = ob_get_contents();
 ob_end_clean();
 echo $html;
-?>

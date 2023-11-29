@@ -84,4 +84,3 @@ $html = ob_get_contents();
 ob_end_clean();
 $html = preg_replace("/[\r\n]+/", "\n\t", $html);
 echo $html;
-?>

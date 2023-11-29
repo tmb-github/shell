@@ -25,4 +25,3 @@ if ($_SESSION['minify'] == true) {
 ob_end_clean();
 echo $html;
 
-?>

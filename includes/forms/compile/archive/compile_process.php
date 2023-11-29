@@ -9,4 +9,3 @@ session_start([
 		print_r('true');
 //		print_r('false');
 
-?>

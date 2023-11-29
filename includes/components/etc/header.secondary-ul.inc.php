@@ -59,4 +59,3 @@ foreach ($page_array as $page_name => $page_slug) {
 			</li>
 <?php
 }
-?>

@@ -41,4 +41,3 @@ echo '</pre>';
 	header('Location: ' . $_SERVER['BASE_PATH'] . 'login/');
 
 }
-?>

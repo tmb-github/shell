@@ -169,4 +169,3 @@ echo '=====================' . PHP_EOL;
 	header('Location: ' . $_SERVER['BASE_PATH']);
 
 }
-?>

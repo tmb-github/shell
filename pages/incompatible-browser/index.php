@@ -377,4 +377,3 @@ if ($minify == true) {
 	ob_end_clean();
 	echo $html_top . $css . $html_bottom;
 }
-?>

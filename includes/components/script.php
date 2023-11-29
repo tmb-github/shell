@@ -158,4 +158,3 @@ $html = str_ireplace($script_open_tag, '<script ' . $inline_nonce_property . ' i
 */
 
 echo $html;
-?>
