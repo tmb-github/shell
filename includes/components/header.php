@@ -159,12 +159,12 @@ if ($clickable_mobile_logo == true) {
 	} else {
 		$home = '/';
 	}
-		echo '				<a href="' . $home . '" class="internal-anchor mobile-logo-icon" tabindex=-1>' . PHP_EOL;
+		echo '	<a href="' . $home . '" class="internal-anchor mobile-logo-icon" tabindex=-1>' . PHP_EOL;
 		$img_attribute_array['title'] = 'Navigate to Home Page';
-		$tabs = 6;
+		$tabs = 3;
 		echo picture_or_img_element($picture, $variable_size, $img_url, $img_widths, $multipliers, $sizes, $picture_attribute_array, $img_attribute_array, $tabs, $lazyload, $social_share);
-		echo '					<span class=screen-reader>Home</span>' . PHP_EOL;
-		echo '				</a>' . PHP_EOL;
+		echo '		<span class=screen-reader>Home</span>' . PHP_EOL;
+		echo '	</a>' . PHP_EOL;
 
 } else {
 
@@ -274,7 +274,6 @@ if (isset($_SESSION['authenticated']) && ($_SESSION['authenticated'] == 'true'))
 		'Server Error' => 'admin/server-error-test',
 		'Bad Request' => 'admin/bad-request-test', 
 		'Help' => 'admin/help', 
-		'Server' => 'admin/server', 
 		'Logout' => 'admin/logout'
 	];
 

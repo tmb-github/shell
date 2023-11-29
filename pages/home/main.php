@@ -13,7 +13,9 @@ $main_classes = $page . " shell main custom-style-elements";
 
 <main class="<?php echo $main_classes; ?>" data-page="<?php echo $page; ?>" data-title="<?php echo $title; ?>">
 <?php
+
 render_custom_style_elements();
+
 ?>
 	<h1 id=main-content tabindex=0>Shell</h1>
 	<hr>

@@ -21,7 +21,9 @@ $contact_form_version = false;
 
 <main class="<?php echo $main_classes; ?>" data-page="<?php echo $page; ?>" data-title="<?php echo $title; ?>">
 <?php
+
 render_custom_style_elements();
+
 ?>
 	<h1 id=main-content tabindex=0>Send Smoke Signals!</h1>
 <?php
