@@ -93,6 +93,7 @@ function getAllSubfolders($folder) {
 	}
 
 	return $subfolders;
+
 }
 
 
@@ -156,10 +157,11 @@ function render_initial_page_style_element($page, $css_array) {
 }
 
 
-// OLD: function render_custom_style_elements($includes_folder) {
-function render_custom_style_elements() {
+function render_custom_style_elements($folder = "") {
 
-	$folder = generate_page_location_from_requerst_uri();
+	if ($folder == "") {
+		$folder = generate_page_location_from_requerst_uri();
+	}
 
 // css_array.inc.php used here and in includes/components/head.php:
 
