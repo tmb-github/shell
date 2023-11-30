@@ -225,9 +225,14 @@ if ($_SERVER['HTTP_HOST'] == 'localhost') {
 					<div class="home-text-link internal-anchor">Home</div>
 				</a>
 			</li>
+
+
 			<li data-page=dummy data-href=dummy class=menu-side-one><a class=internal-anchor href="dummy/" tabindex=-1>Dummy</a></li>
 			<li data-page=google-fonts data-href=google-fonts class=menu-side-one><a class=internal-anchor href="google-fonts/" tabindex=-1>Google Fonts</a></li>
 			<li data-page=contact data-href=contact class="menu-side-one orange ripple"><a class="bold-on-selected internal-anchor no-border-bottom" href="contact/" tabindex=-1>Contact</a></li>
+
+
+
 <?php
 if (!isset($_SESSION['authenticated']) || ($_SESSION['authenticated'] != 'true')) {
 ?>
@@ -267,14 +272,15 @@ if (isset($_SESSION['authenticated']) && ($_SESSION['authenticated'] == 'true'))
 	$side_switcher_id = 'side-switcher-1';
 	$main_menu_id = 'main-menu-1';
 	$page_array = [
+		'Bad Request' => 'admin/bad-request-test',
 		'Compile' => 'admin/compile',
-		'Bad Request' => 'admin/bad-request-test', 
 		'Forbidden' => 'private',
-		'Not Found' => 'admin/does-not-exist',
-		'Server Error' => 'admin/server-error-test',
-		'Bad Request' => 'admin/bad-request-test', 
 		'Help' => 'admin/help', 
-		'Logout' => 'admin/logout'
+		'Login' => 'admin/login',
+		'Logout' => 'admin/logout',
+		'Not Found' => 'does-not-exist',
+		'Page Maker' => 'admin/page-maker',
+		'Server Error' => 'admin/server-error-test'
 	];
 
 	include $absolute_root . 'includes/components/etc/header.secondary-ul.inc.php';

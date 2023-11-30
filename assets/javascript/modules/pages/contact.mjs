@@ -44,8 +44,10 @@ main = function () {
 // Save in case we reinstate reCAPTCHA:
 //	o.contact.recaptchaEdits();
 
+// Always revise the meta data:
 	metaData = returnMetaData(o);
 	o.reviseMetaData(metaData);
+
 	o.contact.contactAnchorEventListeners();
 // always include this in every page.mjs, and execute it last in main():
 	o.appendToCSS(':root', '{ --main-opacity: 1; }');

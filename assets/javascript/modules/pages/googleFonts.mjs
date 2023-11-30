@@ -27,10 +27,17 @@ var returnMetaData;
 main = function () {
 
 	var o;
+	var metaData;
+
 	o = this;
 
 	o.googleFonts.formLogic();
 // always include this in every page.mjs, and execute it last in main():
+
+// Always revise the meta data:
+	metaData = returnMetaData(o);
+	o.reviseMetaData(metaData);
+
 	o.appendToCSS(':root', '{ --main-opacity: 1; }');
 
 };

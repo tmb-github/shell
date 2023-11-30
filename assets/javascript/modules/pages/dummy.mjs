@@ -26,12 +26,18 @@ var returnMetaData;
 
 main = function () {
 
+	var metaData;
 	var o;
+
 	o = this;
 
 // If there are any utility modules needed on this page, run this function,
 // passing as an argument a string with name of this module (camelCase, not kebob-case):
 //	o.loadUtilityModules('dummy');
+
+// Always revise the meta data:
+	metaData = returnMetaData(o);
+	o.reviseMetaData(metaData);
 
 // always include this in every page.mjs, and execute it last in main():
 	o.appendToCSS(':root', '{ --main-opacity: 1; }');

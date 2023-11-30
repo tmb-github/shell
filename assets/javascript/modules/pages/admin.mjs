@@ -1,5 +1,5 @@
 /**
-* siteMap.mjs
+* admin.mjs
 * Copyright (c) 2019-2023 Thomas M. Brodhead <https://bmt-systems.com>
 * Released under the MIT license
 * Date: 2023-11-01
@@ -29,8 +29,11 @@ main = function () {
 	var metaData;
 	var o;
 
-// 'this' is the outer 'o' via .bind(o), so the outer 'o' === inner 'o':
 	o = this;
+
+// If there are any utility modules needed on this page, run this function,
+// passing as an argument a string with name of this module (camelCase, not kebob-case):
+//	o.loadUtilityModules('admin');
 
 // Always revise the meta data:
 	metaData = returnMetaData(o);
@@ -57,8 +60,8 @@ returnMetaData = function (o) {
 	_canonical = '${CANONICAL}';
 	_default = '${DEFAULT}';
 	_title = '${TITLE}';
-	_description = 'Site Map page description for ' + o.siteData.metaDescription;
-	_page = 'site-map';
+	_description = 'Admin page listing of ' + o.siteData.metaDescription;
+	_page = 'admin';
 	_image = _default;
 	_imageAlt = _default;
 
@@ -89,7 +92,6 @@ returnMetaData = function (o) {
 			"og:url": _canonical
 		}
 	};
-
 
 	return metaData;
 

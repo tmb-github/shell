@@ -71,7 +71,7 @@ function generate_title_from_request_uri($site_title) {
 
 // qwer:htaccess
 // Used in compile routines for .js and .mjs folders:
-function getAllSubfolders($folder) {
+function get_all_subfolders($folder) {
 
 // NOTICE:
 	$subfolders = ['.']; // start with dot to indicate current directory

@@ -32,8 +32,10 @@ main = function () {
 // 'this' is the outer 'o' via .bind(o), so the outer 'o' === inner 'o':
 	o = this;
 
+// Always revise the meta data:
 	metaData = returnMetaData(o);
 	o.reviseMetaData(metaData);
+
 // always include this in every page.mjs, and execute it last in main():
 	o.appendToCSS(':root', '{ --main-opacity: 1; }');
 

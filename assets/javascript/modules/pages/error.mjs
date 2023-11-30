@@ -32,8 +32,10 @@ main = function () {
 // 'this' is the outer 'o' via .bind(o), so the outer 'o' === inner 'o':
 	o = this;
 
+// Always revise the meta data:
 	metaData = returnMetaData(o);
 	o.reviseMetaData(metaData);
+
 	o.error.editPageText();
 
 // To stop the line that's drawn repeatedly at the bottom of the header.

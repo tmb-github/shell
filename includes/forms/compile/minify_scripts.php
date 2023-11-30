@@ -23,8 +23,8 @@ if ($minify_scripts == true) {
 	if ($localhost === true) {
 
 		$folderPath = $absolute_root . $assets_folder . 'javascript/scripts';
-// getAllSubfolders() is common function in functions.php
-		$subfolders = getAllSubfolders($folderPath);
+// get_all_subfolders() is common function in functions.php
+		$subfolders = get_all_subfolders($folderPath);
 
 		foreach (($subfolders) as $subfolder) {
 			$full_subfolder_path = $absolute_root . $assets_folder . 'javascript/minified-scripts/' . $subfolder;
@@ -59,7 +59,7 @@ if ($minify_scripts == true) {
 // $min_js is array of all of the .js files with the extension changed to .min.js
 // ...and with the destination directory set to $assets_folder . 'javascript/minified-scripts/'
 
-// The getAllSubfolders() routine results in perfectly serviceable addresses
+// The get_all_subfolders() routine results in perfectly serviceable addresses
 // but at the same time unsightly /./ sequences in them. So, before going ahead:
 //
 // Convert: C:/xampp/htdocs/shell/assets/javascript/minified-scripts/./appendToCssClosure.min.js',

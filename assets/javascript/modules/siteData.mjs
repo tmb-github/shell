@@ -124,6 +124,9 @@ siteData = {
 			]
 		},
 */
+		'admin': {
+			mjs: './admin.mjs'
+		},
 		'bad-request-test': {
 			mjs: './admin/badRequestTest.mjs'
 		},
@@ -159,6 +162,9 @@ siteData = {
 		},
 		'offline': {
 			mjs: './offline.mjs'
+		},
+		'page-maker': {
+			mjs: './admin/pageMaker.mjs'
 		},
 		'privacy-policy': {
 			mjs: './privacyPolicy.mjs'
