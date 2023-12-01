@@ -6,7 +6,7 @@
 
 // NB: Ensure corresponding [page].mjs file has the same text as $description for its _description variable:
 
-$description = 'Dummy Page description for ' . $site_title . ' [150-160 characters are best here].';
+$description = 'tomato dinosaur description for ' . $site_title . ' [150-160 characters are best here].';
 
 $og_description = $description;
 

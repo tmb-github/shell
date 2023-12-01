@@ -156,6 +156,7 @@ formWork = function () {
 			var newLine;
 			var options;
 			var url;
+			var message;
 
 			e.preventDefault();
 
@@ -187,9 +188,8 @@ formWork = function () {
 						location.replace(o.baseHref + pageSlug + '/');
 					}
 */
-
-// Trailing slash required, otherwise the htaccess rewrite rules can't interpret the URI
-					location.replace(o.baseHref + pageSlug + '/');
+					console.log("This is where we'd redirect to the newly created page, but the newly added siteData requires a hard load.");
+// Does not work: location.replace(o.baseHref + pageSlug + '/');
 				}
 			};
 
@@ -260,7 +260,7 @@ formWork = function () {
 				msg += newLine;
 				msg += 'Try another page name.' + newLine;
 				window.alert(msg);
-//				return false;
+				return false;
 			} else if (pageNames.includes(pageName)) {
 				msg = '';
 				msg += 'A page with this name (' + pageName + ') already exists.' + newLine;
@@ -270,7 +270,7 @@ formWork = function () {
 				msg += newLine;
 				msg += 'Try another page name.';
 				window.alert(msg);
-//				return false;
+				return false;
 			} else if (pageSlugs.includes(pageSlug)) {
 				msg = '';
 				msg += 'A page with this URL (' + pageSlug + ') already exists.' + newLine;
@@ -280,7 +280,7 @@ formWork = function () {
 				msg += newLine;
 				msg += 'Try another page name.';
 				window.alert(msg);
-//				return false;
+				return false;
 			}
 
 // For deleting pages...SAVE:

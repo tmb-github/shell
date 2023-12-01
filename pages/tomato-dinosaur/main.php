@@ -17,13 +17,13 @@ $main_classes = $page . " main custom-style-elements";
 render_custom_style_elements();
 
 ?>
-    <h1 id=main-content tabindex=0>Dummy Page</h1>
-    <section class=font-samples>
-        <p class="roman">The quick brown fox jumped over the lazy dogs.</p>
-        <p class="italic">The quick brown fox jumped over the lazy dogs.</p>
-        <p class="bold">The quick brown fox jumped over the lazy dogs.</p>
-        <p class="bold-italic">The quick brown fox jumped over the lazy dogs.</p>
-    </section>
+	<h1 id=main-content tabindex=0>tomato dinosaur</h1>
+	<section class=font-samples>
+		<p class="roman">The quick brown fox jumped over the lazy dogs.</p>
+		<p class="italic">The quick brown fox jumped over the lazy dogs.</p>
+		<p class="bold">The quick brown fox jumped over the lazy dogs.</p>
+		<p class="bold-italic">The quick brown fox jumped over the lazy dogs.</p>
+	</section>
 
 <?php
 include $absolute_root . 'includes/components/breadcrumb_schema.php';

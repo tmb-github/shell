@@ -4,10 +4,10 @@ Any CSS variable that will be edited by JavaScript MUST be declared in common.cs
 Only :root variables declared in common.css can be revised by JavaScript.
 */
 
-.main.dummy {
+.main.tomato-dinosaur {
 	margin: calc(1em + var(--header-height)) 1em 3em 1em;
 }
 
-.dummy .font-samples {
+.tomato-dinosaur .font-samples {
 	text-align: center;
 }

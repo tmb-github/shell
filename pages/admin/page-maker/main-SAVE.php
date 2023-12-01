@@ -16,33 +16,22 @@ $main_classes = $page . " shell main custom-style-elements";
 
 render_custom_style_elements();
 
-////////////////////////////////////////
-// Retrieve existing page information //
-////////////////////////////////////////
-
 $subfolders = get_all_subfolders($absolute_root . 'pages/');
+//echo print_r($subfolders, true);
 
-////////////////////
-// Get slug_array //
-////////////////////
-
-$existing_slug_array = array();
+$slug_array = array();
 foreach ($subfolders as $path) {
 	if (strpos($path, "/pages/") !== false) {
 		$parts = explode('/', rtrim($path, '/'));
-		$existing_slug_array[] = end($parts);
+		$slug_array[] = end($parts);
 	}
 }
-sort($existing_slug_array);
-// eliminate duplicate entries:
-$existing_slug_array = array_unique($existing_slug_array);
+sort($slug_array);
 
+// Output the new array
+//print_r($slug_array);
 
-/////////////////////////
-// Get camelcase_array //
-/////////////////////////
-
-$existing_camelcase_array = array();
+$camelcase_array = array();
 foreach ($subfolders as $path) {
 	if (strpos($path, "/pages/") !== false) {
 		$parts = explode('/', rtrim($path, '/'));
@@ -51,43 +40,36 @@ foreach ($subfolders as $path) {
 		$formattedString = preg_replace_callback('/-(.)/', function($matches) {
 			return strtoupper($matches[1]);
 		}, $lastPart);
-		$existing_camelcase_array[] = $formattedString;
+		$camelcase_array[] = $formattedString;
 	}
 }
-sort($existing_camelcase_array);
-// eliminate duplicate entries:
-$existing_camelcase_array = array_unique($existing_camelcase_array);
+sort($camelcase_array);
 
-////////////////////////
-// Get pagename_array //
-////////////////////////
-
-$existing_page_name_array = array();
+$page_name_array = array();
 foreach ($subfolders as $path) {
 	if (strpos($path, "/pages/") !== false) {
 		$parts = explode('/', rtrim($path, '/'));
 		$lastPart = end($parts);
 // Replace hyphens with spaces and capitalize all resulting words
 		$formattedString = ucwords(str_replace('-', ' ', $lastPart));
-		$existing_page_name_array[] = $formattedString;
+		$page_name_array[] = $formattedString;
 	}
 }
-sort($existing_page_name_array);
-// eliminate duplicate entries:
-$existing_page_name_array = array_unique($existing_page_name_array);
+sort($page_name_array);
+
 
 ?>
 	<h1 id=main-content tabindex=0>Page Maker</h1>
 	<form id=page-upload-form class=page-upload-form method=post enctype=multipart/form-data>
 		<div class=upload-status></div>
 		<x-label for=submit-button class=no-colon><input id=submit-button type=submit value="Submit" name=submit-image></x-label>
-		<label for=page-name>Page Name: <input id=page-name class=page-name type=text name=page_name title="Example: Discography" data-existing-page-names="<?php echo implode(' | ', $existing_page_name_array); ?>" autocomplete=off data-required=true required></label>
-		<label for=page-slug>Page Slug: <input id=page-slug class=page-slug type=text name=page_slug autocomplete=off readonly data-existing-page-slugs="<?php echo implode(' | ', $existing_slug_array); ?>"></label>
+		<label for=page-name>Page Name: <input id=page-name class=page-name type=text name=page_name title="Example: Discography" data-existing-page-names="<?php echo implode(' | ', $page_name_array); ?>" autocomplete=off data-required=true required></label>
+		<label for=page-slug>Page Slug: <input id=page-slug class=page-slug type=text name=page_slug autocomplete=off readonly data-existing-page-slugs="<?php echo implode(' | ', $slug_array); ?>"></label>
 <?php
 
 echo '	<h2>Current Pages</h2>' . PHP_EOL;
 echo '	<ul class=current-pages>' . PHP_EOL;
-foreach ($existing_page_name_array as $page_name) {
+foreach ($page_name_array as $page_name) {
 	echo '		<li>' . $page_name . '</li>' . PHP_EOL;
 }
 echo '	</ul>' . PHP_EOL;

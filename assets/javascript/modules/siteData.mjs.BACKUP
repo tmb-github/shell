@@ -112,9 +112,6 @@ siteData = {
 		'theme/'
 	],
 	pageDependencies: {
-		'tomato-dinosaur': {
-			mjs: './tomatoDinosaur.mjs'
-		},
 /*
 // EXAMPLE:
 		'home': {
