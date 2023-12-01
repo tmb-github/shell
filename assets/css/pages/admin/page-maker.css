@@ -1,16 +1,125 @@
 /* 
-NB: :root variables declared in page *.css files cannot be revised by JavaScript.
-Any CSS variable that will be edited by JavaScript MUST be declared in common.css.
-Only :root variables declared in common.css can be revised by JavaScript.
+NB: Only :root variables that are NOT being revised by JavaScript
+may be included in a css/pages/*.css file. Those being revised by
+JavaScript must be declared in common.css.
 */
+:root {
+	--main-width: 812px;
+	--main-margin-width: 32px;
+	--main-margins-sum: calc(32px + 32px);
 
-/* To 463px (next query overtakes 464px): */
-@media all and (max-width: 464px) {
-	.main.page-maker {
-		margin: calc(1em + var(--header-height)) 1em 3em 1em;
-	}
+	--aeLabelWidth: 125.25px;
+	--aeGridGap: 6px;
+	--aeInputWidth: 384px;
+	--aeBlockWidth: calc(125.5px + 6px + 384px);
 }
 
-.page-maker .current-pages {
+
+.page-maker .page-upload-form ul {
+	display: table;
+	margin: 0 auto;
+	padding: 0;
+}
+
+.page-maker .page-upload-form li {
+	text-indent: 0;
+}
+
+.page-maker .page-upload-form x-label {
+	display: block;
+	margin-left: auto;
+	text-align: center;
+	padding: .5em 0;
+}
+
+
+.page-maker .page-upload-form h2 {
+	text-align: center;
+}
+
+.page-maker .page-upload-form label {
+	display: inline-block;
 	margin: auto;
+	text-align: center;
+	padding: .5em 0;
+	min-width: 120px;
 }
+
+
+.page-maker .page-upload-form input {
+	display: inline-block;
+	margin: .25em .5em;
+	width: 360px;
+}
+
+
+.page-maker .page-upload-form input.page-slug {
+	margin: .25em 1.25em;
+}
+
+
+/***********
+*** MAIN ***
+***********/
+
+
+/*** 876px is --main-width + (--main-margin-width * 2) **/
+
+/* To 875px (next query overtakes 876px): */
+@media all and (max-width: 876px) {
+
+	.page-maker.main {
+		margin: calc(1em + var(--header-height)) var(--main-margin-width) 3em var(--main-margin-width);
+		width: calc(100vw - var(--main-margins-sum));
+	}
+
+}
+
+/* From 876px: */
+@media all and (min-width: 876px) {
+
+	.page-maker.main {
+		margin: calc(1em + var(--header-height)) auto 3em auto;
+		width: var(--main-width);
+	}
+
+}
+
+
+
+@media all and (max-width: 393px) {
+
+	.page-maker #submit-button {
+		padding-top: 4px;
+		padding-right: initial;
+		padding-bottom: 4px;
+		padding-left: initial;
+		width: calc((100vw - var(--main-margins-sum)) - (var(--aeLabelWidth) + var(--aeGridGap)));
+	}
+
+}
+
+
+/*************************************************************************
+*** margin-left + labels width + grid-gap + input width + margin-right ***
+*** 32 + 125.5 + 6 + 197.33 + 32 == 392.83 *******************************
+*** The styling works beginning at screen width 393: *********************
+*************************************************************************/
+
+@media all and (min-width: 393px) {
+
+	.page-maker #submit-button {
+		padding-top: 4px;
+		padding-right: 72px;
+		padding-bottom: 4px;
+		padding-left: 72px;
+		width: fit-content;
+	}
+
+}
+
+.page-maker label[for=submit-button] {
+	visibility: hidden;
+}
+
+

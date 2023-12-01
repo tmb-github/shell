@@ -1,2 +1,2 @@
 <?php
-$css_array = ['css/pages/page-maker.css'];
+$css_array = ['css/pages/admin/page-maker.css'];
