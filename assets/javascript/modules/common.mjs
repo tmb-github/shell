@@ -47,6 +47,7 @@ var fetchResponse;
 var fireCustomEvent;
 var fiveRandomAlphaNumerics;
 var footerEdits;
+var getCurrentDateTimeString;
 var highlightMenuItem;
 var inEu;
 var initializeFooterHeightAndObserver;
@@ -2183,6 +2184,31 @@ fiveRandomAlphaNumerics = function () {
 
 };
 
+getCurrentDateTimeString = function () {
+
+	var now;
+	var year;
+	var month;
+	var day;
+	var hours;
+	var minutes;
+	var seconds;
+	var currentDateTimeString;
+
+	now = new Date();
+	year = now.getFullYear();
+	month = String(now.getMonth() + 1).padStart(2, '0');
+	day = String(now.getDate()).padStart(2, '0');
+	hours = String(now.getHours()).padStart(2, '0');
+	minutes = String(now.getMinutes()).padStart(2, '0');
+	seconds = String(now.getSeconds()).padStart(2, '0');
+
+	currentDateTimeString = year + month + day + hours + minutes + seconds;
+
+	return currentDateTimeString;
+
+};
+
 // 2021-04-07:
 // hashAnchorClickListener() was originally in this location.
 // It's only called on gallery pages, so moved to gallery.mjs
@@ -2695,8 +2721,6 @@ loadLocalResource = (function () {
 // This loads external dependencies (e.g., pureJsCarousel), not site modules.
 loadPageDependencies = function () {
 
-//console.log('loadPageDependencies');
-
 	var assignFn;
 	var calledInner;
 	var o;
@@ -2708,9 +2732,11 @@ loadPageDependencies = function () {
 	o = this;
 
 	if (o.siteData.hasOwnProperty('pageDependencies')) {
+console.log(o.pageName);
 		if (o.siteData.pageDependencies.hasOwnProperty(o.pageName)) {
 // Shorthand:
 			pageObj = o.siteData.pageDependencies[o.pageName];
+//console.log(pageObj);
 // Ensure that it is an object...
 			if ((typeof pageObj === 'object') && (pageObj !== null)) {
 // ...that is not empty:
@@ -3831,6 +3857,7 @@ export default Object.freeze({
 	fireCustomEvent,
 	fiveRandomAlphaNumerics,
 	footerEdits,
+	getCurrentDateTimeString,
 	highlightMenuItem,
 	inEu,
 	initializeFooterHeightAndObserver,

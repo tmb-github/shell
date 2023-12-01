@@ -46,6 +46,31 @@ main = function () {
 
 };
 
+/*
+// This belongs in common.mjs
+getCurrentDateTimeString = function () {
+
+	var now;
+	var year;
+	var month;
+	var day;
+	var hours;
+	var minutes;
+	var seconds;
+
+	now = new Date();
+	year = now.getFullYear();
+	month = String(now.getMonth() + 1).padStart(2, '0');
+	day = String(now.getDate()).padStart(2, '0');
+	hours = String(now.getHours()).padStart(2, '0');
+	minutes = String(now.getMinutes()).padStart(2, '0');
+	seconds = String(now.getSeconds()).padStart(2, '0');
+
+	return `${year}${month}${day}${hours}${minutes}${seconds}`;
+
+};
+*/
+
 formWork = function () {
 
 	var o;
@@ -188,8 +213,21 @@ formWork = function () {
 						location.replace(o.baseHref + pageSlug + '/');
 					}
 */
-					console.log("This is where we'd redirect to the newly created page, but the newly added siteData requires a hard load.");
+//					console.log("This is where we'd redirect to the newly created page, but the newly added siteData requires a hard load.");
 // Does not work: location.replace(o.baseHref + pageSlug + '/');
+
+o.siteData.pageDependencies[pageSlug] = {mjs: "'" + o.kebobCaseToCamelCase(pageSlug) + "'"};
+location.replace(o.baseHref + pageSlug + '/');
+
+/*
+					import('../../siteData.' + o.getCurrentDateTimeString() + '.mjs').then(function ({default: object}) {
+// Assign its methods/properties to common object 'o':
+						o.assignToCommonObject(object);
+						window.location.href = o.baseHref + pageSlug + '/'; //'?time=' + o.getCurrentDateTimeString();
+					}).catch(function (error) {
+						console.log(error);
+					});
+*/
 				}
 			};
 

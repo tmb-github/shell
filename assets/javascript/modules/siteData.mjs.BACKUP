@@ -112,9 +112,6 @@ siteData = {
 		'theme/'
 	],
 	pageDependencies: {
-		'tomato-bisque': {
-			mjs: './tomatoBisque.mjs'
-		},
 		'tomato-garden': {
 			mjs: './tomatoGarden.mjs'
 		},

@@ -1,0 +1,13 @@
+/* 
+NB: :root variables declared in page *.css files cannot be revised by JavaScript.
+Any CSS variable that will be edited by JavaScript MUST be declared in common.css.
+Only :root variables declared in common.css can be revised by JavaScript.
+*/
+
+.main.tomato-soup {
+	margin: calc(1em + var(--header-height)) 1em 3em 1em;
+}
+
+.tomato-soup .font-samples {
+	text-align: center;
+}

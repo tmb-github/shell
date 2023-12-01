@@ -19,10 +19,24 @@ function last_slug($url) {
 }
 */
 
+function removeQueryString($url) {
+	// Find the position of the '?' character
+	$position = strpos($url, '?');
+
+// If '?' is found, remove everything after it
+	if ($position !== false) {
+		$url = substr($url, 0, $position);
+	}
+
+	return $url;
+}
 
 function generate_page_location_from_requerst_uri() {
 
-	$folder_array = explode("/", $_SERVER['REQUEST_URI']);
+// 2023-12-1
+	$request_uri = removeQueryString($_SERVER['REQUEST_URI']);
+
+	$folder_array = explode("/", $request_uri);
 	$base_folder = str_replace("/", "", $_SERVER['BASE_PATH']);
 
 	$page_location = '';
@@ -47,7 +61,10 @@ function generate_page_location_from_requerst_uri() {
 // 2023-11-27
 function generate_title_from_request_uri($site_title) {
 
-	$folder_array = explode("/", $_SERVER['REQUEST_URI']);
+// 2023-12-1
+	$request_uri = removeQueryString($_SERVER['REQUEST_URI']);
+
+	$folder_array = explode("/", $request_uri);
 	$reversed_folder_array = array_reverse($folder_array);
 
 	$base_folder = str_replace("/", "", $_SERVER['BASE_PATH']);

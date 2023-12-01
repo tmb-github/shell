@@ -38,6 +38,6 @@ echo '</pre>';
 } else {
 
 // BASE_PATH defined in .htaccess:
-	header('Location: ' . $_SERVER['BASE_PATH'] . 'login/');
+	header('Location: ' . $_SERVER['BASE_PATH'] . 'admin/login/');
 
 }
