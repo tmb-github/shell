@@ -23,7 +23,7 @@
 // DECLARATIONS //
 //////////////////
 
-		var camelCaseToKebobCase;
+		var camelCaseToKabobCase;
 		var currentScript;
 		var deleteDynamicScripts;
 		var enqueue;
@@ -40,7 +40,7 @@
 // DEFINITIONS //
 /////////////////
 
-		camelCaseToKebobCase = function (str) {
+		camelCaseToKabobCase = function (str) {
 			return str.replace(/([a-zA-Z])(?=[A-Z])/g, '$1-').toLowerCase();
 		};
 
@@ -80,7 +80,7 @@
 				}
 
 				if (key.substring(0, 4) === 'data') {
-					script.setAttribute(camelCaseToKebobCase(key), attributeObject[key]);
+					script.setAttribute(camelCaseToKabobCase(key), attributeObject[key]);
 // If dataScriptName is set as an attribute on the enqueued script,
 // then it will be written to the console when it's loaded:
 					if (key === 'dataScriptName') {

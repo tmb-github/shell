@@ -17,7 +17,7 @@ var anchorHashFragmentIntercept;
 var anchorIntercept;
 var aspectRatioImgEdits;
 var calledCommonVariables;
-var camelCaseToKebobCase;
+var camelCaseToKabobCase;
 var checkTrustedTypesSupport;
 var closeDrawerOnAnchorClick;
 var closeDrawerOnMobileLogoClick;
@@ -29,6 +29,7 @@ var commonVariables;
 var conditionallyReplaceJpgExtensionWithWebpExtension;
 var consoleLog;
 var consoleLogMsgObj;
+var currentDateTimeString;
 var customizePushAndReplaceState;
 
 //var standardPushAndReplaceState;
@@ -47,7 +48,6 @@ var fetchResponse;
 var fireCustomEvent;
 var fiveRandomAlphaNumerics;
 var footerEdits;
-var getCurrentDateTimeString;
 var highlightMenuItem;
 var inEu;
 var initializeFooterHeightAndObserver;
@@ -60,8 +60,8 @@ var isObject;
 // SAVE: var iOS;
 // SAVE: var iosCheckAndEdit;
 var isSafari;
-var kebobCaseToCamelCase;
-var kebobCaseToUpperCamelCase;
+var kabobCaseToCamelCase;
+var kabobCaseToUpperCamelCase;
 var loadLocalResource;
 var loadPageDependencies;
 // 2020-08-15:
@@ -713,7 +713,7 @@ aspectRatioImgEdits = function (document, selector) {
 
 calledCommonVariables = false;
 
-camelCaseToKebobCase = function (str) {
+camelCaseToKabobCase = function (str) {
 	return str.replace(/([a-zA-Z])(?=[A-Z])/g, '$1-').toLowerCase();
 };
 
@@ -1228,7 +1228,7 @@ commonRoutinesOnFirstLoadOrAjax = function () {
 			o.previousPageName = o.pageName;
 			o.pageName = element.getAttribute('data-page');
 			if (o.pageName) {
-				o.pageNameCamelCase = kebobCaseToCamelCase(o.pageName);
+				o.pageNameCamelCase = kabobCaseToCamelCase(o.pageName);
 			} else {
 				console.log('ERROR: MAIN element needs page name');
 				o.pageName = 'dummy';
@@ -1795,6 +1795,29 @@ consoleLogMsgObj = function (msg, obj) {
 
 };
 
+currentDateTimeString = function () {
+
+	var now;
+	var year;
+	var month;
+	var day;
+	var hours;
+	var minutes;
+	var seconds;
+
+	now = new Date();
+	year = now.getFullYear();
+	month = String(now.getMonth() + 1).padStart(2, '0');
+	day = String(now.getDate()).padStart(2, '0');
+	hours = String(now.getHours()).padStart(2, '0');
+	minutes = String(now.getMinutes()).padStart(2, '0');
+	seconds = String(now.getSeconds()).padStart(2, '0');
+
+	return year + month + day + hours + minutes + seconds;
+
+};
+
+
 // SEE: https://stackoverflow.com/questions/6390341/how-to-detect-url-change-in-javascript
 //
 // This is called by initializePopstateLocationChangeListeners(), which is called by
@@ -2184,30 +2207,6 @@ fiveRandomAlphaNumerics = function () {
 
 };
 
-getCurrentDateTimeString = function () {
-
-	var now;
-	var year;
-	var month;
-	var day;
-	var hours;
-	var minutes;
-	var seconds;
-	var currentDateTimeString;
-
-	now = new Date();
-	year = now.getFullYear();
-	month = String(now.getMonth() + 1).padStart(2, '0');
-	day = String(now.getDate()).padStart(2, '0');
-	hours = String(now.getHours()).padStart(2, '0');
-	minutes = String(now.getMinutes()).padStart(2, '0');
-	seconds = String(now.getSeconds()).padStart(2, '0');
-
-	currentDateTimeString = year + month + day + hours + minutes + seconds;
-
-	return currentDateTimeString;
-
-};
 
 // 2021-04-07:
 // hashAnchorClickListener() was originally in this location.
@@ -2602,13 +2601,13 @@ if (navigator.userAgentData.brands.filter(isCompatible).length > 0) {
 
 };
 
-kebobCaseToCamelCase = function (str) {
+kabobCaseToCamelCase = function (str) {
 	return str[0].toLowerCase() + str.replace(/-(.)/g, function (ignore, b) {
 		return b.toUpperCase();
 	}).slice(1);
 };
 
-kebobCaseToUpperCamelCase = function (str) {
+kabobCaseToUpperCamelCase = function (str) {
 	return str[0].toUpperCase() + str.replace(/-(.)/g, function (ignore, b) {
 		return b.toUpperCase();
 	}).slice(1);
@@ -3610,7 +3609,7 @@ siteWideLoader = function () {
 			}
 
 			if (key.substring(0, 4) === 'data') {
-				script.setAttribute(o.camelCaseToKebobCase(key), attributeObject[key]);
+				script.setAttribute(o.camelCaseToKabobCase(key), attributeObject[key]);
 // If dataScriptName is set as an attribute on the enqueued script,
 // then it will be written to the console when it's loaded:
 				if (key === 'dataScriptName') {
@@ -3830,7 +3829,7 @@ export default Object.freeze({
 	anchorIntercept,
 	aspectRatioImgEdits,
 	calledCommonVariables,
-	camelCaseToKebobCase,
+	camelCaseToKabobCase,
 	checkTrustedTypesSupport,
 	closeDrawerOnAnchorClick,
 	closeDrawerOnMobileLogoClick,
@@ -3842,6 +3841,7 @@ export default Object.freeze({
 	conditionallyReplaceJpgExtensionWithWebpExtension,
 	consoleLog,
 	consoleLogMsgObj,
+	currentDateTimeString,
 	customizePushAndReplaceState,
 	deactivateLoadingMask,
 	deleteCachesUnregisterServiceWorkerAndClearSessionStorage,
@@ -3857,7 +3857,6 @@ export default Object.freeze({
 	fireCustomEvent,
 	fiveRandomAlphaNumerics,
 	footerEdits,
-	getCurrentDateTimeString,
 	highlightMenuItem,
 	inEu,
 	initializeFooterHeightAndObserver,
@@ -3870,8 +3869,8 @@ export default Object.freeze({
 // SAVE:	iosCheckAndEdit,
 	isObject,
 	isSafari,
-	kebobCaseToCamelCase,
-	kebobCaseToUpperCamelCase,
+	kabobCaseToCamelCase,
+	kabobCaseToUpperCamelCase,
 	loadLocalResource,
 	loadPageDependencies,
 	makeTransparentMaskClickable,

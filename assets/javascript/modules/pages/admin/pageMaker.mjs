@@ -32,7 +32,7 @@ main = function () {
 	o = this;
 
 // If there are any utility modules needed on this page, run this function,
-// passing as an argument a string with name of this module (camelCase, not kebob-case):
+// passing as an argument a string with name of this module (camelCase, not kabob-case):
 //	o.loadUtilityModules('pageMaker');
 
 // Always revise the meta data:
@@ -45,31 +45,6 @@ main = function () {
 	o.pageMaker.formWork();
 
 };
-
-/*
-// This belongs in common.mjs
-getCurrentDateTimeString = function () {
-
-	var now;
-	var year;
-	var month;
-	var day;
-	var hours;
-	var minutes;
-	var seconds;
-
-	now = new Date();
-	year = now.getFullYear();
-	month = String(now.getMonth() + 1).padStart(2, '0');
-	day = String(now.getDate()).padStart(2, '0');
-	hours = String(now.getHours()).padStart(2, '0');
-	minutes = String(now.getMinutes()).padStart(2, '0');
-	seconds = String(now.getSeconds()).padStart(2, '0');
-
-	return `${year}${month}${day}${hours}${minutes}${seconds}`;
-
-};
-*/
 
 formWork = function () {
 
@@ -216,14 +191,14 @@ formWork = function () {
 //					console.log("This is where we'd redirect to the newly created page, but the newly added siteData requires a hard load.");
 // Does not work: location.replace(o.baseHref + pageSlug + '/');
 
-o.siteData.pageDependencies[pageSlug] = {mjs: "'" + o.kebobCaseToCamelCase(pageSlug) + "'"};
+o.siteData.pageDependencies[pageSlug] = {mjs: "'" + o.kabobCaseToCamelCase(pageSlug) + "'"};
 location.replace(o.baseHref + pageSlug + '/');
 
 /*
-					import('../../siteData.' + o.getCurrentDateTimeString() + '.mjs').then(function ({default: object}) {
+					import('../../siteData.' + o.currentDateTimeString() + '.mjs').then(function ({default: object}) {
 // Assign its methods/properties to common object 'o':
 						o.assignToCommonObject(object);
-						window.location.href = o.baseHref + pageSlug + '/'; //'?time=' + o.getCurrentDateTimeString();
+						window.location.href = o.baseHref + pageSlug + '/'; //'?time=' + o.currentDateTimeString();
 					}).catch(function (error) {
 						console.log(error);
 					});

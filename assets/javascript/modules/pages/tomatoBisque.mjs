@@ -32,7 +32,7 @@ main = function () {
 	o = this;
 
 // If there are any utility modules needed on this page, run this function,
-// passing as an argument a string with name of this module (camelCase, not kebob-case):
+// passing as an argument a string with name of this module (camelCase, not kabob-case):
 //	o.loadUtilityModules('tomatoBisque');
 
 // Always revise the meta data:
