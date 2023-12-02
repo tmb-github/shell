@@ -112,18 +112,6 @@ siteData = {
 		'theme/'
 	],
 	pageDependencies: {
-		'tomato-bisque': {
-			mjs: './tomatoBisque.mjs'
-		},
-		'tomato-garden': {
-			mjs: './tomatoGarden.mjs'
-		},
-		'tomato-extract': {
-			mjs: './tomatoExtract.mjs'
-		},
-		'tomato-soup': {
-			mjs: './tomatoSoup.mjs'
-		},
 /*
 // EXAMPLE:
 		'home': {

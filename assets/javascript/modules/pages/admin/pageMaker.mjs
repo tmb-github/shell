@@ -179,30 +179,17 @@ formWork = function () {
 				}
 				if (o.fetchNoProblem) {
 /*
-
 // For deleting pages...SAVE:
-
 					if (deletePage) {
 						location.replace(o.baseHref + 'admin/page-editor/');
 					} else {
 						location.replace(o.baseHref + pageSlug + '/');
 					}
 */
-//					console.log("This is where we'd redirect to the newly created page, but the newly added siteData requires a hard load.");
+
 // Does not work: location.replace(o.baseHref + pageSlug + '/');
+// o.siteData.pageDependencies[pageSlug] = {mjs: "'" + o.kabobCaseToCamelCase(pageSlug) + "'"};
 
-o.siteData.pageDependencies[pageSlug] = {mjs: "'" + o.kabobCaseToCamelCase(pageSlug) + "'"};
-location.replace(o.baseHref + pageSlug + '/');
-
-/*
-					import('../../siteData.' + o.currentDateTimeString() + '.mjs').then(function ({default: object}) {
-// Assign its methods/properties to common object 'o':
-						o.assignToCommonObject(object);
-						window.location.href = o.baseHref + pageSlug + '/'; //'?time=' + o.currentDateTimeString();
-					}).catch(function (error) {
-						console.log(error);
-					});
-*/
 				}
 			};
 
@@ -326,10 +313,12 @@ location.replace(o.baseHref + pageSlug + '/');
 			o.consoleLog(msg);
 
 			fetch(url, options
-// UPLOAD1:
+// UPLOAD1: window.location.assign(o.baseHref + pageSlug + '/');
 			).then(o.fetchResponse).then(
 				function (resolve) {
-					return o.fetchResolve(resolve, '', 'Finished.');
+// Without first opening DevTools, the JavaScript for the page will not run.
+// This is an icky stop-gap, but it works:
+					return o.fetchResolve(resolve, '', 'Finished. Open <strong>DevTools</strong> and navigate to: <a class=internal-anchor href="' + o.baseHref + pageSlug + '/' + '">' + pageName + '</a>');
 				},
 				o.fetchReject
 			).then(pagePreview);

@@ -16,10 +16,8 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 
 /* Check Username and Password existence in defined array */
 	if (isset($logins[$username]) && $logins[$username] == $password) {
-
 /* Success: Set session variables and redirect to home page by sending true as response */
 		$_SESSION['authenticated'] = 'true';
-
 		print_r('true');
 	} else {
 		print_r('false');

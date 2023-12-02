@@ -148,19 +148,6 @@ if ($down_for_maintenance == true) {
 
 }
 
-/*********************************************************
-** Try sending cache control headers when authenticated **
-*********************************************************/
-
-if (isset($_SESSION['authenticated']) && ($_SESSION['authenticated'] == 'true')) {
-
-	header("Cache-Control: no-cache, no-store, must-revalidate");
-	header("Pragma: no-cache");
-	header("Expires: 0");
-
-}
-
-
 /*************************************************
 ** Minify when testing mobile mode on localhost **
 *************************************************/

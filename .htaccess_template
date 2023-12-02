@@ -24,6 +24,16 @@ SetEnvIf Host !localhost BASE_PATH=/
 	RewriteRule ^ - [E=ABSOLUTE_ROOT:%{DOCUMENT_ROOT}%{ENV:BASE_PATH}]
 </IfModule>
 
+### THIS MUST BE SET IN ORDER FOR NEW PAGES TO DISPLAY AFTER CREATION
+### USING THE PAGE-MAKER
+### See private/cache-control-notes-2023-12-01.txt for various strategies
+### to update cache control headers upon logging into admin mode that
+### did not work, very sadly.
+
+#<IfModule mod_headers.c>
+#	Header set Cache-Control "no-cache, no-store, must-revalidate"
+#</IfModule> 
+
 
 ### IMPORTANT ###
 ### UNREM THIS WHEN TESTING REWRITES ###
