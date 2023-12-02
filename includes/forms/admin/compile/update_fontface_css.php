@@ -2,7 +2,7 @@
 
 // NB: Perform this BEFORE running compile_css.php
 
-include 'compile_reqs.inc.php';
+include './compile_reqs.inc.php';
 
 if ($update_fontface_css == true) {
 

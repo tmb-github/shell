@@ -1,6 +1,6 @@
 <?php
 
-include 'compile_reqs.inc.php';
+include './compile_reqs.inc.php';
 
 function escapeNonHTML($matches) {
 	return $matches[1] . str_replace("'", "\'", $matches[2]) . $matches[3];

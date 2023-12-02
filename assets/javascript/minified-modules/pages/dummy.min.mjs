@@ -1,3 +1,3 @@
-var main,returnMetaData;main=function(){this.appendToCSS(":root","{ --main-opacity: 1; }")};
+var main,returnMetaData;main=function(){var a=returnMetaData(this);this.reviseMetaData(a);this.appendToCSS(":root","{ --main-opacity: 1; }")};
 returnMetaData=function(a){a="Dummy Page of "+a.siteData.metaDescription;return{page:"dummy",name:{description:a,"twitter:card":"${DEFAULT}","twitter:creator":"${DEFAULT}","twitter:description":a,"twitter:site":"${DEFAULT}","twitter:title":"${TITLE}","twitter:url":"${CANONICAL}","twitter:image":"${DEFAULT}","twitter:image:alt":"${DEFAULT}"},property:{"og:description":a,"og:image":"${DEFAULT}","og:image:alt":"${DEFAULT}","og:image:height":"${DEFAULT}","og:image:width":"${DEFAULT}","og:image:secure_url":"${DEFAULT}",
 "og:image:type":"${DEFAULT}","og:site_name":"${DEFAULT}","og:title":"${TITLE}","og:type":"${DEFAULT}","og:url":"${CANONICAL}"}}};export default Object.freeze({main, returnMetaData}); 

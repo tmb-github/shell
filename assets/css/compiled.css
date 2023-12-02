@@ -2065,7 +2065,7 @@ only for the mobile mode that's being applied to desktop display, and I can't
 ************************************************************/
 
 /* Ensure last item in list has border at bottom: */
-	.header .nav li:last-child div {
+	.header .nav li:last-child:has(div) {
 		border-bottom: 1px solid var(--dark-gray);
 	}
 
@@ -2448,16 +2448,17 @@ This improves user engagement.
 *** sides of the draw will not have a bottom border ******
 **********************************************************/
 
-	.header .nav li:last-child a,
-	.header .nav li:last-child a:hover,
-	.header .nav li:last-child a:focus,
-	.header .nav li:last-child a:hover,
-	.header .nav li:last-child a:active,
-	.header .nav li:last-child a.selected {
-		border-bottom-width: 1px;
-		border-bottom-style: solid;
+	.header .nav ul li ul li:last-child:has(a),
+	.header .nav ul li ul li:last-child:has(a:hover),
+	.header .nav ul li ul li:last-child:has(a:focus),
+	.header .nav ul li ul li:last-child:has(a:hover),
+	.header .nav ul li ul li:last-child:has(a:active),
+	.header .nav ul li ul li:last-child:has(a.selected) {
 		border-bottom-color: var(--dark-gray);
+		border-bottom-style: solid;
+		border-bottom-width: 1px;
 	}
+
 
 /* 2021-10-10 */
 /* For security reasons, only border-color may be styled for :visited */

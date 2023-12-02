@@ -1,6 +1,6 @@
 <?php
 
-include 'compile_reqs.inc.php';
+include './compile_reqs.inc.php';
 
 if ($do_not_compile_static_html == true) {
 

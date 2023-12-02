@@ -1,6 +1,6 @@
 <?php
 
-include 'compile_reqs.inc.php';
+include './compile_reqs.inc.php';
 include_once $absolute_root . 'includes/common/functions.php';
 
 if ($update_individual_imports_css == true) {

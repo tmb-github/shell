@@ -68,7 +68,7 @@ formLogic = function () {
 		};
 
 		submit = document.querySelector('.bad-request-test-form button');
-		ajaxURL = o.metaDataRootDir + 'includes/forms/bad-request-test/bad_request_test_process.php';
+		ajaxURL = o.metaDataRootDir + 'includes/forms/admin/bad-request-test/bad_request_test_process.php';
 
 		contactFormMutate();
 

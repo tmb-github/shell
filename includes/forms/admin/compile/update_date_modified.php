@@ -1,6 +1,6 @@
 <?php
 
-include 'compile_reqs.inc.php';
+include './compile_reqs.inc.php';
 
 if ($update_date_modified == true) {
 

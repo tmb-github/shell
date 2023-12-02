@@ -190,11 +190,13 @@ formLogic = function () {
 			).then(compilationFinished);
 		};
 
-		compilePostFolder = (
-			(window.location.host === 'localhost')
-			? o.siteData.localhostUrl + '/includes/forms/compile/'
-			: o.siteData.liveSiteUrl + '/includes/forms/compile/'
-		);
+		(function (endpoint) {
+			compilePostFolder = (
+				(window.location.host === 'localhost')
+				? o.siteData.localhostUrl + endpoint
+				: o.siteData.liveSiteUrl + endpoint
+			)
+		}('/includes/forms/admin/compile/'));
 
 //////////////////////
 // DEFINE VARIABLES //

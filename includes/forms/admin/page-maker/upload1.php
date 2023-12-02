@@ -8,7 +8,7 @@ session_start([
 $absolute_root = $_SERVER['ABSOLUTE_ROOT'];
 
 include_once $absolute_root . 'includes/common/functions.php';
-include_once $absolute_root . 'includes/forms/page-maker/page_maker_functions.inc.php';
+include_once './page_maker_functions.inc.php';
 
 ////////////////////////////////////////
 // Retrieve existing page information //

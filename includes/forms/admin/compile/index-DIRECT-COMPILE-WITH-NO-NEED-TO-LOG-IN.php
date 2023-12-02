@@ -38,7 +38,7 @@ if (isset($_SESSION['authenticated']) && ($_SESSION['authenticated'] == 'true'))
 
 	include $absolute_root . 'includes/common/domain_info.php';
 include_once $absolute_root . 'includes/common/functions.php';
-// This will include 'includes/common/functions.php':
+// This will include './includes/common/functions.php':
 	include $absolute_root . 'includes/common/routines.php';
 
 // 2023-11-01
@@ -67,13 +67,13 @@ echo '=====================' . PHP_EOL;
 */
 
 	if ($do_not_compile_static_html == true) {
-		include 'do_not_compile_static_html.php';
+		include './do_not_compile_static_html.php';
 		echo PHP_EOL;
 		echo 'Done.' . PHP_EOL;
 	}
 
 	if ($do_not_use_static_html == true) {
-		include 'do_not_use_static_html.php';
+		include './do_not_use_static_html.php';
 		echo PHP_EOL;
 		echo 'Done.' . PHP_EOL;
 	}
@@ -86,7 +86,7 @@ echo '=====================' . PHP_EOL;
 // CHECKED
 		if ($minify_scripts == true) {
 			echo 'Minifying scripts...' . PHP_EOL;
-			include 'minify_scripts.php';
+			include './minify_scripts.php';
 			echo 'DONE.' . PHP_EOL;
 			echo PHP_EOL;
 		}
@@ -94,7 +94,7 @@ echo '=====================' . PHP_EOL;
 // CHECKED
 		if ($minify_modules == true) {
 			echo 'Minifying modules...' . PHP_EOL;
-			include 'minify_modules.php';
+			include './minify_modules.php';
 			echo 'DONE.' . PHP_EOL;
 			echo PHP_EOL;
 		}
@@ -102,7 +102,7 @@ echo '=====================' . PHP_EOL;
 // 2020-04-01: We apparently are better off using the loader for everything.
 // CHECKED
 //	echo 'Creating master JS file...' . PHP_EOL;
-//	include 'compile_master_min_js_list.php';
+//	include './compile_master_min_js_list.php';
 //	echo PHP_EOL;
 
 
@@ -124,31 +124,31 @@ echo '=====================' . PHP_EOL;
 
 // NOT-JS-RELATED:
 	if ($update_site_webmanifest == true) {
-		include 'update_site_webmanifest.php';
+		include './update_site_webmanifest.php';
 	}
 	if ($update_browserconfig_xml == true) {
-		include 'update_browserconfig_xml.php';
+		include './update_browserconfig_xml.php';
 	}
 // Attend to CSS:
 // NB: run update_fontface_css.php BEFORE compile_css.php
 	if ($update_fontface_css  == true) {
-		include 'update_fontface_css.php';
+		include './update_fontface_css.php';
 	}
 	if ($compile_css == true) {
-		include 'compile_css.php';
+		include './compile_css.php';
 	}
 	if ($update_individual_imports_css == true) {
-		include 'update_individual_imports_css.php';
+		include './update_individual_imports_css.php';
 	}
 	echo PHP_EOL;
 
 // The service worker must be compiled AFTER all of the JS files have been
 // compiled/edited, as well as the site.webmanifest:
 	if ($update_service_worker == true) {
-		include 'update_service_worker.php';
+		include './update_service_worker.php';
 	}
 	if ($minify_service_worker == true) {
-		include 'minify_service_worker.php';
+		include './minify_service_worker.php';
 	}
 	echo PHP_EOL;
 
@@ -160,7 +160,7 @@ echo '=====================' . PHP_EOL;
 
 	if ($compile_htaccess == true) {
 		echo 'Updating .htaccess . . .' . PHP_EOL;
-		include 'compile_htaccess.php';
+		include './compile_htaccess.php';
 		echo PHP_EOL;
 	}
 

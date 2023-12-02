@@ -325,11 +325,13 @@ formWork = function () {
 		});
 	}
 
-	pageMakePostFolder = (
-		(window.location.host === 'localhost')
-		? o.siteData.localhostUrl + '/includes/forms/page-maker/'
-		: o.siteData.liveSiteUrl + '/includes/forms/page-maker/'
-	);
+	(function (endpoint) {
+		pageMakePostFolder = (
+			(window.location.host === 'localhost')
+			? o.siteData.localhostUrl + endpoint
+			: o.siteData.liveSiteUrl + endpoint
+		)
+	}('/includes/forms/admin/page-maker/'));
 
 
 };

@@ -130,7 +130,7 @@ console.log('xxx');
 		passwordInput.addEventListener('focus', hideUsernamePasswordUnrecognized);
 
 		submit = document.querySelector('.login-form input');
-		ajaxURL = o.metaDataRootDir + 'includes/forms/login/login_process.php';
+		ajaxURL = o.metaDataRootDir + 'includes/forms/admin/login/login_process.php';
 
 		loginFormMutate();
 
