@@ -2,7 +2,7 @@
 ob_start();
 echo PHP_EOL;
 
-$dateModified_file = $absolute_root . 'includes/forms/compile/dateModified.txt';
+$dateModified_file = $absolute_root . 'includes/forms/admin/compile/dateModified.txt';
 
 if (file_exists($dateModified_file)) {
 	$dateModified = file_get_contents($dateModified_file);

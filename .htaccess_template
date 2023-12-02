@@ -7,22 +7,35 @@ SetEnv LOCALHOST https://localhost/shell
 SetEnv LIVEHOST https://shell.com
 SetEnv ASSETS_FOLDER "assets/"
 
-# Equal signs:
-SetEnvIf Host localhost SCHEME=https://
-SetEnvIf Host localhost HOST=localhost
-SetEnvIf Host localhost BASE_PATH=/shell/
-SetEnvIf Host !localhost SCHEME=https://
-SetEnvIf Host !localhost HOST=shell.com
-SetEnvIf Host !localhost BASE_PATH=/
+<If "req('Host') = 'localhost'">
+	SetEnv SCHEME https://
+	SetEnv HOST localhost
+	SetEnv BASE_PATH /shell/
+	SetEnv BASE_URL https://shell/
+# SEE NOTE BELOW!
+	SetEnv ABSOLUTE_ROOT C:/xampp/htdocs/shell/
+</If>
 
-# If %{VARIABLES} are required in the assigments, you must do them as part of a
-# RewriteRule. Also, %{VARIABLES} must previously be set within the block
-# itself or by a prior "SetEnvIf" statement, but NOT by a "SetEnv" statement.
-<IfModule mod_rewrite.c>
-	RewriteEngine On
-	RewriteRule ^ - [E=BASE_URL:%{ENV:SCHEME}%{ENV:HOST}%{ENV:BASE_PATH}]
-	RewriteRule ^ - [E=ABSOLUTE_ROOT:%{DOCUMENT_ROOT}%{ENV:BASE_PATH}]
-</IfModule>
+<If "req('Host') != 'localhost'">
+	SetEnv SCHEME https://
+	SetEnv HOST shell.com
+	SetEnv BASE_PATH /
+	SetEnv BASE_URL https://shell.com/
+# SEE NOTE BELOW!
+	SetEnv ABSOLUTE_ROOT /home/a07af35/shell.com/
+</If>
+
+# SAVE THIS!!!
+#
+# Until you know the ABSOLUTE_ROOT on the hosts, this will capture it and employ it.
+# But it's expensive! It's redefining it with every incoming request.
+# It's faster to determine what it is and state it explicitly in the blocks above.
+#
+#<IfModule mod_rewrite.c>
+#	RewriteEngine On
+#	RewriteRule ^ - [E=ABSOLUTE_ROOT:%{DOCUMENT_ROOT}%{ENV:BASE_PATH}]
+#</IfModule>
+
 
 ### THIS MUST BE SET IN ORDER FOR NEW PAGES TO DISPLAY AFTER CREATION
 ### USING THE PAGE-MAKER
@@ -789,7 +802,7 @@ Options -Indexes
 #
 # 1) Using option: Regular Expressions, searches for:
 #
-# .*\[perdir C:/xampp/htdocs/new-art2/\]
+# .*\[perdir C:/xampp/htdocs/shell/\]
 #
 # and replaces with nothing.
 #
@@ -835,11 +848,11 @@ Options -Indexes
 # the slash in the domain.
 #
 # For a live site, the REQUEST_FILENAME would be "xyz" for https://example.com/xyz
-# For localhost, the REQUEST_FILENAME would be "xyz" for https://localhost/new-art2/xyz
+# For localhost, the REQUEST_FILENAME would be "xyz" for https://localhost/shell/xyz
 #
 # Confusingly, the REQUEST_URI includes the slash--it ALWAYS starts with a slash. 
 # For a live site, the REQUEST_URI would be "/xyz" for https://example.com/xyz
-# But for a localhost site, the REQUEST_URI would be "/new-art2/xyz" for https://localhost/new-art2/xyz
+# But for a localhost site, the REQUEST_URI would be "/shell/xyz" for https://localhost/shell/xyz
 #
 # Because the REQUEST_FILENAME is appended to the document root, which ALWAYS  
 # ends in a slash, NEVER begin a RewriteRule assignment with a slash, unless you

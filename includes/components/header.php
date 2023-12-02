@@ -280,6 +280,7 @@ if (isset($_SESSION['authenticated']) && ($_SESSION['authenticated'] == 'true'))
 		'Logout' => 'admin/logout',
 		'Not Found' => 'does-not-exist',
 		'Page Maker' => 'admin/page-maker',
+		'Server' => 'admin/server',
 		'Server Error' => 'admin/server-error-test'
 	];
 

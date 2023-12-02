@@ -1,17 +1,20 @@
 SetEnv LOCALHOST https://localhost/shell
 SetEnv LIVEHOST https://shell.com
 SetEnv ASSETS_FOLDER "assets/"
-SetEnvIf Host localhost SCHEME=https://
-SetEnvIf Host localhost HOST=localhost
-SetEnvIf Host localhost BASE_PATH=/shell/
-SetEnvIf Host !localhost SCHEME=https://
-SetEnvIf Host !localhost HOST=shell.com
-SetEnvIf Host !localhost BASE_PATH=/
-<IfModule mod_rewrite.c>
-	RewriteEngine On
-	RewriteRule ^ - [E=BASE_URL:%{ENV:SCHEME}%{ENV:HOST}%{ENV:BASE_PATH}]
-	RewriteRule ^ - [E=ABSOLUTE_ROOT:%{DOCUMENT_ROOT}%{ENV:BASE_PATH}]
-</IfModule>
+<If "req('Host') = 'localhost'">
+	SetEnv SCHEME https://
+	SetEnv HOST localhost
+	SetEnv BASE_PATH /shell/
+	SetEnv BASE_URL https://shell/
+	SetEnv ABSOLUTE_ROOT C:/xampp/htdocs/shell/
+</If>
+<If "req('Host') != 'localhost'">
+	SetEnv SCHEME https://
+	SetEnv HOST shell.com
+	SetEnv BASE_PATH /
+	SetEnv BASE_URL https://shell.com/
+	SetEnv ABSOLUTE_ROOT /home/a07af35/shell.com/
+</If>
 AddDefaultCharset utf-8
 <IfModule mod_mime.c>
     AddCharset utf-8 .appcache \
