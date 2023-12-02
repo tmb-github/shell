@@ -169,6 +169,9 @@ siteData = {
 		'privacy-policy': {
 			mjs: './privacyPolicy.mjs'
 		},
+		'server': {
+			mjs: './admin/server.mjs'
+		},
 		'server-error-test': {
 			mjs: './admin/serverErrorTest.mjs'
 		},

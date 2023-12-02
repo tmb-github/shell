@@ -1,7 +1,6 @@
 <?php
 
 //echo print_r($_SERVER, true);
-//exit;
 
 $absolute_root = $_SERVER['ABSOLUTE_ROOT'];
 

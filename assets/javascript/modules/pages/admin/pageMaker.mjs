@@ -187,8 +187,12 @@ formWork = function () {
 					}
 */
 
-// Does not work: location.replace(o.baseHref + pageSlug + '/');
-// o.siteData.pageDependencies[pageSlug] = {mjs: "'" + o.kabobCaseToCamelCase(pageSlug) + "'"};
+// Does not work: 
+
+//location.replace(o.baseHref + pageSlug + '/');
+//o.siteData.pageDependencies[pageSlug] = {mjs: "'" + o.kabobCaseToCamelCase(pageSlug) + "'"};
+//window.location.href = o.baseHref + pageSlug + '/';
+
 
 				}
 			};

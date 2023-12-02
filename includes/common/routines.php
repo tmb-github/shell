@@ -148,6 +148,7 @@ if ($down_for_maintenance == true) {
 
 }
 
+
 /*************************************************
 ** Minify when testing mobile mode on localhost **
 *************************************************/
