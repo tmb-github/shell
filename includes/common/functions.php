@@ -459,26 +459,19 @@ function make_base64_png($img) {
 // images are ready and webps have been generated. Do here and at beginning 
 // of autoversion_lazyload():
 
-// Cleaned-up 2023-11-25:
 function autoversion($url, $use_webp = true) {
 
-	$absolute_root = $_SERVER['ABSOLUTE_ROOT'];
-	$assets_folder = $_SERVER['ASSETS_FOLDER'];
+// Set $external_site = TRUE if the resource is not on the localhost or parent domain;
+// write original code for that HERE.
 
-// Assume resource is on localhost and set $external_site = FALSE, then revise:
 	$external_site = FALSE;
-	if ((substr($url, 0, 8) == "https://") || (substr($url, 0, 7) == "http://") || (substr($url, 0, 2) == "//")) {
-		$external_site = TRUE;
-	}
-
-///////////////////////////////////////////////////
-// First Goal: Get the timestamp of the resource //
-///////////////////////////////////////////////////
+	$absolute_root = $_SERVER['ABSOLUTE_ROOT'];
 
 // If we're retrieving static content from an external site:
 	if ($external_site) {
 
 // Needed to accept new SSL certificate for PHP 8 on localhost
+// for BMT and IVES sites, perhaps not here, but just in case:
 		$context = stream_context_create( [
 			'ssl' => [
 				'verify_peer' => false,
@@ -489,46 +482,48 @@ function autoversion($url, $use_webp = true) {
 		$headers = get_headers($url, 1, $context);
 
 		if ($headers && (strpos($headers[0], '200') !== FALSE)) {
-			$timestamp = strtotime($headers['Last-Modified']);
-			$date_time = date("YmdHis", $timestamp);
+			$time = strtotime($headers['Last-Modified']);
+			$date_time = date("YmdHis", $time);
 		} else {
 			$date_time = '19990221125549';
 		}
-
-// Otherwise, we're retrieving it locally:
+// Otherwise, we're retrieving it from the dynamic server or from the local server:
 	} else {
 
-		$internal_url = $assets_folder . $url;
+// filemtime can't handle cross-origin requests, sigh...
+		if ((substr($url, 0, 8) == "https://") || (substr($url, 0, 7) == "http://") || (substr($url, 0, 2) == "//")) {
+			return $url;
+		} else {
 
-		if (($use_webp == true) && (isset($_SESSION['webp_support']) && !empty($_SESSION['webp_support']) && ($_SESSION['webp_support'] === true))) {
+			if (($use_webp == true) && (isset($_SESSION['webp_support']) && !empty($_SESSION['webp_support']) && ($_SESSION['webp_support'] === true))) {
 
-			$ext = substr(strrchr($internal_url, '.'), 1);
+				$ext = substr(strrchr($url, '.'), 1);
 
-			if (($ext === 'jpg') || ($ext === 'jpeg') || ($ext === 'png') || ($ext === 'gif')) {
-				if ($ext === 'jpg') {
-					$webp_url = str_replace('.jpg', '.webp', $internal_url);
+				if (($ext === 'jpg') || ($ext === 'jpeg') || ($ext === 'png') || ($ext === 'gif')) {
+					if ($ext === 'jpg') {
+						$webp_url = str_replace('.jpg', '.webp', $url);
+					}
+					if ($ext === 'jpeg') {
+						$webp_url = str_replace('.jpeg', '.webp', $url);
+					}
+					if ($ext === 'png') {
+						$webp_url = str_replace('.png', '.webp', $url);
+					}
+					if ($ext === 'gif') {
+						$webp_url = str_replace('.gif', '.webp', $url);
+					}
+					$url = $webp_url;
 				}
-				if ($ext === 'jpeg') {
-					$webp_url = str_replace('.jpeg', '.webp', $internal_url);
-				}
-				if ($ext === 'png') {
-					$webp_url = str_replace('.png', '.webp', $internal_url);
-				}
-				if ($ext === 'gif') {
-					$webp_url = str_replace('.gif', '.webp', $internal_url);
-				}
-				$internal_url = $webp_url;
+			}
+
+			$absolute_root = return_absolute_root();
+			$absolute_url = $absolute_root . $url;
+			if (file_exists($absolute_url)) {
+				$date_time = date("YmdHis", filemtime($absolute_url));
+			} else {
+				$date_time = '19990221125549';
 			}
 		}
-
-		$full_url = $absolute_root . $internal_url;
-
-		if (file_exists($full_url)) {
-			$date_time = date("YmdHis", filemtime($full_url));
-		} else {
-			$date_time = '19990221125549';
-		}
-
 	}
 
 // Now, splice the timestamp before the extension:
@@ -541,6 +536,7 @@ function autoversion($url, $use_webp = true) {
 	return $autoversioned_url;
 
 }
+
 
 /* Copy of master-list.css into individual-imports.css in which each imported CSS file is auto-versioned */
 
