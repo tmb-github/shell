@@ -40,9 +40,13 @@ $page_array = [
 */
 
 if (count($page_array) > 0) {
+
+	$hidden_checkbox_count++;
+	$ignore = 'ignore' . $hidden_checkbox_count;
+
 ?>
 			<li data-span="<?php echo $switcher_name; ?>" class="no-progress-line menu-side-one">
-				<input id=<?php echo $side_switcher_id; ?> data-switcher-target="Main Menu" aria-labelledby="<?php echo $switcher_id; ?>" type=checkbox title="hidden checkbox" name=ignore2 value=ignore2>
+				<input id=<?php echo $side_switcher_id; ?> data-switcher-target="Main Menu" aria-labelledby="<?php echo $switcher_id; ?>" type=checkbox title="hidden checkbox" name="<?php echo $ignore; ?>" value="<?php echo $ignore; ?>">
 				<div data-for=<?php echo $side_switcher_id; ?> id=<?php echo $switcher_id; ?>><span class=switch-to-secondary-ul tabindex=-1><?php echo $switcher_name; ?></span></div>
 				<ul class=secondary-ul>
 					<li data-span="Main Menu" class="menu-side-two no-progress-line orange ripple">

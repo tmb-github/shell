@@ -1,6 +1,12 @@
 <?php
 ob_start();
 
+// 2023-12-02:
+// For hidden checkboxes, we use "ignore" for the "name" and "value"
+// attributes. But they need to be unique for each checkbox, so we'll increment
+// a counter each time they're used and append the number:
+$hidden_checkbox_count = 0;
+
 // https://community.adobe.com/t5/photoshop-ecosystem-discussions/p-how-do-i-export-to-svg-from-photoshop/m-p/12208976
 
 // JavaScript should search for #skip-to-main-content and change href to 
@@ -80,8 +86,11 @@ if ($font_force_load == true) {
 
 }
 
+$hidden_checkbox_count++;
+$ignore = 'ignore' . $hidden_checkbox_count;
+
 ?>
-	<input id=hamburger type=checkbox title="hidden checkbox" name=ignore value=ignore>
+	<input id=hamburger type=checkbox title="hidden checkbox" name="<?php echo $ignore; ?>" value="<?php echo $ignore; ?>">
 <?php
 
 /*
