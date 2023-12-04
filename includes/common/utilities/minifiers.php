@@ -1,143 +1,4 @@
 <?php
-// HTML Minifier => https://gist.github.com/tovic/d7b310dea3b33e4732c0
-function tovic_minify_html_PROBLEM_FAILS_ON_ALL_WORKS_SEE_BELOW($input) {
-
-	if (trim($input) == "") {
-		return $input;
-	}
-
-	$input = str_replace(' + ', 'INGOLFDAHLPLUSINGOLFDAHL', $input);
-	$input = str_replace(' - ', 'INGOLFDAHLMINUSINGOLFDAHL', $input);
-	$input = str_replace(' * ', 'INGOLFDAHLTMULTIPLYINGOLFDAHL', $input);
-	$input = str_replace(' / ', 'INGOLFDAHLDIVIDEINGOLFDAHL', $input);
-
-// Remove extra white-space(s) between HTML attribute(s)
-	$input = preg_replace_callback('#<([^\/\s<>!]+)(?:\s+([^<>]*?)\s*|\s*)(\/?)>#s', function($matches) {
-		return '<' . $matches[1] . preg_replace('#([^\s=]+)(\=([\'"]?)(.*?)\3)?(\s+|$)#s', ' $1$2', $matches[2]) . $matches[3] . '>';
-	}, str_replace("\r", "", $input));
-
-// Minify inline CSS declaration(s)
-	if(strpos($input, ' style=') !== false) {
-		$input = preg_replace_callback('#<([^<]+?)\s+style=([\'"])(.*?)\2(?=[\/\s>])#s', function($matches) {
-			return '<' . $matches[1] . ' style=' . $matches[2] . tovic_minify_css($matches[3]) . $matches[2];
-		}, $input);
-	}
-
-	$input = preg_replace(
-		array(
-			'#<(img|input)(>| .*?>)#s'
-		),
-		array(
-			'<$1$2</$1>'
-		),
-		$input);
-
-	$input = preg_replace(
-		array(
-			'#(?:<[a-z][\w:.-]*|(?!^)\G)(?:\s+(?:(?:src|href)=(?:"[^"]*"|\'[^\']*\')|[a-z][\w:.-]*="(?:[^"=]*\s[^"=]*|[^"\s]*=[^"\s]*)"))*\s+(?!(?:src|href)=)[a-z][\w:.-]*=\K(?|"([^\s"`=\[\]\^]*)"|\'([^\s\'`=\[\]\^]*)\')#ui'
-		),
-		array(
-			'$1'
-		),
-		$input);
-
-	$input = preg_replace(
-		array(
-			'#(<!--.*?-->)|(>)(?:\n*|\s{2,})(<)|^\s*|\s*$#s'
-		),
-		array(
-			'$1$2$3'
-		),
-		$input);
-
-	$input = preg_replace(
-		array(
-			'#(<!--.*?-->)|(?<!\>)\s+(<\/.*?>)|(<[^\/]*?>)\s+(?!\<)#s'
-		),
-		array(
-			'$1$2$3'
-		),
-		$input);
-// This is where it craps out:
-	$x_input = preg_replace(
-		array(
-			'#(<!--.*?-->)|(<[^\/]*?>)\s+(<[^\/]*?>)|(<\/.*?>)\s+(<\/.*?>)#s'
-		),
-		array(
-			'$1$2$3$4$5'
-		),
-		$input);
-	$input = $x_input;
-
-/*
-	$input = preg_replace(
-		array(
-			'#(<!--.*?-->)|(<\/.*?>)\s+(\s)(?!\<)|(?<!\>)\s+(\s)(<[^\/]*?\/?>)|(<[^\/]*?\/?>)\s+(\s)(?!\<)#s'
-		),
-		array(
-			'$1$2$3$4$5$6$7'
-		),
-		$input);
-*/
-/*
-	$input = preg_replace(
-		array(
-			'#(<!--.*?-->)|(<[^\/]*?>)\s+(<\/.*?>)#s'
-		),
-		array(
-			'$1$2$3'
-		),
-		$input);
-	$input = preg_replace(
-		array(
-			'#<(img|input)(>| .*?>)<\/\1>#s'
-		),
-		array(
-			'<$1$2'
-		),
-		$input);
-	$input = preg_replace(
-		array(
-			'#(&nbsp;)&nbsp;(?![<\s])#'
-		),
-		array(
-			'$1 '
-		),
-		$input);
-	$input = preg_replace(
-		array(
-			'#(?<=\>)(&nbsp;)(?=\<)#'
-		),
-		array(
-			'$1',
-		),
-		$input);
-	$input = preg_replace(
-		array(
-			'#\s*<!--(?!\[if\s).*?-->\s*|(?<!\>)\n+(?=\<[^!])#s'
-		),
-		array(
-			""
-		),
-		$input);
-*/
-//$input = '';
-$return_string = $input;
-
-// 2020-05-26:
-// Necessitated by "Platylingus / Cunniplatypus" title:
-// Corresponding routine in gallery-editor/main.php:
-	$return_string = str_replace(' INGOLFDAHLDIVIDEINGOLFDAHL ', ' / ', $return_string);
-
-	$return_string = str_replace('INGOLFDAHLPLUSINGOLFDAHL', ' + ', $return_string);
-	$return_string = str_replace('INGOLFDAHLMINUSINGOLFDAHL', ' - ', $return_string);
-	$return_string = str_replace('INGOLFDAHLTMULTIPLYINGOLFDAHL', ' * ', $return_string);
-	$return_string = str_replace('INGOLFDAHLDIVIDEINGOLFDAHL', ' / ', $return_string);
-
-	return $return_string;
-}
-
-// original version:
 function tovic_minify_html($input) {
 
 	if (trim($input) == "") {
@@ -147,10 +8,16 @@ function tovic_minify_html($input) {
 // 2022-03-04:
 	$input_save = $input;
 
-	$input = str_replace(' + ', 'INGOLFDAHLPLUSINGOLFDAHL', $input);
-	$input = str_replace(' - ', 'INGOLFDAHLMINUSINGOLFDAHL', $input);
-	$input = str_replace(' * ', 'INGOLFDAHLTMULTIPLYINGOLFDAHL', $input);
-	$input = str_replace(' / ', 'INGOLFDAHLDIVIDEINGOLFDAHL', $input);
+// 2023-12-03
+//
+// It looks as though we no longer need to protect these math symbols from
+// minification, but KEEP just in case there's a case we overlooked (see 
+// corresponding routine at the end of this function):
+//
+//	$input = str_replace(' + ', 'INGOLFDAHLPLUSINGOLFDAHL', $input);
+//	$input = str_replace(' - ', 'INGOLFDAHLMINUSINGOLFDAHL', $input);
+//	$input = str_replace(' * ', 'INGOLFDAHLTMULTIPLYINGOLFDAHL', $input);
+//	$input = str_replace(' / ', 'INGOLFDAHLDIVIDEINGOLFDAHL', $input);
 
 // Remove extra white-space(s) between HTML attribute(s)
 	$input = preg_replace_callback('#<([^\/\s<>!]+)(?:\s+([^<>]*?)\s*|\s*)(\/?)>#s', function($matches) {
@@ -243,29 +110,32 @@ function tovic_minify_html($input) {
 		),
 		$input);
 
-//$input = '';
-//return $return_string;
+// 2023-12-03
+//
+// See corresponding replacement block at top of this function for explanation.
+// KEEP this all for now until we're certain it's no longer necessary.
+//
+//	if (!empty($return_string)) {
+//
+// This line was added to reverse a corresponding replacement in
+// gallery-editor/main.php of the art site. Along with the rest of this routine,
+// it no longer seems necessary:
+//
+//		$return_string = str_replace(' INGOLFDAHLDIVIDEINGOLFDAHL ', ' / ', $return_string);
+//
+//		$return_string = str_replace('INGOLFDAHLPLUSINGOLFDAHL', ' + ', $return_string);
+//		$return_string = str_replace('INGOLFDAHLMINUSINGOLFDAHL', ' - ', $return_string);
+//		$return_string = str_replace('INGOLFDAHLTMULTIPLYINGOLFDAHL', ' * ', $return_string);
+//		$return_string = str_replace('INGOLFDAHLDIVIDEINGOLFDAHL', ' / ', $return_string);
+//	} else {
+//// ensure it's not null:
+//		$return_string = '';
+//	}
 
-// 2020-05-26:
-// Necessitated by "Platylingus / Cunniplatypus" title:
-// Corresponding routine in gallery-editor/main.php:
-
-// 2022-05-01
-// If it's not null or empty
-	if (!empty($return_string)) {
-		$return_string = str_replace(' INGOLFDAHLDIVIDEINGOLFDAHL ', ' / ', $return_string);
-
-		$return_string = str_replace('INGOLFDAHLPLUSINGOLFDAHL', ' + ', $return_string);
-		$return_string = str_replace('INGOLFDAHLMINUSINGOLFDAHL', ' - ', $return_string);
-		$return_string = str_replace('INGOLFDAHLTMULTIPLYINGOLFDAHL', ' * ', $return_string);
-		$return_string = str_replace('INGOLFDAHLDIVIDEINGOLFDAHL', ' / ', $return_string);
-	} else {
-// ensure it's not null:
-		$return_string = '';
-	}
-
-// 2022-03-04:
-	if ($return_string == '') {
+// 2023-12-03
+// empty() returns TRUE when argument is NULL, which is a necessary
+// check in cases of routine failure:
+	if (empty($return_string) || ($return_string == '')) {
 		$return_string = $input_save;
 	}
 
