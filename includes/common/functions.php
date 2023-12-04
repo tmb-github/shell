@@ -466,6 +466,8 @@ function autoversion($url, $use_webp = true) {
 
 	$external_site = FALSE;
 	$absolute_root = $_SERVER['ABSOLUTE_ROOT'];
+	$assets_folder = $_SERVER['ASSETS_FOLDER'];
+
 
 // If we're retrieving static content from an external site:
 	if ($external_site) {
@@ -516,8 +518,10 @@ function autoversion($url, $use_webp = true) {
 				}
 			}
 
-			$absolute_root = return_absolute_root();
-			$absolute_url = $absolute_root . $url;
+// 2023-12-04:
+// Needed assets_folder:
+			$absolute_url = $absolute_root . $assets_folder . $url;
+
 			if (file_exists($absolute_url)) {
 				$date_time = date("YmdHis", filemtime($absolute_url));
 			} else {
