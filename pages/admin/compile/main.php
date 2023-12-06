@@ -21,7 +21,7 @@ render_custom_style_elements();
 ?>
 
 	<h1 id=main-content>Compile</h1>
-	<form class="compile-form outer-container-to-center" method=post enctype=multipart/form-data>
+	<form class="compile-form outer-container-to-center" method=post>
 		<fieldset class=compile-options>
 			<legend>Options</legend>
 			<ul>

@@ -21,7 +21,7 @@ render_custom_style_elements();
 ?>
 
 	<h1 id=main-content>Login</h1>
-	<form class="login-form outer-container-to-center" method=post enctype=multipart/form-data>
+	<form class="login-form outer-container-to-center" method=post>
 		<div class="inner-container-to-center input-grid">
 			<label for=username-input>Username:</label>
 			<input id=username-input type=text name=username autocomplete=off required autofocus>
@@ -34,8 +34,13 @@ render_custom_style_elements();
 		</div>
 		<p class="username-password-unrecognized text-align-center padding-1em"><strong>Username & Password combination not recognized.</strong></p>
 	</form>
-
 <?php
+/*
+	<form action="includes/forms/admin/login/login_auth.php" method=post>
+		<input type="submit" value="Submit">
+	</form>
+*/
+
 include $absolute_root . 'includes/components/breadcrumb_schema.php';
 ?>
 </main>

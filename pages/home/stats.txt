@@ -1,0 +1,8 @@
+No syntax errors detected in C:\xampp\htdocs\shell\pages\home\meta-schema-overrides.inc.php
+No syntax errors detected in C:\xampp\htdocs\shell\pages\home\css_array.inc.php
+No syntax errors detected in C:\xampp\htdocs\shell\pages\home\index-main-vars.php
+No syntax errors detected in C:\xampp\htdocs\shell\pages\home\index.php
+No syntax errors detected in C:\xampp\htdocs\shell\pages\home\lcp_img_and_preload_link_variables.inc.php
+No syntax errors detected in C:\xampp\htdocs\shell\pages\home\lcp_img_and_preload_link_variables_2.inc.php
+No syntax errors detected in C:\xampp\htdocs\shell\pages\home\main.php
+No syntax errors detected in C:\xampp\htdocs\shell\pages\home\meta-schema-overrides.inc.php

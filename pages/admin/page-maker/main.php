@@ -78,7 +78,7 @@ $existing_page_name_array = array_unique($existing_page_name_array);
 
 ?>
 	<h1 id=main-content tabindex=0>Page Maker</h1>
-	<form id=page-upload-form class=page-upload-form method=post enctype=multipart/form-data>
+	<form id=page-upload-form class=page-upload-form method=post>
 		<div class=upload-status></div>
 		<x-label for=submit-button class=no-colon><input id=submit-button type=submit value="Submit" name=submit-image></x-label>
 		<label for=page-name>Page Name: <input id=page-name class=page-name type=text name=page_name title="Example: Discography" data-existing-page-names="<?php echo implode(' | ', $existing_page_name_array); ?>" autocomplete=off data-required=true required></label>
