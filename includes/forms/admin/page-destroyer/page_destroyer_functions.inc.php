@@ -70,6 +70,7 @@ for ($x = 0; $x < count($title_case_array); $x++) {
 
 // concatenate all the possible forms needed:
 	$value = $camel_case_array[$x] . '|' . $snake_case_array[$x] . '|' . $kabob_case_array[$x] . '|' . $title_case_array[$x];
+
 // get their hash:
 	$hashed_value = hash('sha256', $value);
 

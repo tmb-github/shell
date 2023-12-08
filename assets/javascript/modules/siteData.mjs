@@ -112,9 +112,6 @@ siteData = {
 		'theme/'
 	],
 	pageDependencies: {
-		'admin-dummy': {
-			mjs: './admin/admin-dummy.mjs'
-		},
 /*
 // EXAMPLE:
 		'home': {
