@@ -85,7 +85,7 @@ function reviseSiteData($kabob, $camel) {
 	$filepath = $absolute_root . 'assets/javascript/modules/siteData.mjs';
 
 	// Read the file into an array of lines
-	$lines = file($filePath);
+	$lines = file($filepath);
 
 
 	// Define the pattern for three consecutive lines with XXX and YYY
@@ -108,7 +108,7 @@ function reviseSiteData($kabob, $camel) {
 	}
 
 // Write the modified lines back to the file
-	$result = file_put_contents($filePath, implode('', $lines));
+	$result = file_put_contents($filepath, implode('', $lines));
 
 // Check for success or failure
 	if ($result !== false) {
@@ -169,7 +169,7 @@ if ($status_ok) {
 } else {
 // send a 422 Unprocessable Entity header, echo the JSON, and exit:
 	http_response_code(422);
-	$message = 'Page could not be created: ' . $reasons;
+	$message = 'Process could not be completed';
 	echo json_encode(array("status" => "error", "message" => "$message"));
 	exit;
 }
