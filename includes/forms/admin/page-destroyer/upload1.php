@@ -37,6 +37,16 @@ function reviseSiteData($file, $kabob, $camel) {
 // Read the file into an array of lines
 	$lines = file($file);
 
+// in siteData, we just use the final slug in the URL
+// as the key, not any of the folders that precede it,
+// so 'compile', not 'admin/compile'
+
+// Check if the string has any forward slashes
+	if (strpos($kabob, '/') !== false) {
+// Get the text that follows the last forward slash
+		$kabob = substr($kabob, strrpos($kabob, '/') + 1);
+	}
+
 // Define the pattern for three consecutive lines with $kabob and $camel:
 	$pattern1 = '/^\s*\'' . preg_quote($kabob, '/') . '\'\s*:\s*\{\s*$/';
 	$pattern2 = '/^\s*mjs:\s*\'\.\/' . preg_quote($camel, '/') . '\.mjs\'\s*$/';
