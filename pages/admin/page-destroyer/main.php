@@ -22,21 +22,6 @@ render_custom_style_elements();
 
 include $absolute_root . 'includes/forms/admin/page-destroyer/page_destroyer_functions.inc.php';
 
-/*
-echo print_r($camel_case_array, true);
-echo print_r($snake_case_array, true);
-echo print_r($kabob_case_array, true);
-echo print_r($title_case_array, true);
-exit;
-*/
-
-
-
-// eliminate duplicate entries:
-//$kabob_case_array = array_unique($kabob_case_array);
-
-
-
 ?>
 	<h1 id=main-content tabindex=0>Page Destroyer</h1>
 	<form id=page-destroyer-form class=page-destroyer-form method=post>
@@ -45,11 +30,6 @@ exit;
 		</div>
 		<div class="destruction-status padding-bottom-1em"></div>
 <?php
-/*
-<label for="artwork-original-available">Original Available:</label>
-<input id="artwork-original-available" type="checkbox" name="page" title="Original Available for Sale">
-
-*/
 echo '		<fieldset class=destroy-options>' . PHP_EOL;
 echo '			<legend><strong>Be Certain</strong></legend>' . PHP_EOL;
 echo '			<ul class=current-pages>' . PHP_EOL;
