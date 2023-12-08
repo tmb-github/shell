@@ -94,17 +94,28 @@ function reviseSiteData($kabob, $camel) {
 
 }
 
+//file_put_contents('x.txt', print_r($_POST['page_info'], true));
+
+$message = '';
 if (isset($_POST['page_info']) && is_array($_POST['page_info'])) {
 	for ($x = 0; $x < count($_POST['page_info']); $x++) {
 		$hash256 = $_POST['page_info'][$x];
 		$value = $hash_value_array[$hash256];
 		
 		$destruction[$x] = explode('|', $value);
+//file_put_contents('x.txt', print_r($destruction[$x], true), FILE_APPEND);
+		$camel = $destruction[$x][0];
+		$snake = $destruction[$x][1];
+		$kabob = $destruction[$x][2];
+		$page_name = $destruction[$x][3];
 
-		$camel = $destruction[0];
-		$snake = $destruction[1];
-		$kabob = $destruction[2];
-		$page_name = $destruction[3];
+		$message .= $camel . ' ' . $snake . ' ' . $kabob . ' ' . $page_name . PHP_EOL;
+//file_put_contents('x.txt', $message, FILE_APPEND);
+
+		$absolute_root = $_SERVER['ABSOLUTE_ROOT'];
+		$dir = $absolute_root . 'pages/' . $kabob;
+//file_put_contents('x.txt', $dir, FILE_APPEND);
+
 
 		$status_ok = destroyModule($camel);
 		if ($status_ok) {
@@ -138,7 +149,9 @@ if (isset($_POST['page_info']) && is_array($_POST['page_info'])) {
 	}
 }
 
+//file_put_contents('x.txt', $message);
 
+$status_ok = true;
 if ($status_ok) {
 //	$message = 'Everything ok.';
 	echo '{"status": "ok", "message": "' . $message . '"}';
