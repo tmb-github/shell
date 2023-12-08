@@ -112,9 +112,10 @@ siteData = {
 		'theme/'
 	],
 	pageDependencies: {
-		'tomato-greens': {
-			mjs: './tomatoGreens.mjs'
+		'admin-dummy': {
+			mjs: './admin/admin-dummy.mjs'
 		},
+
 /*
 // EXAMPLE:
 		'home': {

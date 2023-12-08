@@ -69,7 +69,10 @@ formLogic = function () {
 
 	formOnSubmit = function (event) {
 
+		var atLeastOneCheckboxIsChecked;
 		var destructionFinished;
+		var extractSubstringBeforeBrace;
+		var extractSubstringFromBrace;
 		var pageDestroyerPostFolder;
 		var fetchRoutine;
 		var formData;
@@ -83,6 +86,13 @@ formLogic = function () {
 // DEFINE FUNCTIONS //
 //////////////////////
 
+		atLeastOneCheckboxIsChecked = function () {
+			var checkboxes = Array.from(document.querySelectorAll('.destroy-options input'));
+			return checkboxes.reduce(function (accumulator, currentValue) {
+				return (accumulator || currentValue.checked);
+			}, false);
+		};
+
 		destructionFinished = function () {
 			(function (fetchProgressLine) {
 				if (fetchProgressLine) {
@@ -92,11 +102,63 @@ formLogic = function () {
 			submit.disabled = false;
 		};
 
+		extractSubstringBeforeBrace = function (inputString) {
+			var openingBraceIndex;
+			var substringBeforeBrace;
+
+// Find the position of the opening brace
+			openingBraceIndex = inputString.indexOf('{');
+
+// Check if the opening brace is found
+			if (openingBraceIndex !== -1) {
+// Use substring to get the substring before the opening brace
+				substringBeforeBrace = inputString.substring(0, openingBraceIndex);
+// Alternatively, you can use slice: const substringBeforeBrace = inputString.slice(0, openingBraceIndex);
+				return substringBeforeBrace;
+			} else {
+// If '{' is not found, return the entire string
+				return inputString;
+			}
+		};
+
+		extractSubstringFromBrace = function (inputString) {
+			var openingBraceIndex;
+			var substringFromBrace;
+
+// Find the position of the opening brace
+			openingBraceIndex = inputString.indexOf('{');
+
+// Check if the opening brace is found
+			if (openingBraceIndex !== -1) {
+// Use substring or slice to get the substring starting from the opening brace
+// Variation with slice: const substringFromBrace = inputString.slice(openingBraceIndex);
+				substringFromBrace = inputString.substring(openingBraceIndex);
+				return substringFromBrace;
+			} else {
+// Return an empty string or handle the case where '{' is not found
+				return '';
+			}
+		};
+
+
 		fetchRoutine = function () {
 			url = pageDestroyerPostFolder + 'upload1.php';
-//			o.fetchAppendToUploadStatusDiv('Setting $compile_static_html = false . . .');
 			fetch(url, options).then(o.fetchResponse).then(
 				function (resolve) {
+
+// An object of hashes of the succesfully deleted pages will be at end of resolve.message
+// It may be an empty object.
+					(function (hashObject) {
+						if (hashObject) {
+							Object.values(hashObject).forEach(function (hash) {
+								document.querySelector('.destroy-options ul li:has(input[value="' + hash + '"])')?.remove();
+							});
+						}
+					}(JSON.parse(extractSubstringFromBrace(resolve.message))));
+
+// Remove the hash object before sending it on to o.fetchAppendToUploadStatusDiv():
+					resolve.message = extractSubstringBeforeBrace(resolve.message);
+
 					o.fetchAppendToUploadStatusDiv(resolve.message);
 					return o.fetchResolve(resolve, '', 'Finished.');
 				},
@@ -109,7 +171,7 @@ formLogic = function () {
 				(window.location.host === 'localhost')
 				? o.siteData.localhostUrl + endpoint
 				: o.siteData.liveSiteUrl + endpoint
-			)
+			);
 		}('/includes/forms/admin/page-destroyer/'));
 
 //////////////////////
@@ -132,25 +194,33 @@ formLogic = function () {
 // KICK OFF THE ACTION //
 /////////////////////////
 
+// DO NOT PROCEDE IF NOTHING HAS BEEN CHECKED!
+
+		if (atLeastOneCheckboxIsChecked()) {
+
 // Deactivate submit button while routine is working:
-		submit.disabled = true;
+			submit.disabled = true;
 
 // Clear the DIV where the fetch results are written:
-		if (o.tmbTT.active) {
-			o.fetchUploadStatusDiv.innerHTML = o.DOMPurify.sanitize('');
-		} else {
-			o.fetchUploadStatusDiv.innerHTML = '';
-		}
+			if (o.tmbTT.active) {
+				o.fetchUploadStatusDiv.innerHTML = o.DOMPurify.sanitize('');
+			} else {
+				o.fetchUploadStatusDiv.innerHTML = '';
+			}
 
 // activate progress line:
-		(function (fetchProgressLine) {
-			if (fetchProgressLine) {
-				fetchProgressLine.classList.add('active');
-			}
-		}(document.querySelector('.progress-line')));
+			(function (fetchProgressLine) {
+				if (fetchProgressLine) {
+					fetchProgressLine.classList.add('active');
+				}
+			}(document.querySelector('.progress-line')));
 
 // POST the data and let the compilation begin:
-		fetchRoutine();
+			fetchRoutine();
+
+		} else {
+			window.alert('Select at least one page to delete.');
+		}
 
 	};
 

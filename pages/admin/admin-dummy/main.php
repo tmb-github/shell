@@ -17,7 +17,7 @@ $main_classes = $page . " main custom-style-elements";
 render_custom_style_elements();
 
 ?>
-	<h1 id=main-content tabindex=0>tomato greens</h1>
+	<h1 id=main-content tabindex=0>Dummy Page</h1>
 	<section class=font-samples>
 		<p class="roman">The quick brown fox jumped over the lazy dogs.</p>
 		<p class="italic">The quick brown fox jumped over the lazy dogs.</p>

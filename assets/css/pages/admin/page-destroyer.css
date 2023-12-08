@@ -197,6 +197,15 @@ JavaScript must be declared in common.css.
 	padding-top: 1em;
 }
 
+.page-destroyer .padding-bottom-1em {
+	padding-bottom: 1em;
+}
+
 .page-destroyer .destruction-status {
 	display: table;
+}
+
+.page-destroyer .destroy-options ul {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
 }

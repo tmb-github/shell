@@ -8,7 +8,7 @@
 include $absolute_root . 'includes/common/domain_info.php';
 include_once $absolute_root . 'includes/common/functions.php';
 
-$slug = 'tomato-greens';
+$slug = 'dummy';
 $page = $slug;
 
 $title = generate_title_from_request_uri($site_title);

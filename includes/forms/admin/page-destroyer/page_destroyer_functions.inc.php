@@ -5,7 +5,7 @@ $subfolders = get_all_subfolders($absolute_root . 'pages/');
 $kabob_case_array = array();
 $camel_case_array = array();
 $snake_case_array = array();
-$page_name_array = array();
+$title_case_array = array();
 $value_array = array();
 $hashed_array = array();
 $hashed_value_array = array();
@@ -41,7 +41,7 @@ foreach ($subfolders as $path) {
 // Join the parts with ": "
 			$formattedString = implode(': ', $formatted_parts);
 		}
-		$page_name_array[] = $formattedString;
+		$title_case_array[] = $formattedString;
 
 // build snake_case array:
 // Replace hyphens with underscores:
@@ -51,7 +51,7 @@ foreach ($subfolders as $path) {
 	}
 }
 
-array_multisort($snake_case_array, $camel_case_array, $kabob_case_array, $page_name_array);
+array_multisort($snake_case_array, $camel_case_array, $kabob_case_array, $title_case_array);
 
 function moveElementsToEnd($originalArray, $prefix) {
 	$matchingElements = array_filter($originalArray, function ($item) use ($prefix) {
@@ -64,12 +64,12 @@ function moveElementsToEnd($originalArray, $prefix) {
 $camel_case_array = moveElementsToEnd($camel_case_array, 'admin/');
 $snake_case_array = moveElementsToEnd($snake_case_array, 'admin/');
 $kabob_case_array = moveElementsToEnd($kabob_case_array, 'admin/');
-$page_name_array = moveElementsToEnd($page_name_array, 'Admin: ');
+$title_case_array = moveElementsToEnd($title_case_array, 'Admin: ');
 
-for ($x = 0; $x < count($page_name_array); $x++) {
+for ($x = 0; $x < count($title_case_array); $x++) {
 
 // concatenate all the possible forms needed:
-	$value = $camel_case_array[$x] . '|' . $snake_case_array[$x] . '|' . $kabob_case_array[$x] . '|' . $page_name_array[$x];
+	$value = $camel_case_array[$x] . '|' . $snake_case_array[$x] . '|' . $kabob_case_array[$x] . '|' . $title_case_array[$x];
 // get their hash:
 	$hashed_value = hash('sha256', $value);
 

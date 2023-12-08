@@ -1,8 +1,8 @@
 /**
-* tomatoGreens.mjs
+* dummy.mjs
 * Copyright (c) 2019-2023 Thomas M. Brodhead <https://bmt-systems.com>
 * Released under the MIT license
-* Date: 2023-12-08
+* Date: 2023-11-01
 */
 
 // Every mjs file has a main() function that is called by common.mjs inner().
@@ -33,7 +33,7 @@ main = function () {
 
 // If there are any utility modules needed on this page, run this function,
 // passing as an argument a string with name of this module (camelCase, not kabob-case):
-//	o.loadUtilityModules('tomatoGreens');
+//	o.loadUtilityModules('dummy');
 
 // Always revise the meta data:
 	metaData = returnMetaData(o);
@@ -60,9 +60,9 @@ returnMetaData = function (o) {
 	_canonical = '${CANONICAL}';
 	_default = '${DEFAULT}';
 	_title = '${TITLE}';
-	_description = 'tomato greens of ' + o.siteData.metaDescription;
+	_description = 'Dummy Page of ' + o.siteData.metaDescription;
 // NB: kabob-case:
-	_page = 'tomato-greens';
+	_page = 'dummy';
 	_image = _default;
 	_imageAlt = _default;
 
@@ -97,6 +97,7 @@ returnMetaData = function (o) {
 	return metaData;
 
 };
+
 
 // qwer: for reCAPTCHA: restore recaptchaEdits to module export:
 export default Object.freeze({
