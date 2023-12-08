@@ -1,5 +1,5 @@
 /**
-* compile.mjs
+* pageDestroyer.mjs
 * Copyright (c) 2019-2023 Thomas M. Brodhead <https://bmt-systems.com>
 * Released under the MIT license
 * Date: 2023-11-01
@@ -37,7 +37,7 @@ main = function () {
 	metaData = returnMetaData(o);
 	o.reviseMetaData(metaData);
 
-	o.compile.formLogic();
+	o.pageDestroyer.formLogic();
 // always include this in every page.mjs, and execute it last in main():
 	o.appendToCSS(':root', '{ --main-opacity: 1; }');
 
@@ -53,7 +53,7 @@ formLogic = function () {
 	o = this;
 
 	checkboxListener = function () {
-		document.querySelectorAll('.compile-options input').forEach(function (input) {
+		document.querySelectorAll('.destroy-options input').forEach(function (input) {
 			if (!input.classList.contains('click-listener')) {
 				input.classList.add('click-listener');
 				input.addEventListener('click', function (e) {
@@ -69,8 +69,8 @@ formLogic = function () {
 
 	formOnSubmit = function (event) {
 
-		var compilationFinished;
-		var compilePostFolder;
+		var destructionFinished;
+		var pageDestroyerPostFolder;
 		var fetchRoutine;
 		var formData;
 		var options;
@@ -83,7 +83,7 @@ formLogic = function () {
 // DEFINE FUNCTIONS //
 //////////////////////
 
-		compilationFinished = function () {
+		destructionFinished = function () {
 			(function (fetchProgressLine) {
 				if (fetchProgressLine) {
 					fetchProgressLine.classList.remove('active');
@@ -93,116 +93,30 @@ formLogic = function () {
 		};
 
 		fetchRoutine = function () {
-			url = compilePostFolder + 'do_not_compile_static_html.php';
-			o.fetchAppendToUploadStatusDiv('Setting $compile_static_html = false . . .');
-			fetch(url, options
-// FETCH 1:
-			).then(o.fetchResponse).then(
-				function (resolve) {
-					o.fetchAppendToUploadStatusDiv(resolve.message);
-					return o.fetchResolve(resolve, compilePostFolder + 'do_not_use_static_html.php', 'Setting $use_static_html = false . . .');
-				},
-				o.fetchReject
-// FETCH:
-			).then(o.fetchResponse).then(
-				function (resolve) {
-					o.fetchAppendToUploadStatusDiv(resolve.message);
-					return o.fetchResolve(resolve, compilePostFolder + 'minify_scripts.php', 'Minifying javascript/scripts/*.js . . .');
-				},
-				o.fetchReject
-// FETCH:
-			).then(o.fetchResponse).then(
-				function (resolve) {
-					o.fetchAppendToUploadStatusDiv(resolve.message);
-					return o.fetchResolve(resolve, compilePostFolder + 'minify_modules.php', 'Minifying javascript/modules/*.mjs . . .');
-				},
-				o.fetchReject
-// FETCH:
-			).then(o.fetchResponse).then(
-				function (resolve) {
-					o.fetchAppendToUploadStatusDiv(resolve.message);
-					return o.fetchResolve(resolve, compilePostFolder + 'update_site_webmanifest.php', 'Updating site.webmanifest . . .');
-				},
-				o.fetchReject
-// FETCH:
-			).then(o.fetchResponse).then(
-				function (resolve) {
-					o.fetchAppendToUploadStatusDiv(resolve.message);
-					return o.fetchResolve(resolve, compilePostFolder + 'update_browserconfig_xml.php', 'Updating browserconfig.xml . . .');
-				},
-				o.fetchReject
-// FETCH:
-			).then(o.fetchResponse).then(
-				function (resolve) {
-					o.fetchAppendToUploadStatusDiv(resolve.message);
-					return o.fetchResolve(resolve, compilePostFolder + 'update_fontface_css.php', 'Updating font-face.css . . .');
-				},
-				o.fetchReject
-// FETCH:
-			).then(o.fetchResponse).then(
-				function (resolve) {
-					o.fetchAppendToUploadStatusDiv(resolve.message);
-					return o.fetchResolve(resolve, compilePostFolder + 'compile_css.php', 'Updating compiled.css . . .');
-				},
-				o.fetchReject
-// FETCH:
-			).then(o.fetchResponse).then(
-				function (resolve) {
-					o.fetchAppendToUploadStatusDiv(resolve.message);
-					return o.fetchResolve(resolve, compilePostFolder + 'update_individual_imports_css.php', 'Updating individual-imports.css . . .');
-				},
-				o.fetchReject
-// FETCH:
-			).then(o.fetchResponse).then(
-				function (resolve) {
-					o.fetchAppendToUploadStatusDiv(resolve.message);
-					return o.fetchResolve(resolve, compilePostFolder + 'update_service_worker.php', 'Updating Service Worker . . .');
-				},
-				o.fetchReject
-// FETCH:
-			).then(o.fetchResponse).then(
-				function (resolve) {
-					o.fetchAppendToUploadStatusDiv(resolve.message);
-					return o.fetchResolve(resolve, compilePostFolder + 'minify_service_worker.php', 'Minifying sw.js . . .');
-				},
-				o.fetchReject
-// FETCH:
-			).then(o.fetchResponse).then(
-				function (resolve) {
-					o.fetchAppendToUploadStatusDiv(resolve.message);
-					return o.fetchResolve(resolve, compilePostFolder + 'compile_htaccess.php', 'Updating .htaccess . . .');
-				},
-				o.fetchReject
-// FETCH:
-			).then(o.fetchResponse).then(
-				function (resolve) {
-					o.fetchAppendToUploadStatusDiv(resolve.message);
-					return o.fetchResolve(resolve, compilePostFolder + 'update_date_modified.php', 'Updating dateModified.txt . . .');
-				},
-				o.fetchReject
-// FETCH:
-			).then(o.fetchResponse).then(
+			url = pageDestroyerPostFolder + 'upload1.php';
+//			o.fetchAppendToUploadStatusDiv('Setting $compile_static_html = false . . .');
+			fetch(url, options).then(o.fetchResponse).then(
 				function (resolve) {
 					o.fetchAppendToUploadStatusDiv(resolve.message);
 					return o.fetchResolve(resolve, '', 'Finished.');
 				},
 				o.fetchReject
-			).then(compilationFinished);
+			).then(destructionFinished);
 		};
 
 		(function (endpoint) {
-			compilePostFolder = (
+			pageDestroyerPostFolder = (
 				(window.location.host === 'localhost')
 				? o.siteData.localhostUrl + endpoint
 				: o.siteData.liveSiteUrl + endpoint
 			)
-		}('/includes/forms/admin/compile/'));
+		}('/includes/forms/admin/page-destroyer/'));
 
 //////////////////////
 // DEFINE VARIABLES //
 //////////////////////
 
-		o.fetchUploadStatusDiv = document.querySelector('.upload-status');
+		o.fetchUploadStatusDiv = document.querySelector('.destruction-status');
 
 		submit = document.querySelector('.submit-button button');
 
@@ -240,17 +154,16 @@ formLogic = function () {
 
 	};
 
-
 	checkboxListener();
 
 	(function (form) {
 		if (form) {
-			if (!form.classList.contains('compile-form-on-submit-listener')) {
-				form.classList.add('compile-form-on-submit-listener');
+			if (!form.classList.contains('page-destroyer-form-on-submit-listener')) {
+				form.classList.add('page-destroyer-form-on-submit-listener');
 				form.addEventListener('submit', formOnSubmit);
 			}
 		}
-	}(document.querySelector('.compile-form')));
+	}(document.querySelector('.page-destroyer-form')));
 
 };
 
@@ -270,9 +183,9 @@ returnMetaData = function (o) {
 	_canonical = '${CANONICAL}';
 	_default = '${DEFAULT}';
 	_title = '${TITLE}';
-	_description = 'Compile page description for ' + o.siteData.metaDescription;
+	_description = 'Page Destroyer description for ' + o.siteData.metaDescription;
 // NB: kabob-case:
-	_page = 'compile';
+	_page = 'page-destroyer';
 	_image = _default;
 	_imageAlt = _default;
 

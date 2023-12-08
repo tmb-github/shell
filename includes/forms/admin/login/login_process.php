@@ -23,6 +23,3 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 		print_r('false');
 	}
 }
-
-
-

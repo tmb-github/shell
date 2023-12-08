@@ -163,17 +163,23 @@ if ($clickable_mobile_logo == true) {
 // Also see: https://dockyard.com/blog/2020/03/02/accessible-loading-indicatorswith-no-extra-elements
 
 // To make the mobile image logo a link to the home page (but needs vertical centering):
+/*
 	if ($_SERVER['HTTP_HOST'] == 'localhost') {
 		$home = './';
 	} else {
 		$home = '/';
 	}
-		echo '	<a href="' . $home . '" class="internal-anchor mobile-logo-icon" tabindex=-1>' . PHP_EOL;
-		$img_attribute_array['title'] = 'Navigate to Home Page';
-		$tabs = 3;
-		echo picture_or_img_element($picture, $variable_size, $img_url, $img_widths, $multipliers, $sizes, $picture_attribute_array, $img_attribute_array, $tabs, $lazyload, $social_share);
-		echo '		<span class=screen-reader>Home</span>' . PHP_EOL;
-		echo '	</a>' . PHP_EOL;
+*/
+// 2023-12-06:
+// It's unclear why the './' form was needed:
+	$home = '/';
+
+	echo '	<a href="' . $home . '" class="internal-anchor mobile-logo-icon" tabindex=-1>' . PHP_EOL;
+	$img_attribute_array['title'] = 'Navigate to Home Page';
+	$tabs = 3;
+	echo picture_or_img_element($picture, $variable_size, $img_url, $img_widths, $multipliers, $sizes, $picture_attribute_array, $img_attribute_array, $tabs, $lazyload, $social_share);
+	echo '		<span class=screen-reader>Home</span>' . PHP_EOL;
+	echo '	</a>' . PHP_EOL;
 
 } else {
 
@@ -188,11 +194,16 @@ if ($clickable_mobile_logo == true) {
 		<ul class=primary-ul>
 			<li data-page=home data-href=home class=menu-side-one id=nav-list-home-link>
 <?php
+/*
 if ($_SERVER['HTTP_HOST'] == 'localhost') {
 	$home = './';
 } else {
 	$home = '/';
 }
+*/
+// 2023-12-06:
+// It's unclear why the './' form was needed:
+	$home = '/';
 ?>
 				<a href="<?php echo $home; ?>" class="internal-anchor" tabindex=-1>
 <?php
@@ -288,6 +299,7 @@ if (isset($_SESSION['authenticated']) && ($_SESSION['authenticated'] == 'true'))
 		'Login' => 'admin/login',
 		'Logout' => 'admin/logout',
 		'Not Found' => 'does-not-exist',
+		'Page Destroyer' => 'admin/page-destroyer',
 		'Page Maker' => 'admin/page-maker',
 		'Server' => 'admin/server',
 		'Server Error' => 'admin/server-error-test'

@@ -102,6 +102,7 @@ returnMetaData = function (o) {
 	_default = '${DEFAULT}';
 	_title = '${TITLE}';
 	_description = 'Server Error Test page description for ' + o.siteData.metaDescription;
+// NB: kabob-case:
 	_page = 'server-error-test';
 	_image = _default;
 	_imageAlt = _default;

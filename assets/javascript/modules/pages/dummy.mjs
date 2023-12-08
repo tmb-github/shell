@@ -61,6 +61,7 @@ returnMetaData = function (o) {
 	_default = '${DEFAULT}';
 	_title = '${TITLE}';
 	_description = 'Dummy Page of ' + o.siteData.metaDescription;
+// NB: kabob-case:
 	_page = 'dummy';
 	_image = _default;
 	_imageAlt = _default;

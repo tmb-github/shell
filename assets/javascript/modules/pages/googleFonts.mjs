@@ -274,6 +274,7 @@ returnMetaData = function (o) {
 	_default = '${DEFAULT}';
 	_title = '${TITLE}';
 	_description = 'Google Fonts download page for ' + o.siteData.metaDescription;
+// NB: kabob-case:
 	_page = 'google-fonts';
 	_image = _default;
 	_imageAlt = _default;

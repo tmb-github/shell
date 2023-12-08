@@ -221,7 +221,8 @@ returnMetaData = function (o) {
 	_default = '${DEFAULT}';
 	_title = '${TITLE}';
 	_description = 'Contact form of ' + o.siteData.metaDescription;
-	_page = 'home';
+// NB: kabob-case:
+	_page = 'contact';
 	_image = _default;
 	_imageAlt = _default;
 

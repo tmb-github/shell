@@ -324,13 +324,8 @@ main = function () {
 // We must wait until the carousel is updated in the DOM before resetting the
 // various event listeners:
 		o.onResizeEdits = o.debounce(function () {
-
-//			o.resetHeaderHeightVariable();
-// This is all that's called by o.resetHeaderHeightVariable() that we need:
 			o.anchorHashFragmentIntercept();
-
 			o.setOrRemoveMobileClasses();
-
 		}, 250, false);
 
 // 2021-11-04

@@ -61,6 +61,7 @@ returnMetaData = function (o) {
 	_default = '${DEFAULT}';
 	_title = '${TITLE}';
 	_description = 'Admin page listing of ' + o.siteData.metaDescription;
+// NB: kabob-case:
 	_page = 'admin';
 	_image = _default;
 	_imageAlt = _default;

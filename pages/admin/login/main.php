@@ -35,11 +35,6 @@ render_custom_style_elements();
 		<p class="username-password-unrecognized text-align-center padding-1em"><strong>Username & Password combination not recognized.</strong></p>
 	</form>
 <?php
-/*
-	<form action="includes/forms/admin/login/login_auth.php" method=post>
-		<input type="submit" value="Submit">
-	</form>
-*/
 
 include $absolute_root . 'includes/components/breadcrumb_schema.php';
 ?>

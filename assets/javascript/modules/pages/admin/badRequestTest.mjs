@@ -102,6 +102,7 @@ returnMetaData = function (o) {
 	_default = '${DEFAULT}';
 	_title = '${TITLE}';
 	_description = 'Bad Request Test page description for ' + o.siteData.metaDescription;
+// NB: kabob-case:
 	_page = 'bad-request-test';
 	_image = _default;
 	_imageAlt = _default;

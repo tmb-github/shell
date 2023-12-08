@@ -45,6 +45,7 @@ main = function () {
 
 formLogic = function () {
 
+	var authOnSubmit;
 	var formOnSubmit;
 	var o;
 
@@ -77,19 +78,40 @@ formLogic = function () {
 					if (password === '') {
 						alert("Password required.\n\nPlease add password and re-submit.\n");
 					} else {
-console.log('xxx');
 						submit.disabled = true;
 // response:
 						ajaxResponse = function (userData) {
+
+//							var fragment;
+//							var html;
+
 							usernameInput.value = '';
 							passwordInput.value = '';
 							submit.disabled = false;
+
 							if (userData === 'true') {
+
+/*
+								html = '<form class="display-none login-auth" action="includes/forms/admin/login/login_auth.php" method=post><input type=submit value=submit></form>';
+								fragment = document.createRange().createContextualFragment(html);
+								(function (main) {
+									if (main) {
+										main.appendChild(fragment);
+										(function (form) {
+											if (form) {
+												form.submit();
+											}
+										}(document.querySelector('.login-auth')));
+									}
+								}(document.querySelector('.main')));
+*/
+
 								window.location.href = (
 									(window.location.host === 'localhost')
 									? o.siteData.localhostUrl
 									: o.siteData.liveSiteUrl
 								);
+
 // It may be advisable to add:
 // window.location.reload();
 // See: https://stackoverflow.com/questions/41020403/reload-a-page-with-location-href-or-window-location-reloadtrue
@@ -145,6 +167,55 @@ console.log('xxx');
 		}
 	}(document.querySelector('.login-form')));
 
+// includes/forms/admin/login/login_auth.php
+
+	authOnSubmit = function (event) {
+		var ajaxURL;
+		var authFormMutate;
+		var submit;
+
+//		event.preventDefault();
+
+		authFormMutate = function () {
+
+			var ajaxResponse;
+
+			submit.disabled = true;
+// response:
+			ajaxResponse = function (userData) {
+				submit.disabled = false;
+/*
+				window.location.href = (
+					(window.location.host === 'localhost')
+					? o.siteData.localhostUrl
+					: o.siteData.liveSiteUrl
+				);
+*/
+// It may be advisable to add:
+// window.location.reload();
+// See: https://stackoverflow.com/questions/41020403/reload-a-page-with-location-href-or-window-location-reloadtrue
+			};
+
+			o.ajax.post(ajaxURL, {}, ajaxResponse, true);
+
+		};
+
+		submit = document.querySelector('.login-auth input');
+		ajaxURL = o.metaDataRootDir + 'includes/forms/admin/login/login_auth.php';
+
+		authFormMutate();
+
+	};
+
+	(function (form) {
+		if (form) {
+			if (!form.classList.contains('login-auth-on-submit-listener')) {
+				form.classList.add('login-auth-on-submit-listener');
+				form.addEventListener('submit', authOnSubmit);
+			}
+		}
+	}(document.querySelector('.login-auth')));
+
 };
 
 returnMetaData = function (o) {
@@ -164,6 +235,7 @@ returnMetaData = function (o) {
 	_default = '${DEFAULT}';
 	_title = '${TITLE}';
 	_description = 'Login page description for ' + o.siteData.metaDescription;
+// NB: kabob-case:
 	_page = 'login';
 	_image = _default;
 	_imageAlt = _default;

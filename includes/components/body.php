@@ -54,6 +54,7 @@ if ($root_asset == '') {
 $root_asset = rtrim($root_asset, '/');
 
 $full_request = $document_root . $root . $root_asset . '/main.php';
+
 $not_found_request = $document_root . $root . 'pages/error/main.php';
 
 // qwer:htaccess

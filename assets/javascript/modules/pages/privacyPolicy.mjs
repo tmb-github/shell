@@ -83,6 +83,7 @@ returnMetaData = function (o) {
 	_default = '${DEFAULT}';
 	_title = '${TITLE}';
 	_description = 'Privacy Policy page description for ' + o.siteData.metaDescription;
+// NB: kabob-case:
 	_page = 'privacy-policy';
 	_image = _default;
 	_imageAlt = _default;

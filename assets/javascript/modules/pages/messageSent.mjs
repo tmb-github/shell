@@ -58,6 +58,7 @@ returnMetaData = function (o) {
 	_default = '${DEFAULT}';
 	_title = '${TITLE}';
 	_description = 'Message Sent page description for ' + o.siteData.metaDescription;
+// NB: kabob-case:
 	_page = 'message-sent';
 	_image = _default;
 	_imageAlt = _default;

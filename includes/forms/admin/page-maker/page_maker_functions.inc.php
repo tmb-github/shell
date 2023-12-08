@@ -242,7 +242,7 @@ function generate_css_array_inc_php($filename, $slug) {
 	return true;
 }
 
-function write_mjs_file($filename, $camel_case_name, $kebab_case_name, $page_title) {
+function write_mjs_file($filename, $camel_case_name, $kabob_case_name, $page_title) {
 
 	$currentYear = date("Y");
 	$currentDate = date("Y-m-d");
@@ -311,7 +311,8 @@ returnMetaData = function (o) {
 	_default = '\${DEFAULT}';
 	_title = '\${TITLE}';
 	_description = '$page_title of ' + o.siteData.metaDescription;
-	_page = '$kebab_case_name';
+// NB: kabob-case:
+	_page = '$kabob_case_name';
 	_image = _default;
 	_imageAlt = _default;
 

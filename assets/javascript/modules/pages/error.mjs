@@ -159,7 +159,8 @@ returnMetaData = function (o) {
 	_title = '${TITLE}';
 
 //	_description = 'Error 404 page description for ' + o.siteData.metaDescription;
-//	_page = 'error';
+// NB: kabob-case:
+	_page = 'error';
 	_image = _default;
 	_imageAlt = _default;
 

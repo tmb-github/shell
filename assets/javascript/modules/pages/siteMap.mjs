@@ -58,6 +58,7 @@ returnMetaData = function (o) {
 	_default = '${DEFAULT}';
 	_title = '${TITLE}';
 	_description = 'Site Map page description for ' + o.siteData.metaDescription;
+// NB: kabob-case:
 	_page = 'site-map';
 	_image = _default;
 	_imageAlt = _default;

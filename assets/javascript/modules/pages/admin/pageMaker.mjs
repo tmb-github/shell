@@ -44,6 +44,9 @@ main = function () {
 
 	o.pageMaker.formWork();
 
+
+//o.onResizeEdits();
+
 };
 
 formWork = function () {
@@ -177,25 +180,26 @@ formWork = function () {
 				if (o.fetchProgressLine) {
 					o.fetchProgressLine.classList.remove('active');
 				}
-				if (o.fetchNoProblem) {
+
+
 /*
+				if (o.fetchNoProblem) {
 // For deleting pages...SAVE:
-					if (deletePage) {
-						location.replace(o.baseHref + 'admin/page-editor/');
-					} else {
-						location.replace(o.baseHref + pageSlug + '/');
-					}
-*/
-
+//					if (deletePage) {
+//						location.replace(o.baseHref + 'admin/page-editor/');
+//					} else {
+//						location.replace(o.baseHref + pageSlug + '/');
+//					}
+//
 // Does not work: 
-
-
+// Part of attempt to make JS/MJS of newly created pages run
+// upon first navigation to the page:
+//
 //location.replace(o.baseHref + pageSlug + '/');
 //o.siteData.pageDependencies[pageSlug] = {mjs: "'" + o.kabobCaseToCamelCase(pageSlug) + "'"};
 //window.location.href = o.baseHref + pageSlug + '/';
-
-
 				}
+*/
 			};
 
 			if (o.tmbTT.active) {
@@ -358,7 +362,8 @@ returnMetaData = function (o) {
 	_default = '${DEFAULT}';
 	_title = '${TITLE}';
 	_description = 'Page Maker of ' + o.siteData.metaDescription;
-	_page = 'dummy';
+// NB: kabob-case:
+	_page = 'page-maker';
 	_image = _default;
 	_imageAlt = _default;
 

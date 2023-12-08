@@ -1087,7 +1087,10 @@ commonRoutinesOnFirstLoadOnly = function () {
 	o.closeDrawerOnAnchorClick();
 	o.closeDrawerOnMobileLogoClick();
 	o.noTitle('.footer .no-title');
+
+// poiu
 	o.initializeWindowOnResizeRoutines();
+
 	o.popstateListener();
 
 // If the initial URI has a hash, then adjust for header:
@@ -1195,6 +1198,7 @@ commonRoutinesOnFirstLoadOnly = function () {
 		}
 	});
 
+// poiu
 	o.initializeHeaderHeightAndObserver();
 	o.footerEdits();
 	o.initializeFooterHeightAndObserver();
@@ -2386,6 +2390,7 @@ initializeWindowOnResizeRoutines = function () {
 
 	windowResize = o.debounce(function () {
 
+// poiu
 // uncheck hamburger when in desktop mode:
 		if (window.matchMedia('(min-width: 760px)').matches) {
 // 2021-12-5:
@@ -2407,14 +2412,6 @@ initializeWindowOnResizeRoutines = function () {
 			: /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
 		);
 
-/*
-// OLD VERSION:
-		if (navigator.userAgentData) {
-			o.isMobile = navigator.userAgentData.mobile;
-		} else {
-			o.isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-		}
-*/
 
 		currentDeviceIsDesktop = !o.isMobile;
 
