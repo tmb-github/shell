@@ -38,45 +38,20 @@ function destroyCss($css) {
 	}
 }
 
-function destroyFolder($folder) {
-	$absolute_root = $_SERVER['ABSOLUTE_ROOT'];
-	$dir_path = $absolute_root . 'pages/' . $folder;
-// Check if the directory exists
-	if (is_dir($dir_path)) {
-// Open the directory
-		$dir_handle = opendir($dir_path);
-// Loop through the directory
-		while (($file = readdir($dir_handle)) !== false) {
-			if ($file != "." && $file != "..") {
-				$file_path = $dir_path . '/' . $file;
-// Recursively remove files and subdirectories
-				if (is_dir($file_path)) {
-// Check if the recursive operation failed
-					if (!destroyFolder($folder . '/' . $file)) {
-						closedir($dir_handle);
-						return false; // Failure
-					}
-				} else {
-// Attempt to unlink the file
-					if (!unlink($file_path)) {
-						closedir($dir_handle);
-						return false; // Failure
-					}
-				}
-			}
+function destroyFolder($dir) {
+	$files = array_diff(scandir($dir), array('.', '..'));
+	foreach ($files as $file) {
+		$path = "$dir/$file";
+		if (is_dir($path)) {
+// Recursive call for subdirectory
+			destroyFolder($path);
+		} else {
+// Unlink (delete) file
+			unlink($path);
 		}
-// Close the directory handle
-		closedir($dir_handle);
-// Attempt to remove the directory itself
-		if (!rmdir($dir_path)) {
-			return false; // Failure
-		}
-// Return true if all operations were successful
-		return $dir_path; // Success
-	} else {
-// Return false if the directory doesn't exist
-		return false; // Failure
 	}
+// Remove the directory itself
+	return rmdir($dir);
 }
 
 function reviseSiteData($kabob, $camel) {
@@ -145,9 +120,10 @@ if (isset($_POST['page_info']) && is_array($_POST['page_info'])) {
 			$message .= 'Failed to delete CSS: ' . $kabob . '.css<br>';
 		}
 
-		$status_ok = destroyFolder($kabob);
-		if ($status_ok) {
-			$message .= 'Deleted Module: ' . $status_ok . '<br>';
+		$absolute_root = $_SERVER['ABSOLUTE_ROOT'];
+		$dir = $absolute_root . 'pages/' . $kabob;
+		if (destroyFolder($dir)) {
+			$message .= 'Deleted folder: ' . $dir . '<br>';
 		} else {
 			$message .= 'Failed to delete folder: ' . $kabob . '<br>';
 		}
