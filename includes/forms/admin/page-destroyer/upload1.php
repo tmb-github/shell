@@ -73,7 +73,7 @@ function destroy_folder($folder) {
 	return rmdir($folder);
 }
 
-function reviseSiteData($file, $kabob, $camel) {
+function reviseSiteDataSAVE($file, $kabob, $camel) {
 
 // Read the file into an array of lines
 	$lines = file($file);
@@ -116,6 +116,56 @@ function reviseSiteData($file, $kabob, $camel) {
 	}
 
 }
+
+function reviseSiteData($file, $kabob, $camel) {
+    // Read the entire file into a string
+    $content = file_get_contents($file);
+
+    // in siteData, we just use the final slug in the URL
+    // as the key, not any of the folders that precede it,
+    // so 'compile', not 'admin/compile'
+
+    // Check if the string has any forward slashes
+    if (strpos($kabob, '/') !== false) {
+        // Get the text that follows the last forward slash
+        $kabob = substr($kabob, strrpos($kabob, '/') + 1);
+    }
+
+    // Define the pattern for $kabob and $camel on a single line
+//    $pattern = '/\s*\'' . preg_quote($kabob, '/') . '\'\s*:\s*{\s*mjs:\s*\'\.\/' . preg_quote($camel, '/') . '\.mjs\'\s*},?\s*/';
+//    $pattern = '/\s*[\'"]' . preg_quote($kabob, '/') . '[\'"]\s*:\s*{\s*mjs:\s*[\'"]\.\/' . preg_quote($camel, '/') . '\.mjs[\'"]\s*},?\s*/';
+    $pattern = '/[\'"]' . preg_quote($kabob, '/') . '[\'"]\s*:\s*{\s*mjs:\s*[\'"]\.\/' . preg_quote($camel, '/') . '\.mjs[\'"]\s*}(\s*,)?/';
+
+    $matches_found = false;
+
+    $replacement = PHP_EOL;
+    // Apply the pattern to the entire file content
+    $content = preg_replace($pattern, $replacement, $content, -1, $count);
+    if ($count > 0) {
+        $matches_found = true;
+    }
+
+    // Write the modified content back to the file
+    $return_value = file_put_contents($file, $content);
+
+    if ($return_value !== false && $matches_found) {
+        // Remove blank lines
+        $lines = file($file);
+        $lines = array_filter($lines, function ($line) {
+            // Remove lines that are empty or consist only of tabs
+            return !preg_match('/^\s*$/', $line);
+        });
+
+        // Write the modified lines back to the file
+        file_put_contents($file, implode('', $lines));
+        
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
 
 $message = '';
 $hash_array = [];

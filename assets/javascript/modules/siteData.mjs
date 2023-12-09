@@ -4,9 +4,7 @@
 * Released under the MIT license
 * Date: 2023-11-01
 */
-
 var siteData;
-
 /*
 // qwer
 Object.entries(o.siteData.pageSpecificRoutines).forEach(function ([key, values]) {
@@ -22,7 +20,6 @@ Object.entries(o.siteData.pageSpecificRoutines).forEach(function ([key, values])
 	}
 });
 */
-
 siteData = {
 /*
 	pageSpecificRoutines: {
@@ -37,7 +34,6 @@ siteData = {
 		]
 	},
 */
-
 // Your own IP should be included here (instead of 00.00.000.000)
 	excludedIps: ['::1', '00.00.000.00'],
 	fontArray: [{
@@ -207,9 +203,7 @@ privacy-policy/main.php
 	metaDescription: 'Shell application.',
 	useGoogleAnalytics: false,
 	uaString: 'UA-#########-1'
-
 };
-
 //export default pageDependencies;
 export default Object.freeze({
 	siteData

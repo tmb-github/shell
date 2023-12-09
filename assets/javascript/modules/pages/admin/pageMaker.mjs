@@ -180,17 +180,13 @@ formWork = function () {
 				if (o.fetchProgressLine) {
 					o.fetchProgressLine.classList.remove('active');
 				}
+
+/*
 var newDependency = {"mjs": "./" + o.kabobCaseToCamelCase(pageSlug) + '.mjs'};
 console.log(newDependency);
-
-console.log(pageSlug);
-console.log(o.kabobCaseToCamelCase(pageSlug));
-console.log('o.siteData.pageDependencies[' + pageSlug + '] = {mjs: ' + o.kabobCaseToCamelCase(pageSlug) + '};');
-//o.siteData.pageDependencies['"' + pageSlug + '"'] = newDependency;
-
 Object.assign(o.siteData.pageDependencies, newDependency);
-
 console.log(JSON.stringify(o.siteData.pageDependencies));
+*/
 
 /*
 		import('../../siteData.' + o.currentDateTimeString() + '.mjs').then(function ({default: object}) {
