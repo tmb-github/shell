@@ -8,15 +8,56 @@ session_start([
 $absolute_root = $_SERVER['ABSOLUTE_ROOT'];
 
 include_once $absolute_root . 'includes/common/functions.php';
-include_once './page_destroyer_functions.inc.php';
+include_once './page_name_variations.inc.php';
+
+// Create recycle bin:
+$recycle_bin_path = $absolute_root . 'includes/recycle-bin/';
+if (!file_exists($recycle_bin_path)) {
+	mkdir($recycle_bin_path, 0777, true); // The third parameter 'true' creates nested directories if they don't exist
+}
+
+// Create folder in recycle bin with current date/time stamp as name:
+$date_time = date("YmdHis");
+$backup_path = $recycle_bin_path . $date_time . '/';
+if (!file_exists($backup_path)) {
+	mkdir($backup_path, 0777, true); // The third parameter 'true' creates nested directories if they don't exist
+}
 
 $message = '';
 
 function destroy_file($file) {
+// Make a back-up copy of the file first:
+	global $backup_path;
+	copy($file, $backup_path . basename($file));
+// Now proceed with the main work:
 	return unlink($file);
 }
 
+function copy_folder($source, $destination) {
+	if (!file_exists($destination)) {
+		mkdir($destination, 0777, true);
+	}
+	$dir = opendir($source);
+	while (false !== ($file = readdir($dir))) {
+		if (($file != '.') && ($file != '..')) {
+			$sourceFile = $source . '/' . $file;
+			$destinationFile = $destination . '/' . $file;
+			if (is_dir($sourceFile)) {
+				copy_folder($sourceFile, $destinationFile);
+			} else {
+				copy($sourceFile, $destinationFile);
+			}
+		}
+	}
+	closedir($dir);
+}
+
+
 function destroy_folder($folder) {
+// Make a back-up copy of the folder first:
+	global $backup_path;
+	copy_folder($folder, $backup_path . basename($folder));
+// Now proceed with the main work:
 	$files = array_diff(scandir($folder), array('.', '..'));
 	foreach ($files as $file) {
 		$path = "$folder/$file";
@@ -76,10 +117,14 @@ function reviseSiteData($file, $kabob, $camel) {
 
 }
 
-//file_put_contents('x.txt', print_r($_POST['page_info'], true));
-
 $message = '';
 $hash_array = [];
+
+// We must make a backup of the siteData file before running the loop,
+// else we'll write over the siteData file with each iteration of the loop,
+// thus not preserving its original state:
+$site_data_mjs = $absolute_root . 'assets/javascript/modules/siteData.mjs';
+copy($site_data_mjs, $backup_path . basename($site_data_mjs));
 
 if (isset($_POST['page_info']) && is_array($_POST['page_info'])) {
 	for ($x = 0; $x < count($_POST['page_info']); $x++) {
@@ -91,7 +136,6 @@ if (isset($_POST['page_info']) && is_array($_POST['page_info'])) {
 		$value = $hash_value_array[$hash256];
 
 		$destruction[$x] = explode('|', $value);
-//file_put_contents('x.txt', print_r($destruction[$x], true), FILE_APPEND);
 
 		$camel = trim($destruction[$x][0]);
 		$snake = trim($destruction[$x][1]);
@@ -166,17 +210,16 @@ if (isset($_POST['page_info']) && is_array($_POST['page_info'])) {
 			$hash_array[] = $hash256;
 		}
 
-		if ($x != (count($_POST['page_info']) - 1)) {
-			$message .= '<br>';
-		}
+
+		$message .= '<br>';
 
 	}
 }
 
+$message .= '<div><strong>Backup copies of all deleted assets written to:</strong> ' . $backup_path . '</div>';
+
 $json_hash_array = json_encode($hash_array, JSON_FORCE_OBJECT);
 $message .= $json_hash_array;
-
-//file_put_contents('x.txt', $message);
 
 $message = addslashes($message);
 

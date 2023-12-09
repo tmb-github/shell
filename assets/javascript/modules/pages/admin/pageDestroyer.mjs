@@ -76,7 +76,9 @@ formLogic = function () {
 		var pageDestroyerPostFolder;
 		var fetchRoutine;
 		var formData;
+		var inputArray;
 		var options;
+		var pageNames;
 		var submit;
 		var url;
 
@@ -197,26 +199,37 @@ formLogic = function () {
 // DO NOT PROCEDE IF NOTHING HAS BEEN CHECKED!
 
 		if (atLeastOneCheckboxIsChecked()) {
+// get array of all checked input boxes:
+			inputArray = Array.prototype.slice.call(document.querySelectorAll('.destroy-options input[checked]'));
+// get array of their titles:
+			pageNames = inputArray.map(function (input) {
+				return input.getAttribute('title');
+			});
+
+// Don't proceed without confirming:
+			if (window.confirm('Proceed to delete: ' + pageNames.join(', ') + '?') === true) {
 
 // Deactivate submit button while routine is working:
-			submit.disabled = true;
+				submit.disabled = true;
 
 // Clear the DIV where the fetch results are written:
-			if (o.tmbTT.active) {
-				o.fetchUploadStatusDiv.innerHTML = o.DOMPurify.sanitize('');
-			} else {
-				o.fetchUploadStatusDiv.innerHTML = '';
-			}
+				if (o.tmbTT.active) {
+					o.fetchUploadStatusDiv.innerHTML = o.DOMPurify.sanitize('');
+				} else {
+					o.fetchUploadStatusDiv.innerHTML = '';
+				}
 
 // activate progress line:
-			(function (fetchProgressLine) {
-				if (fetchProgressLine) {
-					fetchProgressLine.classList.add('active');
-				}
-			}(document.querySelector('.progress-line')));
+				(function (fetchProgressLine) {
+					if (fetchProgressLine) {
+						fetchProgressLine.classList.add('active');
+					}
+				}(document.querySelector('.progress-line')));
 
 // POST the data and let the compilation begin:
-			fetchRoutine();
+				fetchRoutine();
+
+			}
 
 		} else {
 			window.alert('Select at least one page to delete.');

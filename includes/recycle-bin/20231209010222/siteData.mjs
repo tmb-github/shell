@@ -115,9 +115,6 @@ siteData = {
 		'tomato-bbb': {
 			mjs: './tomatoBbb.mjs'
 		},
-		'tomato-aaa': {
-			mjs: './tomatoAaa.mjs'
-		},
 /*
 // EXAMPLE:
 		'home': {

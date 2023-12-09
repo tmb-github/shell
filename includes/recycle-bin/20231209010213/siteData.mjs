@@ -112,6 +112,9 @@ siteData = {
 		'theme/'
 	],
 	pageDependencies: {
+		'tomato-ccc': {
+			mjs: './tomatoCcc.mjs'
+		},
 		'tomato-bbb': {
 			mjs: './tomatoBbb.mjs'
 		},
