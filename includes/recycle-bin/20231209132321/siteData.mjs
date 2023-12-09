@@ -112,14 +112,11 @@ siteData = {
 		'theme/'
 	],
 	pageDependencies: {
-		'tomato-ccc': {
-			mjs: './tomatoCcc.mjs'
+		'tomato-potato': {
+			mjs: './tomatoPotato.mjs'
 		},
-		'tomato-bbbbb': {
-			mjs: './tomatoBbbbb.mjs'
-		},
-		'tomato-aaa': {
-			mjs: './tomatoAaa.mjs'
+		'tomato-potato': {
+			mjs: './tomatoPotato.mjs'
 		},
 /*
 // EXAMPLE:

@@ -180,8 +180,33 @@ formWork = function () {
 				if (o.fetchProgressLine) {
 					o.fetchProgressLine.classList.remove('active');
 				}
+var newDependency = {"mjs": "./" + o.kabobCaseToCamelCase(pageSlug) + '.mjs'};
+console.log(newDependency);
 
+console.log(pageSlug);
+console.log(o.kabobCaseToCamelCase(pageSlug));
+console.log('o.siteData.pageDependencies[' + pageSlug + '] = {mjs: ' + o.kabobCaseToCamelCase(pageSlug) + '};');
+//o.siteData.pageDependencies['"' + pageSlug + '"'] = newDependency;
 
+Object.assign(o.siteData.pageDependencies, newDependency);
+
+console.log(JSON.stringify(o.siteData.pageDependencies));
+
+/*
+		import('../../siteData.' + o.currentDateTimeString() + '.mjs').then(function ({default: object}) {
+// Assign its methods/properties to common object 'o':
+			o.assignToCommonObject(object);
+console.log(JSON.stringify(o.siteData.pageDependencies));
+				if (o.fetchProgressLine) {
+					o.fetchProgressLine.classList.remove('active');
+				}
+
+				location.replace(o.baseHref + pageSlug + '/');
+
+		}).catch(function (error) {
+			console.log(error);
+		});
+*/
 /*
 				if (o.fetchNoProblem) {
 // For deleting pages...SAVE:

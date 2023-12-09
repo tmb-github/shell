@@ -955,27 +955,48 @@ Options -Indexes
 # GET /private/my-stuff HTTP/1.1
 #
 # -----------------------------------------------------------------------------
+#
+# If you use the [L] flag in the RewriteRule, an internal redirect occurs, and
+# Apache prefixes the original environment variables with "REDIRECT_" for use 
+# in subsequent iterations of processing.
+#
+# Practically, this means that, when using [L] on a RewriteRule, any
+# environment variable in the preceding RewriteConds, which are evaluated after
+# the RewritePatterns are matched, must use the "REDIRECT_" form, e.g.,
+# %{ENV:REDIRECT_BASE_PATH}, not %{ENV:BASE_PATH}.
+#
+# If you are *not* using [L] on a RewriteRule, then non-"REDIRECT_" form of
+# environment variables may be used, e.g. %{ENV:BASE_PATH}, not
+# %{ENV:REDIRECT_BASE_PATH}.
+#
+# In either case, the RewriteRule itself *might* work if the non-"REDIRECT_"
+# form is used, but it depends on the order of statements. Practically, this
+# means that you should use the "REDIRECT_" version in RewriteRules themselves
+# when [L] is specified.
+#
+# -----------------------------------------------------------------------------
 
 	RewriteEngine On
 
 # Exclude file requests from rewrite:
 	RewriteCond %{REQUEST_FILENAME} !-f
 # Check root for existence of 'maintenance_on' file:
-	RewriteCond %{DOCUMENT_ROOT}%{ENV:BASE_PATH}maintenance_on -f
+	RewriteCond %{DOCUMENT_ROOT}%{ENV:REDIRECT_BASE_PATH}maintenance_on -f
 # Check for pages/maintenance folder:
-	RewriteCond %{DOCUMENT_ROOT}%{ENV:BASE_PATH}pages/maintenance/ -d
+	RewriteCond %{DOCUMENT_ROOT}%{ENV:REDIRECT_BASE_PATH}pages/maintenance/ -d
 # If the request wasn't for the maintenance page:
-	RewriteCond %{REQUEST_URI} !/(shell/)?maintenance/$ [NC]
+	RewriteCond %{REQUEST_URI} !/(xxx/)?maintenance/$ [NC]
 # Go to maintenance page:
-	RewriteRule ^(.*)$ %{ENV:BASE_PATH}maintenance/ [L]
+	RewriteRule ^(.*)$ %{ENV:REDIRECT_BASE_PATH}maintenance/ [L]
 
-## Ensure rewrite to https:
+# Ensure HTTPS:
 	RewriteCond %{HTTPS} !=on
-	RewriteRule ^/?(.*) https://%{ENV:HOST}%{ENV:BASE_PATH}$1 [R=301,L]
+	RewriteCond %{HTTP:X-Forwarded-Proto} !https
+	RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 ## Strip any leading 'www.'
-	RewriteCond %{HTTP_HOST} ^www\.
-	RewriteRule ^(.*)$ %{ENV:BASE_URL}$1 [R=301,L]
+	RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+	RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
 
 # Strip autoversion from resources:
 	RewriteRule ^((ftp|https?):\/\/)?(.*)\.((?=.*\d)[a-z\d]+)?\.(css|ico|jpe?g|m?js|json|png|gif|svg|xml|webp|webmanifest|mp4|webm|ogv)$ $1$3.$5 [L]
