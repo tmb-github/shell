@@ -52,28 +52,28 @@ main = function () {
 formWork = function () {
 
 	var o;
-	var pageUploadForm;
-	var pageNameInput;
-	var pageSlugInput;
-	var pageMakePostFolder;
+	var uploadForm;
+	var titleInput;
+	var slugInput;
+	var pageMakerPostFolder;
 
 	o = this;
 
-	pageUploadForm = document.querySelector('#page-upload-form');
-	pageNameInput = document.querySelector('#page-name');
-	pageSlugInput = document.querySelector('#page-slug');
+	uploadForm = document.querySelector('#upload-form');
+	titleInput = document.querySelector('#title-input');
+	slugInput = document.querySelector('#slug-input');
 	o.fetchUploadStatusDiv = document.querySelector('.upload-status');
 
 
 	// WHEN FIRST CREATING THE WORK ONLY:
-	if ((pageSlugInput) && (pageSlugInput.value === '')) {
+	if ((slugInput) && (slugInput.value === '')) {
 
 // Automatically copy an edited version of the work name into the
 // page_url input:
-		if (pageNameInput) {
-			if (!pageNameInput.classList.contains('name-input-keyup-listener')) {
-				pageNameInput.classList.add('name-input-keyup-listener');
-				pageNameInput.addEventListener('keyup', function (e) {
+		if (titleInput) {
+			if (!titleInput.classList.contains('name-input-keyup-listener')) {
+				titleInput.classList.add('name-input-keyup-listener');
+				titleInput.addEventListener('keyup', function (e) {
 //
 // Eliminate diacriticals:
 // * remove any characters that is not standard alpha-numeric or space
@@ -87,13 +87,13 @@ formWork = function () {
 //
 // Hello # , ' " / ? Gang Kinderdämmerung: Zoöpsia M. C. Escher’s Ménage à Trois
 //
-					pageSlugInput.value = e.target.value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9\-_\s]/g, '').toLowerCase().replace(/\s\s+/g, ' ').trim().replace(/\s/g, '-');
+					slugInput.value = e.target.value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9\-_\s]/g, '').toLowerCase().replace(/\s\s+/g, ' ').trim().replace(/\s/g, '-');
 
 // If name begins with a numeral, prefix the URL with the letter "n",
 // otherwise, it can't be selected from the page carousel (because
 // hashed sections may not begin with a numeral).
-					if (pageSlugInput.value.match(/^\d/)) {
-						pageSlugInput.value = 'n' + pageSlugInput.value;
+					if (slugInput.value.match(/^\d/)) {
+						slugInput.value = 'n' + slugInput.value;
 					}
 
 				});
@@ -103,80 +103,50 @@ formWork = function () {
 
 /////////////////////////////////////////////
 
-	if (!pageUploadForm.classList.contains('page-upload-form-submit-listener')) {
+	if (!uploadForm.classList.contains('upload-form-submit-listener')) {
 
-		pageUploadForm.classList.add('page-upload-form-submit-listener');
+		uploadForm.classList.add('upload-form-submit-listener');
 
-/*
+		uploadForm.addEventListener('submit', function (e) {
 
-// For deleting pages...SAVE:
-
-// If we've cleared out any required field, then we can't proceed with a delete procedure.
-// So, listen for the delete box being checked.
-// If it is, eliminate all of the required attributes on INPUT elements.
-// If it's unchecked, restore all of the required attributes on INPUT elements.
-// So that we know which elements are required and which are not, a custom
-// data-required="true" attribute is now (2020-05-21) added to those input elements.
-
-		document.querySelectorAll('#delete-page').forEach(function (element) {
-// Ensure we only add the listener once:
-			if (!element.classList.contains('delete-page-checkbox-listener')) {
-				element.classList.add('delete-page-checkbox-listener');
-// For visual checking, we're adding data-checked to the delete checkbox.
-// When it's false, the box should be unchecked, and vice-versa:
-				element.dataset.checked = 'false';
-// When the box is altered:
-				element.addEventListener('change', function (event) {
-// ...see if the box is checked or not:
-					if (event.target.checked) {
-						element.dataset.checked = 'true';
-						document.querySelectorAll('input[data-required="true"]').forEach(function (inputElement) {
-							inputElement.removeAttribute('required');
-						});
-					} else {
-						element.dataset.checked = 'false';
-						document.querySelectorAll('input[data-required="true"]').forEach(function (inputElement) {
-// The only way to set the required attribute is *without* a value; setting it to true fails.
-							inputElement.setAttribute('required', '');
-						});
-					}
-				});
-			}
-		});
-*/
-
-		pageUploadForm.addEventListener('submit', function (e) {
-
-// For deleting pages...SAVE:
-//			var deletePage;
-			var adminPage;
-			var adminSlug;
+			var admin;
 			var formData;
-			var pageName;
-			var pageNames;
 			var pagePreview;
-			var pageSlug;
-			var pageSlugs;
 			var msg;
 			var newLine;
 			var options;
 			var url;
-			var message;
+			var title;
+			var titles;
+			var slug;
+			var slugs;
+			var titlePrefix;
+			var slugPrefix;
+			var fullTitle;
+			var fullSlug;
 
 			e.preventDefault();
 
-			formData = new FormData(pageUploadForm);
-			pageName = formData.get('page_name');
-			pageSlug = formData.get('page_slug');
-// if 'admin_page' input is checked, this will return TRUE
-			adminPage = formData.has('admin_page');
-			adminSlug = (
-				(adminPage)
+			formData = new FormData(uploadForm);
+			title = formData.get('title');
+			slug = formData.get('slug');
+// if 'admin' input is checked, this will return TRUE
+			admin = formData.has('admin');
+
+			slugPrefix = (
+				(admin)
 				? 'admin/'
 				: ''
 			);
 
+			titlePrefix = (
+				(admin)
+				? 'Admin: '
+				: ''
+			);
+
 			newLine = '\r\n';
+
 			options = {
 				method: 'POST',
 				body: formData
@@ -191,8 +161,10 @@ formWork = function () {
 					o.fetchProgressLine.classList.remove('active');
 				}
 
+// Neither of these methods seem to work:
+
 /*
-var newDependency = {"mjs": "./" + o.kabobCaseToCamelCase(pageSlug) + '.mjs'};
+var newDependency = {"mjs": "./" + o.kabobCaseToCamelCase(slug) + '.mjs'};
 console.log(newDependency);
 Object.assign(o.siteData.pageDependencies, newDependency);
 console.log(JSON.stringify(o.siteData.pageDependencies));
@@ -207,30 +179,13 @@ console.log(JSON.stringify(o.siteData.pageDependencies));
 					o.fetchProgressLine.classList.remove('active');
 				}
 
-				location.replace(o.baseHref + pageSlug + '/');
+				location.replace(o.baseHref + slug + '/');
 
 		}).catch(function (error) {
 			console.log(error);
 		});
 */
-/*
-				if (o.fetchNoProblem) {
-// For deleting pages...SAVE:
-//					if (deletePage) {
-//						location.replace(o.baseHref + 'admin/page-editor/');
-//					} else {
-//						location.replace(o.baseHref + pageSlug + '/');
-//					}
-//
-// Does not work: 
-// Part of attempt to make JS/MJS of newly created pages run
-// upon first navigation to the page:
-//
-//location.replace(o.baseHref + pageSlug + '/');
-//o.siteData.pageDependencies[pageSlug] = {mjs: "'" + o.kabobCaseToCamelCase(pageSlug) + "'"};
-//window.location.href = o.baseHref + pageSlug + '/';
-				}
-*/
+
 			};
 
 			if (o.tmbTT.active) {
@@ -239,92 +194,65 @@ console.log(JSON.stringify(o.siteData.pageDependencies));
 				o.fetchUploadStatusDiv.innerHTML = '';
 			}
 
-
-// Page Name need to be in the form somewhere:
-
-// NB:
 // We have to check if the variables are populated.
 // We have to ensure we're not overwriting an existing ID or Name and prompt
 // user to change if desired.
 // This can be done client-side with the custom data on the input elements.
 
 			o.fetchNoProblem = true;
-/*
 
-// For deleting pages...SAVE:
-
-			if (formData.get('delete_page') === 'on') {
-				deletePage = true;
-// Must not delete all-works:
-				if (pageSlug === 'all-works') {
-					window.alert('This is a reserved directory, and cannot be deleted.');
-					return false;
-				}
-				if (!window.confirm('This entire page will be deleted. Is this what you want?')) {
-					return false;
-				}
-			} else {
-				deletePage = false;
-				if (pageSlug === 'all-works') {
-					window.alert('This is a reserved directory, and cannot be altered.');
-					return false;
-				}
-			}
-*/
-
-// For deleting pages...SAVE:
-//			if (deletePage === false) {
-
-			pageNameInput = document.querySelector('#page-name');
-			if (pageNameInput && pageNameInput.dataset.existingPageNames) {
-				pageNames = pageNameInput.dataset.existingPageNames.split(' | ').map(function (item) {
+			if (titleInput && titleInput.dataset.existingTitles) {
+				titles = titleInput.dataset.existingTitles.split(' | ').map(function (item) {
 					return item;
 				});
 			} else {
-				pageNames = [];
+				titles = [];
 			}
 
-			pageSlugInput = document.querySelector('#page-slug');
-			if (pageSlugInput && pageSlugInput.dataset.existingPageSlugs) {
-				pageSlugs = pageSlugInput.dataset.existingPageSlugs.split(' | ').map(function (item) {
+			if (slugInput && slugInput.dataset.existingSlugs) {
+				slugs = slugInput.dataset.existingSlugs.split(' | ').map(function (item) {
 					return item;
 				});
 			} else {
-				pageSlugs = [];
+				slugs = [];
 			}
 
-			if ((pageNames.includes(pageName)) && (pageSlugs.includes(pageSlug))) {
+			fullTitle = titlePrefix + title;
+			fullSlug = slugPrefix + slug;
+
+			if ((titles.includes(fullTitle)) && (slugs.includes(fullSlug))) {
 				msg = '';
-				msg += 'A page with this name (' + pageName + ') already exists.' + newLine;
-				msg += 'A page with this URL (' + pageSlug + ') already exists.' + newLine;
+				msg += 'A page with this title (' + fullTitle + ') already exists.' + newLine;
+				msg += 'A page with this slug (' + fullSlug + ') already exists.' + newLine;
 				msg += newLine;
-				msg += 'Try another page name.' + newLine;
-				window.alert(msg);
-				return false;
-			} else if (pageNames.includes(pageName)) {
-				msg = '';
-				msg += 'A page with this name (' + pageName + ') already exists.' + newLine;
-				msg += newLine;
-				msg += 'Existing Name: ' + pageName + newLine;
-				msg += 'Existing URL: ' + pageSlugs[pageNames.indexOf(pageName)] + newLine;
-				msg += newLine;
-				msg += 'Try another page name.';
-				window.alert(msg);
-				return false;
-			} else if (pageSlugs.includes(pageSlug)) {
-				msg = '';
-				msg += 'A page with this URL (' + pageSlug + ') already exists.' + newLine;
-				msg += newLine;
-				msg += 'Existing Name: ' + pageNames[pageSlugs.indexOf(pageSlug)] + newLine;
-				msg += 'Existing URL: ' + pageSlug + newLine;
-				msg += newLine;
-				msg += 'Try another page name.';
+				msg += 'Try another page title.' + newLine;
 				window.alert(msg);
 				return false;
 			}
 
-// For deleting pages...SAVE:
-//			}
+			if (titles.includes(fullTitle)) {
+				msg = '';
+				msg += 'A page with this title (' + fullTitle + ') already exists.' + newLine;
+				msg += newLine;
+				msg += 'Existing title: ' + fullTitle + newLine;
+				msg += 'Existing slug: ' + slugs[titles.indexOf(fullTitle)] + newLine;
+				msg += newLine;
+				msg += 'Try another page title.';
+				window.alert(msg);
+				return false;
+			}
+
+			if (slugs.includes(fullSlug)) {
+				msg = '';
+				msg += 'A page with this slug (' + fullSlug + ') already exists.' + newLine;
+				msg += newLine;
+				msg += 'Existing title: ' + titles[slugs.indexOf(fullSlug)] + newLine;
+				msg += 'Existing slug: ' + fullSlug + newLine;
+				msg += newLine;
+				msg += 'Try another page title.';
+				window.alert(msg);
+				return false;
+			}
 
 			o.fetchProgressLine = document.querySelector('.progress-line');
 
@@ -332,33 +260,23 @@ console.log(JSON.stringify(o.siteData.pageDependencies));
 				o.fetchProgressLine.classList.add('active');
 			}
 
-			formData.append('page_slug', pageSlug);
-			formData.append('page_name', pageName);
+//			formData.append('slug', slug);
+//			formData.append('title', title);
 
-			url = pageMakePostFolder + 'upload1.php';
+			url = pageMakerPostFolder + 'upload1.php';
 
-/*
-
-// For deleting pages...SAVE:
-
-			if (deletePage) {
-				msg = 'Deleting page . . .';
-			} else {
-				msg = 'Creating page and related files . . .';
-			}
-*/
 			msg = "Creating page and related files . . .";
 
 			o.fetchAppendToUploadStatusDiv(msg);
 			o.consoleLog(msg);
 
 			fetch(url, options
-// UPLOAD1: window.location.assign(o.baseHref + pageSlug + '/');
+// UPLOAD1: window.location.assign(o.baseHref + slug + '/');
 			).then(o.fetchResponse).then(
 				function (resolve) {
 // Without first opening DevTools, the JavaScript for the page will not run.
 // This is an icky stop-gap, but it works:
-					return o.fetchResolve(resolve, '', 'Finished. Open <strong>DevTools</strong> and navigate to: <a class=internal-anchor href="' + o.baseHref + adminSlug + pageSlug + '/' + '">' + pageName + '</a>');
+					return o.fetchResolve(resolve, '', 'Finished. Open <strong>DevTools</strong> and navigate to: <a class=internal-anchor href="' + o.baseHref + slugPrefix + slug + '/' + '">' + titlePrefix + title + '</a>');
 				},
 				o.fetchReject
 			).then(pagePreview);
@@ -366,11 +284,11 @@ console.log(JSON.stringify(o.siteData.pageDependencies));
 	}
 
 	(function (endpoint) {
-		pageMakePostFolder = (
+		pageMakerPostFolder = (
 			(window.location.host === 'localhost')
 			? o.siteData.localhostUrl + endpoint
 			: o.siteData.liveSiteUrl + endpoint
-		)
+		);
 	}('/includes/forms/admin/page-maker/'));
 
 

@@ -8,7 +8,7 @@ session_start([
 $absolute_root = $_SERVER['ABSOLUTE_ROOT'];
 
 include_once $absolute_root . 'includes/common/functions.php';
-include_once './page_name_variations.inc.php';
+include $absolute_root . 'includes/forms/admin/shared_routines/page_name_variations.inc.php';
 
 // Create recycle bin:
 $recycle_bin_path = $absolute_root . 'includes/recycle-bin/';

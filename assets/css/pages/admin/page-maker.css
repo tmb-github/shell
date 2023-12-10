@@ -30,17 +30,17 @@ JavaScript must be declared in common.css.
 	margin: 0 0 .25em 0;
 }
 
-.page-maker .page-upload-form ul {
+.page-maker .upload-form ul {
 	display: table;
 	margin: 0 auto;
 	padding: 0;
 }
 
-.page-maker .page-upload-form li {
+.page-maker .upload-form li {
 	text-indent: 0;
 }
 
-.page-maker .page-upload-form x-label {
+.page-maker .upload-form x-label {
 	display: block;
 	margin-left: auto;
 	text-align: center;
@@ -48,11 +48,11 @@ JavaScript must be declared in common.css.
 }
 
 
-.page-maker .page-upload-form h2 {
+.page-maker .upload-form h2 {
 	text-align: center;
 }
 
-.page-maker .page-upload-form label {
+.page-maker .upload-form label {
 	display: inline-block;
 	margin: auto;
 	text-align: center;
@@ -61,15 +61,10 @@ JavaScript must be declared in common.css.
 }
 
 
-.page-maker .page-upload-form input {
+.page-maker .upload-form input {
 	display: inline-block;
 	margin: .25em .5em;
-	width: 360px;
-}
-
-
-.page-maker .page-upload-form input.page-slug {
-	margin: .25em 1.25em;
+	width: 390px;
 }
 
 .page-maker .success {
@@ -126,7 +121,7 @@ JavaScript must be declared in common.css.
 
 @media all and (max-width: 393px) {
 
-	.page-maker #submit-button {
+	.page-maker #submit-input {
 		padding-top: 4px;
 		padding-right: initial;
 		padding-bottom: 4px;
@@ -145,7 +140,7 @@ JavaScript must be declared in common.css.
 
 @media all and (min-width: 393px) {
 
-	.page-maker #submit-button {
+	.page-maker #submit-input {
 		padding-top: 4px;
 		padding-right: 72px;
 		padding-bottom: 4px;
@@ -155,14 +150,14 @@ JavaScript must be declared in common.css.
 
 }
 
-.page-maker label[for=submit-button] {
+.page-maker label[for=submit-input] {
 	visibility: hidden;
 }
 
-.page-maker label.admin-page {
+.page-maker label.admin {
 	display: block;
 }
 
-.page-maker .admin-page input {
+.page-maker .admin input {
 	width: auto;
 }

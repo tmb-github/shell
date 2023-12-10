@@ -108,17 +108,14 @@ siteData = {
 		'theme/'
 	],
 	pageDependencies: {
+		'tomato-ccc': {
+			mjs: './admin/tomatoCcc.mjs'
+		},
 		'tomato-bbb': {
 			mjs: './tomatoBbb.mjs'
 		},
 		'tomato-aaa': {
 			mjs: './tomatoAaa.mjs'
-		},
-		'tomato-lemon': {
-			mjs: './tomatoLemon.mjs'
-		},
-		'empty-recycle-bin': {
-			mjs: './admin/emptyRecycleBin.mjs'
 		},
 /*
 // EXAMPLE:
@@ -147,8 +144,8 @@ siteData = {
 		'dummy': {
 			mjs: './dummy.mjs'
 		},
-		'endpoints': {
-			mjs: './endpoints.mjs'
+		'empty-recycle-bin': {
+			mjs: './admin/emptyRecycleBin.mjs'
 		},
 		'error': {
 			mjs: './error.mjs'
@@ -158,9 +155,6 @@ siteData = {
 		},
 		'home': {
 			mjs: './home.mjs'
-		},
-		'playlists': {
-			mjs: './playlists.mjs'
 		},
 		'login': {
 			mjs: './admin/login.mjs'

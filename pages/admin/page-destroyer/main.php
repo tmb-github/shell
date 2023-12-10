@@ -20,7 +20,7 @@ render_custom_style_elements();
 // Retrieve existing page information //
 ////////////////////////////////////////
 
-include $absolute_root . 'includes/forms/admin/page-destroyer/page_name_variations.inc.php';
+include $absolute_root . 'includes/forms/admin/shared_routines/page_name_variations.inc.php';
 
 ?>
 	<h1 id=main-content tabindex=0>Page Destroyer</h1>

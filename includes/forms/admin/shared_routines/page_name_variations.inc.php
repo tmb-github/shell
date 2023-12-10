@@ -1,5 +1,9 @@
 <?php
 
+// Shared between/among:
+// page-maker
+// page-destroyer
+
 $subfolders = get_all_subfolders($absolute_root . 'pages/');
 
 $kabob_case_array = array();
