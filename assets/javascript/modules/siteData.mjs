@@ -135,8 +135,8 @@ siteData = {
 		'dummy': {
 			mjs: './dummy.mjs'
 		},
-		'endpoints': {
-			mjs: './endpoints.mjs'
+		'empty-recycle-bin': {
+			mjs: './admin/emptyRecycleBin.mjs'
 		},
 		'error': {
 			mjs: './error.mjs'
@@ -146,9 +146,6 @@ siteData = {
 		},
 		'home': {
 			mjs: './home.mjs'
-		},
-		'playlists': {
-			mjs: './playlists.mjs'
 		},
 		'login': {
 			mjs: './admin/login.mjs'

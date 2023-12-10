@@ -294,6 +294,7 @@ if (isset($_SESSION['authenticated']) && ($_SESSION['authenticated'] == 'true'))
 	$page_array = [
 		'Bad Request' => 'admin/bad-request-test',
 		'Compile' => 'admin/compile',
+		'Empty Recycle Bin' => 'admin/empty-recycle-bin',
 		'Forbidden' => 'private',
 		'Help' => 'admin/help', 
 		'Login' => 'admin/login',

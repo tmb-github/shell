@@ -159,4 +159,10 @@ JavaScript must be declared in common.css.
 	visibility: hidden;
 }
 
+.page-maker label.admin-page {
+	display: block;
+}
 
+.page-maker .admin-page input {
+	width: auto;
+}

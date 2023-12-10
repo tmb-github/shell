@@ -83,6 +83,14 @@ $page_name = escape_ascii_string($page_name);
 $status_ok = true;
 $reasons = '';
 
+// qwer
+$admin = '';
+$admin_slug = '';
+if (isset($_POST['admin_page']) && !empty($_POST['admin_page'])) {
+	$admin = 'admin';
+	$admin_slug = 'admin/';
+}
+
 ///////////////////////////////////
 // Does this page already exist? //
 ///////////////////////////////////
@@ -101,7 +109,7 @@ if ($status_ok) {
 
 // If not, go ahead and make a folder for it:
 
-$directory_path = $absolute_root . 'pages/' . $page_slug . '/';
+$directory_path = $absolute_root . 'pages/' . $admin_slug . $page_slug . '/';
 
 if ($status_ok) {
 	if (!file_exists($directory_path)) {
@@ -117,7 +125,7 @@ if ($status_ok) {
 ////////////////////////////
 
 if ($status_ok) {
-	$return = generate_css_array_inc_php($directory_path . 'css_array.inc.php', $page_slug);
+	$return = generate_css_array_inc_php($directory_path . 'css_array.inc.php', $admin_slug . $page_slug);
 	if (!$return) {
 		$reasons .= $return;
 		$status_ok = false;
@@ -177,7 +185,7 @@ if ($status_ok) {
 // Make CSS file //
 ///////////////////
 
-$css_path = $absolute_root . 'assets/css/pages/' . $page_slug . '.css';
+$css_path = $absolute_root . 'assets/css/pages/' . $admin_slug . $page_slug . '.css';
 
 if ($status_ok) {
 	$return = write_css_file($css_path, $page_slug);
@@ -193,7 +201,7 @@ if ($status_ok) {
 
 $camel_cased_name = kebab_to_camel_case($page_slug);
 
-$mjs_path = $absolute_root . 'assets/javascript/modules/pages/' . $camel_cased_name . '.mjs';
+$mjs_path = $absolute_root . 'assets/javascript/modules/pages/' . $admin_slug . $camel_cased_name . '.mjs';
 
 if ($status_ok) {
 	$return = write_mjs_file($mjs_path, $camel_cased_name, $page_slug, $page_name);
@@ -210,7 +218,7 @@ if ($status_ok) {
 $site_data_mjs_path = $absolute_root . 'assets/javascript/modules/siteData.mjs';
 
 if ($status_ok) {
-	$return = modify_site_data_mjs($site_data_mjs_path, $page_slug, $camel_cased_name);
+	$return = modify_site_data_mjs($site_data_mjs_path, $page_slug, $admin_slug . $camel_cased_name);
 	if (!$return) {
 		$reasons .= $return;
 		$status_ok = false;
@@ -229,6 +237,6 @@ if ($status_ok) {
 	http_response_code(422);
 	$message = 'Page could not be created: ' . $reasons;
 	echo json_encode(array("status" => "error", "message" => "$message"));
-	exit;
 }
 
+exit;

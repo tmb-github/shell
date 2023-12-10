@@ -149,6 +149,8 @@ formWork = function () {
 
 // For deleting pages...SAVE:
 //			var deletePage;
+			var adminPage;
+			var adminSlug;
 			var formData;
 			var pageName;
 			var pageNames;
@@ -166,6 +168,14 @@ formWork = function () {
 			formData = new FormData(pageUploadForm);
 			pageName = formData.get('page_name');
 			pageSlug = formData.get('page_slug');
+// if 'admin_page' input is checked, this will return TRUE
+			adminPage = formData.has('admin_page');
+			adminSlug = (
+				(adminPage)
+				? 'admin/'
+				: ''
+			);
+
 			newLine = '\r\n';
 			options = {
 				method: 'POST',
@@ -348,7 +358,7 @@ console.log(JSON.stringify(o.siteData.pageDependencies));
 				function (resolve) {
 // Without first opening DevTools, the JavaScript for the page will not run.
 // This is an icky stop-gap, but it works:
-					return o.fetchResolve(resolve, '', 'Finished. Open <strong>DevTools</strong> and navigate to: <a class=internal-anchor href="' + o.baseHref + pageSlug + '/' + '">' + pageName + '</a>');
+					return o.fetchResolve(resolve, '', 'Finished. Open <strong>DevTools</strong> and navigate to: <a class=internal-anchor href="' + o.baseHref + adminSlug + pageSlug + '/' + '">' + pageName + '</a>');
 				},
 				o.fetchReject
 			).then(pagePreview);

@@ -16,6 +16,9 @@ $main_classes = $page . " shell main custom-style-elements";
 
 render_custom_style_elements();
 
+
+include $absolute_root . 'includes/forms/admin/page-destroyer/page_name_variations.inc.php';
+
 ////////////////////////////////////////
 // Retrieve existing page information //
 ////////////////////////////////////////
@@ -81,14 +84,17 @@ $existing_page_name_array = array_unique($existing_page_name_array);
 	<form id=page-upload-form class=page-upload-form method=post>
 		<div class=upload-status></div>
 		<x-label for=submit-button class=no-colon><input id=submit-button type=submit value="Submit" name=submit-image></x-label>
+		<label class=admin-page for="admin">Admin: <input id=admin-page type=checkbox name=admin_page title="Admin" value=admin_page></label>
 		<label for=page-name>Page Name: <input id=page-name class=page-name type=text name=page_name title="Example: Discography" data-existing-page-names="<?php echo implode(' | ', $existing_page_name_array); ?>" autocomplete=off data-required=true required></label>
 		<label for=page-slug>Page Slug: <input id=page-slug class=page-slug type=text name=page_slug autocomplete=off readonly data-existing-page-slugs="<?php echo implode(' | ', $existing_slug_array); ?>"></label>
 <?php
 
 echo '	<h2>Current Pages</h2>' . PHP_EOL;
 echo '	<ul class=current-pages>' . PHP_EOL;
-foreach ($existing_page_name_array as $page_name) {
-	echo '		<li>' . $page_name . '</li>' . PHP_EOL;
+
+for ($x = 0; $x < count($title_case_array); $x++) {
+//foreach ($existing_page_name_array as $page_name) {
+	echo '		<li>' . $title_case_array[$x] . '</li>' . PHP_EOL;
 }
 echo '	</ul>' . PHP_EOL;
 
