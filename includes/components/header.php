@@ -163,16 +163,13 @@ if ($clickable_mobile_logo == true) {
 // Also see: https://dockyard.com/blog/2020/03/02/accessible-loading-indicatorswith-no-extra-elements
 
 // To make the mobile image logo a link to the home page (but needs vertical centering):
-/*
+
+// On localhost, '/' will return to http://localhost/, not to the htdocs folder:
 	if ($_SERVER['HTTP_HOST'] == 'localhost') {
 		$home = './';
 	} else {
 		$home = '/';
 	}
-*/
-// 2023-12-06:
-// It's unclear why the './' form was needed:
-	$home = '/';
 
 	echo '	<a href="' . $home . '" class="internal-anchor mobile-logo-icon" tabindex=-1>' . PHP_EOL;
 	$img_attribute_array['title'] = 'Navigate to Home Page';
@@ -194,16 +191,12 @@ if ($clickable_mobile_logo == true) {
 		<ul class=primary-ul>
 			<li data-page=home data-href=home class=menu-side-one id=nav-list-home-link>
 <?php
-/*
+// On localhost, '/' will return to http://localhost/, not to the htdocs folder:
 if ($_SERVER['HTTP_HOST'] == 'localhost') {
 	$home = './';
 } else {
 	$home = '/';
 }
-*/
-// 2023-12-06:
-// It's unclear why the './' form was needed:
-	$home = '/';
 ?>
 				<a href="<?php echo $home; ?>" class="internal-anchor" tabindex=-1>
 <?php
@@ -299,6 +292,7 @@ if (isset($_SESSION['authenticated']) && ($_SESSION['authenticated'] == 'true'))
 		'Help' => 'admin/help', 
 		'Login' => 'admin/login',
 		'Logout' => 'admin/logout',
+		'Maintenance Mode' => 'admin/maintenance-mode',
 		'Not Found' => 'does-not-exist',
 		'Page Destroyer' => 'admin/page-destroyer',
 		'Page Maker' => 'admin/page-maker',
@@ -314,8 +308,6 @@ if (isset($_SESSION['authenticated']) && ($_SESSION['authenticated'] == 'true'))
 		</ul>
 		<div class=progress-line></div>
 	</nav>
-<?php /*	</div> */ ?>
-
 </header>
 
 <?php

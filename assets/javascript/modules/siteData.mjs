@@ -156,6 +156,9 @@ siteData = {
 		'offline': {
 			mjs: './offline.mjs'
 		},
+		'maintenance-mode': {
+			mjs: './admin/maintenanceMode.mjs'
+		},
 		'page-destroyer': {
 			mjs: './admin/pageDestroyer.mjs'
 		},

@@ -2,29 +2,40 @@
 
 $absolute_root = $_SERVER['ABSOLUTE_ROOT'];
 
+// In AJAXed PHP files, use the following to start a session:
+//
+// session_start([
+// 	'name' => '__Secure-PHPSESSID',
+// 	'cache_limiter' => 'private_no_expire:'
+// ]);
+
 /*
-int session_status ( void )
-
-session_status() is used to return the current session status.
-
-This returns an integer when you print it, since it is what PHP converts it into.
-
-0 ----> PHP_SESSION_DISABLED if sessions are disabled.
-1 ----> PHP_SESSION_NONE if sessions are enabled, but none exists.
-2 ----> PHP_SESSION_ACTIVE if sessions are enabled, and one exists.
+// Powershell command to see headers:
+$url = 'https://example.com'
+$result = Invoke-WebRequest -Method HEAD -Uri $url -UseBasicParsing
+$result.RawContent
 */
+
+// session_status() returns the current session status.
+// 
+// This returns an integer when printed, corresponding to the folliwing PHP
+// values:
+// 
+// 0 -> PHP_SESSION_DISABLED: 	if sessions are disabled.
+// 1 -> PHP_SESSION_NONE: 			if sessions are enabled, but none exists.
+// 2 -> PHP_SESSION_ACTIVE:			if sessions are enabled, and one exists.
 
 if (session_status() != 2) {
 
-// **PREVENTING SESSION HIJACKING**
+// PREVENT SESSION HIJACKING
 // Prevents javascript XSS attacks aimed to steal the session ID
 	ini_set('session.cookie_httponly', 1);
 
-// **PREVENTING SESSION FIXATION**
+// PREVENT SESSION FIXATION
 // Session ID cannot be passed through URLs
 	ini_set('session.use_only_cookies', 1);
 
-// Uses a secure connection (HTTPS) if possible
+// Use a secure connection (HTTPS) if possible
 	ini_set('session.cookie_secure', 1);
 
 // SameSite=None: Cookies will be sent in all contexts, i.e., in responses to
@@ -50,23 +61,20 @@ if (session_status() != 2) {
 // NB: The directive MUST end in a colon:
 	session_cache_limiter('private_no_expire:');
 
-//session_set_cookie_params(['SameSite' => 'None', 'Secure' => true]);
+// session_set_cookie_params(['SameSite' => 'None', 'Secure' => true]);
 
-/*
 // NB: Now that we've named the session, to start it in AJAXed PHP files subsequently, use:
-
-session_start([
-	'name' => '__Secure-PHPSESSID',
-	'cache_limiter' => 'private_no_expire:'
-]);
-
+// 
+// session_start([
+// 	'name' => '__Secure-PHPSESSID',
+// 	'cache_limiter' => 'private_no_expire:'
+// ]);
+// 
 // In this PHP script, however, session_start() is all that's needed, as session_name() is called earlier in this script.
-*/
 
 	session_start();
 
 }
-
 
 // Include variables that do NOT rely on functions:
 include_once $absolute_root . 'includes/common/variables.php';
@@ -181,5 +189,4 @@ if ($record_ip_addresses_of_site_visitors == true) {
 	}
 	file_put_contents($absolute_root . 'client_ip.txt', $client_ip . PHP_EOL, FILE_APPEND);
 }
-
 

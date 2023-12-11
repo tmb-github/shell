@@ -18,6 +18,8 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 	if (isset($logins[$username]) && $logins[$username] == $password) {
 /* Success: Set session variables and redirect to home page by sending true as response */
 		$_SESSION['authenticated'] = 'true';
+// To allow for maintenance mode:
+		setcookie('authenticated', 'true', time() + 3600, '/', '', true, false); // Change the expiration time as needed
 		print_r('true');
 	} else {
 		print_r('false');

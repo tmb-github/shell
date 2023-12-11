@@ -5,6 +5,9 @@ session_start([
 	'cache_limiter' => 'private_no_expire:'
 ]);
 
+// To unset maintenance mode:
+setcookie('authenticated', '', time() - 3600, '/'); // Set an expiration time in the past
+
 $_SESSION = array();
 session_destroy();
 

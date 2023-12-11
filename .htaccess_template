@@ -919,12 +919,12 @@ Options -Indexes
 #
 # So, note the use of %2 and $1 in the following rule:
 #
-# Input: https://localhost/xxx/comical
+# Input: https://localhost/shell/comical
 #
-# RewriteCond %{REQUEST_URI} ^/(xxx/)?(chromatic-geometry|comical)/
+# RewriteCond %{REQUEST_URI} ^/(shell/)?(chromatic-geometry|comical)/
 # RewriteRule ^(.+)$ theme/%2/$1 [L]
 #
-# Output: https://localhost/theme/comical/xxx/comical
+# Output: https://localhost/theme/comical/shell/comical
 #
 # -----------------------------------------------------------------------------
 #
@@ -980,12 +980,18 @@ Options -Indexes
 
 # Exclude file requests from rewrite:
 	RewriteCond %{REQUEST_FILENAME} !-f
+
+
+RewriteCond %{HTTP_COOKIE} !authenticated=true [NC]
+
 # Check root for existence of 'maintenance_on' file:
 	RewriteCond %{DOCUMENT_ROOT}%{ENV:REDIRECT_BASE_PATH}maintenance_on -f
 # Check for pages/maintenance folder:
 	RewriteCond %{DOCUMENT_ROOT}%{ENV:REDIRECT_BASE_PATH}pages/maintenance/ -d
 # If the request wasn't for the maintenance page:
-	RewriteCond %{REQUEST_URI} !/(xxx/)?maintenance/$ [NC]
+	RewriteCond %{REQUEST_URI} !/(shell/)?maintenance/$ [NC]
+# Check for authentication cookie, required for this maintenance mode:
+	RewriteCond %{HTTP_COOKIE} !authenticated=true [NC]
 # Go to maintenance page:
 	RewriteRule ^(.*)$ %{ENV:REDIRECT_BASE_PATH}maintenance/ [L]
 

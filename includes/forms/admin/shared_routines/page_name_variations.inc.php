@@ -15,7 +15,9 @@ $hashed_array = array();
 $hashed_value_array = array();
 
 foreach ($subfolders as $path) {
-	if ((strpos($path, "/pages/") !== false) && (substr($path, -6) !== "/admin") && (substr($path, -21) !== "/admin/page-destroyer")) {
+// Doesn't work on live site, which doesn't return full root path as on windows (so no '/pages/' will appear in the output)
+//	if ((strpos($path, "/pages/") !== false) && (substr($path, -6) !== "/admin") && (substr($path, -21) !== "/admin/page-destroyer")) {
+	if (($path !== '.') && (substr($path, -6) !== "/admin") && (substr($path, -21) !== "/admin/page-destroyer")) {
 		$parts = explode('/', rtrim($path, '/'));
 		$last_part = end($parts);
 // check if it's an admin page & prefix if so:

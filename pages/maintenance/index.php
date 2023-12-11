@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 $absolute_root = $_SERVER['ABSOLUTE_ROOT'];
 
 include $absolute_root . 'includes/common/domain_info.php';

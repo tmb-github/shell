@@ -16,6 +16,15 @@
 // tools):
 //$_SESSION['authenticated'] = 'true';
 
+// Set an environment variable accessible in .htaccess if the session variable is set
+/*
+if (isset($_SESSION['authenticated'])) {
+	putenv("AUTHENTICATED=true");
+} else {
+	putenv("AUTHENTICATED=false");
+}
+*/
+
 /****************
 ** request_uri **
 ****************/

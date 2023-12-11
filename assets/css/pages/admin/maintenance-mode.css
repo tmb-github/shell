@@ -1,0 +1,125 @@
+/*
+NB: :root variables declared in page *.css files cannot be revised by JavaScript.
+Any CSS variable that will be edited by JavaScript MUST be declared in common.css.
+Only :root variables declared in common.css can be revised by JavaScript.
+*/
+
+/* To 463px (next query overtakes 464px): */
+@media all and (max-width: 464px) {
+	.main.maintenance-mode {
+		margin: calc(1em + var(--header-height)) 1em 3em 1em;
+	}
+}
+/* From 464px: */
+@media all and (min-width: 464px) {
+	.main.maintenance-mode {
+		margin: calc(1em + var(--header-height)) auto 3em auto;
+		width: 432px;
+	}
+}
+
+
+/*
+.maintenance-mode a:link {
+	background: transparent;
+}
+*/
+
+.maintenance-mode p {
+	margin-top: 1em;
+}
+
+.maintenance-mode h2 {
+	text-align: center;
+}
+
+.maintenance-mode h3 {
+	text-align: center;
+	color: sienna;
+}
+
+.maintenance-mode .toggle-text {
+	font-size: 1.5em;
+}
+
+/*
+.maintenance-mode h2 > p,
+.maintenance-mode p ~ p {
+	margin: 0;
+	padding: 0;
+}
+*/
+
+/* Limit paragraph width to @62 characters (ch unit wouldn't work here): */
+/* We have to chain .main to .maintenance-mode to increase the specificity to make the styling work */
+.maintenance-mode.main p {
+	max-width: var(--paragraph-max-width);
+}
+
+/* The switch - the box around the slider */
+.maintenance-mode .switch {
+	position: relative;
+	display: inline-block;
+	width: 160px;
+	height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.maintenance-mode .switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.maintenance-mode .slider {
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #ccc;
+	-webkit-transition: 400ms;
+					transition: 400ms;
+}
+
+.maintenance-mode .slider::before {
+	position: absolute;
+	content: "";
+	height: 23px;
+	width: 23px;
+	left: 4px;
+	bottom: 4px;
+	background-color: white;
+	-webkit-transition: 400ms;
+					transition: 400ms;
+}
+
+.maintenance-mode input:checked + .slider {
+  background-color: #c3c3c3;
+}
+
+.maintenance-mode input:focus + .slider {
+  box-shadow: 0 0 1px #f5aa0e;
+}
+
+.maintenance-mode input:checked + .slider:before {
+	-webkit-transform: translateX(126px);
+			-ms-transform: translateX(126px);
+					transform: translateX(126px);
+}
+
+/* Rounded sliders */
+.maintenance-mode .slider.round {
+	border-radius: 34px;
+	border: 2px solid #610000;
+}
+
+.maintenance-mode .slider.round:before {
+	border-radius: 50%;
+}
+
+.maintenance-mode .process-result {
+	text-align: center;
+}
