@@ -98,93 +98,93 @@ formLogic = function () {
 			fetch(url, options
 // FETCH 1:
 			).then(o.fetchResponse).then(
-				function (resolve) {
-					o.fetchAppendToUploadStatusDiv(resolve.message);
-					return o.fetchResolve(resolve, compilePostFolder + 'do_not_use_static_html.php', 'Setting $use_static_html = false . . .');
+				function (response) {
+					o.fetchAppendToUploadStatusDiv(response.message);
+					return o.fetchResolve(response, compilePostFolder + 'do_not_use_static_html.php', 'Setting $use_static_html = false . . .');
 				},
 				o.fetchReject
 // FETCH:
 			).then(o.fetchResponse).then(
-				function (resolve) {
-					o.fetchAppendToUploadStatusDiv(resolve.message);
-					return o.fetchResolve(resolve, compilePostFolder + 'minify_scripts.php', 'Minifying javascript/scripts/*.js . . .');
+				function (response) {
+					o.fetchAppendToUploadStatusDiv(response.message);
+					return o.fetchResolve(response, compilePostFolder + 'minify_scripts.php', 'Minifying javascript/scripts/*.js . . .');
 				},
 				o.fetchReject
 // FETCH:
 			).then(o.fetchResponse).then(
-				function (resolve) {
-					o.fetchAppendToUploadStatusDiv(resolve.message);
-					return o.fetchResolve(resolve, compilePostFolder + 'minify_modules.php', 'Minifying javascript/modules/*.mjs . . .');
+				function (response) {
+					o.fetchAppendToUploadStatusDiv(response.message);
+					return o.fetchResolve(response, compilePostFolder + 'minify_modules.php', 'Minifying javascript/modules/*.mjs . . .');
 				},
 				o.fetchReject
 // FETCH:
 			).then(o.fetchResponse).then(
-				function (resolve) {
-					o.fetchAppendToUploadStatusDiv(resolve.message);
-					return o.fetchResolve(resolve, compilePostFolder + 'update_site_webmanifest.php', 'Updating site.webmanifest . . .');
+				function (response) {
+					o.fetchAppendToUploadStatusDiv(response.message);
+					return o.fetchResolve(response, compilePostFolder + 'update_site_webmanifest.php', 'Updating site.webmanifest . . .');
 				},
 				o.fetchReject
 // FETCH:
 			).then(o.fetchResponse).then(
-				function (resolve) {
-					o.fetchAppendToUploadStatusDiv(resolve.message);
-					return o.fetchResolve(resolve, compilePostFolder + 'update_browserconfig_xml.php', 'Updating browserconfig.xml . . .');
+				function (response) {
+					o.fetchAppendToUploadStatusDiv(response.message);
+					return o.fetchResolve(response, compilePostFolder + 'update_browserconfig_xml.php', 'Updating browserconfig.xml . . .');
 				},
 				o.fetchReject
 // FETCH:
 			).then(o.fetchResponse).then(
-				function (resolve) {
-					o.fetchAppendToUploadStatusDiv(resolve.message);
-					return o.fetchResolve(resolve, compilePostFolder + 'update_fontface_css.php', 'Updating font-face.css . . .');
+				function (response) {
+					o.fetchAppendToUploadStatusDiv(response.message);
+					return o.fetchResolve(response, compilePostFolder + 'update_fontface_css.php', 'Updating font-face.css . . .');
 				},
 				o.fetchReject
 // FETCH:
 			).then(o.fetchResponse).then(
-				function (resolve) {
-					o.fetchAppendToUploadStatusDiv(resolve.message);
-					return o.fetchResolve(resolve, compilePostFolder + 'compile_css.php', 'Updating compiled.css . . .');
+				function (response) {
+					o.fetchAppendToUploadStatusDiv(response.message);
+					return o.fetchResolve(response, compilePostFolder + 'compile_css.php', 'Updating compiled.css . . .');
 				},
 				o.fetchReject
 // FETCH:
 			).then(o.fetchResponse).then(
-				function (resolve) {
-					o.fetchAppendToUploadStatusDiv(resolve.message);
-					return o.fetchResolve(resolve, compilePostFolder + 'update_individual_imports_css.php', 'Updating individual-imports.css . . .');
+				function (response) {
+					o.fetchAppendToUploadStatusDiv(response.message);
+					return o.fetchResolve(response, compilePostFolder + 'update_individual_imports_css.php', 'Updating individual-imports.css . . .');
 				},
 				o.fetchReject
 // FETCH:
 			).then(o.fetchResponse).then(
-				function (resolve) {
-					o.fetchAppendToUploadStatusDiv(resolve.message);
-					return o.fetchResolve(resolve, compilePostFolder + 'update_service_worker.php', 'Updating Service Worker . . .');
+				function (response) {
+					o.fetchAppendToUploadStatusDiv(response.message);
+					return o.fetchResolve(response, compilePostFolder + 'update_service_worker.php', 'Updating Service Worker . . .');
 				},
 				o.fetchReject
 // FETCH:
 			).then(o.fetchResponse).then(
-				function (resolve) {
-					o.fetchAppendToUploadStatusDiv(resolve.message);
-					return o.fetchResolve(resolve, compilePostFolder + 'minify_service_worker.php', 'Minifying sw.js . . .');
+				function (response) {
+					o.fetchAppendToUploadStatusDiv(response.message);
+					return o.fetchResolve(response, compilePostFolder + 'minify_service_worker.php', 'Minifying sw.js . . .');
 				},
 				o.fetchReject
 // FETCH:
 			).then(o.fetchResponse).then(
-				function (resolve) {
-					o.fetchAppendToUploadStatusDiv(resolve.message);
-					return o.fetchResolve(resolve, compilePostFolder + 'compile_htaccess.php', 'Updating .htaccess . . .');
+				function (response) {
+					o.fetchAppendToUploadStatusDiv(response.message);
+					return o.fetchResolve(response, compilePostFolder + 'compile_htaccess.php', 'Updating .htaccess . . .');
 				},
 				o.fetchReject
 // FETCH:
 			).then(o.fetchResponse).then(
-				function (resolve) {
-					o.fetchAppendToUploadStatusDiv(resolve.message);
-					return o.fetchResolve(resolve, compilePostFolder + 'update_date_modified.php', 'Updating dateModified.txt . . .');
+				function (response) {
+					o.fetchAppendToUploadStatusDiv(response.message);
+					return o.fetchResolve(response, compilePostFolder + 'update_date_modified.php', 'Updating dateModified.txt . . .');
 				},
 				o.fetchReject
 // FETCH:
 			).then(o.fetchResponse).then(
-				function (resolve) {
-					o.fetchAppendToUploadStatusDiv(resolve.message);
-					return o.fetchResolve(resolve, '', 'Finished.');
+				function (response) {
+					o.fetchAppendToUploadStatusDiv(response.message);
+					return o.fetchResolve(response, '', 'Finished.');
 				},
 				o.fetchReject
 			).then(compilationFinished);

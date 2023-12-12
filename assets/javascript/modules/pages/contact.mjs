@@ -63,7 +63,7 @@ formLogic = function () {
 	o = this;
 
 	formOnSubmit = function (event) {
-		var ajaxResponse;
+		var ajaxCallback;
 		var ajaxURL;
 		var bot;
 		var contactFormMutate;
@@ -111,7 +111,8 @@ formLogic = function () {
 								document.querySelectorAll('header').forEach(function (element) {
 									element.classList.add('draw');
 								});
-								ajaxResponse = function (userData) {
+								ajaxCallback = function (response) {
+									response = JSON.parse(response);
 									document.querySelectorAll('.info-text .sending').forEach(function (element) {
 										element.classList.add('display-none');
 									});
@@ -119,9 +120,8 @@ formLogic = function () {
 									document.querySelectorAll('header').forEach(function (element) {
 										element.classList.remove('draw');
 									});
-									if ((typeof userData !== 'string') || (userData !== 'success')) {
-// The userData will be whatever comes from print_r() in contact_process.php:
-										alert(userData);
+									if ((typeof response.status !== 'string') || (response.status !== 'success')) {
+										alert(response.status);
 									} else {
 										document.querySelectorAll('.info-text .sent').forEach(function (element) {
 											element.classList.remove('display-none');
@@ -140,11 +140,11 @@ formLogic = function () {
 								};
 /*
 // qwer: for reCAPTCHA
-								o.ajax.post(ajaxURL, {'sender': sender, 'email': email, 'subject': subject, 'message': message, 'g-recaptcha-response': gRecaptchaResponse}, ajaxResponse, true);
+								o.ajax.post(ajaxURL, {'sender': sender, 'email': email, 'subject': subject, 'message': message, 'g-recaptcha-response': gRecaptchaResponse}, ajaxCallback, true);
 */
 
 // qwer: for non-reCAPTCHA/HONEYPOT:
-								o.ajax.post(ajaxURL, {'sender': sender, 'email': email, 'subject': subject, 'message': message, 'bot': bot}, ajaxResponse, true);
+								o.ajax.post(ajaxURL, {'sender': sender, 'email': email, 'subject': subject, 'message': message, 'bot': bot}, ajaxCallback, true);
 
 							}
 						}

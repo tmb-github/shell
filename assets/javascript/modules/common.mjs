@@ -117,7 +117,7 @@ activateLoadingMask = function () {
 
 ajaxMainContent = function (hrefText, target, backbutton, eventType) {
 
-	var ajaxResponse;
+	var ajaxCallback;
 	var ajaxURL;
 //	var editedHrefText;
 //	var folder;
@@ -177,9 +177,9 @@ ajaxMainContent = function (hrefText, target, backbutton, eventType) {
 		hrefText = '.';
 	}
 
-	ajaxResponse = function (data) {
+	ajaxCallback = function (response) {
 
-//console.log('ajaxResponse');
+//console.log('ajaxCallback');
 //console.log('backbutton = ' + backbutton);
 //console.log('MINERVA 1');
 
@@ -209,7 +209,7 @@ ajaxMainContent = function (hrefText, target, backbutton, eventType) {
 			var headElement;
 			var main;
 			var mainElement;
-			var newData;
+			var mainHtml;
 			var page;
 			var stateObject;
 			var styleElement;
@@ -235,7 +235,7 @@ ajaxMainContent = function (hrefText, target, backbutton, eventType) {
 			}
 
 			if (window.sessionStorage) {
-				window.sessionStorage.setItem(ajaxURL, data);
+				window.sessionStorage.setItem(ajaxURL, response);
 			}
 
 // 2021-08-14: the following swaps the <MAIN> content with the contents
@@ -256,22 +256,22 @@ ajaxMainContent = function (hrefText, target, backbutton, eventType) {
 				customStyleOpenTag = '<custom-style class=display-none>';
 				customStyleCloseTag = '</custom-style>';
 
-				customStyleStart = data.indexOf(customStyleOpenTag);
-				customStyleEnd = data.indexOf(customStyleCloseTag);
+				customStyleStart = response.indexOf(customStyleOpenTag);
+				customStyleEnd = response.indexOf(customStyleCloseTag);
 
 
 // NB: customStyle is just text!
-				customStyle = data.slice(customStyleStart + customStyleOpenTag.length, customStyleEnd);
+				customStyle = response.slice(customStyleStart + customStyleOpenTag.length, customStyleEnd);
 
 // 2022-03-07
-// OLD: data.slice(0, (customStyleStart - 1)), which was wrong!
+// OLD: response.slice(0, (customStyleStart - 1)), which was wrong!
 // .slice(x, y) is from x to y *exclusive of y*!
-				newData = data.slice(0, customStyleStart) + data.slice(customStyleEnd + customStyleCloseTag.length);
+				mainHtml = response.slice(0, customStyleStart) + response.slice(customStyleEnd + customStyleCloseTag.length);
 				dataPage = 'data-page=';
-				dataPageStart = newData.indexOf(dataPage);
-				dataPageEnd = newData.indexOf(' ', dataPageStart);
+				dataPageStart = mainHtml.indexOf(dataPage);
+				dataPageEnd = mainHtml.indexOf(' ', dataPageStart);
 // 2023-02-22
-				page = newData.slice(dataPageStart + dataPage.length, dataPageEnd);
+				page = mainHtml.slice(dataPageStart + dataPage.length, dataPageEnd);
 				page = stripEndQuotes(page);
 
 				if (o.nonce) {
@@ -342,7 +342,7 @@ ajaxMainContent = function (hrefText, target, backbutton, eventType) {
 					}
 				}
 
-				setInnerHTML(main, newData);
+				setInnerHTML(main, mainHtml);
 
 // --main-opacity is set to 0 in anchorIntercept() when an anchor is clicked
 // to navigate about the site using the SPA. Doing that prevents a flash of
@@ -447,7 +447,7 @@ ajaxMainContent = function (hrefText, target, backbutton, eventType) {
 // fetch it if it's not already in session storage:
 				if (window.sessionStorage) {
 					if (window.sessionStorage.getItem(ajaxURL) === null) {
-						o.ajax.post(ajaxURL, queries, ajaxResponse, true);
+						o.ajax.post(ajaxURL, queries, ajaxCallback, true);
 						o.mouseoverLoadedURLs.push(ajaxURL);
 					}
 				}
@@ -460,9 +460,9 @@ ajaxMainContent = function (hrefText, target, backbutton, eventType) {
 			sessionValue = window.sessionStorage.getItem(ajaxURL);
 		}
 		if (!sessionValue) {
-			o.ajax.post(ajaxURL, queries, ajaxResponse, true);
+			o.ajax.post(ajaxURL, queries, ajaxCallback, true);
 		} else {
-			ajaxResponse(sessionValue);
+			ajaxCallback(sessionValue);
 		}
 	}
 };
@@ -1049,7 +1049,7 @@ o.metaNameWebAuthor.dataset.clientIp = '##.##.###.##';
 // 'innerFunctionFinished' is emitted in commonRoutinesOnFirstLoadOrAjax();
 	window.addEventListener('innerFunctionFinished', remainingRoutines);
 
-//window.addEventListener('ajaxResponse', ajaxEvent);
+//window.addEventListener('ajaxCallback', ajaxEvent);
 
 // 2022-03-20:
 	o.checkTrustedTypesSupport();
@@ -1222,7 +1222,7 @@ commonRoutinesOnFirstLoadOrAjax = function () {
 // Here is where we need to load the page-specific modules.
 //
 // This function (o.commonRoutinesOnFirstLoadOrAjax) is called by the
-// ajaxResponse() function in the o.ajaxMainContent() function, but
+// ajaxCallback() function in the o.ajaxMainContent() function, but
 // no page-specific functions are called within it.
 //
 // Determine the site page by looking at the class on the MAIN
@@ -2117,12 +2117,12 @@ fetchReject = function (reject) {
 
 };
 
-fetchResolve = function (resolve, url, msg) {
+fetchResolve = function (response, url, msg) {
 
 // 'this' is the outer 'o' via .bind(o), so the outer 'o' === inner 'o':
 	var o = this;
 
-	o.consoleLogMsgObj('Success: ', resolve);
+	o.consoleLogMsgObj('Success: ', response);
 	o.consoleLog('');
 // Set the innerHTML of a div to the msg text returned:
 	o.consoleLog(msg);
@@ -2135,12 +2135,12 @@ fetchResolve = function (resolve, url, msg) {
 
 };
 
-fetchResolveWithOptions = function (resolve, url, options, msg) {
+fetchResolveWithOptions = function (response, url, options, msg) {
 
 // 'this' is the outer 'o' via .bind(o), so the outer 'o' === inner 'o':
 	var o = this;
 
-	o.consoleLogMsgObj('Success: ', resolve);
+	o.consoleLogMsgObj('Success: ', response);
 	o.consoleLog('');
 // Set the innerHTML of a div to the msg text returned:
 	o.consoleLog(msg);

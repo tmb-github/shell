@@ -53,7 +53,7 @@ formLogic = function () {
 
 	formOnSubmit = function (event) {
 		var ajaxURL;
-		var ajaxResponse;
+		var ajaxCallback;
 		var contactFormMutate;
 		var submit;
 
@@ -61,10 +61,10 @@ formLogic = function () {
 
 		contactFormMutate = function () {
 			submit.disabled = true;
-			ajaxResponse = function (userData) {
+			ajaxCallback = function () {
 				submit.disabled = false;
 			};
-			o.ajax.post(ajaxURL, {}, ajaxResponse, true);
+			o.ajax.post(ajaxURL, {}, ajaxCallback, true);
 		};
 
 		submit = document.querySelector('.bad-request-test-form button');

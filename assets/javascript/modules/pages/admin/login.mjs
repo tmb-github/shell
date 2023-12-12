@@ -67,7 +67,7 @@ formLogic = function () {
 
 		loginFormMutate = function () {
 
-			var ajaxResponse;
+			var ajaxCallback;
 
 			if ((username === '') && (password === '')) {
 				alert("Nothing specified in either field.\n\nPlease add appropriate information and re-submit.\n");
@@ -79,18 +79,21 @@ formLogic = function () {
 						alert("Password required.\n\nPlease add password and re-submit.\n");
 					} else {
 						submit.disabled = true;
-// response:
-						ajaxResponse = function (userData) {
 
+						ajaxCallback = function (response) {
+
+// In case we restore the routine below:
 //							var fragment;
 //							var html;
 
+// Convert response text to JSON:
+							response = JSON.parse(response);
+// Clear out regardless of response:
 							usernameInput.value = '';
 							passwordInput.value = '';
 							submit.disabled = false;
 
-							if (userData === 'true') {
-
+							if (response.status === 'true') {
 /*
 								html = '<form class="display-none login-auth" action="includes/forms/admin/login/login_auth.php" method=post><input type=submit value=submit></form>';
 								fragment = document.createRange().createContextualFragment(html);
@@ -105,13 +108,11 @@ formLogic = function () {
 									}
 								}(document.querySelector('.main')));
 */
-
 								window.location.href = (
 									(window.location.host === 'localhost')
 									? o.siteData.localhostUrl
 									: o.siteData.liveSiteUrl
 								);
-
 // It may be advisable to add:
 // window.location.reload();
 // See: https://stackoverflow.com/questions/41020403/reload-a-page-with-location-href-or-window-location-reloadtrue
@@ -120,7 +121,7 @@ formLogic = function () {
 							}
 						};
 
-						o.ajax.post(ajaxURL, {'username': username, 'password': password}, ajaxResponse, true);
+						o.ajax.post(ajaxURL, {'username': username, 'password': password}, ajaxCallback, true);
 
 					}
 				}
@@ -169,20 +170,18 @@ formLogic = function () {
 
 // includes/forms/admin/login/login_auth.php
 
-	authOnSubmit = function (event) {
+	authOnSubmit = function () {
 		var ajaxURL;
 		var authFormMutate;
 		var submit;
 
-//		event.preventDefault();
-
 		authFormMutate = function () {
 
-			var ajaxResponse;
+			var ajaxCallback;
 
 			submit.disabled = true;
-// response:
-			ajaxResponse = function (userData) {
+
+			ajaxCallback = function () {
 				submit.disabled = false;
 /*
 				window.location.href = (
@@ -196,7 +195,7 @@ formLogic = function () {
 // See: https://stackoverflow.com/questions/41020403/reload-a-page-with-location-href-or-window-location-reloadtrue
 			};
 
-			o.ajax.post(ajaxURL, {}, ajaxResponse, true);
+			o.ajax.post(ajaxURL, {}, ajaxCallback, true);
 
 		};
 

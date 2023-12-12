@@ -82,7 +82,7 @@ formLogic = function () {
 
 		contactFormMutate = function () {
 
-			var ajaxResponse;
+			var ajaxCallback;
 
 			if (url === '') {
 				alert("URL unspecified.\n\nPlease add URL and re-submit.\n");
@@ -108,9 +108,8 @@ formLogic = function () {
 					}
 				}(document.querySelector('HEADER')));
 
-
 // response:
-				ajaxResponse = function (userData) {
+				ajaxCallback = function (response) {
 					var html;
 					var googleFontObject;
 					var fontface;
@@ -138,11 +137,9 @@ formLogic = function () {
 						}
 					}(document.querySelector('.clear-output')));
 
-// The userData will be whatever comes from print_r() in contact_process.php:
+					if ((typeof response !== 'string') || (response !== 'success')) {
 
-					if ((typeof userData !== 'string') || (userData !== 'success')) {
-
-						parsedJson = JSON.parse(userData);
+						parsedJson = JSON.parse(response);
 
 						googleFontObject = parsedJson[0];
 						fontface = parsedJson[1];
@@ -214,7 +211,7 @@ formLogic = function () {
 
 					}
 				};
-				o.ajax.post(ajaxURL, {'url': url, 'bot': bot}, ajaxResponse, true);
+				o.ajax.post(ajaxURL, {'url': url, 'bot': bot}, ajaxCallback, true);
 			}
 		};
 

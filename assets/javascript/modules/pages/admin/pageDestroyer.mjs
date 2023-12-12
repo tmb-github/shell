@@ -146,9 +146,9 @@ formLogic = function () {
 		fetchRoutine = function () {
 			url = pageDestroyerPostFolder + 'upload1.php';
 			fetch(url, options).then(o.fetchResponse).then(
-				function (resolve) {
+				function (response) {
 
-// An object of hashes of the succesfully deleted pages will be at end of resolve.message
+// An object of hashes of the succesfully deleted pages will be at end of response.message
 // It may be an empty object.
 					(function (hashObject) {
 						if (hashObject) {
@@ -156,13 +156,13 @@ formLogic = function () {
 								document.querySelector('.destroy-options ul li:has(input[value="' + hash + '"])')?.remove();
 							});
 						}
-					}(JSON.parse(extractSubstringFromBrace(resolve.message))));
+					}(JSON.parse(extractSubstringFromBrace(response.message))));
 
 // Remove the hash object before sending it on to o.fetchAppendToUploadStatusDiv():
-					resolve.message = extractSubstringBeforeBrace(resolve.message);
+					response.message = extractSubstringBeforeBrace(response.message);
 
-					o.fetchAppendToUploadStatusDiv(resolve.message);
-					return o.fetchResolve(resolve, '', 'Finished.');
+					o.fetchAppendToUploadStatusDiv(response.message);
+					return o.fetchResolve(response, '', 'Finished.');
 				},
 				o.fetchReject
 			).then(destructionFinished);

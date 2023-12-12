@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  var version = '20231209225629';
+  var version = '20231212001224';
   var cacheNameHTML = version + '-html';
   var cacheNameCSS = version + '-css';
   var cacheNameJavaScript = version + '-javascript';

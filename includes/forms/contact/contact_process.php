@@ -100,6 +100,6 @@ if (!$mail->send()) {
 	$sent_message = 'success';
 }
 
-print_r($sent_message);
+echo json_encode(['status' => $sent_message]);
 exit;
 

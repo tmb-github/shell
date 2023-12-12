@@ -56,7 +56,7 @@ formLogic = function () {
 
 	formOnSubmit = function (event) {
 		var ajaxURL;
-		var ajaxResponse;
+		var ajaxCallback;
 		var contactFormMutate;
 		var submit;
 
@@ -64,13 +64,12 @@ formLogic = function () {
 
 		contactFormMutate = function () {
 			submit.disabled = true;
-			ajaxResponse = function (userData) {
-				console.log(userData);
-				var userDataObj = JSON.parse(userData);
-				document.querySelector('.message').innerHTML = userDataObj.message;
+			ajaxCallback = function (response) {
+				response = JSON.parse(response);
+				document.querySelector('.message').innerHTML = response.message;
 				submit.disabled = false;
 			};
-			o.ajax.post(ajaxURL, {}, ajaxResponse, true);
+			o.ajax.post(ajaxURL, {}, ajaxCallback, true);
 		};
 
 		submit = document.querySelector('.empty-recycle-bin-form button');
