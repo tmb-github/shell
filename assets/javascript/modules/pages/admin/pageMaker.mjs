@@ -161,7 +161,8 @@ formWork = function () {
 					o.fetchProgressLine.classList.remove('active');
 				}
 
-				window.location.href = o.baseHref + slug + '/';
+// To go directly to the newly created page:
+//				window.location.href = o.baseHref + slug + '/';
 
 			};
 
@@ -251,9 +252,7 @@ formWork = function () {
 // UPLOAD1: window.location.assign(o.baseHref + slug + '/');
 			).then(o.fetchResponse).then(
 				function (response) {
-// Without first opening DevTools, the JavaScript for the page will not run.
-// This is an icky stop-gap, but it works:
-					return o.fetchResolve(response, '', 'Finished. Open <strong>DevTools</strong> and navigate to: <a class=internal-anchor href="' + o.baseHref + slugPrefix + slug + '/' + '">' + titlePrefix + title + '</a>');
+					return o.fetchResolve(response, '', 'Finished. Open : <a class=internal-anchor href="' + o.baseHref + slugPrefix + slug + '/' + '">' + titlePrefix + title + '</a>');
 				},
 				o.fetchReject
 			).then(pagePreview);
