@@ -43,17 +43,20 @@ function delete_folder_contents($folder) {
 
 $result = delete_folder_contents($recycle_bin);
 
-
 // Check the result
 if ($result === true) {
+	$response_code = 200;
+	$status = 'ok';
 	$message = 'Deleted contents of <strong>includes/recycle-bin</strong>';
-	echo json_encode(array("status" => "ok", "message" => "$message"));
 } else {
-	// send a 422 Unprocessable Entity header, echo the JSON, and exit:
-	http_response_code(422);
+	$response_code = 422;
+	$status = 'error';
 	$message = 'Process could not be completed';
-	echo json_encode(array("status" => "error", "message" => "$message", "error_details" => $result));
 }
 
-// Make sure to exit after sending the response
+header('Content-Type: application/json');
+http_response_code($response_code);
+echo json_encode(array("status" => "$status", "message" => "$message"));
+
 exit;
+

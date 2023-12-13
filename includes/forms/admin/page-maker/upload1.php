@@ -179,13 +179,17 @@ if ($status_ok) {
 //////////
 
 if ($status_ok) {
+	$response_code = 200;
+	$status = 'ok';
 	$message = 'Everything ok.';
-	echo '{"status": "ok", "message": "' . $message . '"}';
 } else {
-// send a 422 Unprocessable Entity header, echo the JSON, and exit:
-	http_response_code(422);
+	$response_code = 422;
+	$status = 'error';
 	$message = 'Page could not be created: ' . $reasons;
-	echo json_encode(array("status" => "error", "message" => "$message"));
 }
+
+header('Content-Type: application/json');
+http_response_code($response_code);
+echo json_encode(array("status" => "$status", "message" => "$message"));
 
 exit;

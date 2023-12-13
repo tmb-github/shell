@@ -28,9 +28,13 @@ main = function () {
 
 	siteWideEditsClosure = function (nonce) {
 
+		var commonMjs;
+		var cookieObject;
 		var o;
 		var windowLoad;
 		var satisfyJsLint;
+		var siteCommonMjs;
+		var siteDataMjs;
 
 //var siteWideOnLocationChange;
 
@@ -40,6 +44,53 @@ main = function () {
 		o = {};
 
 		satisfyJsLint = false;
+
+		o.returnTimeStamp = function () {
+
+			var today;
+			var year;
+			var month;
+			var date;
+			var hours;
+			var minutes;
+			var seconds;
+			var timeStamp;
+
+			today = new Date();
+			year = today.getFullYear();
+			month = today.getMonth() + 1;
+			if (month <= 9) {
+				month = '0' + month;
+			}
+			date = today.getDate();
+			hours = today.getHours();
+			minutes = today.getMinutes();
+			seconds = today.getSeconds();
+			timeStamp = year.toString(10) + month.toString(10) + date.toString(10) + hours.toString(10) + minutes.toString(10) + seconds.toString(10);
+
+			return timeStamp;
+
+		};
+
+		o.getCookies = function () {
+
+			var cookies;
+			var name;
+			var parts;
+			var value;
+
+			cookies = {};
+
+			document.cookie.split(';').forEach(function (cookie) {
+				parts = cookie.trim().split('=');
+				name = parts[0];
+				value = parts[1];
+				cookies[name] = value;
+			});
+
+			return cookies;
+
+		};
 
 // 2021-04-13:
 // THIS MUST BE DEFINED HERE!
@@ -347,16 +398,44 @@ main = function () {
 // BEGIN INITIALIZATION ROUTINES:
 // ------------------------------
 
-		import('./siteData.mjs').then(function ({default: object}) {
+// Get and log individual cookies
+		cookieObject = o.getCookies();
+
+		if (cookieObject.hasOwnProperty('authenticated')) {
+			if (cookieObject.authenticated === 'true') {
+
+// separate the each dot from the 'mjs' that follows to prevent
+// minify_modules.php from splicing in its own date stamp elsewhere in the
+// filename, which can't be removed by the rewrite rule in .htaccess:
+				(function (html) {
+					if (html && (html.dataset.minify === 'true')) {
+						siteDataMjs = './siteData.min.' + o.returnTimeStamp() + '.' + 'mjs';
+						commonMjs = './common.min.' + o.returnTimeStamp() + '.' + 'mjs';
+						siteCommonMjs = './siteCommon.min.' + o.returnTimeStamp() + '.' + 'mjs';
+					} else {
+						siteDataMjs = './siteData.' + o.returnTimeStamp() + '.' + 'mjs';
+						commonMjs = './common.' + o.returnTimeStamp() + '.' + 'mjs';
+						siteCommonMjs = './siteCommon.' + o.returnTimeStamp() + '.' + 'mjs';
+					}
+				}(document.querySelector('HTML')));
+
+			}
+		} else {
+			siteDataMjs = './siteData.mjs';
+			commonMjs = './common.mjs';
+			siteCommonMjs = './siteCommon.mjs';
+		}
+
+		import(siteDataMjs).then(function ({default: object}) {
 // Assign its methods/properties to common object 'o':
 			o.assignToCommonObject(object);
 
 // Methods common to framework:
-			import('./common.mjs').then(function ({default: object}) {
+			import(commonMjs).then(function ({default: object}) {
 				o.assignToCommonObject(object);
 
 // Methods common to site:
-				import('./siteCommon.mjs').then(function ({default: object}) {
+				import(siteCommonMjs).then(function ({default: object}) {
 					o.assignToCommonObject(object);
 					o.initializationRoutines();
 				}).catch(function (error) {

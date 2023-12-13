@@ -161,30 +161,7 @@ formWork = function () {
 					o.fetchProgressLine.classList.remove('active');
 				}
 
-// Neither of these methods seem to work:
-
-/*
-var newDependency = {"mjs": "./" + o.kabobCaseToCamelCase(slug) + '.mjs'};
-console.log(newDependency);
-Object.assign(o.siteData.pageDependencies, newDependency);
-console.log(JSON.stringify(o.siteData.pageDependencies));
-*/
-
-/*
-		import('../../siteData.' + o.currentDateTimeString() + '.mjs').then(function ({default: object}) {
-// Assign its methods/properties to common object 'o':
-			o.assignToCommonObject(object);
-console.log(JSON.stringify(o.siteData.pageDependencies));
-				if (o.fetchProgressLine) {
-					o.fetchProgressLine.classList.remove('active');
-				}
-
-				location.replace(o.baseHref + slug + '/');
-
-		}).catch(function (error) {
-			console.log(error);
-		});
-*/
+				window.location.href = o.baseHref + slug + '/';
 
 			};
 

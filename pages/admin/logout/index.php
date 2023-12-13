@@ -2,7 +2,11 @@
 
 session_start([
 	'name' => '__Secure-PHPSESSID',
-	'cache_limiter' => 'private_no_expire:'
+	'cache_limiter' => 'private_no_expire:',
+	'cookie_lifetime' => 0, // Session cookie expires when the browser is closed
+	'cookie_secure' => true, // Send cookie only over HTTPS
+	'cookie_httponly' => true, // Set HttpOnly flag
+	'cookie_samesite' => 'Lax' // Adjust as needed ('Lax' or 'Strict')
 ]);
 
 // To unset maintenance mode:

@@ -266,22 +266,29 @@ if (isset($_POST['page_info']) && is_array($_POST['page_info'])) {
 	}
 }
 
-$message .= '<div><strong>Backup copies of all deleted assets written to:</strong> ' . $backup_path . '</div>';
+//////////
+// FINISH:
+//////////
 
+$message .= '<div><strong>Backup copies of all deleted assets written to:</strong> ' . $backup_path . '</div>';
 $json_hash_array = json_encode($hash_array, JSON_FORCE_OBJECT);
 $message .= $json_hash_array;
 
-$message = addslashes($message);
-
 $status_ok = true;
+
 if ($status_ok) {
-//	$message = 'Everything ok.';
-	echo '{"status": "ok", "message": "' . $message . '"}';
+	$response_code = 200;
+	$status = 'ok';
+// $message constructed above
 } else {
-// send a 422 Unprocessable Entity header, echo the JSON, and exit:
-	http_response_code(422);
+	$response_code = 422;
+	$status = 'error';
 	$message = 'Process could not be completed';
-	echo json_encode(array("status" => "error", "message" => "$message"));
-	exit;
 }
 
+header('Content-Type: application/json');
+http_response_code($response_code);
+echo json_encode(array("status" => "$status", "message" => "$message"));
+exit;
+
+//	echo '{"status": "ok", "message": "' . $message . '"}';

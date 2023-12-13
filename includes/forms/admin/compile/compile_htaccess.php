@@ -45,17 +45,23 @@ if ($compile_htaccess == true) {
 	file_put_contents($absolute_root . '.htaccess', $htaccess);
 
 	$status_ok = true;
+
 	if ($status_ok) {
+		$response_code = 200;
+		$status = 'ok';
 		$message = 'Done.';
-		echo '{"status": "ok", "message": "' . $message . '"}';
 	} else {
-// send a 422 Unprocessable Entity header, echo the JSON, and exit:
-		http_response_code(422);
+		$response_code = 422;
+		$status = 'error';
 		$message = 'Failed.';
-		echo json_encode(array("status" => "error", "message" => "$message"));
-		exit;
 	}
 } else {
+	$response_code = 200;
+	$status = 'ok';
 	$message = 'Not Selected';
-	echo '{"status": "ok", "message": "' . $message . '"}';
 }
+
+header('Content-Type: application/json');
+http_response_code($response_code);
+echo json_encode(array("status" => "$status", "message" => "$message"));
+exit;

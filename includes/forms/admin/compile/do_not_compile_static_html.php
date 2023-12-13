@@ -4,7 +4,6 @@ include './compile_reqs.inc.php';
 
 if ($do_not_compile_static_html == true) {
 
-//	$html = 'Setting $compile_static_html = false;<br>';
 	$php_text = '<?php' . PHP_EOL . '$compile_static_html = false;';
 
 	$return_value = file_put_contents($absolute_root . 'includes/common/utilities/compile_static_html.inc.php', $php_text);
@@ -12,17 +11,21 @@ if ($do_not_compile_static_html == true) {
 	$status_ok = ($return_value !== false);
 
 	if ($status_ok) {
+		$response_code = 200;
+		$status = 'ok';
 		$message = 'Done.';
-		echo '{"status": "ok", "message": "' . $message . '"}';
 	} else {
-// send a 422 Unprocessable Entity header, echo the JSON, and exit:
-		http_response_code(422);
-		$message = $html . 'Failed.';
-		echo json_encode(array("status" => "error", "message" => "$message"));
-		exit;
+		$response_code = 422;
+		$status = 'error';
+		$message = 'Failed.';
 	}
-
 } else {
+	$response_code = 200;
+	$status = 'ok';
 	$message = 'Not Selected';
-	echo '{"status": "ok", "message": "' . $message . '"}';
 }
+
+header('Content-Type: application/json');
+http_response_code($response_code);
+echo json_encode(array("status" => "$status", "message" => "$message"));
+exit;

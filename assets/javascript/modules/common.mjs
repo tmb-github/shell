@@ -77,7 +77,6 @@ var removeVisibilityHiddenFromTmbAlert;
 //var resetHeaderHeightVariable;
 var returnAjaxObject;
 //var returnHeaderHeight;
-var returnTimeStamp;
 var revealHashedContent;
 var reviseMetaData;
 var reviseSchema;
@@ -2054,6 +2053,7 @@ escapeForwardSlashes = function (text) {
 
 };
 
+// asdf
 fetchAppendToUploadStatusDiv = function (msg) {
 
 	var o;
@@ -2117,6 +2117,7 @@ fetchReject = function (reject) {
 
 };
 
+// asdf
 fetchResolve = function (response, url, msg) {
 
 // 'this' is the outer 'o' via .bind(o), so the outer 'o' === inner 'o':
@@ -2135,6 +2136,7 @@ fetchResolve = function (response, url, msg) {
 
 };
 
+// asdf
 fetchResolveWithOptions = function (response, url, options, msg) {
 
 // 'this' is the outer 'o' via .bind(o), so the outer 'o' === inner 'o':
@@ -2153,6 +2155,7 @@ fetchResolveWithOptions = function (response, url, options, msg) {
 
 };
 
+// asdf
 fetchResponse = function (response) {
 
 // SAVE:
@@ -2497,7 +2500,6 @@ innerFinish = function () {
 	o.editExternalLinks(document, '.main a[class*="social-icon-anchor"][href*="//"]', true, 'Share on social media (opens in new window/tab)');
 	o.editExternalLinks(document, '.footer a[href*="//"]', false, true);
 
-// qwer
 // reset meta data to defaults before running page-specific module, which may
 // have its own metadata that is assumed to overwrite the default...so,
 // set (or restore, depending on the case) the defaults first:
@@ -2728,7 +2730,7 @@ loadPageDependencies = function () {
 	o = this;
 
 	if (o.siteData.hasOwnProperty('pageDependencies')) {
-console.log(o.pageName);
+//console.log(o.pageName);
 		if (o.siteData.pageDependencies.hasOwnProperty(o.pageName)) {
 // Shorthand:
 			pageObj = o.siteData.pageDependencies[o.pageName];
@@ -3122,32 +3124,6 @@ returnHeaderHeight = function () {
 };
 */
 
-returnTimeStamp = function () {
-
-	var today;
-	var year;
-	var month;
-	var date;
-	var hours;
-	var minutes;
-	var seconds;
-	var timeStamp;
-
-	today = new Date();
-	year = today.getFullYear();
-	month = today.getMonth() + 1;
-	if (month <= 9) {
-		month = '0' + month;
-	}
-	date = today.getDate();
-	hours = today.getHours();
-	minutes = today.getMinutes();
-	seconds = today.getSeconds();
-	timeStamp = year + month + date + hours + minutes + seconds;
-
-	return timeStamp;
-
-};
 
 // 2021-04-15:
 // This had been moved to gallery.mjs, but now it's moved back to common.mjs.
@@ -3882,7 +3858,6 @@ export default Object.freeze({
 //	resetHeaderHeightVariable,
 	returnAjaxObject,
 //	returnHeaderHeight,
-	returnTimeStamp,
 	revealHashedContent,
 	reviseMetaData,
 	reviseSchema,

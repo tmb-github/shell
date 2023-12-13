@@ -108,6 +108,9 @@ siteData = {
 		'theme/'
 	],
 	pageDependencies: {
+		'tomato-soup': {
+			mjs: './tomatoSoup.mjs'
+		},
 /*
 // EXAMPLE:
 		'home': {
