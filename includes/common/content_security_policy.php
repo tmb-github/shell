@@ -290,7 +290,7 @@ if ($ecwid == true) {
 	$ecwid_connect_src = '';
 }
 
-$connect_src = "connect-src 'self' https://corsproxy.io https://*.htvapps.com https://*.htvapps.net https://placehold.co https://s3.amazonaws.com https://www.google-analytics.com https://www.googletagmanager.com https://ipapi.co https://httpstat.us " . $ecwid_connect_src . " ; ";
+$connect_src = "connect-src 'self' https://corsproxy.io https://api.allorigins.win https://*.htvapps.com https://*.htvapps.net https://placehold.co https://s3.amazonaws.com https://www.google-analytics.com https://www.googletagmanager.com https://ipapi.co https://httpstat.us " . $ecwid_connect_src . " ; ";
 
 /*************
 ** font-src **

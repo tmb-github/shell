@@ -40,6 +40,7 @@ var editExternalLinks;
 var enqueueArray;
 var escapeForwardSlashes;
 var escapeSingleQuotes;
+var euStatusViaTimeZone;
 var fetchAppendToUploadStatusDiv;
 var fetchReject;
 var fetchResolve;
@@ -819,6 +820,34 @@ closeDrawerOnMobileLogoClick = function () {
 
 inEu = false;
 
+euStatusViaTimeZone = function () {
+
+	var o;
+	var tzArr;
+	var userCity;
+//	var userCountry;
+	var userTimeZone;
+
+	o = this;
+
+	if (Intl.DateTimeFormat) {
+		userTimeZone = new Intl.DateTimeFormat().resolvedOptions().timeZone;
+		tzArr = userTimeZone.split("/");
+		userCity = tzArr[tzArr.length - 1];
+		if (o.siteData.euTimeZoneCityCountryList.hasOwnProperty(userCity)) {
+//			console.log('User is in EU');
+//			userCountry = euTimeZoneCityCountryList[userCity];
+//			console.log(userCountry);
+			return true;
+		} else {
+			return false;
+		}
+	} else {
+		return false;
+	}
+
+};
+
 commonRoutines = function () {
 
 	var o;
@@ -990,8 +1019,19 @@ o.metaNameWebAuthor.dataset.clientIp = '##.##.###.##';
 							}
 						}
 
-// https://ipapi.co/40.119.158.195/json
+						if (proceed) {
+// we need o.inEu elsewhere, hence the long function name:
+							o.inEu = o.euStatusViaTimeZone();
+							if (o.inEu === true) {
+								console.log('EU detected: no analytics performed');
+							} else {
+								console.log('EU not detected: initialize analytics');
+								initializeAnalytics();
+							}
+						}
 
+/*
+// https://ipapi.co/40.119.158.195/json
 						if (proceed) {
 							if ((o.siteData.hasOwnProperty('ipapiLookup')) && (o.siteData.ipapiLookup === true)) {
 // The call to ipapi.co (e.g., https://ipapi.co/00.00.000.00/json) returns
@@ -1035,6 +1075,7 @@ o.metaNameWebAuthor.dataset.clientIp = '##.##.###.##';
 								initializeAnalytics();
 							}
 						}
+*/
 					}
 				}
 			}
@@ -3822,6 +3863,7 @@ export default Object.freeze({
 	enqueueArray,
 	escapeForwardSlashes,
 	escapeSingleQuotes,
+	euStatusViaTimeZone,
 	fetchAppendToUploadStatusDiv,
 	fetchReject,
 	fetchResolve,

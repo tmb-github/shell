@@ -251,6 +251,7 @@ User-agent: gigabot
 User-agent: go-ahead-got-it
 User-agent: go-http-client
 User-agent: go!zilla
+User-agent: google-extended
 User-agent: gopher
 User-agent: gotit
 User-agent: gozilla
