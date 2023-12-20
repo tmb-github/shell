@@ -27,6 +27,7 @@ var commonRoutinesOnFirstLoadOnly;
 var commonRoutinesOnFirstLoadOrAjax;
 var commonVariables;
 var conditionallyReplaceJpgExtensionWithWebpExtension;
+var consoleImg;
 var consoleLog;
 var consoleLogMsgObj;
 var currentDateTimeString;
@@ -876,10 +877,10 @@ commonRoutines = function () {
 			var gtagConfig;
 			var initializeAnalytics;
 			var lighthouseAudit;
-			var manageErrors;
+//			var manageErrors;
 			var onLiveSite;
 			var proceed;
-			var request;
+//			var request;
 
 			window.dataLayer = window.dataLayer || [];
 
@@ -986,7 +987,7 @@ o.metaNameWebAuthor.dataset.clientIp = '40.119.158.195';
 // My IP:
 o.metaNameWebAuthor.dataset.clientIp = '##.##.###.##';
 */
-
+/*
 			manageErrors = function (response) {
 				var responseError;
 				if (!response.ok) {
@@ -999,7 +1000,7 @@ o.metaNameWebAuthor.dataset.clientIp = '##.##.###.##';
 				}
 				return response;
 			};
-
+*/
 // 2023-02-14
 			if (o.siteData.useGoogleAnalytics) {
 
@@ -1791,6 +1792,55 @@ commonVariables = function () {
 		o.useServiceWorker = true;
 	}
 
+};
+
+// To display img URLs directly in the devtools console.
+// See: https://github.com/workeffortwaste/consoleimg/
+consoleImg = function (i, options) {
+	var size;
+	var color;
+	var r;
+	options = options || {};
+	size = (
+		options.hasOwnProperty('size')
+		? options.size
+		: 320
+	);
+	color = (
+		(options.hasOwnProperty('color'))
+		? options.color
+		: 'transparent'
+	);
+	r = new FileReader();
+	r.addEventListener('load', function () {
+		var o = 'background: url(\'' + r.result + '\') left top no-repeat; font-size: ' + size + 'px; background-size: contain; background-color:' + color;
+		console.log('%c	 ', o);
+	}, false);
+
+	fetch(i).then(
+		function (response) {
+			return response.blob();
+		}
+	).then(
+		function (blob) {
+			if (blob.type.indexOf('image') === 0) {
+				if (blob.size > 8192 && navigator.userAgent.indexOf('Firefox') > 0) {
+					throw new Error('Image size too big to be displayed in Firefox.');
+				}
+				return blob;
+			} else {
+				throw new Error('Valid image not found.');
+			}
+		}
+	).then(
+		function (imageBlob) {
+			r.readAsDataURL(imageBlob);
+		}
+	).catch(
+		function (error) {
+			console.warn(error.message);
+		}
+	);
 };
 
 consoleLog = function (msg) {
@@ -3853,6 +3903,7 @@ export default Object.freeze({
 	commonRoutinesOnFirstLoadOrAjax,
 	commonVariables,
 	conditionallyReplaceJpgExtensionWithWebpExtension,
+	consoleImg,
 	consoleLog,
 	consoleLogMsgObj,
 	currentDateTimeString,
