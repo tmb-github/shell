@@ -52,26 +52,19 @@ formLogic = function () {
 	o = this;
 
 	formOnSubmit = function (event) {
-		var ajaxURL;
-		var ajaxCallback;
-		var contactFormMutate;
-		var submit;
-
 		event.preventDefault();
-
-		contactFormMutate = function () {
-			submit.disabled = true;
-			ajaxCallback = function () {
-				submit.disabled = false;
-			};
-			o.ajax.post(ajaxURL, {}, ajaxCallback, true);
-		};
-
-		submit = document.querySelector('.server-error-test-form button');
-		ajaxURL = o.metaDataRootDir + 'includes/forms/admin/server-error-test/server_error_test_process.php';
-
-		contactFormMutate();
-
+		(function (submit) {
+			var ajaxURL;
+			var ajaxCallback;
+			if (submit) {
+				ajaxCallback = function () {
+					submit.disabled = false;
+				};
+				ajaxURL = o.metaDataRootDir + 'includes/forms/admin/server-error-test/server_error_test_process.php';
+				submit.disabled = true;
+				o.ajax.post(ajaxURL, {}, ajaxCallback, true);
+			}
+		}(document.querySelector('.server-error-test-form button')));
 	};
 
 	(function (form) {

@@ -2392,7 +2392,11 @@ initializeHeaderHeightAndObserver = function () {
 	});
 
 // start observing for resize
-	resizeObserverForHeaderHeight.observe(document.querySelector('.header'));
+	(function (header) {
+		if (header) {
+			resizeObserverForHeaderHeight.observe(header);
+		}
+	}(document.querySelector('.header')));
 
 };
 
@@ -2427,7 +2431,11 @@ initializeFooterHeightAndObserver = function () {
 	});
 
 // start observing for resize
-	resizeObserverForFooterHeight.observe(document.querySelector('.footer'));
+	(function (footer) {
+		if (footer) {
+			resizeObserverForFooterHeight.observe(footer);
+		}
+	}(document.querySelector('.footer')));
 
 };
 
@@ -2811,14 +2819,35 @@ loadLocalResource = (function () {
 loadPageDependencies = function () {
 
 	var assignFn;
+	var autoVersion;
 	var calledInner;
 	var o;
+	var minify;
 	var pageObj;
-
+	var pageModule;
 
 	calledInner = false;
 // 'this' is the outer 'o' via .bind(o), so the outer 'o' === inner 'o':
 	o = this;
+
+	(function (html) {
+		minify = (html && (html.dataset.minify === 'true'));
+	}(document.querySelector('HTML')));
+
+	autoVersion = function (pageObj) {
+		var lastDotIndex;
+		var modifiedString;
+// Find the last occurrence of '.mjs'
+		lastDotIndex = pageObj.lastIndexOf('.mjs');
+// Check if '.mjs' is found in the string
+		if (lastDotIndex !== -1) {
+// Splice the string to insert the dot followed by o.returnTimeStamp()
+			modifiedString = pageObj.slice(0, lastDotIndex) + '.' + o.returnTimeStamp() + pageObj.slice(lastDotIndex);
+			return modifiedString;
+		} else {
+			return pageObj; // Return the original string if '.mjs' is not found
+		}
+	};
 
 	if (o.siteData.hasOwnProperty('pageDependencies')) {
 //console.log(o.pageName);
@@ -2836,8 +2865,21 @@ loadPageDependencies = function () {
 						if ((pageObj.hasOwnProperty('mjs')) && (typeof pageObj.mjs === 'string')) {
 // One way or another, the routines that follow will call inner():
 							calledInner = true;
+// Autoversion the module if not in minify mode:
+							pageModule = (
+								(minify)
+								? pageObj.mjs
+								: autoVersion(pageObj.mjs, o)
+							);
+// if it starts with './', replace with './pages/'
+// otherwise just prepend './pages/':
+							pageModule = (
+								(pageModule.startsWith('./'))
+								? './pages/' + pageModule.slice(2)
+								: './pages/' + pageModule
+							);
 // Import the page module...
-							import('./pages/' + pageObj.mjs).then(function ({default: object}) {
+							import(pageModule).then(function ({default: object}) {
 // 2021-10-24:
 // (nameArr, urlArr, attributeArr, assignFnArr)
 								var nameArr = [];
@@ -3595,6 +3637,7 @@ setOrientation = function () {
 // 'this' is the outer 'o' via .bind(o), so the outer 'o' === inner 'o':
 	var o = this;
 
+/*
 	switch (window.orientation) {
 	case 0:
 		document.body.dataset.orientation = 'portrait';
@@ -3609,6 +3652,19 @@ setOrientation = function () {
 		o.onResizeEdits();
 		break;
 	}
+*/
+
+	document.body.dataset.orientation = (
+		(window.orientation === 0)
+		? 'portrait'
+		: (window.orientation === 90)
+		? 'landscape-left'
+		: (window.orientation === -90)
+		? 'landscape-right'
+		: 'portrait'
+	);
+	o.onResizeEdits();
+
 
 };
 
@@ -3739,7 +3795,6 @@ siteWideLoader = function () {
 //
 // SCRIPTs with src="https://www.google-analytics.com/analytics.js" should be retained as well:
 	function removeLeftoverFooterSiblings() {
-		var footer;
 		function getNextSiblings(element) {
 			var siblings = [];
 			while (element.nextElementSibling !== null) {
@@ -3749,8 +3804,8 @@ siteWideLoader = function () {
 			return siblings;
 		}
 		function ldJsonFilter(el) {
-// NB: We're not filtering for 'application/json', as none should follow the
-// footer:
+// NB: We're not filtering for 'application/json', as no such script should
+// follow the footer:
 			return ((el.nodeName === 'SCRIPT') && (el.hasAttribute('type')) && (el.getAttribute('type') === 'application/ld+json'));
 		}
 		function filterNextSiblings(element, filter) {
@@ -3765,10 +3820,20 @@ siteWideLoader = function () {
 				}
 			});
 		}
-		footer = document.querySelector('footer');
-		if (footer !== null) {
-			filterNextSiblings(footer, ldJsonFilter);
-		}
+
+// 2023-12-20
+// OLD:
+//		footer = document.querySelector('footer');
+//		if (footer !== null) {
+//			filterNextSiblings(footer, ldJsonFilter);
+//		}
+
+		(function (footer) {
+			if (footer) {
+				filterNextSiblings(footer, ldJsonFilter);
+			}
+		}(document.querySelector('footer')));
+
 	}
 
 	if ((o.enqueue) && (o.enqueue.length)) {

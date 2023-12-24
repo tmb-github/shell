@@ -5,6 +5,8 @@
 * Date: 2023-11-01
 */
 
+import {siteWideModules} from "./shared/siteWideModules.mjs";
+
 var main;
 
 // We need the nonce that has been sent to the browser in order to realize
@@ -28,13 +30,18 @@ main = function () {
 
 	siteWideEditsClosure = function (nonce) {
 
-		var commonMjs;
+//		var commonMjs;
 		var cookieObject;
+		var importModules;
+		var minify;
+		var modules;
 		var o;
-		var windowLoad;
+		var replaceTimeStampOnMinMjs;
 		var satisfyJsLint;
-		var siteCommonMjs;
-		var siteDataMjs;
+//		var siteCommonMjs;
+//		var siteDataMjs;
+		var spliceTimeStamp;
+		var windowLoad;
 
 //var siteWideOnLocationChange;
 
@@ -43,7 +50,33 @@ main = function () {
 
 		o = {};
 
+		replaceTimeStampOnMinMjs = function (siteWideModules) {
+			return siteWideModules.map(function (modulePath) {
+				var timestamp;
+				var modifiedPath;
+				timestamp = o.returnTimeStamp();
+// Use regular expression to trim out whatever comes between .min. and .mjs
+//
+// Also, separate the each dot from the 'mjs' that follows to prevent
+// minify_modules.php from splicing in its own date stamp elsewhere in the
+// filename, which can't be removed by the rewrite rule in .htaccess:
+//
+				modifiedPath = modulePath.replace(/\.min\..*?\.mjs/, '.min.' + timestamp + '.' + 'mjs');
+				return modifiedPath;
+			});
+		};
+
 		satisfyJsLint = false;
+
+		spliceTimeStamp = function (siteWideModules) {
+			return siteWideModules.map(function (modulePath) {
+				var timestamp;
+				var modifiedPath;
+				timestamp = o.returnTimeStamp();
+				modifiedPath = modulePath.replace(/\.mjs$/, '.' + timestamp + '.mjs');
+				return modifiedPath;
+			});
+		};
 
 		o.returnTimeStamp = function () {
 
@@ -398,57 +431,48 @@ main = function () {
 // BEGIN INITIALIZATION ROUTINES:
 // ------------------------------
 
+		(function (html) {
+			minify = (html && (html.dataset.minify === 'true'));
+		}(document.querySelector('HTML')));
+
 // Get and log individual cookies
 		cookieObject = o.getCookies();
 
+// this is necessary to allow reloading and testing of modules that have been
+// altered during development:
 		if (cookieObject.hasOwnProperty('authenticated')) {
 			if (cookieObject.authenticated === 'true') {
-
-// separate the each dot from the 'mjs' that follows to prevent
-// minify_modules.php from splicing in its own date stamp elsewhere in the
-// filename, which can't be removed by the rewrite rule in .htaccess:
-				(function (html) {
-					if (html && (html.dataset.minify === 'true')) {
-						siteDataMjs = './siteData.min.' + o.returnTimeStamp() + '.' + 'mjs';
-						commonMjs = './common.min.' + o.returnTimeStamp() + '.' + 'mjs';
-						siteCommonMjs = './siteCommon.min.' + o.returnTimeStamp() + '.' + 'mjs';
-					} else {
-						siteDataMjs = './siteData.' + o.returnTimeStamp() + '.' + 'mjs';
-						commonMjs = './common.' + o.returnTimeStamp() + '.' + 'mjs';
-						siteCommonMjs = './siteCommon.' + o.returnTimeStamp() + '.' + 'mjs';
-					}
-				}(document.querySelector('HTML')));
-
+				if (minify) {
+					modules = replaceTimeStampOnMinMjs(siteWideModules);
+				} else {
+					modules = spliceTimeStamp(siteWideModules);
+				}
 			}
 		} else {
-			siteDataMjs = './siteData.mjs';
-			commonMjs = './common.mjs';
-			siteCommonMjs = './siteCommon.mjs';
+			if (minify) {
+// The minified versions will be read in during minified mode:
+				modules = siteWideModules;
+			} else {
+				modules = spliceTimeStamp(siteWideModules);
+			}
 		}
 
-		import(siteDataMjs).then(function ({default: object}) {
-// Assign its methods/properties to common object 'o':
-			o.assignToCommonObject(object);
+//		modules = [siteDataMjs, commonMjs, siteCommonMjs];
 
-// Methods common to framework:
-			import(commonMjs).then(function ({default: object}) {
+		importModules = function (arr) {
+			import(arr.shift()).then(function ({default: object}) {
 				o.assignToCommonObject(object);
-
-// Methods common to site:
-				import(siteCommonMjs).then(function ({default: object}) {
-					o.assignToCommonObject(object);
+				if (arr.length !== 0) {
+					importModules(arr);
+				} else {
 					o.initializationRoutines();
-				}).catch(function (error) {
-					console.log(error);
-				});
-
+				}
 			}).catch(function (error) {
 				console.log(error);
 			});
+		};
 
-		}).catch(function (error) {
-			console.log(error);
-		});
+		importModules(modules);
 
 	};
 

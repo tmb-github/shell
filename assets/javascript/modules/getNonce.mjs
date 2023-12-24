@@ -18,7 +18,6 @@ main = function (closure) {
 	var getNonceViaXhr;
 	var getScriptNonce;
 	var makeRequest;
-	var metaNameWebAuthor;
 	var nonce;
 	var scriptNonce;
 
@@ -32,12 +31,12 @@ main = function (closure) {
 // NB: If we write the nonce to the META tag, DO NOT BOTHER with xhr method:
 // NB: We just record a single nonce to the HTML; currently (2021-04-11), both
 // script-src and style-src get the same nonce:
-
-	metaNameWebAuthor = document.querySelector('meta[name=web_author]');
-	if (metaNameWebAuthor && Boolean(metaNameWebAuthor.dataset) && Boolean(metaNameWebAuthor.dataset.nonce)) {
-		nonce = metaNameWebAuthor.dataset.nonce;
-		getNonceViaXhr = false;
-	}
+	(function (metaNameWebAuthor) {
+		if (metaNameWebAuthor && Boolean(metaNameWebAuthor.dataset.nonce)) {
+			nonce = metaNameWebAuthor.dataset.nonce;
+			getNonceViaXhr = false;
+		}
+	}(document.querySelector('meta[name=web_author]')));
 
 	getScriptNonce = function (request) {
 

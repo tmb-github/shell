@@ -55,28 +55,29 @@ formLogic = function () {
 	o = this;
 
 	formOnSubmit = function (event) {
-		var ajaxURL;
-		var ajaxCallback;
-		var contactFormMutate;
-		var submit;
-
 		event.preventDefault();
-
-		contactFormMutate = function () {
-			submit.disabled = true;
-			ajaxCallback = function (response) {
-				response = JSON.parse(response);
-				document.querySelector('.message').innerHTML = response.message;
-				submit.disabled = false;
-			};
-			o.ajax.post(ajaxURL, {}, ajaxCallback, true);
-		};
-
-		submit = document.querySelector('.empty-recycle-bin-form button');
-		ajaxURL = o.metaDataRootDir + 'includes/forms/admin/empty-recycle-bin/empty_recycle_bin_process.php';
-
-		contactFormMutate();
-
+		(function (submit) {
+			var ajaxURL;
+			var ajaxCallback;
+			if (submit) {
+				ajaxCallback = function (response) {
+					response = JSON.parse(response);
+// Optional chaining cannot be used on the left side of an assignment, so this
+// assignment will generate a syntax error:
+//					document.querySelector('.message')?.innerHTML = response.message;
+// The solution is an anonymous function:
+					(function (message) {
+						if (message) {
+							message.innerHTML = response.message;
+						}
+					}(document.querySelector('.message')));
+					submit.disabled = false;
+				};
+				ajaxURL = o.metaDataRootDir + 'includes/forms/admin/empty-recycle-bin/empty_recycle_bin_process.php';
+				submit.disabled = true;
+				o.ajax.post(ajaxURL, {}, ajaxCallback, true);
+			}
+		}(document.querySelector('.empty-recycle-bin-form button')));
 	};
 
 	(function (form) {

@@ -164,8 +164,14 @@
 // THE ROUTINE //
 /////////////////
 
-		metaNameWebAuthor = document.querySelector('meta[name=web_author]');
-		useTrustedTypes = (metaNameWebAuthor && metaNameWebAuthor.dataset && metaNameWebAuthor.dataset.useTrustedTypes && (metaNameWebAuthor.dataset.useTrustedTypes === 'true'));
+// 2023-12-20
+// OLD:
+//		metaNameWebAuthor = document.querySelector('meta[name=web_author]');
+//		useTrustedTypes = (metaNameWebAuthor && metaNameWebAuthor.dataset && metaNameWebAuthor.dataset.useTrustedTypes && (metaNameWebAuthor.dataset.useTrustedTypes === 'true'));
+
+		(function (metaNameWebAuthor) {
+			useTrustedTypes = Boolean(metaNameWebAuthor && metaNameWebAuthor.dataset.useTrustedTypes === 'true');
+		}(document.querySelector('meta[name=web_author]')));
 
 		if (window.hasOwnProperty('trustedTypes') && useTrustedTypes) {
 			tmbTT.policy = window.trustedTypes.createPolicy('stop-gap', {
