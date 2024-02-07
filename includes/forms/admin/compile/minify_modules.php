@@ -30,6 +30,8 @@ if ($minify_modules == true) {
 // ONLY COMPILE ON LOCALHOST //
 ///////////////////////////////
 
+	$minify_counter = 0;
+
 	if ($localhost === true) {
 
 		$folderPath = $absolute_root . $assets_folder . 'javascript/modules';
@@ -42,12 +44,17 @@ if ($minify_modules == true) {
 			if (!file_exists($full_subfolder_path)) {
 // NB: 0777 is security permission: make executable
 				mkdir($full_subfolder_path, 0777);
+/*
+// 2024-02-07:
+// Don't delete all of the minified files...we'll delete on a case-by-case
+// basis, replacing only if the source file (the unminified file) has changed:
 			} else {
 				$files = glob($assets_folder . 'javascript/minified-modules/' . $subfolder . '/*'); // get all file names
 				foreach($files as $file){ // iterate files
 				if(is_file($file))
 					unlink($file); // delete file
 				}
+*/
 			}
 		}
 
@@ -89,63 +96,70 @@ if ($minify_modules == true) {
 			$source = $mjs[$i];
 			$destination = $min_mjs[$i];
 
-// 2023-11-01
-// replace "/./" with "/" in source and destination:
-//	$source = str_replace("/./", "/", $source);
-//	$destination = str_replace("/./", "/", $source);
-
 			if (file_exists($source)) {
 
+// Determine if the source file has been updated or not:
+				$jsonFilePath = 'file_hashes.json';
+				$updated = updateHashInJson($source, $jsonFilePath);
+
+// If the source fill has been updated OR if the minified version is absent,
+// proceed with minification:
+				if (($updated == true) || (!file_exists($destination))) {
+
+					unlink($destination);
+
+					$minify_counter++;
+
 // Get contents of current mjs file:
-				$contents = file_get_contents($source);
+					$contents = file_get_contents($source);
 
 // Safeguard against the closure compiler barking at us!
 
 // replace tabs with 4 spaces:
-				$find = array("\t");
-				$replace = array('    ');
-				$contents = str_replace($find, $replace, $contents);
+					$find = array("\t");
+					$replace = array('    ');
+					$contents = str_replace($find, $replace, $contents);
 
 // strip out all JavaScript comments:
-				$pattern = '/(?:(?:\/\*(?:[^*]|(?:\*+[^*\/]))*\*+\/)|(?:(?<!\:|\\\|\'|\")\/\/.*))/';
-				$contents = preg_replace($pattern, '', $contents);
+					$pattern = '/(?:(?:\/\*(?:[^*]|(?:\*+[^*\/]))*\*+\/)|(?:(?<!\:|\\\|\'|\")\/\/.*))/';
+					$contents = preg_replace($pattern, '', $contents);
 
 // Get an autoversioning value corresponding to the current time:
-				$date = date('YmdHis', time());
+					$date = date('YmdHis', time());
 
 // Convert special cases to immunize them from the splicing to come:
-				$contents = str_replace("https://www.google.com/recaptcha/api.js", "httpswwwgooglecomrecaptchaapijs", $contents);
-				$contents = str_replace("https://www.google-analytics.com/analytics.js", "httpswwwgoogleanalyticscomanalyticsjs", $contents);
+					$contents = str_replace("https://www.google.com/recaptcha/api.js", "httpswwwgooglecomrecaptchaapijs", $contents);
+					$contents = str_replace("https://www.google-analytics.com/analytics.js", "httpswwwgoogleanalyticscomanalyticsjs", $contents);
 
 // The mjs files we're processing reference other modules in their unminified
 // state, so we need to splice in .min before .mjs in each place they occur.
 // Also, we should splice in the $date number to autoversion the modules:
 
 // Replace .mjs with .min.{{$date}}.mjs where there's an ending quote:
-				$contents = str_replace(".mjs'", ".min." . $date . ".mjs'", $contents);
-				$contents = str_replace('.mjs"', '.min.' . $date . '.mjs"', $contents);
+					$contents = str_replace(".mjs'", ".min." . $date . ".mjs'", $contents);
+					$contents = str_replace('.mjs"', '.min.' . $date . '.mjs"', $contents);
 
 // Replace .js with .min.{{$date}}.js where there's an ending quote:
-				$contents = str_replace(".js'", ".min." . $date . ".js'", $contents);
-				$contents = str_replace('.js"', '.min.' . $date . '.js"', $contents);
+					$contents = str_replace(".js'", ".min." . $date . ".js'", $contents);
+					$contents = str_replace('.js"', '.min.' . $date . '.js"', $contents);
 
 // Replace .min.js with .min.{{$date}}.js elsewhere:
-				$contents = str_replace(".min.js'", ".min." . $date . ".js'", $contents);
-				$contents = str_replace('.min.js"', '.min.' . $date . '.js"', $contents);
+					$contents = str_replace(".min.js'", ".min." . $date . ".js'", $contents);
+					$contents = str_replace('.min.js"', '.min.' . $date . '.js"', $contents);
 
 // Safeguard against double .mins:
-				$contents = str_replace(".min.min.", ".min.", $contents);
+					$contents = str_replace(".min.min.", ".min.", $contents);
 
-				$contents = str_replace("javascript/scripts", "javascript/minified-scripts", $contents);
-				$contents = str_replace('javascript/scripts', 'javascript/minified-scripts', $contents);
+					$contents = str_replace("javascript/scripts", "javascript/minified-scripts", $contents);
+					$contents = str_replace('javascript/scripts', 'javascript/minified-scripts', $contents);
 
 // Revert special cases to former form:
-				$contents = str_replace("httpswwwgooglecomrecaptchaapijs", "https://www.google.com/recaptcha/api.js", $contents);
-				$contents = str_replace("httpswwwgoogleanalyticscomanalyticsjs", "https://www.google-analytics.com/analytics.js", $contents);
+					$contents = str_replace("httpswwwgooglecomrecaptchaapijs", "https://www.google.com/recaptcha/api.js", $contents);
+					$contents = str_replace("httpswwwgoogleanalyticscomanalyticsjs", "https://www.google-analytics.com/analytics.js", $contents);
 
 // Temporarily rename all dynamic "import()" functions as "dyanamicImport()"
 // If we don't, the closure compiler fails to compile the code:
-				$contents = str_replace("import(", "dynamicImport(", $contents);
+					$contents = str_replace("import(", "dynamicImport(", $contents);
 
 // We have to strip out the export at the end of each module before compiling
 // and then restore it at the end. It's the only way...
@@ -154,71 +168,71 @@ if ($minify_modules == true) {
 // STATIC IMPORTS //
 ////////////////////
 
-				$found_static_imports = false;
+					$found_static_imports = false;
 
 /////////////////////////////////////////
 // See if Object Freeze import is in use:
 /////////////////////////////////////////
 
 // Here's the start of my object freeze import signature:
-				$start = 'import {';
-				$end = ';';
-				$start_len = strlen($start);
-				$end_len = strlen($end);
+					$start = 'import {';
+					$end = ';';
+					$start_len = strlen($start);
+					$end_len = strlen($end);
 
-				$search_start_pos = 0;
-				$import_counts = substr_count($contents, $start);
+					$search_start_pos = 0;
+					$import_counts = substr_count($contents, $start);
 
-				$replace_str = '';
-
-				$import_var_arr = [];
-				$import_stmt_arr = [];
-
-				for ($x = 0; $x < $import_counts; $x++) {
-
-// Determine the position of the $start and $end in the $contents:
-					$str_pos_start = strpos($contents, $start, $search_start_pos);
-					$str_pos_end = strpos($contents, $end, $str_pos_start + $search_start_pos) + $end_len;
-// Only proceed if we've found both the start and end of the import object code:
-					if (($str_pos_start !== false) && ($str_pos_end !== false)) {
-						$found_static_imports = true;
-					}
-
-					if ($found_static_imports == true) {
-
-// Save the complete import statement in a variable:
-						$import = substr($contents, $str_pos_start, ($str_pos_end - $str_pos_start));
-// Now, get just the list of variables in the import statement:
-						$bracket_start = strpos($import, '{');
-						$bracket_end = strpos($import, '}');
-
-						$var_list = substr($import, ($bracket_start + 1), ($bracket_end - $bracket_start - 1));
-						$import_end = substr($import, ($bracket_end + 1));
-
-// Reconstruction of the complete import statement:
-						$tmp = trim('import {' . trim($var_list) . '} ' . $import_end);
-// Now, strip all duplicate white-space characters from the import :
-						$original_import_edited = preg_replace('/\s+/S', " ", $tmp);
-
-						$import_stmt_arr[$x] = $original_import_edited;
-
-// From the variable list in the import, remove all white space characters, including tabs and end of line characters:
-						$var_list = preg_replace('/\s+/', '', $var_list);
-// Add a white space after every comma:
-						$var_list = str_replace(',', ', ', $var_list);
-// Convert the variable list into an array:
-						$str_arr = explode(", ", $var_list);
-
-						for ($y = 0; $y < count($str_arr); $y++) {
-							$replace_str .= 'var ' . $str_arr[$y] . ';' . PHP_EOL;
-							$import_var_arr[$x][$y] = $str_arr[$y];
-						}
-					}
-
-					$contents = str_replace($import, $replace_str, $contents);
 					$replace_str = '';
 
-				}
+					$import_var_arr = [];
+					$import_stmt_arr = [];
+
+					for ($x = 0; $x < $import_counts; $x++) {
+
+// Determine the position of the $start and $end in the $contents:
+						$str_pos_start = strpos($contents, $start, $search_start_pos);
+						$str_pos_end = strpos($contents, $end, $str_pos_start + $search_start_pos) + $end_len;
+// Only proceed if we've found both the start and end of the import object code:
+						if (($str_pos_start !== false) && ($str_pos_end !== false)) {
+							$found_static_imports = true;
+						}
+
+						if ($found_static_imports == true) {
+
+// Save the complete import statement in a variable:
+							$import = substr($contents, $str_pos_start, ($str_pos_end - $str_pos_start));
+// Now, get just the list of variables in the import statement:
+							$bracket_start = strpos($import, '{');
+							$bracket_end = strpos($import, '}');
+
+							$var_list = substr($import, ($bracket_start + 1), ($bracket_end - $bracket_start - 1));
+							$import_end = substr($import, ($bracket_end + 1));
+
+// Reconstruction of the complete import statement:
+							$tmp = trim('import {' . trim($var_list) . '} ' . $import_end);
+// Now, strip all duplicate white-space characters from the import :
+							$original_import_edited = preg_replace('/\s+/S', " ", $tmp);
+
+							$import_stmt_arr[$x] = $original_import_edited;
+
+// From the variable list in the import, remove all white space characters, including tabs and end of line characters:
+							$var_list = preg_replace('/\s+/', '', $var_list);
+// Add a white space after every comma:
+							$var_list = str_replace(',', ', ', $var_list);
+// Convert the variable list into an array:
+							$str_arr = explode(", ", $var_list);
+
+							for ($y = 0; $y < count($str_arr); $y++) {
+								$replace_str .= 'var ' . $str_arr[$y] . ';' . PHP_EOL;
+								$import_var_arr[$x][$y] = $str_arr[$y];
+							}
+						}
+
+						$contents = str_replace($import, $replace_str, $contents);
+						$replace_str = '';
+
+					}
 
 ////////////
 // START: //
@@ -226,70 +240,70 @@ if ($minify_modules == true) {
 
 // NB: IF THESE CAN'T BE FOUND, SOMETHING IS WRONG WITH THE INPUT MJS FILE, AND IT MUST BE SKIPPED:
 
-				$found_method = false;
+					$found_method = false;
 
 /////////////////////////////////////////
 // See if Object Freeze export is in use:
 /////////////////////////////////////////
 
-				if ($found_method == false) {
+					if ($found_method == false) {
 // Here's the start of my object freeze export signature:
-					$start = 'export default Object.freeze({';
-					$end = '});';
+						$start = 'export default Object.freeze({';
+						$end = '});';
 
-					$start_len = strlen($start);
-					$end_len = strlen($end);
+						$start_len = strlen($start);
+						$end_len = strlen($end);
 
 // Determine the position of the $start and $end in the $contents:
-					$str_pos_start = strpos($contents, $start);
-					$str_pos_end = strpos($contents, $end, $str_pos_start) + $end_len;
+						$str_pos_start = strpos($contents, $start);
+						$str_pos_end = strpos($contents, $end, $str_pos_start) + $end_len;
 
 // Only proceed if we've found both the start and end of the export object code:
-					if (($str_pos_start !== false) && ($str_pos_end !== false)) {
-						$found_method = true;
+						if (($str_pos_start !== false) && ($str_pos_end !== false)) {
+							$found_method = true;
+						}
 					}
-				}
 
 ////////////////////////////////////
 // See if standard export is in use:
 ////////////////////////////////////
 
-				if ($found_method == false) {
+					if ($found_method == false) {
 // Here's the start of my standard export signature:
-					$start = 'export {';
-					$end = '};';
+						$start = 'export {';
+						$end = '};';
 
-					$start_len = strlen($start);
-					$end_len = strlen($end);
+						$start_len = strlen($start);
+						$end_len = strlen($end);
 
 // Determine the position of the $start and $end in the $contents:
-					$str_pos_start = strpos($contents, $start);
-					$str_pos_end = strpos($contents, $end, $str_pos_start) + $end_len;
+						$str_pos_start = strpos($contents, $start);
+						$str_pos_end = strpos($contents, $end, $str_pos_start) + $end_len;
 
 // Only proceed if we've found both the start and end of the export object code:
-					if (($str_pos_start !== false) && ($str_pos_end !== false)) {
-						$found_method = true;
+						if (($str_pos_start !== false) && ($str_pos_end !== false)) {
+							$found_method = true;
+						}
 					}
-				}
 
 ////////////////////////////////
 // If either is in use, proceed:
 ////////////////////////////////
-				if ($found_method == true) {
+					if ($found_method == true) {
 // Save the complete export statement in a variable:
-					$export = substr($contents, $str_pos_start, ($str_pos_end - $str_pos_start));
+						$export = substr($contents, $str_pos_start, ($str_pos_end - $str_pos_start));
 // Now, get just the list of variables in the export statement:
-					$var_list = substr($contents, ($str_pos_start + $start_len), (($str_pos_end - $end_len) - ($str_pos_start + $start_len)));
+						$var_list = substr($contents, ($str_pos_start + $start_len), (($str_pos_end - $end_len) - ($str_pos_start + $start_len)));
 // Reconstruction of the complete export statement:
-					$original_export = $start . trim($var_list) . $end . PHP_EOL;
+						$original_export = $start . trim($var_list) . $end . PHP_EOL;
 // Now, strip all duplicate white-space characters from the export :
-					$original_export_edited = preg_replace('/\s+/S', " ", $original_export);
+						$original_export_edited = preg_replace('/\s+/S', " ", $original_export);
 // From the variable list in the export, remove all white space characters, including tabs and end of line characters:
-					$var_list = preg_replace('/\s+/', '', $var_list);
+						$var_list = preg_replace('/\s+/', '', $var_list);
 // Add a white space after every comma:
-					$var_list = str_replace(',', ', ', $var_list);
+						$var_list = str_replace(',', ', ', $var_list);
 // Convert the variable list into an array:
-					$str_arr = explode(", ", $var_list);
+						$str_arr = explode(", ", $var_list);
 
 
 // Regarding how to preserve variable names in a compiled module, see:
@@ -303,10 +317,10 @@ if ($minify_modules == true) {
 //
 // This is what we'll put in place of the original export statement so that the 
 // closure compiler preserves all of our variables.
-					$replacement = '';
-					foreach($str_arr as &$value) {
-						$replacement .= "window['" . $value . "'] = " . $value . ";" . PHP_EOL;
-					}
+						$replacement = '';
+						foreach($str_arr as &$value) {
+							$replacement .= "window['" . $value . "'] = " . $value . ";" . PHP_EOL;
+						}
 
 // From the same data, we can predict in what form that very block will be compiled:
 //
@@ -317,15 +331,15 @@ if ($minify_modules == true) {
 // But we only need the first and last of these to be able to find the complete block
 // of them in the compiled code:
 
-					$first_replace = 'window.' . $str_arr[0] . '=' . $str_arr[0] . ';';
-					$last_index = count($str_arr) - 1;
-					$last_replace = 'window.' . $str_arr[$last_index] . '=' . $str_arr[$last_index] . ';';
+						$first_replace = 'window.' . $str_arr[0] . '=' . $str_arr[0] . ';';
+						$last_index = count($str_arr) - 1;
+						$last_replace = 'window.' . $str_arr[$last_index] . '=' . $str_arr[$last_index] . ';';
 
 // Now, in the contents, replace the export block with the replacement block:
-					$contents = str_replace($export, $replacement, $contents);
+						$contents = str_replace($export, $replacement, $contents);
 
 // Consolidate consecutive crlfs into a single crlf:
-					$contents = preg_replace("/[\r\n]+/", "\r\n", $contents);
+						$contents = preg_replace("/[\r\n]+/", "\r\n", $contents);
 
 ////////////////////////////////////////////////////
 // Convert template strings to single quote strings:
@@ -333,99 +347,99 @@ if ($minify_modules == true) {
 
 // THIS NEEDS ${x} SEARCH AND REPLACE ADDED TO IT:
 
-					if ($convert_template_strings == true) {
+						if ($convert_template_strings == true) {
 
-						$backtick_count = substr_count($contents, '`');
+							$backtick_count = substr_count($contents, '`');
 
-						if (($backtick_count % 2) == 0) {
+							if (($backtick_count % 2) == 0) {
 
-							$offset = 0;
-							$backtick_pos_array = [];
+								$offset = 0;
+								$backtick_pos_array = [];
 
-							for ($x = 0; $x < $backtick_count; $x++) {
-								$offset = strpos($contents, '`', $offset);
-								array_push($backtick_pos_array, $offset);
-								$offset += 1;
+								for ($x = 0; $x < $backtick_count; $x++) {
+									$offset = strpos($contents, '`', $offset);
+									array_push($backtick_pos_array, $offset);
+									$offset += 1;
+								}
+
+								$template_str = [];
+								$normal_str = [];
+								for ($x = 0; $x < $backtick_count; $x++) {
+									$start = $x;
+									$end = $start + 1;
+									$length = ($backtick_pos_array[$end] - $backtick_pos_array[$start]) + 1;
+
+									$template = substr($contents, $backtick_pos_array[$start], $length);
+									$revise_template = revise($template);
+
+									array_push($template_str, $template);
+									array_push($normal_str, $revise_template);
+									$x += 1;
+								}
+
+								for ($x = 0; $x < count($template_str); $x++) {
+									$contents = str_replace($template_str[$x], $normal_str[$x], $contents);
+								}
+
+							} else {
+								$html .= '<br>';
+								$html .= 'Number of backticks is not even - could not convert template strings to standard strings.<br>';
+								$html .= '<br>';
 							}
-
-							$template_str = [];
-							$normal_str = [];
-							for ($x = 0; $x < $backtick_count; $x++) {
-								$start = $x;
-								$end = $start + 1;
-								$length = ($backtick_pos_array[$end] - $backtick_pos_array[$start]) + 1;
-
-								$template = substr($contents, $backtick_pos_array[$start], $length);
-								$revise_template = revise($template);
-
-								array_push($template_str, $template);
-								array_push($normal_str, $revise_template);
-								$x += 1;
-							}
-
-							for ($x = 0; $x < count($template_str); $x++) {
-								$contents = str_replace($template_str[$x], $normal_str[$x], $contents);
-							}
-
-						} else {
-							$html .= '<br>';
-							$html .= 'Number of backticks is not even - could not convert template strings to standard strings.<br>';
-							$html .= '<br>';
 						}
-					}
 // Name a file where our revised contents may be written:
-					$temp_file = 'closureCompilerTemp.js';
-					if (file_exists($temp_file)) {
-						unlink($temp_file);
-					}
-					file_put_contents($temp_file, $contents);
+						$temp_file = 'closureCompilerTemp.js';
+						if (file_exists($temp_file)) {
+							unlink($temp_file);
+						}
+						file_put_contents($temp_file, $contents);
 
 // Now, finally, we can compile the revised contents with the closure compiler:
 // The function now (2020-03-28) uses the locally hosted version of the closure compiler
 // via shell_exec() when it detects that we're on localhost:
-					minify_with_closure_compiler($temp_file, $destination);
+						minify_with_closure_compiler($temp_file, $destination);
 
 // ^ The above is the same as this on localhost:
 // $cc_cmd = "java -jar /xampp/htdocs/closure-compiler/closure-compiler-v20200315.jar --js=" . $temp_file . " --js_output_file=" . $destination . " --compilation_level=SIMPLE --rewrite_polyfills=false";
 // shell_exec($cc_cmd);
 
 // Get the code from the result of the compilation:
-					$destination_text = file_get_contents($destination);
+						$destination_text = file_get_contents($destination);
 
 // Now find the start and end of the window.myVariableOne=myVariableOne; etc. block:
-					$end_block_start = strpos($destination_text, $first_replace);
-					$end_block_end = strpos($destination_text, $last_replace, $end_block_start) + strlen($last_replace);
+						$end_block_start = strpos($destination_text, $first_replace);
+						$end_block_end = strpos($destination_text, $last_replace, $end_block_start) + strlen($last_replace);
 
 // Now we can find the end block:
-					$end_block = substr($destination_text, $end_block_start, ($end_block_end - $end_block_start));
+						$end_block = substr($destination_text, $end_block_start, ($end_block_end - $end_block_start));
 
 // replace the end block with the edited, original export block:
-					$destination_text_replaced = str_replace($end_block, $original_export_edited, $destination_text);
+						$destination_text_replaced = str_replace($end_block, $original_export_edited, $destination_text);
 
 // Finally, replace each instance of "dynamicImport(" with "import(":
-					$destination_text_replaced = str_replace("dynamicImport(", "import(", $destination_text_replaced);
+						$destination_text_replaced = str_replace("dynamicImport(", "import(", $destination_text_replaced);
 
 //////////////////////////////
 // Restore standard imports //
 //////////////////////////////
 
-					if (!empty($import_stmt_arr)) {
-						if (!empty($import_var_arr)) {
-							for ($x = 0; $x < count($import_stmt_arr); $x++) {
-							$var_decs_orig = substr($destination_text_replaced, 0, strpos($destination_text_replaced, ';') + 1);
-							$var_decs = $var_decs_orig;
-								for ($y = 0; $y < count($import_var_arr[$x]); $y++) {
-									$var = $import_var_arr[$x][$y];
+						if (!empty($import_stmt_arr)) {
+							if (!empty($import_var_arr)) {
+								for ($x = 0; $x < count($import_stmt_arr); $x++) {
+								$var_decs_orig = substr($destination_text_replaced, 0, strpos($destination_text_replaced, ';') + 1);
+								$var_decs = $var_decs_orig;
+									for ($y = 0; $y < count($import_var_arr[$x]); $y++) {
+										$var = $import_var_arr[$x][$y];
 // followed by a comma:
-									$var_decs = str_replace($var . ',', '', $var_decs);
+										$var_decs = str_replace($var . ',', '', $var_decs);
 // not followed by a comma:
-									$var_decs = str_replace($var, '', $var_decs);
+										$var_decs = str_replace($var, '', $var_decs);
+									}
+									$var_decs .= $import_stmt_arr[$x];
+									$destination_text_replaced = str_replace($var_decs_orig, $var_decs, $destination_text_replaced);
 								}
-								$var_decs .= $import_stmt_arr[$x];
-								$destination_text_replaced = str_replace($var_decs_orig, $var_decs, $destination_text_replaced);
 							}
 						}
-					}
 
 // In case we have:
 //
@@ -433,25 +447,26 @@ if ($minify_modules == true) {
 //
 // ...at the beginning, replace ',;' with ';':
 
-					$var_decs_orig = substr($destination_text_replaced, 0, strpos($destination_text_replaced, ';') + 1);
-					$var_decs_new = str_replace(',;', ';',   $var_decs_orig);
-					$destination_text_replaced = str_replace($var_decs_orig, $var_decs_new, $destination_text_replaced);
+						$var_decs_orig = substr($destination_text_replaced, 0, strpos($destination_text_replaced, ';') + 1);
+						$var_decs_new = str_replace(',;', ';',   $var_decs_orig);
+						$destination_text_replaced = str_replace($var_decs_orig, $var_decs_new, $destination_text_replaced);
 
 // Then write the revised text to the destination file:
-					file_put_contents($destination, $destination_text_replaced);
+						file_put_contents($destination, $destination_text_replaced);
 
-					if ((filesize($temp_file) == filesize($destination)) && (md5_file($temp_file) == md5_file($destination))) {
-						$html .= '<br>';
-						$html .= 'ERROR: Closure Compiler minification failed: ' . $source . '<br>';
-						$html .= '<br>';
+						if ((filesize($temp_file) == filesize($destination)) && (md5_file($temp_file) == md5_file($destination))) {
+							$html .= '<br>';
+							$html .= 'ERROR: Closure Compiler minification failed: ' . $source . '<br>';
+							$html .= '<br>';
+						} else {
+							$html .= 'SUCCESS: Closure Compiler minified: ' . $source . '<br>';
+						}
+
+						unlink($temp_file);
+
 					} else {
-						$html .= 'SUCCESS: Closure Compiler minified: ' . $source . '<br>';
+						$html .= $source . ' does not contain "export default Object.freeze({" and closing "});" OR "export {" and closing "};" . . . procedure aborted.<br><br>';
 					}
-
-					unlink($temp_file);
-
-				} else {
-					$html .= $source . ' does not contain "export default Object.freeze({" and closing "});" OR "export {" and closing "};" . . . procedure aborted.<br><br>';
 				}
 			} else {
 				$html .= $source . ' does not exist . . . procedure aborted.<br><br>';
@@ -466,11 +481,13 @@ if ($minify_modules == true) {
 	}
 
 	$status_ok = true;
+	$done_or_unchanged = ($minify_counter == 0) ? 'Unchanged' : 'Done.';
 
 	if ($status_ok) {
 		$response_code = 200;
 		$status = 'ok';
-		$message = $html . 'Done.';
+//		$message = $html . 'Done.';
+		$message = $html . $done_or_unchanged;
 	} else {
 		$response_code = 422;
 		$status = 'error';

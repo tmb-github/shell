@@ -98,6 +98,23 @@ var updateUriInfo;
 // ARCHIVE THIS FUNCTION, JUST IN CASE WE NEED IT: var waitAndSetHeaderHeight;
 var windowEvents;
 
+/*
+// Retrieve bottom, height, left, right, top, width, x, y without screen jank
+// See: https://toruskit.com/blog/how-to-get-element-bounds-without-reflow/
+getGeometries = function (element) {
+	const observer = new IntersectionObserver(function (entries) {
+		entries.forEach(function (entry) {
+// entry.boundingClientRect stores all dimensions:
+			const bounds = entry.boundingClientRect;
+			console.log(bounds);
+		});
+		observer.disconnect();
+	});
+	observer.observe(element);
+};
+*/
+
+
 activateLoadingMask = function () {
 
 //console.log('activateLoadingMask');
@@ -2080,10 +2097,34 @@ enqueueArray = [];
 
 footerEdits = function () {
 
+	var footerIntersectionEdits;
 	var o;
 	var removeSeparatorAtEndOfLine;
 
 	o = this;
+
+// To satisfy Lighthouse audit, which complains about the Base64 social icons
+// that are created as background images:
+	footerIntersectionEdits = function () {
+		var callback;
+		var observer;
+		var target;
+
+		callback = function (entries) {
+			entries.forEach(function (entry) {
+				if (entry.isIntersecting) {
+					if (!entry.target.classList.contains('social-icon-opacity-added')) {
+						entry.target.classList.add('social-icon-opacity-added');
+						o.appendToCSS(':root', '{ --social-icon-opacity: .75; }');
+					}
+				}
+			});
+		};
+
+		observer = new IntersectionObserver(callback);
+		target = document.querySelector('footer');
+		observer.observe(target);
+	};
 
 	removeSeparatorAtEndOfLine = function () {
 
@@ -2112,6 +2153,7 @@ footerEdits = function () {
 
 	};
 
+	footerIntersectionEdits();
 	removeSeparatorAtEndOfLine();
 
 	window.addEventListener('resize', o.debounce(removeSeparatorAtEndOfLine, 250, false));

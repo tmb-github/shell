@@ -62,11 +62,11 @@ render_custom_style_elements();
 					<label for="update_individual_imports_css">Update <code>individual-imports.css</code></label>
 				</li>
 				<li>
-					<input type="checkbox" name="update_service_worker" id="update_service_worker" checked>
+					<input type="checkbox" name="update_service_worker" id="update_service_worker">
 					<label for="update_service_worker">Update Service Worker</label>
 				</li>
 				<li>
-					<input type="checkbox" name="minify_service_worker" id="minify_service_worker" checked>
+					<input type="checkbox" name="minify_service_worker" id="minify_service_worker">
 					<label for="minify_service_worker">Minify <code>sw.js</code></label>
 				</li>
 				<li>

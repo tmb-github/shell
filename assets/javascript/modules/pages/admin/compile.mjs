@@ -33,7 +33,7 @@ main = function () {
 // 'this' is the outer 'o' via .bind(o), so the outer 'o' === inner 'o':
 	o = this;
 
-// Always revise the meta data:
+// always revise the metadata:
 	metaData = returnMetaData(o);
 	o.reviseMetaData(metaData);
 
@@ -93,10 +93,17 @@ formLogic = function () {
 		};
 
 		fetchRoutine = function () {
-			url = compilePostFolder + 'do_not_compile_static_html.php';
-			o.fetchAppendToUploadStatusDiv('Setting $compile_static_html = false . . .');
+			url = compilePostFolder + 'file_hashes_check.php';
+			o.fetchAppendToUploadStatusDiv('Verifying existence of file_hashes.json . . .');
 			fetch(url, options
 // FETCH 1:
+			).then(o.fetchResponse).then(
+				function (response) {
+					o.fetchAppendToUploadStatusDiv(response.message);
+					return o.fetchResolve(response, compilePostFolder + 'do_not_compile_static_html.php', 'Setting $compile_static_html = false . . .');
+				},
+				o.fetchReject
+// FETCH 2:
 			).then(o.fetchResponse).then(
 				function (response) {
 					o.fetchAppendToUploadStatusDiv(response.message);
@@ -195,7 +202,7 @@ formLogic = function () {
 				(window.location.host === 'localhost')
 				? o.siteData.localhostUrl + endpoint
 				: o.siteData.liveSiteUrl + endpoint
-			)
+			);
 		}('/includes/forms/admin/compile/'));
 
 //////////////////////

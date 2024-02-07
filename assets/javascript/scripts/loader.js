@@ -217,8 +217,9 @@
 // 2020-08-15:
 // RETAIN IN CASE WE WANT TO REVERT TO JAVASCRIPT LAZYLOADING:
 //	enqueueXXX({src: 'javascript/scripts/noframework.waypoints.js'});
-		enqueue({src: 'javascript/scripts/passiveSupport.js', dataScriptName: 'passiveSupport'});
-//		enqueue({src: 'javascript/scripts/tmbBug.js'});
+// 2024-01-12:
+//		enqueueXXX({src: 'javascript/scripts/passiveSupport.js', dataScriptName: 'passiveSupport'});
+//		enqueueXXX({src: 'javascript/scripts/tmbBug.js'});
 
 // The nonce is set on the global object 'o' in siteWideEditsClosure.
 // It must be set on siteWideEdits.js to be accessible to siteWideEditsClosure

@@ -705,6 +705,7 @@ privacy-policy/main.php
 	--gray-button-210: #d2d2d2; /* hsl(0, 0%, 82%) rgb(210, 210, 210) */
 	--gray-button-195: #c3c3c3; /* hsl(0, 0%, 76%) rgb(195, 195, 195) */
 	--gray-button-180: #b4b4b4; /* hsl(0, 0%, 71%) rgb(180, 180, 180) */
+	--social-icon-opacity: 0;
 }
 
 /* 
@@ -3496,9 +3497,15 @@ In case MAIN element is absent
 	margin-bottom: .2em;
 }
 
+/* Needed to satisfy Lighthouse audit (defer offscreen images) */
+.footer:not(.social-icon-opacity-added) .social-icons .social-icon-anchor {
+	display: none;
+}
+
 .footer .social-icons .social-icon-anchor {
 	filter: var(--filter-footer-anchor-hover);
-	opacity: .75;
+/*	opacity: .75; */
+	opacity: var(--social-icon-opacity);
 	padding: .25em 1em;
 	text-decoration: none;
 	transition: opacity 500ms ease;

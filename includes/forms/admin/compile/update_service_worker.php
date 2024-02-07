@@ -3,6 +3,7 @@
 include './compile_reqs.inc.php';
 
 if ($update_service_worker == true) {
+
 	$html = '';
 
 	$preload_assets_into_cache = false;

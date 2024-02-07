@@ -71,9 +71,15 @@ In case MAIN element is absent
 	margin-bottom: .2em;
 }
 
+/* Needed to satisfy Lighthouse audit (defer offscreen images) */
+.footer:not(.social-icon-opacity-added) .social-icons .social-icon-anchor {
+	display: none;
+}
+
 .footer .social-icons .social-icon-anchor {
 	filter: var(--filter-footer-anchor-hover);
-	opacity: .75;
+/*	opacity: .75; */
+	opacity: var(--social-icon-opacity);
 	padding: .25em 1em;
 	text-decoration: none;
 	transition: opacity 500ms ease;

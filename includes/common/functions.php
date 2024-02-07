@@ -19,6 +19,45 @@ function last_slug($url) {
 }
 */
 
+// Used in compile routines:
+function updateHashInJson($filename, $jsonFilePath) {
+// Get the hash of the file
+	$fileHash = hash_file('sha256', $filename);
+
+// Read the existing JSON file
+	$jsonContent = file_get_contents($jsonFilePath);
+	$jsonData = json_decode($jsonContent, true);
+
+// Check if the filename is a key in the JSON data
+	if (array_key_exists($filename, $jsonData)) {
+// If the filename exists, compare the stored hash with the current hash
+		if ($jsonData[$filename] !== $fileHash) {
+// If different, update the hash in the JSON data
+			$jsonData[$filename] = $fileHash;
+//			echo "Hash updated for $filename.\n";
+
+// Update the JSON file with the modified data
+			$updatedJsonContent = json_encode($jsonData, JSON_PRETTY_PRINT);
+			file_put_contents($jsonFilePath, $updatedJsonContent);
+
+			return true; // JSON file was updated
+		} else {
+//			echo "Hash unchanged for $filename. No update needed.\n";
+			return false; // No update needed
+		}
+	} else {
+// If the filename doesn't exist, add it to the JSON data
+		$jsonData[$filename] = $fileHash;
+//		echo "New entry added for $filename.\n";
+
+// Update the JSON file with the modified data
+		$updatedJsonContent = json_encode($jsonData, JSON_PRETTY_PRINT);
+		file_put_contents($jsonFilePath, $updatedJsonContent);
+
+		return true; // JSON file was updated
+	}
+}
+
 function removeQueryString($url) {
 	// Find the position of the '?' character
 	$position = strpos($url, '?');
