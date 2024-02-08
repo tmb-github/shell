@@ -26,31 +26,53 @@ var formLogic;
 var main;
 var returnMetaData;
 
+/*
 import {contactAnchorEventListeners} from "../shared/contactAnchorEventListeners.mjs";
+*/
 
 // SAVE for reCAPTCHA
 // var recaptchaEdits;
 
 main = function () {
 
-	var metaData;
+	var callback;
+	var importedModules;
 	var o;
+	var thisModule;
 
 // 'this' is the outer 'o' via .bind(o), so the outer 'o' === inner 'o':
 	o = this;
 
-	o.contact.formLogic();
+	callback = function () {
 
+		var metaData;
+
+		o.contact.formLogic();
 // Save in case we reinstate reCAPTCHA:
 //	o.contact.recaptchaEdits();
 
-// Always revise the meta data:
-	metaData = returnMetaData(o);
-	o.reviseMetaData(metaData);
+// always revise the metadata:
+		metaData = returnMetaData(o);
+		o.reviseMetaData(metaData);
 
-	o.contact.contactAnchorEventListeners();
+		o.contact.contactAnchorEventListeners();
 // always include this in every page.mjs, and execute it last in main():
-	o.appendToCSS(':root', '{ --main-opacity: 1; }');
+		o.appendToCSS(':root', '{ --main-opacity: 1; }');
+	};
+
+// Use this if NOT using dynamicModuleImport():
+//	callback();
+
+// dynamicModuleImport() method, which allows for autoversioning, necessary
+// during development:
+
+// Define name of this module:
+	thisModule = 'contact';
+// Specify path relative to the common.mjs file, where the function is located:
+	importedModules = ["./shared/contactAnchorEventListeners.mjs"];
+// Import the modules using the dynamicModuleImport() routine:
+// the 'callback' MUST be defined before calling this function:
+	o.dynamicModuleImport(thisModule, importedModules, callback);
 
 };
 
@@ -314,8 +336,10 @@ recaptchaEdits = function () {
 
 // qwer: for reCAPTCHA: restore recaptchaEdits to module export:
 export default Object.freeze({
+/*
+	contactAnchorEventListeners,
+*/
 	formLogic,
 	main,
-	contactAnchorEventListeners,
 	returnMetaData
 });

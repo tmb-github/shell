@@ -37,6 +37,7 @@ var customizePushAndReplaceState;
 
 var deactivateLoadingMask;
 var deleteCachesUnregisterServiceWorkerAndClearSessionStorage;
+var dynamicModuleImport;
 var editExternalLinks;
 var enqueueArray;
 var escapeForwardSlashes;
@@ -2062,6 +2063,156 @@ deleteCachesUnregisterServiceWorkerAndClearSessionStorage = function () {
 
 };
 
+// 2024-01-28:
+// For use in individual .mjs files, as replacement for standard imports.
+// Standard imports do not allow for autoversioning; the only way around that
+// is to read in the modules dynamically as part of a Promise.all(), with
+// the main routine of the page module (etc.) passed in as a callback:
+
+// This was used during the development of the tmbLightbox module, and was
+// employed in theme.mjs
+
+dynamicModuleImport = function (thisModule, importedModules, callback) {
+
+	var alreadyAutoversioned;
+	var autoVersionedModules;
+	var o;
+
+	o = this;
+
+	alreadyAutoversioned = function (filename) {
+// Define a regular expression to match a string of numbers before the extension
+		const regex = /\.(\d+)\.(m?js)$/;
+// Test the filename against the regular expression
+		return regex.test(filename);
+	};
+
+	autoVersionedModules = importedModules.map(function (module) {
+		if (alreadyAutoversioned(module)) {
+			return module;
+		} else {
+			return o.autoVersion(module);
+		}
+	});
+
+	Promise.all(autoVersionedModules.map(function (autoVersionedModule) {
+		return import(autoVersionedModule);
+	})).then(function (modules) {
+
+		var checkAndBindModule;
+		var promises;
+
+// If importedModule[moduleName] isn't yet defined, the routine
+// will fail. This strategy rechecks every animation frame to see
+// whether the variable is defined before binding, with a maximum of 100 attempts:
+		checkAndBindModule = function (importedModule, moduleName, resolve, attempts = 0) {
+			if (importedModule[moduleName]) {
+				o[thisModule][moduleName] = importedModule[moduleName].bind(o);
+				resolve();
+			} else if (attempts < 100) { // Adjust the limit as needed
+				window.requestAnimationFrame(function () {
+					checkAndBindModule(importedModule, moduleName, resolve, attempts + 1);
+				});
+			} else {
+// Handle the case where the condition is not met within the allowed attempts
+				console.error('Module ' + moduleName + ' could not be loaded within the allowed attempts');
+				resolve(); // Resolving to proceed
+			}
+		};
+
+		promises = [];
+
+		modules.forEach(function (importedModule, index) {
+			var fileNameWithExtension;
+			var moduleName;
+// Get filename without path:
+			fileNameWithExtension = autoVersionedModules[index].split('/').pop();
+// Remove .min and autoversion number
+			moduleName = fileNameWithExtension.replace(/(\.min)?(\.\d+\.mjs)$/, '');
+			promises.push(new Promise(function (resolve) {
+				checkAndBindModule(importedModule, moduleName, resolve);
+			}));
+		});
+
+		Promise.all(promises).then(callback);
+
+	}).catch(function (error) {
+// Handle errors during import or execution
+		console.error(error);
+		callback(error); // Pass the error to the callback
+	});
+};
+
+/*
+
+// This version *should* return the return value of the callback function...
+
+dynamicModuleImport = function (thisModule, importedModules, callback) {
+	var alreadyAutoversioned;
+	var autoVersionedModules;
+	var o;
+
+	o = this;
+
+	alreadyAutoversioned = function (filename) {
+		const regex = /\.(\d+)\.(m?js)$/;
+		return regex.test(filename);
+	};
+
+	autoVersionedModules = importedModules.map(function (module) {
+		if (alreadyAutoversioned(module)) {
+			return module;
+		} else {
+			return o.autoVersion(module);
+		}
+	});
+
+	return Promise.all(autoVersionedModules.map(function (autoVersionedModule) {
+		return import(autoVersionedModule);
+	})).then(function (modules) {
+		var checkAndBindModule;
+		var promises;
+
+		checkAndBindModule = function (importedModule, moduleName, attempts = 0) {
+			return new Promise(function (resolve) {
+				if (importedModule[moduleName]) {
+					o[thisModule][moduleName] = importedModule[moduleName].bind(o);
+					resolve(importedModule[moduleName]); // Resolve with the value
+				} else if (attempts < 100) {
+					window.requestAnimationFrame(function () {
+						checkAndBindModule(importedModule, moduleName, attempts + 1)
+							.then(resolve)
+							.catch(resolve); // Resolve without a value in case of timeout
+					});
+				} else {
+					console.error('Module ' + moduleName + ' could not be loaded within the allowed attempts');
+					resolve(null); // Resolve without a value
+				}
+			});
+		};
+
+		promises = [];
+
+		modules.forEach(function (importedModule, index) {
+			var fileNameWithExtension;
+			var moduleName;
+
+			fileNameWithExtension = autoVersionedModules[index].split('/').pop();
+			moduleName = fileNameWithExtension.replace(/(\.min)?(\.\d+\.mjs)$/, '');
+
+			promises.push(checkAndBindModule(importedModule, moduleName));
+		});
+
+		return Promise.all(promises);
+	}).then(callback) // Return the value from the callback function
+		.catch(function (error) {
+			console.error(error);
+			callback(error); // Pass the error to the callback
+		});
+};
+*/
+
+
 // CLOSURE COMPILER EXPECTS ALL ARGUMENTS TO BE PROVIDED WHEN FUNCTION
 // IS CALLED, UNLESS DEFAULT VALUES ARE PROVIDED IN FUNCTION DEFINITION,
 // SIGH...
@@ -4017,6 +4168,7 @@ export default Object.freeze({
 	customizePushAndReplaceState,
 	deactivateLoadingMask,
 	deleteCachesUnregisterServiceWorkerAndClearSessionStorage,
+	dynamicModuleImport,
 	editExternalLinks,
 	enqueueArray,
 	escapeForwardSlashes,
